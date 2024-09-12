@@ -24,15 +24,15 @@ git branch
 
 Muestra las ramas del proyecto. Añade -a para ver todas (locales y remotas).
 
-git checkout -b <nombre-de-la-rama>
+git checkout -b nombre-de-la-rama
 
 Crea y cambia a una nueva rama. Útil para trabajar en nuevas características sin alterar la rama principal.
 
-git checkout <nombre-de-la-rama>
+git checkout nombre-de-la-rama
 
 Cambia a la rama que quieras
 
-git merge <nombre-de-la-rama>
+git merge nombre-de-la-rama
 
 Fusiona una rama a tu rama actual.
 
@@ -44,7 +44,7 @@ Muestra el historial de commits.
 
 #### Empezar a trabajar en una nueva funcionalidad:
 
-git checkout -b <nombre-funcionalidad>
+git checkout -b nombre-funcionalidad
 
 creamos una rama separada de main para trabajar
 
@@ -54,7 +54,7 @@ Cada vez que queramos guardar cambios en esta rama,usamos:
 
 git add .
 
-git commit -m "<cambios-hechos>" 
+git commit -m "cambios-hechos" 
 
 Intentad que sean commits en el siguiente formato: "Nombre de quien hace el commit- Descripción breve y concisa de lo que se hace." Intentad en la medida de lo posible, no hacer commits de código que no compile.
 
@@ -70,7 +70,7 @@ git checkout main
 
 git pull
 
-git checkout <nombre-funcionalidad>
+git checkout nombre-funcionalidad
 
 git merge main
 
@@ -80,7 +80,7 @@ Una vez terminemos la funcionalidad, guardemos los cambios, y verificamos que to
 
 git checkout main
 
-git merge <nombre-funcionalidad>
+git merge nombre-funcionalidad
 
 git push
 
