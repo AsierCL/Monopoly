@@ -13,6 +13,11 @@ public class Tablero {
 
     //Constructor: únicamente le pasamos el jugador banca (que se creará desde el menú).
     public Tablero(Jugador banca) {
+        this.banca = banca;
+        // No hace falta respecificar que es un array de arrays por ¿inferencia de tipos?
+        this.posiciones = new ArrayList<>();
+        this.grupos = new HashMap<>();
+        generarCasillas(); // Para crear las casillas del tablero
     }
 
     
@@ -30,6 +35,18 @@ public class Tablero {
 
     //Método para insertar las casillas del lado sur.
     private void insertarLadoSur() {
+    ArrayList<Casilla> ladoSur = new ArrayList<>(); // Creamos un nuevo lado del tablero (sur)
+
+    ladoSur.add(new Casilla("Salida", "Especial", 0, banca));
+    ladoSur.add(new Casilla("Solar1", "Solar", 1, 600000, banca));
+    ladoSur.add(new Casilla("Caja 1", "Especial", 2, banca));
+    ladoSur.add(new Casilla("Solar2", "Solar", 3, 600000, banca));
+    ladoSur.add(new Casilla("Impuesto 1", "Especial", 4, banca));
+    ladoSur.add(new Casilla("Estación 1", "Transporte", 5, banca));
+    ladoSur.add(new Casilla("Solar3", "Solar", 6, 520000, banca));
+    ladoSur.add(new Casilla("Suerte 1", "Especial", 7, banca));
+    ladoSur.add(new Casilla("Solar4", "Solar", 8, 520000, banca));
+    ladoSur.add(new Casilla("Solar5", "Solar", 9, 520000, banca));
     }
 
     //Método que inserta casillas del lado oeste.
