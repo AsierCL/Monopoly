@@ -31,6 +31,18 @@ public class Tablero {
     
     //Método para insertar las casillas del lado norte.
     private void insertarLadoNorte() {
+    ArrayList<Casilla> ladoNorte = new ArrayList<>(); // Creamos un nuevo lado del tablero (sur)
+
+    ladoNorte.add(new Casilla("Parking", "Especial", 20, banca));
+    ladoNorte.add(new Casilla("Solar12", "Solar", 21, banca));
+    ladoNorte.add(new Casilla("Suerte", "Especial", 22, banca));
+    ladoNorte.add(new Casilla("Solar13", "Solar", 23, banca));
+    ladoNorte.add(new Casilla("Solar14", "Solar", 24, banca));
+    ladoNorte.add(new Casilla("Estacion 3", "Transporte", 25, banca));
+    ladoNorte.add(new Casilla("Solar15", "Solar", 26, banca));
+    ladoNorte.add(new Casilla("Servicio 2", "Servicios", 28, banca));
+    ladoNorte.add(new Casilla("Solar16", "Solar", 27, banca));
+    ladoNorte.add(new Casilla("Solar17", "Solar", 29, banca));
     }
 
     //Método para insertar las casillas del lado sur.
@@ -51,10 +63,34 @@ public class Tablero {
 
     //Método que inserta casillas del lado oeste.
     private void insertarLadoOeste() {
+        ArrayList<Casilla> ladoOeste = new ArrayList<>();
+        
+        ladoOeste.add(new Casilla("Carcel", "Especial", 10, banca));
+        ladoOeste.add(new Casilla("Solar6", "Solar", 11, banca));
+        ladoOeste.add(new Casilla("Servicio 1", "Servicios", 12, banca));
+        ladoOeste.add(new Casilla("Solar7", "Solar", 13, banca));
+        ladoOeste.add(new Casilla("Solar8", "Solar", 14, banca));
+        ladoOeste.add(new Casilla("Estacion 2", "Transporte", 15, banca));
+        ladoOeste.add(new Casilla("Solar9", "Solar", 16, banca));
+        ladoOeste.add(new Casilla("Caja 2", "Especial", 17, banca));
+        ladoOeste.add(new Casilla("Solar10", "Solar", 18, banca));
+        ladoOeste.add(new Casilla("Solar11", "Solar", 19, banca));
     }
-
+    
     //Método que inserta las casillas del lado este.
     private void insertarLadoEste() {
+        ArrayList<Casilla> ladoEste = new ArrayList<>();
+
+        ladoEste.add(new Casilla("IrCarcel", "Especial", 30, banca));
+        ladoEste.add(new Casilla("Solar18", "Solar", 31, banca));
+        ladoEste.add(new Casilla("Solar19", "Solar", 32, banca));
+        ladoEste.add(new Casilla("Caja 3", "Especial", 33, banca));
+        ladoEste.add(new Casilla("Solar20", "Solar", 34, banca));
+        ladoEste.add(new Casilla("Estación 4", "Transporte",35, banca));
+        ladoEste.add(new Casilla("Suerte 3", "Especial", 36, banca));
+        ladoEste.add(new Casilla("Solar21", "Solar", 37, banca));
+        ladoEste.add(new Casilla("Impuesto 2", "Especial", 38, banca));
+        ladoEste.add(new Casilla("Solar22", "Solar", 39, banca));
     }
 
     //Para imprimir el tablero, modificamos el método toString().
