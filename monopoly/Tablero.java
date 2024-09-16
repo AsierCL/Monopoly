@@ -96,6 +96,61 @@ public class Tablero {
     //Para imprimir el tablero, modificamos el método toString().
     @Override
     public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+    
+        // Asumiendo que las posiciones se almacenan en el orden: Sur, Oeste, Norte, Este
+        ArrayList<Casilla> ladoSur = posiciones.get(0);   // Primer lado
+        ArrayList<Casilla> ladoOeste = posiciones.get(1); // Segundo lado
+        ArrayList<Casilla> ladoNorte = posiciones.get(2); // Tercer lado
+        ArrayList<Casilla> ladoEste = posiciones.get(3);  // Cuarto lado
+
+        sb.append("___________________________________________________________________________________________\n");
+
+        int size = ladoSur.size(); // Todos los lados tienen el mismo tamaño.
+
+        // 1. Lado Norte
+        sb.append("|");
+        for (Casilla casilla : ladoNorte) {
+            String nombreFormateado = String.format("%-10s", casilla.getNombre()); // %-10s alinea el texto a la izquierda en un campo de 10 caracteres
+            sb.append(nombreFormateado).append("|");
+        }
+        sb.append("\n");
+
+        sb.append("___________________________________________________________________________________________\n");
+
+        // 2. Lados Oeste y Este impresos en paralelo con formato
+        for (int i = 0; i < ladoOeste.size(); i++) {
+            // Línea superior de cada celda
+            sb.append("__________").append("\t\t\t\t\t\t\t\t\t\t").append("__________\n");
+
+            // Lado Oeste
+            sb.append("|"); // Separador izquierdo para el lado Oeste
+            String nombreOesteFormateado = String.format("%-10s", ladoOeste.get(i).getNombre());
+            sb.append(nombreOesteFormateado).append("|");
+
+            // Espacios entre los lados
+            sb.append("\t\t\t\t\t\t\t\t\t\t");
+
+            // Lado Este
+            sb.append("|"); // Separador izquierdo para el lado Este
+            String nombreEsteFormateado = String.format("%-10s", ladoEste.get(i).getNombre());
+            sb.append(nombreEsteFormateado).append("|");
+
+            sb.append("\n");
+        }
+
+        // 3. Lado Sur - Formato con separadores como el lado norte
+        sb.append("___________________________________________________________________________________________\n");
+        sb.append("|");
+        for (Casilla casilla : ladoSur) {
+            String nombreFormateado = String.format("%-10s", casilla.getNombre());
+            sb.append(nombreFormateado).append("|");
+        }
+        sb.append("\n");
+        sb.append("___________________________________________________________________________________________\n");
+
+        return sb.toString();
     }
     
     //Método usado para buscar la casilla con el nombre pasado como argumento:
