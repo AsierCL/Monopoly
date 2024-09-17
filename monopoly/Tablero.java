@@ -23,14 +23,23 @@ public class Tablero {
     
     //Método para crear todas las casillas del tablero. Formado a su vez por cuatro métodos (1/lado).
     private void generarCasillas() {
-        this.insertarLadoSur();
-        this.insertarLadoOeste();
-        this.insertarLadoNorte();
-        this.insertarLadoEste();
+        // Crear y agregar cada lado a la lista 'posiciones'
+        ArrayList<Casilla> ladoSur = insertarLadoSur();   // Retorna el lado sur
+        posiciones.add(ladoSur);
+    
+        ArrayList<Casilla> ladoOeste = insertarLadoOeste(); // Retorna el lado oeste
+        posiciones.add(ladoOeste);
+    
+        ArrayList<Casilla> ladoNorte = insertarLadoNorte(); // Retorna el lado norte
+        posiciones.add(ladoNorte);
+    
+        ArrayList<Casilla> ladoEste = insertarLadoEste(); // Retorna el lado este
+        posiciones.add(ladoEste);
     }
     
+    
     //Método para insertar las casillas del lado norte.
-    private void insertarLadoNorte() {
+    private ArrayList<Casilla> insertarLadoNorte() {
     ArrayList<Casilla> ladoNorte = new ArrayList<>(); // Creamos un nuevo lado del tablero (sur)
 
     ladoNorte.add(new Casilla("Parking", "Especial", 20, banca));
@@ -43,45 +52,52 @@ public class Tablero {
     ladoNorte.add(new Casilla("Servicio 2", "Servicios", 28, banca));
     ladoNorte.add(new Casilla("Solar16", "Solar", 27, banca));
     ladoNorte.add(new Casilla("Solar17", "Solar", 29, banca));
-    }
+    ladoNorte.add(new Casilla("IrCarcel", "Especial", 30, banca));
+    
+    return ladoNorte;
+}
 
     //Método para insertar las casillas del lado sur.
-    private void insertarLadoSur() {
+    private ArrayList<Casilla> insertarLadoSur() {
     ArrayList<Casilla> ladoSur = new ArrayList<>(); // Creamos un nuevo lado del tablero (sur)
 
-    ladoSur.add(new Casilla("Salida", "Especial", 0, banca));
-    ladoSur.add(new Casilla("Solar1", "Solar", 1, 600000, banca));
-    ladoSur.add(new Casilla("Caja 1", "Especial", 2, banca));
-    ladoSur.add(new Casilla("Solar2", "Solar", 3, 600000, banca));
-    ladoSur.add(new Casilla("Impuesto 1", "Especial", 4, banca));
-    ladoSur.add(new Casilla("Estación 1", "Transporte", 5, banca));
-    ladoSur.add(new Casilla("Solar3", "Solar", 6, 520000, banca));
-    ladoSur.add(new Casilla("Suerte 1", "Especial", 7, banca));
-    ladoSur.add(new Casilla("Solar4", "Solar", 8, 520000, banca));
+    ladoSur.add(new Casilla("Carcel", "Especial", 10, banca));
     ladoSur.add(new Casilla("Solar5", "Solar", 9, 520000, banca));
-    }
+    ladoSur.add(new Casilla("Solar4", "Solar", 8, 520000, banca));
+    ladoSur.add(new Casilla("Suerte 1", "Especial", 7, banca));
+    ladoSur.add(new Casilla("Solar3", "Solar", 6, 520000, banca));
+    ladoSur.add(new Casilla("Estación 1", "Transporte", 5, banca));
+    ladoSur.add(new Casilla("Impuesto 1", "Especial", 4, banca));
+    ladoSur.add(new Casilla("Solar2", "Solar", 3, 600000, banca));
+    ladoSur.add(new Casilla("Caja 1", "Especial", 2, banca));
+    ladoSur.add(new Casilla("Solar1", "Solar", 1, 600000, banca));
+    ladoSur.add(new Casilla("Salida", "Especial", 0, banca));
+    
+    return ladoSur;
+
+}
 
     //Método que inserta casillas del lado oeste.
-    private void insertarLadoOeste() {
+    private ArrayList<Casilla> insertarLadoOeste() {
         ArrayList<Casilla> ladoOeste = new ArrayList<>();
         
-        ladoOeste.add(new Casilla("Carcel", "Especial", 10, banca));
-        ladoOeste.add(new Casilla("Solar6", "Solar", 11, banca));
-        ladoOeste.add(new Casilla("Servicio 1", "Servicios", 12, banca));
-        ladoOeste.add(new Casilla("Solar7", "Solar", 13, banca));
-        ladoOeste.add(new Casilla("Solar8", "Solar", 14, banca));
-        ladoOeste.add(new Casilla("Estacion 2", "Transporte", 15, banca));
-        ladoOeste.add(new Casilla("Solar9", "Solar", 16, banca));
-        ladoOeste.add(new Casilla("Caja 2", "Especial", 17, banca));
-        ladoOeste.add(new Casilla("Solar10", "Solar", 18, banca));
         ladoOeste.add(new Casilla("Solar11", "Solar", 19, banca));
+        ladoOeste.add(new Casilla("Solar10", "Solar", 18, banca));
+        ladoOeste.add(new Casilla("Caja 2", "Especial", 17, banca));
+        ladoOeste.add(new Casilla("Solar9", "Solar", 16, banca));
+        ladoOeste.add(new Casilla("Estacion 2", "Transporte", 15, banca));
+        ladoOeste.add(new Casilla("Solar8", "Solar", 14, banca));
+        ladoOeste.add(new Casilla("Solar7", "Solar", 13, banca));
+        ladoOeste.add(new Casilla("Servicio 1", "Servicios", 12, banca));
+        ladoOeste.add(new Casilla("Solar6", "Solar", 11, banca));
+    
+        return ladoOeste;
     }
     
     //Método que inserta las casillas del lado este.
-    private void insertarLadoEste() {
+    private ArrayList<Casilla> insertarLadoEste() {
         ArrayList<Casilla> ladoEste = new ArrayList<>();
 
-        ladoEste.add(new Casilla("IrCarcel", "Especial", 30, banca));
         ladoEste.add(new Casilla("Solar18", "Solar", 31, banca));
         ladoEste.add(new Casilla("Solar19", "Solar", 32, banca));
         ladoEste.add(new Casilla("Caja 3", "Especial", 33, banca));
@@ -91,6 +107,7 @@ public class Tablero {
         ladoEste.add(new Casilla("Solar21", "Solar", 37, banca));
         ladoEste.add(new Casilla("Impuesto 2", "Especial", 38, banca));
         ladoEste.add(new Casilla("Solar22", "Solar", 39, banca));
+        return ladoEste;
     }
 
     //Para imprimir el tablero, modificamos el método toString().
@@ -98,6 +115,8 @@ public class Tablero {
     public String toString() {
 
         StringBuilder sb = new StringBuilder();
+
+        int primeraCasilla = 0;
     
         // Asumiendo que las posiciones se almacenan en el orden: Sur, Oeste, Norte, Este
         ArrayList<Casilla> ladoSur = posiciones.get(0);   // Primer lado
@@ -105,7 +124,7 @@ public class Tablero {
         ArrayList<Casilla> ladoNorte = posiciones.get(2); // Tercer lado
         ArrayList<Casilla> ladoEste = posiciones.get(3);  // Cuarto lado
 
-        sb.append("___________________________________________________________________________________________\n");
+        sb.append("*------------------------------------------------------------------------------------------------------------------------*\n");
 
         int size = ladoSur.size(); // Todos los lados tienen el mismo tamaño.
 
@@ -117,12 +136,14 @@ public class Tablero {
         }
         sb.append("\n");
 
-        sb.append("___________________________________________________________________________________________\n");
+        sb.append("|----------|--------------------------------------------------------------------------------------------------|----------|\n");
 
         // 2. Lados Oeste y Este impresos en paralelo con formato
         for (int i = 0; i < ladoOeste.size(); i++) {
             // Línea superior de cada celda
-            sb.append("__________").append("\t\t\t\t\t\t\t\t\t\t").append("__________\n");
+            if (primeraCasilla==1) {
+                sb.append("|----------|").append("\t\t\t\t\t\t\t\t\t\t\t\t      ").append("|----------|\n");
+            }
 
             // Lado Oeste
             sb.append("|"); // Separador izquierdo para el lado Oeste
@@ -130,7 +151,7 @@ public class Tablero {
             sb.append(nombreOesteFormateado).append("|");
 
             // Espacios entre los lados
-            sb.append("\t\t\t\t\t\t\t\t\t\t");
+            sb.append("\t\t\t\t\t\t\t\t\t\t\t\t      ");
 
             // Lado Este
             sb.append("|"); // Separador izquierdo para el lado Este
@@ -138,22 +159,20 @@ public class Tablero {
             sb.append(nombreEsteFormateado).append("|");
 
             sb.append("\n");
+            primeraCasilla = 1;
         }
 
         // 3. Lado Sur - Formato con separadores como el lado norte
-        sb.append("___________________________________________________________________________________________\n");
+        sb.append("|----------|--------------------------------------------------------------------------------------------------|----------|\n");
         sb.append("|");
         for (Casilla casilla : ladoSur) {
             String nombreFormateado = String.format("%-10s", casilla.getNombre());
             sb.append(nombreFormateado).append("|");
         }
         sb.append("\n");
-        sb.append("___________________________________________________________________________________________\n");
+        sb.append("*------------------------------------------------------------------------------------------------------------------------*\n");
 
         return sb.toString();
     }
     
-    //Método usado para buscar la casilla con el nombre pasado como argumento:
-    public Casilla encontrar_casilla(String nombre){
-    }
 }
