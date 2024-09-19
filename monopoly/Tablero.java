@@ -124,15 +124,26 @@ public class Tablero {
         ArrayList<Casilla> ladoNorte = posiciones.get(2); // Tercer lado
         ArrayList<Casilla> ladoEste = posiciones.get(3);  // Cuarto lado
 
-        sb.append("*------------------------------------------------------------------------------------------------------------------------*\n");
+        ArrayList<Grupo> grupos = new ArrayList<>();
 
-        int size = ladoSur.size(); // Todos los lados tienen el mismo tamaño.
+        sb.append("*------------------------------------------------------------------------------------------------------------------------*\n");
 
         // 1. Lado Norte
         sb.append("|");
         for (Casilla casilla : ladoNorte) {
+
+            String color = Valor.RESET; // Valor por defecto (sin color)
+            // Iterar sobre los grupos para encontrar el color de la casilla
+            for (Grupo grupo : grupos) {
+                String colorGrupo = grupo.obtenerColorDeCasilla(casilla); //Falta por anhadir este metodo que devuelva el color de la casilla de un grupo
+                if (colorGrupo != null) {
+                    color = colorGrupo; // Si la casilla está en el grupo, asignamos el color
+                    break;
+                }
+            }
+            //Formatear nombre de la casilla
             String nombreFormateado = String.format("%-10s", casilla.getNombre()); // %-10s alinea el texto a la izquierda en un campo de 10 caracteres
-            sb.append(nombreFormateado).append("|");
+            sb.append(color).append(nombreFormateado).append(Valor.RESET).append("|");
         }
         sb.append("\n");
         sb.append("|          |          |          |          |          |          |          |          |          |          |          |\n");
@@ -146,17 +157,35 @@ public class Tablero {
             }
 
             // Lado Oeste
+            String color = Valor.RESET; // Valor por defecto (sin color)
+            // Iterar sobre los grupos para encontrar el color de la casilla
+            for (Grupo grupo : grupos) {
+                String colorGrupo = grupo.obtenerColorDeCasilla(ladoOeste.get(i).getNombre()); //Falta por anhadir este metodo que devuelva el color de la casilla de un grupo
+                if (colorGrupo != null) {
+                    color = colorGrupo; // Si la casilla está en el grupo, asignamos el color
+                    break;
+                }
+            }
             sb.append("|"); // Separador izquierdo para el lado Oeste
             String nombreOesteFormateado = String.format("%-10s", ladoOeste.get(i).getNombre());
-            sb.append(nombreOesteFormateado).append("|");
+            sb.append(color).append(nombreOesteFormateado).append(Valor.RESET).append("|");
 
             // Espacios entre los lados
             sb.append("\t\t\t\t\t\t\t\t\t\t\t\t      ");
 
             // Lado Este
+            String color = Valor.RESET; // Valor por defecto (sin color)
+            // Iterar sobre los grupos para encontrar el color de la casilla
+            for (Grupo grupo : grupos) {
+                String colorGrupo = grupo.obtenerColorDeCasilla(ladoOeste.get(i).getNombre()); //Falta por anhadir este metodo que devuelva el color de la casilla de un grupo
+                if (colorGrupo != null) {
+                    color = colorGrupo; // Si la casilla está en el grupo, asignamos el color
+                    break;
+                }
+            }
             sb.append("|"); // Separador izquierdo para el lado Este
             String nombreEsteFormateado = String.format("%-10s", ladoEste.get(i).getNombre());
-            sb.append(nombreEsteFormateado).append("|");
+            sb.append(color).append(nombreEsteFormateado).append(Valor.RESET).append("|");
 
             sb.append("\n");
             sb.append("|          |").append("\t\t\t\t\t\t\t\t\t\t\t\t      ").append("|          |\n");
@@ -167,8 +196,19 @@ public class Tablero {
         sb.append("|----------|--------------------------------------------------------------------------------------------------|----------|\n");
         sb.append("|");
         for (Casilla casilla : ladoSur) {
+
+            String color = Valor.RESET; // Valor por defecto (sin color)
+            // Iterar sobre los grupos para encontrar el color de la casilla
+            for (Grupo grupo : grupos) {
+                String colorGrupo = grupo.obtenerColorDeCasilla(casilla); //Falta por anhadir este metodo que devuelva el color de la casilla de un grupo
+                if (colorGrupo != null) {
+                    color = colorGrupo; // Si la casilla está en el grupo, asignamos el color
+                    break;
+                }
+            }
+            //Formatear nombre casilla
             String nombreFormateado = String.format("%-10s", casilla.getNombre());
-            sb.append(nombreFormateado).append("|");
+            sb.append(color).append(nombreFormateado).append(Valor.RESET).append("|");
         }
         sb.append("\n");
         sb.append("|          |          |          |          |          |          |          |          |          |          |          |\n");
