@@ -135,7 +135,7 @@ public class Tablero {
             sb.append(nombreFormateado).append("|");
         }
         sb.append("\n");
-
+        sb.append("|          |          |          |          |          |          |          |          |          |          |          |\n");
         sb.append("|----------|--------------------------------------------------------------------------------------------------|----------|\n");
 
         // 2. Lados Oeste y Este impresos en paralelo con formato
@@ -159,6 +159,7 @@ public class Tablero {
             sb.append(nombreEsteFormateado).append("|");
 
             sb.append("\n");
+            sb.append("|          |").append("\t\t\t\t\t\t\t\t\t\t\t\t      ").append("|          |\n");
             primeraCasilla = 1;
         }
 
@@ -170,6 +171,7 @@ public class Tablero {
             sb.append(nombreFormateado).append("|");
         }
         sb.append("\n");
+        sb.append("|          |          |          |          |          |          |          |          |          |          |          |\n");
         sb.append("*------------------------------------------------------------------------------------------------------------------------*\n");
 
         return sb.toString();
