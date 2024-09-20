@@ -3,7 +3,7 @@ package partida;
 import monopoly.*;
 
 import java.util.ArrayList;
-
+import java.util.Random;
 
 public class Avatar {
 
@@ -22,6 +22,15 @@ public class Avatar {
     * avatares creados (usado para crear un ID distinto del de los demás avatares).
      */
     public Avatar(String tipo, Jugador jugador, Casilla lugar, ArrayList<Avatar> avCreados) {
+        this.tipo = tipo;
+        this.jugador = jugador;
+        this.lugar = lugar;
+
+        /* // Generamos ID
+        Random random = new Random();
+        this.id = String.valueOf((char) (random.nextInt(26) + 'A')); */
+
+        generarId(avCreados);
     }
 
     //A continuación, tenemos otros métodos útiles para el desarrollo del juego.
@@ -38,5 +47,28 @@ public class Avatar {
     * - Un arraylist de los avatares ya creados, con el objetivo de evitar que se generen dos ID iguales.
      */
     private void generarId(ArrayList<Avatar> avCreados) {
+        //Creamos as variables e os obxetos necesarios
+        Random random = new Random();
+        boolean idDuplicado = true;
+        
+        //Si é o primeiro elemento da lista, non e necesario chequear nada
+        if (avCreados.size()==0) {
+            this.id = String.valueOf((char) (random.nextInt(26) + 'A'));
+        }else{ //Mentres o ID sea igual a algun dos que xa hai na lista, repetir o proceso
+
+            while (idDuplicado) {
+                this.id = String.valueOf((char) (random.nextInt(26) + 'A'));
+                //Se ningún coincide, salimos do bucle while
+                idDuplicado = false;
+                //Comparamos con todos os elementos da lista excepto si mismo
+                for(int i=0; i < avCreados.size()-1;i++){
+                    if(this.id == avCreados.get(i).id){
+                        idDuplicado = true;
+                    }
+                }
+            }
+        }
+        //Añadimos o avatar a lista de avatares
+        avCreados.add(this);
     }
 }
