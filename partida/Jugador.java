@@ -19,6 +19,16 @@ public class Jugador {
 
     //Constructor vacío. Se usará para crear la banca.
     public Jugador() {
+        this.nombre = "banca";
+        this.avatar = new Avatar();
+        //Realmente pode non ser necesario asignar fortuna
+        this.fortuna = 999999999; //Usar variabe global FORTUNA_BANCA¿?
+        this.gastos = 0;
+        this.enCarcel = false;
+        this.tiradasCarcel = 0;
+        this.vueltas = 0;
+        // Asignar array propiedades
+        //this.propiedades ...
     }
 
     /*Constructor principal. Requiere parámetros:
@@ -27,25 +37,78 @@ public class Jugador {
     * que dos avatares tengan mismo ID). Desde este constructor también se crea el avatar.
      */
     public Jugador(String nombre, String tipoAvatar, Casilla inicio, ArrayList<Avatar> avCreados) {
+        this.nombre = nombre;
+        this.avatar = new Avatar(tipoAvatar, this, inicio, avCreados);
+        this.fortuna = 14000000;//Usar variable global FORTUNA_INICIAL
+        this.gastos = 0;
+        this.enCarcel = false;
+        this.tiradasCarcel = 0;
+        this.vueltas = 0;
+
+        /*Non é necesario especificar <Casilla>,
+        *por "diamond operator", e inferencia de tipos */
+        this.propiedades = new ArrayList<Casilla>();
+    }
+
+    //Getters y setters
+    public String getNombre(){
+        return this.nombre;
+    }
+
+    public void setNombre(String nombre){
+        this.nombre = nombre;
+    }
+
+    public float getFortuna(){
+        return this.fortuna;
+    }
+
+    public void setFortuna(float fortuna){
+        this.fortuna = fortuna;
+    }
+
+    public boolean getEnCarcel(){
+        return this.enCarcel;
+    }
+
+    public void setEnCarcel(boolean enCarcel){
+        this.enCarcel = enCarcel;
+    }
+
+    public int getTiradasCarcel(){
+        return this.tiradasCarcel;
+    }
+
+    public void setTiradasCarcel(int tiradasCarcel){
+        this.tiradasCarcel = tiradasCarcel;
     }
 
     //Otros métodos:
     //Método para añadir una propiedad al jugador. Como parámetro, la casilla a añadir.
     public void anhadirPropiedad(Casilla casilla) {
+        this.propiedades.add(casilla);
     }
 
     //Método para eliminar una propiedad del arraylist de propiedades de jugador.
     public void eliminarPropiedad(Casilla casilla) {
+        if (this.propiedades.contains(casilla)) {
+            this.propiedades.remove(casilla);
+        }else{
+            System.err.println("La casilla no pertenece al jugador\n");
+            System.exit(1);
+        }
     }
 
     //Método para añadir fortuna a un jugador
     //Como parámetro se pide el valor a añadir. Si hay que restar fortuna, se pasaría un valor negativo.
     public void sumarFortuna(float valor) {
+        this.fortuna += valor;
     }
 
     //Método para sumar gastos a un jugador.
     //Parámetro: valor a añadir a los gastos del jugador (será el precio de un solar, impuestos pagados...).
     public void sumarGastos(float valor) {
+        this.gastos += valor;
     }
 
     /*Método para establecer al jugador en la cárcel. 
