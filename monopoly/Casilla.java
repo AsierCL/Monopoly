@@ -77,6 +77,13 @@ public class Casilla {
         return duenho;
     }
 
+    public void setGrupo(Grupo grupo){
+        this.grupo = grupo;
+    }
+
+    public Grupo getGrupo(){
+        return this.grupo;
+    }
 
 
 
@@ -137,7 +144,7 @@ public class Casilla {
                 } else {
                     info.append("Dueño: Banca\n");
                 }
-                info.append("Grupo: ").append(grupo.getNombre()).append("\n");
+                info.append("Grupo: ").append(grupo.getColorGrupo()).append("\n");
                 break;
                 
             case "especial":
