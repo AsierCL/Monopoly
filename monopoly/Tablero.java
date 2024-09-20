@@ -49,8 +49,8 @@ public class Tablero {
     ladoNorte.add(new Casilla("Solar14", "Solar", 24, banca));
     ladoNorte.add(new Casilla("Estacion 3", "Transporte", 25, banca));
     ladoNorte.add(new Casilla("Solar15", "Solar", 26, banca));
-    ladoNorte.add(new Casilla("Servicio 2", "Servicios", 28, banca));
     ladoNorte.add(new Casilla("Solar16", "Solar", 27, banca));
+    ladoNorte.add(new Casilla("Servicio 2", "Servicios", 28, banca));
     ladoNorte.add(new Casilla("Solar17", "Solar", 29, banca));
     ladoNorte.add(new Casilla("IrCarcel", "Especial", 30, banca));
     new Grupo(ladoNorte.get(1), ladoNorte.get(3), ladoNorte.get(4), Valor.RED);
@@ -75,7 +75,7 @@ public class Tablero {
     ladoSur.add(new Casilla("Solar1", "Solar", 1, 600000, banca));
     ladoSur.add(new Casilla("Salida", "Especial", 0, banca));
     new Grupo(ladoSur.get(1), ladoSur.get(2), ladoSur.get(4), Valor.CYAN);
-    new Grupo(ladoSur.get(7), ladoSur.get(9), Valor.BLACK);
+    new Grupo(ladoSur.get(7), ladoSur.get(9), Valor.BROWN);
     
     return ladoSur;
 
@@ -142,7 +142,9 @@ public class Tablero {
         sb.append("|");
         for (Casilla casilla : ladoNorte) {
 
-            if(casilla.getGrupo() == null){
+            if(casilla.getTipo()=="Transporte"){
+                color = Valor.BLACK;
+            }else if(casilla.getGrupo() == null){
                 color = Valor.RESET; // Valor por defecto (sin color)
             }else{
                 color = casilla.getGrupo().getColorGrupo(); 
@@ -180,7 +182,9 @@ public class Tablero {
             }
 
             // Lado Oeste
-            if(ladoOeste.get(i).getGrupo() == null){
+            if(ladoOeste.get(i).getTipo()=="Transporte"){
+                color = Valor.BLACK;
+            }else if(ladoOeste.get(i).getGrupo() == null){
                 color = Valor.RESET; // Valor por defecto (sin color)
             }else{
                 color = ladoOeste.get(i).getGrupo().getColorGrupo(); 
@@ -194,12 +198,14 @@ public class Tablero {
             sb.append("\t\t\t\t\t\t\t\t\t\t\t\t      ");
 
             // Lado Este
-            if(ladoEste.get(i).getGrupo() == null){
+            if(ladoEste.get(i).getTipo()=="Transporte"){
+                color = Valor.BLACK;
+            }else if(ladoEste.get(i).getGrupo() == null){
                 color = Valor.RESET; // Valor por defecto (sin color)
             }else{
                 color = ladoEste.get(i).getGrupo().getColorGrupo(); 
             }
- 
+
             sb.append("|"); // Separador izquierdo para el lado Este
             String nombreEsteFormateado = String.format("%-10s", ladoEste.get(i).getNombre());
             sb.append(color).append(nombreEsteFormateado).append(Valor.RESET).append("|");
@@ -214,7 +220,9 @@ public class Tablero {
         sb.append("|");
         for (Casilla casilla : ladoSur) {
 
-            if(casilla.getGrupo() == null){
+            if(casilla.getTipo()=="Transporte"){
+                color = Valor.BLACK;
+            }else if(casilla.getGrupo() == null){
                 color = Valor.RESET; // Valor por defecto (sin color)
             }else{
                 color = casilla.getGrupo().getColorGrupo(); 
