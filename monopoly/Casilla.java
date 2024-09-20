@@ -101,6 +101,8 @@ public class Casilla {
     * Valor devuelto: true en caso de ser solvente (es decir, de cumplir las deudas), y false
     * en caso de no cumplirlas.*/
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
+        //SOLO PARA ELIMINAR ERROR
+        return false;
     }
 
     /*Método usado para comprar una casilla determinada. Parámetros:
@@ -119,12 +121,74 @@ public class Casilla {
     /*Método para mostrar información sobre una casilla.
     * Devuelve una cadena con información específica de cada tipo de casilla.*/
     public String infoCasilla() {
+        //Creamos a cadena a devolver
+        StringBuilder info = new StringBuilder();
+        
+        info.append("Nombre: ").append(nombre).append("\n");
+        info.append("Posición: ").append(posicion).append("\n");
+        info.append("Tipo: ").append(tipo).append("\n");
+    
+        switch (tipo.toLowerCase()) {
+            case "solar":
+                info.append("Valor de compra: ").append(valor).append("\n");
+                info.append("Impuesto: ").append(impuesto).append("\n");
+                if (duenho != null) {
+                    info.append("Dueño: ").append(duenho.getNombre()).append("\n");
+                } else {
+                    info.append("Dueño: Banca\n");
+                }
+                info.append("Grupo: ").append(grupo.getNombre()).append("\n");
+                break;
+                
+            case "especial":
+                info.append("Descripción: Casilla especial.\n");
+                break;
+                
+            case "transporte":
+                info.append("Valor de compra: ").append(valor).append("\n");
+                info.append("Impuesto: ").append(impuesto).append("\n");
+                if (duenho != null) {
+                    info.append("Dueño: ").append(duenho.getNombre()).append("\n");
+                } else {
+                    info.append("Dueño: Banca\n");
+                }
+                break;
+                
+            case "servicios":
+                info.append("Valor de compra: ").append(valor).append("\n");
+                info.append("Impuesto: ").append(impuesto).append("\n");
+                if (duenho != null) {
+                    info.append("Dueño: ").append(duenho.getNombre()).append("\n");
+                } else {
+                    info.append("Dueño: Banca\n");
+                }
+                break;
+                
+            case "comunidad":
+                info.append("Descripción: Casilla de comunidad.\n");
+                break;
+                
+            default:
+                info.append("Descripción: Tipo de casilla desconocido.\n");
+                break;
+        }
+    
+        return info.toString();
     }
 
     /* Método para mostrar información de una casilla en venta.
      * Valor devuelto: texto con esa información.
      */
-    public String casEnVenta() {
+    public String casaEnVenta() {        //Creamos a cadena a devolver
+        StringBuilder info = new StringBuilder();
+        
+        info.append("Nombre: ").append(nombre).append("\n");
+        info.append("Posición: ").append(posicion).append("\n");
+        info.append("Tipo: ").append(tipo).append("\n");
+        info.append("Precio: ").append(valor).append("\n");
+    
+        return info.toString();
+
     }
 
 }
