@@ -127,7 +127,6 @@ public class Tablero {
         ArrayList<Grupo> grupos = new ArrayList<>();
 
         String color;
-        Grupo grupo;
 
         sb.append("*------------------------------------------------------------------------------------------------------------------------*\n");
 
@@ -136,8 +135,7 @@ public class Tablero {
         for (Casilla casilla : ladoNorte) {
 
             color = Valor.RESET; // Valor por defecto (sin color)
-            grupo = casilla.getGrupo();
-            color = grupo.getColorGrupo();
+            color = casilla.getGrupo().getColorGrupo();
 
             //Formatear nombre de la casilla
             String nombreFormateado = String.format("%-10s", casilla.getNombre()); // %-10s alinea el texto a la izquierda en un campo de 10 caracteres
@@ -156,8 +154,7 @@ public class Tablero {
 
             // Lado Oeste
             color = Valor.RESET; // Valor por defecto (sin color)
-            grupo = ladoOeste.get(i).getGrupo();
-            color = grupo.getColorGrupo();
+            color = ladoOeste.get(i).getGrupo().getColorGrupo();
             
             sb.append("|"); // Separador izquierdo para el lado Oeste
             String nombreOesteFormateado = String.format("%-10s", ladoOeste.get(i).getNombre());
@@ -168,8 +165,7 @@ public class Tablero {
 
             // Lado Este
             color = Valor.RESET; // Valor por defecto (sin color)
-            grupo = ladoEste.get(i).getGrupo();
-            color = grupo.getColorGrupo();
+            color = ladoEste.get(i).getGrupo().getColorGrupo();
 
             sb.append("|"); // Separador izquierdo para el lado Este
             String nombreEsteFormateado = String.format("%-10s", ladoEste.get(i).getNombre());
@@ -186,9 +182,8 @@ public class Tablero {
         for (Casilla casilla : ladoSur) {
 
             color = Valor.RESET; // Valor por defecto (sin color)
-            grupo = ladoOeste.get(i).getGrupo();
-            color = grupo.getColorGrupo();
-            
+            color = casilla.getGrupo().getColorGrupo();
+
             //Formatear nombre casilla
             String nombreFormateado = String.format("%-10s", casilla.getNombre());
             sb.append(color).append(nombreFormateado).append(Valor.RESET).append("|");
