@@ -4,7 +4,7 @@ import partida.*;
 import java.util.ArrayList;
 
 
-class Grupo {
+public class Grupo {
 
     //Atributos
     private ArrayList<Casilla> miembros; //Casillas miembros del grupo.
@@ -25,6 +25,7 @@ class Grupo {
     * Requiere como parámetros las tres casillas miembro y el color del grupo.
      */
     public Grupo(Casilla cas1, Casilla cas2, Casilla cas3, String colorGrupo) {
+        
     }
 
     /* Método que añade una casilla al array de casillas miembro de un grupo.
