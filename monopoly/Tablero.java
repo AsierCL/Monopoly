@@ -53,6 +53,8 @@ public class Tablero {
     ladoNorte.add(new Casilla("Solar16", "Solar", 27, banca));
     ladoNorte.add(new Casilla("Solar17", "Solar", 29, banca));
     ladoNorte.add(new Casilla("IrCarcel", "Especial", 30, banca));
+    new Grupo(ladoNorte.get(1), ladoNorte.get(3), ladoNorte.get(4), Valor.RED);
+    new Grupo(ladoNorte.get(6), ladoNorte.get(7), ladoNorte.get(9), Valor.YELLOW);
     
     return ladoNorte;
 }
@@ -72,6 +74,8 @@ public class Tablero {
     ladoSur.add(new Casilla("Caja 1", "Especial", 2, banca));
     ladoSur.add(new Casilla("Solar1", "Solar", 1, 600000, banca));
     ladoSur.add(new Casilla("Salida", "Especial", 0, banca));
+    new Grupo(ladoSur.get(1), ladoSur.get(2), ladoSur.get(4), Valor.CYAN);
+    new Grupo(ladoSur.get(7), ladoSur.get(9), Valor.BLACK);
     
     return ladoSur;
 
@@ -90,6 +94,8 @@ public class Tablero {
         ladoOeste.add(new Casilla("Solar7", "Solar", 13, banca));
         ladoOeste.add(new Casilla("Servicio 1", "Servicios", 12, banca));
         ladoOeste.add(new Casilla("Solar6", "Solar", 11, banca));
+        new Grupo(ladoOeste.get(0), ladoOeste.get(1), ladoOeste.get(3), Valor.WHITE); //Puse white porque no hay naranja y es el que falta aquí
+        new Grupo(ladoOeste.get(5), ladoOeste.get(6),ladoOeste.get(8), Valor.PURPLE);
     
         return ladoOeste;
     }
@@ -107,6 +113,8 @@ public class Tablero {
         ladoEste.add(new Casilla("Solar21", "Solar", 37, banca));
         ladoEste.add(new Casilla("Impuesto 2", "Especial", 38, banca));
         ladoEste.add(new Casilla("Solar22", "Solar", 39, banca));
+        new Grupo(ladoEste.get(0), ladoEste.get(1), ladoEste.get(3), Valor.GREEN);
+        new Grupo(ladoEste.get(6), ladoEste.get(8), Valor.BLUE);
         return ladoEste;
     }
 
@@ -134,8 +142,11 @@ public class Tablero {
         sb.append("|");
         for (Casilla casilla : ladoNorte) {
 
-            color = Valor.RESET; // Valor por defecto (sin color)
-            color = casilla.getGrupo().getColorGrupo();
+            if(casilla.getGrupo() == null){
+                color = Valor.RESET; // Valor por defecto (sin color)
+            }else{
+                color = casilla.getGrupo().getColorGrupo(); 
+            }
 
             //Formatear nombre de la casilla
             String nombreFormateado = String.format("%-10s", casilla.getNombre()); // %-10s alinea el texto a la izquierda en un campo de 10 caracteres
@@ -169,8 +180,11 @@ public class Tablero {
             }
 
             // Lado Oeste
-            color = Valor.RESET; // Valor por defecto (sin color)
-            color = ladoOeste.get(i).getGrupo().getColorGrupo();
+            if(ladoOeste.get(i).getGrupo() == null){
+                color = Valor.RESET; // Valor por defecto (sin color)
+            }else{
+                color = casilla.getGrupo().getColorGrupo(); 
+            }
             
             sb.append("|"); // Separador izquierdo para el lado Oeste
             String nombreOesteFormateado = String.format("%-10s", ladoOeste.get(i).getNombre());
@@ -180,8 +194,11 @@ public class Tablero {
             sb.append("\t\t\t\t\t\t\t\t\t\t\t\t      ");
 
             // Lado Este
-            color = Valor.RESET; // Valor por defecto (sin color)
-            color = ladoEste.get(i).getGrupo().getColorGrupo();
+            if(ladoEste.get(i).getGrupo() == null){
+                color = Valor.RESET; // Valor por defecto (sin color)
+            }else{
+                color = casilla.getGrupo().getColorGrupo(); 
+            }
  
             sb.append("|"); // Separador izquierdo para el lado Este
             String nombreEsteFormateado = String.format("%-10s", ladoEste.get(i).getNombre());
@@ -197,8 +214,11 @@ public class Tablero {
         sb.append("|");
         for (Casilla casilla : ladoSur) {
 
-            color = Valor.RESET; // Valor por defecto (sin color)
-            color = casilla.getGrupo().getColorGrupo();
+            if(casilla.getGrupo() == null){
+                color = Valor.RESET; // Valor por defecto (sin color)
+            }else{
+                color = casilla.getGrupo().getColorGrupo(); 
+            }
 
             //Formatear nombre casilla
             String nombreFormateado = String.format("%-10s", casilla.getNombre());
