@@ -153,23 +153,23 @@ public class Tablero {
             sb.append(color).append(nombreFormateado).append(Valor.RESET).append("|");
         }
         sb.append("\n");
-        sb.append("|");
+        /*sb.append("|");
         for (Casilla casilla : ladoNorte) {
             // Si la casilla tiene avatares, los mostramos
             if (casilla.getAvatares() != null && !casilla.getAvatares().isEmpty()) {
 
-                    
+
             
             } else{
                 // Si no hay avatares, imprimir espacio vacío
                 sb.append(String.format("%-10s", "")).append("|");
             }
             
-            String espacioAvatares = String.format("%-10s", )
-        }
+            String espacioAvatares = String.format("%-10s");
+        }*/
 
 
-        /*sb.append("|          |          |          |          |          |          |          |          |          |          |          |\n");*/
+        sb.append("|          |          |          |          |          |          |          |          |          |          |          |\n");
         sb.append("|----------|--------------------------------------------------------------------------------------------------|----------|\n");
 
         // 2. Lados Oeste y Este impresos en paralelo con formato
@@ -183,7 +183,7 @@ public class Tablero {
             if(ladoOeste.get(i).getGrupo() == null){
                 color = Valor.RESET; // Valor por defecto (sin color)
             }else{
-                color = casilla.getGrupo().getColorGrupo(); 
+                color = ladoOeste.get(i).getGrupo().getColorGrupo(); 
             }
             
             sb.append("|"); // Separador izquierdo para el lado Oeste
@@ -197,7 +197,7 @@ public class Tablero {
             if(ladoEste.get(i).getGrupo() == null){
                 color = Valor.RESET; // Valor por defecto (sin color)
             }else{
-                color = casilla.getGrupo().getColorGrupo(); 
+                color = ladoEste.get(i).getGrupo().getColorGrupo(); 
             }
  
             sb.append("|"); // Separador izquierdo para el lado Este
