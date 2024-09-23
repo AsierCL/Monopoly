@@ -135,6 +135,8 @@ public class Tablero {
         ArrayList<Grupo> grupos = new ArrayList<>();
 
         String color;
+        String colorOeste;
+        String colorEste;
 
         sb.append("*------------------------------------------------------------------------------------------------------------------------*\n");
 
@@ -155,66 +157,79 @@ public class Tablero {
             sb.append(color).append(nombreFormateado).append(Valor.RESET).append("|");
         }
         sb.append("\n");
-        /*sb.append("|");
+        sb.append("|");
+        
+        
         for (Casilla casilla : ladoNorte) {
-            // Si la casilla tiene avatares, los mostramos
-            if (casilla.getAvatares() != null && !casilla.getAvatares().isEmpty()) {
-
-
-            
-            } else{
-                // Si no hay avatares, imprimir espacio vacío
-                sb.append(String.format("%-10s", "")).append("|");
+            //Miramos el color
+            if(casilla.getTipo()=="Transporte"){
+                color = Valor.BLACK;
+            }else if(casilla.getGrupo() == null){
+                color = Valor.RESET; // Valor por defecto (sin color)
+            }else{
+                color = casilla.getGrupo().getColorGrupo(); 
             }
             
-            String espacioAvatares = String.format("%-10s");
-        }*/
-
-
-        sb.append("|          |          |          |          |          |          |          |          |          |          |          |\n");
+            // Si la casilla tiene avatares, los mostramos
+            if (casilla.getAvatares() != null && !casilla.getAvatares().isEmpty()) {
+                
+                
+                
+            } else{
+                // Si no hay avatares, imprimir espacio vacío
+                sb.append(color).append(String.format("%-10s", "")).append(Valor.RESET).append("|");
+            }
+            
+            String espacioAvatares = String.format("%-10s", "");
+        }
+        
+        sb.append("\n");
         sb.append("|----------|--------------------------------------------------------------------------------------------------|----------|\n");
-
+        
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 2. Lados Oeste y Este impresos en paralelo con formato
         for (int i = 0; i < ladoOeste.size(); i++) {
             // Línea superior de cada celda
             if (primeraCasilla==1) {
                 sb.append("|----------|").append("\t\t\t\t\t\t\t\t\t\t\t\t      ").append("|----------|\n");
             }
-
+            
             // Lado Oeste
             if(ladoOeste.get(i).getTipo()=="Transporte"){
-                color = Valor.BLACK;
+                colorOeste = Valor.BLACK;
             }else if(ladoOeste.get(i).getGrupo() == null){
-                color = Valor.RESET; // Valor por defecto (sin color)
+                colorOeste = Valor.RESET; // Valor por defecto (sin color)
             }else{
-                color = ladoOeste.get(i).getGrupo().getColorGrupo(); 
+                colorOeste = ladoOeste.get(i).getGrupo().getColorGrupo(); 
             }
             
             sb.append("|"); // Separador izquierdo para el lado Oeste
             String nombreOesteFormateado = String.format("%-10s", ladoOeste.get(i).getNombre());
-            sb.append(color).append(nombreOesteFormateado).append(Valor.RESET).append("|");
-
+            sb.append(colorOeste).append(nombreOesteFormateado).append(Valor.RESET).append("|");
+            
             // Espacios entre los lados
             sb.append("\t\t\t\t\t\t\t\t\t\t\t\t      ");
-
+            
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Lado Este
             if(ladoEste.get(i).getTipo()=="Transporte"){
-                color = Valor.BLACK;
+                colorEste = Valor.BLACK;
             }else if(ladoEste.get(i).getGrupo() == null){
-                color = Valor.RESET; // Valor por defecto (sin color)
+                colorEste = Valor.RESET; // Valor por defecto (sin color)
             }else{
-                color = ladoEste.get(i).getGrupo().getColorGrupo(); 
+                colorEste = ladoEste.get(i).getGrupo().getColorGrupo(); 
             }
 
             sb.append("|"); // Separador izquierdo para el lado Este
             String nombreEsteFormateado = String.format("%-10s", ladoEste.get(i).getNombre());
-            sb.append(color).append(nombreEsteFormateado).append(Valor.RESET).append("|");
+            sb.append(colorEste).append(nombreEsteFormateado).append(Valor.RESET).append("|");
 
             sb.append("\n");
-            sb.append("|          |").append("\t\t\t\t\t\t\t\t\t\t\t\t      ").append("|          |\n");
+            sb.append("|").append(colorOeste).append("          ").append(Valor.RESET).append("|").append("\t\t\t\t\t\t\t\t\t\t\t\t      ").append("|").append(colorEste).append("          ").append(Valor.RESET).append("|\n");
             primeraCasilla = 1;
         }
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 3. Lado Sur - Formato con separadores como el lado norte
         sb.append("|----------|--------------------------------------------------------------------------------------------------|----------|\n");
         sb.append("|");
@@ -232,8 +247,37 @@ public class Tablero {
             String nombreFormateado = String.format("%-10s", casilla.getNombre());
             sb.append(color).append(nombreFormateado).append(Valor.RESET).append("|");
         }
+
         sb.append("\n");
-        sb.append("|          |          |          |          |          |          |          |          |          |          |          |\n");
+        sb.append("|");
+        
+        
+        for (Casilla casilla : ladoSur) {
+            //Miramos el color
+            if(casilla.getTipo()=="Transporte"){
+                color = Valor.BLACK;
+            }else if(casilla.getGrupo() == null){
+                color = Valor.RESET; // Valor por defecto (sin color)
+            }else{
+                color = casilla.getGrupo().getColorGrupo(); 
+            }
+            
+            // Si la casilla tiene avatares, los mostramos
+            if (casilla.getAvatares() != null && !casilla.getAvatares().isEmpty()) {
+                
+                
+                
+            } else{
+                // Si no hay avatares, imprimir espacio vacío
+                sb.append(color).append(String.format("%-10s", "")).append(Valor.RESET).append("|");
+            }
+            
+            String espacioAvatares = String.format("%-10s", "");
+        }
+        
+        sb.append("\n");
+
+
         sb.append("*------------------------------------------------------------------------------------------------------------------------*\n");
 
         return sb.toString();
