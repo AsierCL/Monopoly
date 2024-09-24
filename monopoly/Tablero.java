@@ -20,6 +20,9 @@ public class Tablero {
         generarCasillas(); // Para crear las casillas del tablero
     }
 
+    public ArrayList<ArrayList<Casilla>> getPosiciones() {
+        return this.posiciones;
+    }
     
     //Método para crear todas las casillas del tablero. Formado a su vez por cuatro métodos (1/lado).
     private void generarCasillas() {

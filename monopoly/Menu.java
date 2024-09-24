@@ -49,9 +49,24 @@ public class Menu {
         }
     }
 
+    public Menu(){
+        clearScreen();
+        Jugador banca = new Jugador();
+        Tablero tablero = new Tablero(banca);
+        //Menu start = new Menu();
+        //start.iniciarPartida(tablero);
+        //Menu.printBanner();
+        //Menu.clearScreen();
+        System.out.println(tablero);
+    }
+
     
     // Método para inciar una partida: crea los jugadores y avatares.
-    private void iniciarPartida() {
+    public void iniciarPartida(Tablero tablero) {
+        this.avatares = new ArrayList<>();
+        this.jugadores = new ArrayList<>();
+        Jugador Player1 = new Jugador("Player1", "Coche", tablero.getPosiciones().get(0).get(0), avatares);
+        jugadores.add(Player1);
     }
     
     /*Método que interpreta el comando introducido y toma la accion correspondiente.
