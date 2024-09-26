@@ -162,28 +162,27 @@ public class Tablero {
         sb.append("\n");
         sb.append("|");
         
-        
         for (Casilla casilla : ladoNorte) {
             //Miramos el color
-            if(casilla.getTipo()=="Transporte"){
+            if(casilla.getTipo().equals("Transporte")){
                 color = Valor.BLACK;
             }else if(casilla.getGrupo() == null){
                 color = Valor.RESET; // Valor por defecto (sin color)
             }else{
                 color = casilla.getGrupo().getColorGrupo(); 
             }
-            
             // Si la casilla tiene avatares, los mostramos
             if (casilla.getAvatares() != null && !casilla.getAvatares().isEmpty()) {
-                
-                
-                
+                StringBuilder avataresStr = new StringBuilder();
+                for (Avatar avatar : casilla.getAvatares()) {
+                    avataresStr.append(avatar.getId());
+                }
+                String avataresFormateados = String.format("%-10s", avataresStr.toString()); //No estoy seguro de si esto esta bien
+                sb.append(avataresFormateados).append("|");
             } else{
                 // Si no hay avatares, imprimir espacio vacío
                 sb.append(color).append(String.format("%-10s", "")).append(Valor.RESET).append("|");
             }
-            
-            String espacioAvatares = String.format("%-10s", "");
         }
         
         sb.append("\n");
@@ -198,7 +197,7 @@ public class Tablero {
             }
             
             // Lado Oeste
-            if(ladoOeste.get(i).getTipo()=="Transporte"){
+            if(ladoOeste.get(i).getTipo().equals("Transporte")){
                 colorOeste = Valor.BLACK;
             }else if(ladoOeste.get(i).getGrupo() == null){
                 colorOeste = Valor.RESET; // Valor por defecto (sin color)
@@ -215,7 +214,7 @@ public class Tablero {
             
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Lado Este
-            if(ladoEste.get(i).getTipo()=="Transporte"){
+            if(ladoEste.get(i).getTipo().equals("Transporte")){
                 colorEste = Valor.BLACK;
             }else if(ladoEste.get(i).getGrupo() == null){
                 colorEste = Valor.RESET; // Valor por defecto (sin color)
@@ -228,6 +227,7 @@ public class Tablero {
             sb.append(colorEste).append(nombreEsteFormateado).append(Valor.RESET).append("|");
 
             sb.append("\n");
+            
             sb.append("|").append(colorOeste).append("          ").append(Valor.RESET).append("|").append("\t\t\t\t\t\t\t\t\t\t\t\t      ").append("|").append(colorEste).append("          ").append(Valor.RESET).append("|\n");
             primeraCasilla = 1;
         }
@@ -238,7 +238,7 @@ public class Tablero {
         sb.append("|");
         for (Casilla casilla : ladoSur) {
 
-            if(casilla.getTipo()=="Transporte"){
+            if(casilla.getTipo().equals("Transporte")){
                 color = Valor.BLACK;
             }else if(casilla.getGrupo() == null){
                 color = Valor.RESET; // Valor por defecto (sin color)
@@ -257,25 +257,25 @@ public class Tablero {
         
         for (Casilla casilla : ladoSur) {
             //Miramos el color
-            if(casilla.getTipo()=="Transporte"){
+            if(casilla.getTipo().equals("Transporte")){
                 color = Valor.BLACK;
             }else if(casilla.getGrupo() == null){
                 color = Valor.RESET; // Valor por defecto (sin color)
             }else{
                 color = casilla.getGrupo().getColorGrupo(); 
             }
-            
             // Si la casilla tiene avatares, los mostramos
             if (casilla.getAvatares() != null && !casilla.getAvatares().isEmpty()) {
-                
-                
-                
+                StringBuilder avataresStr = new StringBuilder();
+                for (Avatar avatar : casilla.getAvatares()) {
+                    avataresStr.append(avatar.getId());
+                }
+                String avataresFormateados = String.format("%-10s", avataresStr.toString());
+                sb.append(avataresFormateados).append("|");
             } else{
                 // Si no hay avatares, imprimir espacio vacío
                 sb.append(color).append(String.format("%-10s", "")).append(Valor.RESET).append("|");
             }
-            
-            String espacioAvatares = String.format("%-10s", "");
         }
         
         sb.append("\n");
