@@ -178,7 +178,7 @@ public class Tablero {
                     avataresStr.append(avatar.getId());
                 }
                 String avataresFormateados = String.format("%-10s", avataresStr.toString()); //No estoy seguro de si esto esta bien
-                sb.append(avataresFormateados).append("|");
+                sb.append(color).append(avataresFormateados).append("|");
             } else{
                 // Si no hay avatares, imprimir espacio vacío
                 sb.append(color).append(String.format("%-10s", "")).append(Valor.RESET).append("|");
@@ -227,14 +227,42 @@ public class Tablero {
             sb.append(colorEste).append(nombreEsteFormateado).append(Valor.RESET).append("|");
 
             sb.append("\n");
-            
-            sb.append("|").append(colorOeste).append("          ").append(Valor.RESET).append("|").append("\t\t\t\t\t\t\t\t\t\t\t\t      ").append("|").append(colorEste).append("          ").append(Valor.RESET).append("|\n");
+            sb.append("|");
+
+            //Imprimimos avatares lado Oeste en caso de que tenga
+            if (ladoOeste.get(i).getAvatares() != null && !ladoOeste.get(i).getAvatares().isEmpty()) {
+                StringBuilder avataresStr = new StringBuilder();
+                for (Avatar avatar : ladoOeste.get(i).getAvatares()) {
+                    avataresStr.append(avatar.getId());
+                }
+                String avataresFormateados = String.format("%-10s", avataresStr.toString());
+                sb.append(colorOeste).append(avataresFormateados);
+            } else{
+                sb.append(colorOeste).append("          ").append(Valor.RESET).append("|");
+            }
+
+            sb.append("\t\t\t\t\t\t\t\t\t\t\t\t      "); //Tabulación para imprimir en la siguiente columna
+
+            //Imprimimos avatares lado Este en caso de que tenga
+            if (ladoEste.get(i).getAvatares() != null && !ladoEste.get(i).getAvatares().isEmpty()) {
+                StringBuilder avataresStr = new StringBuilder();
+                for (Avatar avatar : ladoEste.get(i).getAvatares()) {
+                    avataresStr.append(avatar.getId());
+                }
+                String avataresFormateados = String.format("%-10s", avataresStr.toString());
+                sb.append(colorEste).append(avataresFormateados);
+            } 
+            else{
+                sb.append("|").append(colorEste).append("          ");
+            }
+            sb.append(Valor.RESET).append("|\n");
+
             primeraCasilla = 1;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 3. Lado Sur - Formato con separadores como el lado norte
-        sb.append("|----------|--------------------------------------------------------------------------------------------------|----------|\n");
+        sb.append(Valor.RESET).append("|----------|--------------------------------------------------------------------------------------------------|----------|\n");
         sb.append("|");
         for (Casilla casilla : ladoSur) {
 
@@ -271,7 +299,7 @@ public class Tablero {
                     avataresStr.append(avatar.getId());
                 }
                 String avataresFormateados = String.format("%-10s", avataresStr.toString());
-                sb.append(avataresFormateados).append("|");
+                sb.append(color).append(avataresFormateados).append("|");
             } else{
                 // Si no hay avatares, imprimir espacio vacío
                 sb.append(color).append(String.format("%-10s", "")).append(Valor.RESET).append("|");
