@@ -88,6 +88,10 @@ public class Jugador {
         this.tiradasCarcel = tiradasCarcel;
     }
 
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
     //Otros métodos:
     //Método para añadir una propiedad al jugador. Como parámetro, la casilla a añadir.
     public void anhadirPropiedad(Casilla casilla) {

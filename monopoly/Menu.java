@@ -60,6 +60,14 @@ public class Menu {
         //Menu.printBanner();
         //Menu.clearScreen();
         System.out.println(tablero);
+        player1.getAvatar().moverAvatar(tablero.getPosiciones(), 3);
+        try {
+            Thread.sleep(2000); // 2000 milisegundos = 2 segundos
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(tablero);
+        
     }
 
     

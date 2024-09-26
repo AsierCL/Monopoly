@@ -48,10 +48,25 @@ public class Avatar {
         int posicionActual = lugar.getPosicion();
         int posicionNueva = (posicionActual + valorTirada);
         if (posicionNueva > 39){
-            posicionNueva = (valorTirada - 39);
+            posicionNueva = (39 - valorTirada);
         }
-        Casilla nuevaCasilla = casillas.obtenerCasilla(posicionNueva);
+        Casilla nuevaCasilla = obtenerCasilla(posicionNueva, casillas);
         this.lugar = nuevaCasilla;
+        lugar.eliminarAvatar(this);
+        nuevaCasilla.anhadirAvatar(this);
+    }
+
+    public Casilla obtenerCasilla(int posicionNueva, ArrayList<ArrayList<Casilla>> casillas) {
+        int contador = 0; 
+        for (ArrayList<Casilla> lado : casillas) {
+            for (Casilla casilla : lado) {
+                if (contador == posicionNueva) {
+                    return casilla;  
+             }
+             contador++;
+             }
+        }
+        return null;
     }
 
     public String getId() {
