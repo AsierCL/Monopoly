@@ -46,10 +46,8 @@ public class Avatar {
      */
     public void moverAvatar(ArrayList<ArrayList<Casilla>> casillas, int valorTirada) {
         int posicionActual = lugar.getPosicion();
-        int posicionNueva = (posicionActual + valorTirada);
-        if (posicionNueva > 39){
-            posicionNueva = (39 - valorTirada);
-        }
+        int posicionNueva = (posicionActual + valorTirada)%40;
+
         Casilla nuevaCasilla = obtenerCasilla(posicionNueva, casillas);
         lugar.eliminarAvatar(this);
         this.lugar = nuevaCasilla;
@@ -57,14 +55,12 @@ public class Avatar {
     }
 
     public Casilla obtenerCasilla(int posicionNueva, ArrayList<ArrayList<Casilla>> casillas) {
-        int contador = 0; 
         for (ArrayList<Casilla> lado : casillas) {
             for (Casilla casilla : lado) {
-                if (contador == posicionNueva) {
+                if (casilla.getPosicion()==posicionNueva) {
                     return casilla;  
-             }
-             contador++;
-             }
+                }
+            }
         }
         return null;
     }
