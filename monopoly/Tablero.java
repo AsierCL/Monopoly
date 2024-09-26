@@ -227,7 +227,7 @@ public class Tablero {
             sb.append(colorEste).append(nombreEsteFormateado).append(Valor.RESET).append("|");
 
             sb.append("\n");
-            sb.append("|");
+            sb.append("|");//Separados izquierdo lado oeste linea 2
 
             //Imprimimos avatares lado Oeste en caso de que tenga
             if (ladoOeste.get(i).getAvatares() != null && !ladoOeste.get(i).getAvatares().isEmpty()) {
@@ -238,10 +238,11 @@ public class Tablero {
                 String avataresFormateados = String.format("%-10s", avataresStr.toString());
                 sb.append(colorOeste).append(avataresFormateados);
             } else{
-                sb.append(colorOeste).append("          ").append(Valor.RESET).append("|");
+                sb.append(colorOeste).append("          ");
             }
-
+            sb.append(Valor.RESET).append("|");
             sb.append("\t\t\t\t\t\t\t\t\t\t\t\t      "); //Tabulación para imprimir en la siguiente columna
+            sb.append("|");
 
             //Imprimimos avatares lado Este en caso de que tenga
             if (ladoEste.get(i).getAvatares() != null && !ladoEste.get(i).getAvatares().isEmpty()) {
@@ -253,7 +254,7 @@ public class Tablero {
                 sb.append(colorEste).append(avataresFormateados);
             } 
             else{
-                sb.append("|").append(colorEste).append("          ");
+                sb.append(colorEste).append("          ");
             }
             sb.append(Valor.RESET).append("|\n");
 
