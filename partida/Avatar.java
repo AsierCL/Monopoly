@@ -42,9 +42,31 @@ public class Avatar {
     /*Método que permite mover a un avatar a una casilla concreta. Parámetros:
     * - Un array con las casillas del tablero. Se trata de un arrayList de arrayList de casillas (uno por lado).
     * - Un entero que indica el numero de casillas a moverse (será el valor sacado en la tirada de los dados).
-    * EN ESTA VERSIÓN SUPONEMOS QUE valorTirada siemrpe es positivo.
+    * EN ESTA VERSIÓN SUPONEMOS QUE valorTirada siempre es positivo.
      */
     public void moverAvatar(ArrayList<ArrayList<Casilla>> casillas, int valorTirada) {
+        int posicionActual = lugar.getPosicion();
+        int posicionNueva = (posicionActual + valorTirada);
+        if (posicionNueva > 39){
+            posicionNueva = (39 - valorTirada);
+        }
+        Casilla nuevaCasilla = obtenerCasilla(posicionNueva, casillas);
+        this.lugar = nuevaCasilla;
+        lugar.eliminarAvatar(this);
+        nuevaCasilla.anhadirAvatar(this);
+    }
+
+    public Casilla obtenerCasilla(int posicionNueva, ArrayList<ArrayList<Casilla>> casillas) {
+        int contador = 0; 
+        for (ArrayList<Casilla> lado : casillas) {
+            for (Casilla casilla : lado) {
+                if (contador == posicionNueva) {
+                    return casilla;  
+             }
+             contador++;
+             }
+        }
+        return null;
     }
 
     public String getId() {
