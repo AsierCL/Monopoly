@@ -4,6 +4,7 @@ import monopoly.*;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 
 public class Avatar {
 
@@ -12,7 +13,10 @@ public class Avatar {
     private String tipo; //Sombrero, Esfinge, Pelota, Coche
     private Jugador jugador; //Un jugador al que pertenece ese avatar.
     private Casilla lugar; //Los avatares se sitúan en casillas del tablero.
-
+    
+    
+    public static final Set<String> tiposValidos = Set.of("esfinge", "sombrero", "coche", "pelota");
+    
     //Constructor vacío
     public Avatar() {
     }
