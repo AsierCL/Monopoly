@@ -29,6 +29,7 @@ public class Avatar {
         this.tipo = tipo;
         this.jugador = jugador;
         this.lugar = lugar;
+        lugar.anhadirAvatar(this);
 
         /* // Generamos ID
         Random random = new Random();
