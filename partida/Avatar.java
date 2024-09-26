@@ -51,8 +51,8 @@ public class Avatar {
             posicionNueva = (39 - valorTirada);
         }
         Casilla nuevaCasilla = obtenerCasilla(posicionNueva, casillas);
-        this.lugar = nuevaCasilla;
         lugar.eliminarAvatar(this);
+        this.lugar = nuevaCasilla;
         nuevaCasilla.anhadirAvatar(this);
     }
 
