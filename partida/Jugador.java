@@ -38,7 +38,12 @@ public class Jugador {
      */
     public Jugador(String nombre, String tipoAvatar, Casilla inicio, ArrayList<Avatar> avCreados) {
         this.nombre = nombre;
-        this.avatar = new Avatar(tipoAvatar, this, inicio, avCreados);
+
+        if(Avatar.tiposValidos.contains(tipoAvatar)){
+            this.avatar = new Avatar(tipoAvatar, this, inicio, avCreados);
+        }else{
+            System.out.println("\nTipo de avatar incorrecto\n");
+        }
         this.fortuna = 14000000;//Usar variable global FORTUNA_INICIAL
         this.gastos = 0;
         this.enCarcel = false;

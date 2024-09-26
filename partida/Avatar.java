@@ -4,6 +4,7 @@ import monopoly.*;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 
 public class Avatar {
 
@@ -12,7 +13,10 @@ public class Avatar {
     private String tipo; //Sombrero, Esfinge, Pelota, Coche
     private Jugador jugador; //Un jugador al que pertenece ese avatar.
     private Casilla lugar; //Los avatares se sitúan en casillas del tablero.
-
+    
+    
+    public static final Set<String> tiposValidos = Set.of("esfinge", "sombrero", "coche", "pelota");
+    
     //Constructor vacío
     public Avatar() {
     }
@@ -25,6 +29,7 @@ public class Avatar {
         this.tipo = tipo;
         this.jugador = jugador;
         this.lugar = lugar;
+        lugar.anhadirAvatar(this);
 
         /* // Generamos ID
         Random random = new Random();
@@ -47,6 +52,10 @@ public class Avatar {
         }
         Casilla nuevaCasilla = casillas.obtenerCasilla(posicionNueva);
         this.lugar = nuevaCasilla;
+    }
+
+    public String getId() {
+        return id;
     }
 
     /*Método que permite generar un ID para un avatar. Sólo lo usamos en esta clase (por ello es privado).

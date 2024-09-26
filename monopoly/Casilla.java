@@ -85,6 +85,14 @@ public class Casilla {
         return this.grupo;
     }
 
+    public void setAvatares(ArrayList<Avatar> avatares){
+        this.avatares = avatares;
+    }
+
+    public ArrayList<Avatar> getAvatares(){
+        return this.avatares;
+    }
+
 
 
     //Método utilizado para añadir un avatar al array de avatares en casilla.
