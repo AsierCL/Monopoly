@@ -178,7 +178,7 @@ public class Tablero {
                     avataresStr.append(avatar.getId());
                 }
                 String avataresFormateados = String.format("%-10s", avataresStr.toString()); //No estoy seguro de si esto esta bien
-                sb.append(color).append(avataresFormateados).append("|");
+                sb.append(color).append(avataresFormateados).append(Valor.RESET).append("|");
             } else{
                 // Si no hay avatares, imprimir espacio vacío
                 sb.append(color).append(String.format("%-10s", "")).append(Valor.RESET).append("|");
@@ -300,7 +300,7 @@ public class Tablero {
                     avataresStr.append(avatar.getId());
                 }
                 String avataresFormateados = String.format("%-10s", avataresStr.toString());
-                sb.append(color).append(avataresFormateados).append("|");
+                sb.append(color).append(avataresFormateados).append(Valor.RESET).append("|");
             } else{
                 // Si no hay avatares, imprimir espacio vacío
                 sb.append(color).append(String.format("%-10s", "")).append(Valor.RESET).append("|");
