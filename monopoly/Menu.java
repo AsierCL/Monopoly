@@ -54,7 +54,7 @@ public class Menu {
         Jugador banca = new Jugador();
         Tablero tablero = new Tablero(banca);
         this.avatares = new ArrayList<>();
-        Jugador player1 = new Jugador("Maduro", "esfinge", tablero.getPosiciones().get(3).get(5), avatares);
+        Jugador player1 = new Jugador("Maduro", "esfinge", tablero.obtenerCasilla(0), avatares);
         //Menu start = new Menu();
         //start.iniciarPartida(tablero);
         //Menu.printBanner();

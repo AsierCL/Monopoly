@@ -315,4 +315,22 @@ public class Tablero {
         return sb.toString();
     }
     
+
+
+    //Funcion para obtener casilla por índice
+    public Casilla obtenerCasilla(int posicion) {
+        for (ArrayList<Casilla> lado : this.getPosiciones()) {
+            for (Casilla casilla : lado) {
+                if (casilla.getPosicion()==posicion) {
+                    return casilla;  
+                }
+            }
+        }
+        return null;
+    }
 }
+
+
+
+
+
