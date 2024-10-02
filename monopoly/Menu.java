@@ -136,18 +136,37 @@ public class Menu {
 
     // Método que realiza las acciones asociadas al comando 'listar enventa'.
     private void listarVenta() {
+        for(int i = 0; i<40; i++){
+        Casilla casilla = this.tablero.obtenerCasilla(i);
+        if(casilla.getDuenho()==banca && 
+        casilla.getTipo().equals("solar") || 
+        casilla.getTipo().equals("transporte") || 
+        casilla.getTipo().equals("servicios"))
+        
+        {
+            System.out.println(this.tablero.obtenerCasilla(i).infoCasilla());
+        }
+
+        }
     }
 
     // Método que realiza las acciones asociadas al comando 'listar jugadores'.
     private void listarJugadores() {
+        for(int i = 1; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
+            System.out.println(jugadores.get(i).getNombre());
+        }
     }
 
     // Método que realiza las acciones asociadas al comando 'listar avatares'.
     private void listarAvatares() {
+        for(int i = 1; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
+            System.out.println(jugadores.get(i).getAvatar().getId());
+        }
     }
 
     // Método que realiza las acciones asociadas al comando 'acabar turno'.
     private void acabarTurno() {
+        this.turno = (this.turno+1)%(jugadores.size()-1);
     }
 
 }
