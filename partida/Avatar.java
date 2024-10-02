@@ -38,6 +38,14 @@ public class Avatar {
         generarId(avCreados);
     }
 
+    public Casilla getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(Casilla lugar) {
+        this.lugar = lugar;
+    }
+
     //A continuación, tenemos otros métodos útiles para el desarrollo del juego.
     /*Método que permite mover a un avatar a una casilla concreta. Parámetros:
     * - Un array con las casillas del tablero. Se trata de un arrayList de arrayList de casillas (uno por lado).

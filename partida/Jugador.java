@@ -118,11 +118,17 @@ public class Jugador {
     //Parámetro: valor a añadir a los gastos del jugador (será el precio de un solar, impuestos pagados...).
     public void sumarGastos(float valor) {
         this.gastos += valor;
+        this.fortuna -= valor;
     }
 
     /*Método para establecer al jugador en la cárcel. 
     * Se requiere disponer de las casillas del tablero para ello (por eso se pasan como parámetro).*/
     public void encarcelar(ArrayList<ArrayList<Casilla>> pos) {
+        this.enCarcel = true;
+        this.enCarcel = true;
+        this.avatar.setLugar(pos.get(2).get(10));
+        this.avatar.getLugar().eliminarAvatar(this.avatar);
+        pos.get(2).get(10).anhadirAvatar(this.avatar);
     }
 
 }

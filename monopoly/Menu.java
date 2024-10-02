@@ -106,10 +106,21 @@ public class Menu {
     * Parámetro: cadena de caracteres con el nombre de la casilla.
      */
     private void comprar(String nombre) {
+        if(tablero.obtenerCasilla(nombre).getDuenho()!=banca){
+            System.out.println("No se puede comprar la casilla");
+            System.out.println("La casilla pertenece a: " + tablero.obtenerCasilla(nombre).getDuenho().getNombre());
+        }else if(!tablero.obtenerCasilla(nombre).getAvatares().contains(jugadores.get(turno).getAvatar())){
+            System.out.println("No se puede comprar la casilla");
+            System.out.println("No estás en la casilla que quieres comprar");
+        }else{
+            tablero.obtenerCasilla(nombre).setDuenho(jugadores.get(turno));
+            jugadores.get(turno).sumarGastos(tablero.obtenerCasilla(nombre).getValor());
+        }
     }
 
     //Método que ejecuta todas las acciones relacionadas con el comando 'salir carcel'. 
     private void salirCarcel() {
+        jugadores.get(turno).setEnCarcel(false);
     }
 
     // Método que realiza las acciones asociadas al comando 'listar enventa'.
