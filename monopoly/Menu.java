@@ -127,7 +127,7 @@ public class Menu {
             case("describir"):
                 switch(subAccion){
                     case("jugador"):
-                        descJugador(palabras); // no entiendo bien esto
+                        descJugador(palabras);
                         break;
                     case("avatar"):
                         descAvatar(parametro1);
@@ -180,6 +180,11 @@ public class Menu {
         int resultadoDado1 = dado1.hacerTirada();
         int resultadoDado2 = dado2.hacerTirada();
         int resultadoTotal = resultadoDado1 + resultadoDado2;
+
+        Avatar avatarActual = avatares.get(turno);
+        ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones(); // Asumindo que Tablero ten este método
+
+        avatarActual.moverAvatar(casillas, resultadoTotal); 
     }
 
     /*Método que ejecuta todas las acciones realizadas con el comando 'comprar nombre_casilla'.
