@@ -95,7 +95,6 @@ public class Menu {
                 jugadores.add(player);
 
                 System.out.println("\n{");
-                
                 System.out.print("Nombre: ");System.out.println(player.getNombre());
                 System.out.print("Avatar: ");System.out.println(player.getAvatar().getId());
                 System.out.println("}\n");
@@ -103,6 +102,10 @@ public class Menu {
                 break;
             //jugador
             case("jugador"):  //indicar jugador que tiene el turno
+                System.out.println("\n{");
+                System.out.print("Nombre: "); System.out.println(jugadores.get(turno).getNombre());
+                System.out.print("Avatar: "); System.out.println(jugadores.get(turno).getAvatar().getId());
+                System.out.println("}\n");
                 break;
             //listar jugadores / avatares / enventa
             case("listar"):

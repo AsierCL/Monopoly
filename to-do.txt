@@ -1,10 +1,4 @@
 //////MARTIN/////
-Cuando creas jugador, que imprima el formato asi:
-$> crear jugador Pedro coche
-{
-nombre: Pedro,
-avatar: K
-}
 
 Indicar jugador que tiene el turno.
 $> jugador
@@ -14,6 +8,8 @@ avatar: M
 }
 
 Listar jugadores y avatares (revisar)
+
+Dos jugadores pueden tener el mismo avatar
 
 
 //////BRAIS//////
