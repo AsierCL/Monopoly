@@ -142,6 +142,12 @@ public class Menu {
             case("salir"): //Pagar y salir de la carcel
                 salirCarcel();
                 break;
+            
+            ////////////////DEBUGG/////////////////////
+            case("carcel"): //Pagar y salir de la carcel
+                jugadores.get(turno).encarcelar(tablero.getPosiciones());
+                break;
+            ////////////////DEBUGG///////////////////
             //describir _/jugador/avatar + Badajoz/Maria/M
             case("describir"):
                 switch(subAccion){

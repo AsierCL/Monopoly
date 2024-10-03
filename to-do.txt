@@ -18,5 +18,3 @@ Comprar casilla
 Ir a carcel y salir de carcel.
 
 Listar prop en venta
-
-Dos jugadores pueden tener el mismo avatar
