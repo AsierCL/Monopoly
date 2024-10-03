@@ -91,3 +91,9 @@ git push
 Para ver los cambios que hemos hecho, podemos usar "git status". Con ello, vemos los archivos modificados
 
 Para ver el historial de commits, podemos usar "git log".
+
+### Borrar rama
+
+git branch -D nombre-de-la-rama
+
+git push origin --delete nombre-de-la-rama
