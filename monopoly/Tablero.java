@@ -47,7 +47,7 @@ public class Tablero {
 
     ladoNorte.add(new Casilla("Parking", "Especial", 20, banca));
     ladoNorte.add(new Casilla("Solar12", "Solar", 21, banca));
-    ladoNorte.add(new Casilla("Suerte", "Especial", 22, banca));
+    ladoNorte.add(new Casilla("Suerte", "Suerte", 22, banca));
     ladoNorte.add(new Casilla("Solar13", "Solar", 23, banca));
     ladoNorte.add(new Casilla("Solar14", "Solar", 24, banca));
     ladoNorte.add(new Casilla("Estacion 3", "Transporte", 25, banca));
@@ -69,12 +69,12 @@ public class Tablero {
     ladoSur.add(new Casilla("Carcel", "Especial", 10, banca));
     ladoSur.add(new Casilla("Solar5", "Solar", 9, 520000, banca));
     ladoSur.add(new Casilla("Solar4", "Solar", 8, 520000, banca));
-    ladoSur.add(new Casilla("Suerte 1", "Especial", 7, banca));
+    ladoSur.add(new Casilla("Suerte 1", "Suerte", 7, banca));
     ladoSur.add(new Casilla("Solar3", "Solar", 6, 520000, banca));
     ladoSur.add(new Casilla("Estación 1", "Transporte", 5, banca));
     ladoSur.add(new Casilla("Impuesto 1", "Especial", 4, banca));
     ladoSur.add(new Casilla("Solar2", "Solar", 3, 600000, banca));
-    ladoSur.add(new Casilla("Caja 1", "Especial", 2, banca));
+    ladoSur.add(new Casilla("Caja 1", "Comunidad", 2, banca));
     ladoSur.add(new Casilla("Solar1", "Solar", 1, 600000, banca));
     ladoSur.add(new Casilla("Salida", "Especial", 0, banca));
     new Grupo(ladoSur.get(1), ladoSur.get(2), ladoSur.get(4), Valor.CYAN);
@@ -90,7 +90,7 @@ public class Tablero {
         
         ladoOeste.add(new Casilla("Solar11", "Solar", 19, banca));
         ladoOeste.add(new Casilla("Solar10", "Solar", 18, banca));
-        ladoOeste.add(new Casilla("Caja 2", "Especial", 17, banca));
+        ladoOeste.add(new Casilla("Caja 2", "Comunidad", 17, banca));
         ladoOeste.add(new Casilla("Solar9", "Solar", 16, banca));
         ladoOeste.add(new Casilla("Estacion 2", "Transporte", 15, banca));
         ladoOeste.add(new Casilla("Solar8", "Solar", 14, banca));
@@ -109,10 +109,10 @@ public class Tablero {
 
         ladoEste.add(new Casilla("Solar18", "Solar", 31, banca));
         ladoEste.add(new Casilla("Solar19", "Solar", 32, banca));
-        ladoEste.add(new Casilla("Caja 3", "Especial", 33, banca));
+        ladoEste.add(new Casilla("Caja 3", "Comunidad", 33, banca));
         ladoEste.add(new Casilla("Solar20", "Solar", 34, banca));
         ladoEste.add(new Casilla("Estación 4", "Transporte",35, banca));
-        ladoEste.add(new Casilla("Suerte 3", "Especial", 36, banca));
+        ladoEste.add(new Casilla("Suerte 3", "Suerte", 36, banca));
         ladoEste.add(new Casilla("Solar21", "Solar", 37, banca));
         ladoEste.add(new Casilla("Impuesto 2", "Especial", 38, banca));
         ladoEste.add(new Casilla("Solar22", "Solar", 39, banca));

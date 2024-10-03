@@ -120,8 +120,67 @@ public class Casilla {
     * Valor devuelto: true en caso de ser solvente (es decir, de cumplir las deudas), y false
     * en caso de no cumplirlas.*/
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
-        //SOLO PARA ELIMINAR ERROR
-        return false;
+        switch(this.tipo){ 
+            //crear jugador
+            case("Solar"):
+                if(this.duenho != actual){// Casilla de otro
+
+                }
+                break;
+
+            case("Transporte"):
+
+                break;            
+                
+            case("Servicios"):
+
+                break;
+
+            case("Suerte"):
+
+                break;
+            
+            case("Comunidad"):
+
+                break;
+        
+            case("Especial"):
+                switch (this.nombre) {
+                    case ("Salida"):
+                    
+                        break;
+                    
+                    case ("Carcel"):
+
+                        break;
+
+                    case ("Parking"):
+
+                        break;
+                    
+                    case ("Ir a Carcel"):
+
+                        break;
+                    
+                    case ("Impuesto1"):
+
+                        break;
+
+                    case ("Impuesto2"):
+
+                        break;
+                    
+                    default:
+                        break;
+                }
+
+                break;
+
+            default:
+                System.out.println("Error evaluando casilla");
+                break;
+        }
+        return true;
     }
 
     /*Método usado para comprar una casilla determinada. Parámetros:

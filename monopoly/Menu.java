@@ -231,11 +231,17 @@ public class Menu {
         int resultadoDado1 = dado1.hacerTirada();
         int resultadoDado2 = dado2.hacerTirada();
         int resultadoTotal = resultadoDado1 + resultadoDado2;
+        System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
 
         Avatar avatarActual = avatares.get(turno);
-        ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones(); // Asumindo que Tablero ten este método
-
+        ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
         avatarActual.moverAvatar(casillas, resultadoTotal); 
+
+
+        this.lanzamientos++;
+        tirado = true;
+
+        avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal);
     }
 
     private void dadosTrucados(){
