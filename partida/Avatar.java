@@ -97,7 +97,7 @@ public class Avatar {
                 idDuplicado = false;
                 //Comparamos con todos os elementos da lista excepto si mismo
                 for(int i=0; i < avCreados.size();i++){
-                    if(this.id == avCreados.get(i).id){
+                    if(this.id.equals(avCreados.get(i).id)){
                         idDuplicado = true;
                     }
                 }
