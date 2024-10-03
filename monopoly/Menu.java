@@ -72,7 +72,7 @@ public class Menu {
     
     // Método para inciar una partida: crea los jugadores y avatares.
     public void iniciarPartida(Tablero tablero) {
-        Tablero tablero = new Tablero(banca);
+
         boolean partida = true;
         while(partida){
 
