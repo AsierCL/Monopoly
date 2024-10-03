@@ -51,34 +51,11 @@ public class Menu {
     public Menu(){
         this.avatares = new ArrayList<>();
         this.jugadores = new ArrayList<>();
-        Jugador banca = new Jugador();
-        Tablero tablero = new Tablero(banca);
+        banca = new Jugador();
+        tablero = new Tablero(banca);
         
         clearScreen();
         printBanner();
-        clearScreen();
-        
-        System.out.println("Introduce el nombre y el avatar en el siguiente formato:");
-        System.out.println("Nombre avatar");
-        System.err.println("Introduce INICIO para empezar la partida.");
-
-        Scanner scan = new Scanner(System.in);
-        String input = "";
-
-        while(input != "TRUE"){
-            input = scan.nextLine();
-            String[] palabras = input.split(" ");
-            scan.close();
-            
-            if(palabras.length==2){
-                String nombre = palabras[0];  
-                String avatar = palabras[1];
-                Jugador player = new Jugador(nombre, avatar, tablero.obtenerCasilla(0),avatares);
-                jugadores.add(player);
-            }else{
-                System.out.println("Formato incorrecto");
-            }
-        }
 
         iniciarPartida(tablero);
     }
@@ -95,7 +72,7 @@ public class Menu {
             String comando = input.nextLine();
 
             analizarComando(comando);
-            input.close();
+            //input.close();
         }
     }
     
@@ -114,7 +91,8 @@ public class Menu {
         switch(accion){ 
             //crear jugador
             case("crear"):  //Dar de alta a un jugador: crear jugador Pedro coche
-                Jugador nuevoJugador = new Jugador(parametro1, parametro2, tablero.obtenerCasilla(0), avatares);
+                Jugador player = new Jugador(parametro1, parametro2, tablero.obtenerCasilla(0),avatares);
+                jugadores.add(player);
                 break;
             //jugador
             case("jugador"):  //indicar jugador que tiene el turno
@@ -241,9 +219,9 @@ public class Menu {
         for(int i = 0; i<40; i++){
         Casilla casilla = this.tablero.obtenerCasilla(i);
         if(casilla.getDuenho()==banca && 
-        casilla.getTipo().equals("solar") || 
-        casilla.getTipo().equals("transporte") || 
-        casilla.getTipo().equals("servicios"))
+        casilla.getTipo().equals("Solar") || 
+        casilla.getTipo().equals("Transporte") || 
+        casilla.getTipo().equals("Servicios"))
         
         {
             System.out.println(this.tablero.obtenerCasilla(i).infoCasilla());
@@ -254,14 +232,14 @@ public class Menu {
 
     // Método que realiza las acciones asociadas al comando 'listar jugadores'.
     private void listarJugadores() {
-        for(int i = 1; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
+        for(int i = 0; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
             System.out.println(jugadores.get(i).getNombre());
         }
     }
 
     // Método que realiza las acciones asociadas al comando 'listar avatares'.
     private void listarAvatares() {
-        for(int i = 1; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
+        for(int i = 0; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
             System.out.println(jugadores.get(i).getAvatar().getId());
         }
     }
