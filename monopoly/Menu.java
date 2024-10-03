@@ -246,38 +246,79 @@ public class Menu {
 
     //Método que ejecuta todas las acciones relacionadas con el comando 'lanzar dados'.
     private void lanzarDados() {
-        Dado dado1 = new Dado();
-        Dado dado2 = new Dado();
+        if(!tirado){
+            Dado dado1 = new Dado();
+            Dado dado2 = new Dado();
 
-        int resultadoDado1 = dado1.hacerTirada();
-        int resultadoDado2 = dado2.hacerTirada();
-        int resultadoTotal = resultadoDado1 + resultadoDado2;
-        System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
+            int resultadoDado1 = dado1.hacerTirada();
+            int resultadoDado2 = dado2.hacerTirada();
+            int resultadoTotal = resultadoDado1 + resultadoDado2;
+            System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
 
-        Avatar avatarActual = avatares.get(turno);
-        ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
-        avatarActual.moverAvatar(casillas, resultadoTotal); 
+            Avatar avatarActual = avatares.get(turno);
+            ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
+            avatarActual.moverAvatar(casillas, resultadoTotal); 
 
 
-        this.lanzamientos++;
-        tirado = true;
-
-        avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal);
+            this.lanzamientos++;
+            tirado = true;
+            
+            avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal);
+            
+            if(resultadoDado1 == resultadoDado2){
+                System.out.println("LLevas " + this.lanzamientos + " dobles");
+                tirado = false;
+            
+                if(this.lanzamientos<3){
+                    System.out.println("Vuelve a tirar");
+                }else{
+                    System.out.println("VAS A LA CARCEL");
+                    avatarActual.getJugador().encarcelar(casillas);
+                }
+            }
+        }else{
+            System.out.println("Ya no puedes tirar más");
+        }
     }
 
     private void dadosTrucados(){
-        Scanner scanDado = new Scanner(System.in);
 
-        System.out.print("Introduzca el valor de la tirada del dado 1: ");
-        int resultadoDado1 = scanDado.nextInt();
-        System.out.print("Introduzca el valor de la tirada del dado 2: ");
-        int resultadoDado2 = scanDado.nextInt();
-         
-        int resultadoTotal = resultadoDado1 + resultadoDado2;
+        if(!tirado){
+            Scanner scanDado = new Scanner(System.in);
 
-        Avatar avatarActual = avatares.get(turno);
-        ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones(); // Asumindo que Tablero ten este método
-        avatarActual.moverAvatar(casillas, resultadoTotal); 
+            System.out.print("Introduzca el valor de la tirada del dado 1: ");
+            int resultadoDado1 = scanDado.nextInt();
+            System.out.print("Introduzca el valor de la tirada del dado 2: ");
+            int resultadoDado2 = scanDado.nextInt();
+             
+            int resultadoTotal = resultadoDado1 + resultadoDado2;
+            System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
+
+            Avatar avatarActual = avatares.get(turno);
+            ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
+            
+            this.lanzamientos++;
+            tirado = true;
+            
+            if(resultadoDado1 == resultadoDado2){
+                System.out.println("LLevas " + this.lanzamientos + " dobles");
+                tirado = false;
+            
+                if(this.lanzamientos<3){
+                    avatarActual.moverAvatar(casillas, resultadoTotal);
+                    avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal);
+                    System.out.println("Vuelve a tirar");
+                }else{
+                    System.out.println("VAS A LA CARCEL");
+                    avatarActual.getJugador().encarcelar(casillas);
+                }
+            }else{
+                avatarActual.moverAvatar(casillas, resultadoTotal);
+                avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal);
+            }
+        }else{
+            System.out.println("Ya no puedes tirar más");
+        }
     }
 
     /*Método que ejecuta todas las acciones realizadas con el comando 'comprar nombre_casilla'.
@@ -352,6 +393,8 @@ public class Menu {
     // Método que realiza las acciones asociadas al comando 'acabar turno'.
     private void acabarTurno() {
         this.turno = (this.turno+1)%(jugadores.size());
+        this.tirado = false;
+        this.lanzamientos = 0;
     }
 
 }
