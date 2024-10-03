@@ -93,6 +93,13 @@ public class Menu {
             case("crear"):  //Dar de alta a un jugador: crear jugador Pedro coche
                 Jugador player = new Jugador(parametro1, parametro2, tablero.obtenerCasilla(0),avatares);
                 jugadores.add(player);
+
+                System.out.println("\n{");
+                
+                System.out.print("Nombre: ");System.out.println(player.getNombre());
+                System.out.print("Avatar: ");System.out.println(player.getAvatar().getId());
+                System.out.println("}\n");
+
                 break;
             //jugador
             case("jugador"):  //indicar jugador que tiene el turno
