@@ -138,6 +138,7 @@ public class Menu {
                 break;
             //ver tablero
             case("ver"):
+                System.out.println(tablero);
                 break;
 
         }
