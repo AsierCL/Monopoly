@@ -70,11 +70,12 @@ public class Menu {
         System.err.println("Introduce INICIO para empezar la partida.");
 
         Scanner scan = new Scanner(System.in);
-        String input;
+        String input = "";
 
         while(input != "TRUE"){
             input = scan.nextLine();
             String[] palabras = input.split(" ");
+            scan.close();
             
             if(palabras.length==2){
                 String nombre = palabras[0];  
