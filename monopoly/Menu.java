@@ -1,6 +1,10 @@
 package monopoly;
 
 import java.util.ArrayList;
+import java.util.Scanner;
+
+import javax.swing.plaf.TreeUI;
+
 import partida.*;
 
 public class Menu {
@@ -87,10 +91,17 @@ public class Menu {
     
     // Método para inciar una partida: crea los jugadores y avatares.
     public void iniciarPartida(Tablero tablero) {
-        this.avatares = new ArrayList<>();
-        this.jugadores = new ArrayList<>();
-        Jugador Player1 = new Jugador("Player1", "Coche", tablero.getPosiciones().get(0).get(0), avatares);
-        jugadores.add(Player1);
+
+        boolean partida = true;
+        while(partida){
+
+            System.out.println("Introduzca comando: ");
+            Scanner input = new Scanner(System.in);
+            String comando = input.nextLine();
+
+            analizarComando(comando);
+            input.close();
+        }
     }
     
     /*Método que interpreta el comando introducido y toma la accion correspondiente.
@@ -157,6 +168,7 @@ public class Menu {
                 break;
             //ver tablero
             case("ver"):
+                System.out.println(tablero);
                 break;
 
         }
