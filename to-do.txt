@@ -1,6 +1,6 @@
 //////MARTIN/////
 
-
+Listar prop en venta
 
 Añadir lista de comandos para que los pueda ver el usuario
 
@@ -8,15 +8,13 @@ Añadir lista de comandos para que los pueda ver el usuario
 //////BRAIS//////
 Describir casilla
 
-Revisar valores en Valores.java, e floats
+Revisar valores en Valores.java, e floats,
+e asignar os valores e os impuestos a cada casilla
 
 Comprar casilla
 
 
 
 /////ASIER/////
-Ir a carcel y salir de carcel.
 
-Listar prop en venta
-
-Dos jugadores pueden tener el mismo avatar
+Movimiento y evaluar casillas
