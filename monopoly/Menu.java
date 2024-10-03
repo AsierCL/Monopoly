@@ -147,12 +147,56 @@ public class Menu {
     * Parámetro: comando introducido
      */
     private void descJugador(String[] partes) {
+        
+        // Supoñendo que o nombre do jugador está en partes[1].
+        String nombreJugador = partes[2]; 
+        Jugador jugador = buscarJugadorPorNombre(nombreJugador);
+        
+        if (jugador != null) {
+            System.out.println("Nombre del Jugador: " + jugador.getNombre());
+            System.out.println("Fortuna: €" + jugador.getFortuna());
+            
+            if (!jugador.getPropiedades(jugador).isEmpty()) {
+                System.out.println("Propiedades: ");
+                for (Casilla propiedad : jugador.getPropiedades(jugador)) {
+                    System.out.println(" - " + propiedad.getNombre());
+                }
+            } else {
+                System.out.println("El jugador no tiene propiedades.");
+            }
+    
+            Avatar avatar = jugador.getAvatar();
+            if (avatar != null) {
+                System.out.println("Avatar: " + avatar.getId());
+            } else {
+                System.out.println("El jugador no tiene un avatar asignado.");
+            
+            }
+        
+
+        // Hipotecas.
+        // Edificios.
+        } else {
+            System.out.println("No existe un jugador con este nombre.");
+        }
+    }
+
+    public Jugador buscarJugadorPorNombre(String nombre) {
+        for (Jugador jugador : jugadores) {  
+            if (jugador.getNombre().equals(nombre)) {  // .equalsIgnoreCase(nombre.trim())
+                return jugador;
+            }
+        }
+
+        return null;
     }
 
     /*Método que realiza las acciones asociadas al comando 'describir avatar'.
     * Parámetro: id del avatar a describir.
     */
     private void descAvatar(String ID) {
+        
+
     }
 
     /* Método que realiza las acciones asociadas al comando 'describir nombre_casilla'.
