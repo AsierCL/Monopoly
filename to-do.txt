@@ -1,6 +1,6 @@
 //////MARTIN/////
 
-
+Listar prop en venta
 
 Añadir lista de comandos para que los pueda ver el usuario
 
@@ -16,7 +16,5 @@ Comprar casilla
 
 /////ASIER/////
 Ir a carcel y salir de carcel.
-
-Listar prop en venta
 
 Dos jugadores pueden tener el mismo avatar

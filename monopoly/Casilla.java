@@ -156,7 +156,7 @@ public class Casilla {
                 } else {
                     info.append("Dueño: Banca\n");
                 }
-                info.append("Grupo: ").append(grupo.getColorGrupo()).append("\n");
+                info.append("Grupo: ").append(grupo.getColorGrupo()).append("  ").append(Valor.RESET).append("\n");
                 break;
                 
             case "especial":

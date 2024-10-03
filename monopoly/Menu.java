@@ -308,7 +308,6 @@ public class Menu {
         casilla.getTipo().equals("Solar") || 
         casilla.getTipo().equals("Transporte") || 
         casilla.getTipo().equals("Servicios"))
-        
         {
             System.out.println(this.tablero.obtenerCasilla(i).infoCasilla());
         }
