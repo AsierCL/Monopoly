@@ -96,6 +96,7 @@ public class Menu {
                 break;
             //jugador
             case("jugador"):  //indicar jugador que tiene el turno
+                verTurno();
                 break;
             //listar jugadores / avatares / enventa
             case("listar"):
@@ -314,9 +315,16 @@ public class Menu {
         }
     }
 
+    // Método que muestra el nombre y el avatar del jugador que tiene el turno
+    private void verTurno() {
+        if(!jugadores.isEmpty()){
+            System.out.println("El turno es de: " + jugadores.get(turno).getNombre());
+        }
+    }
+
     // Método que realiza las acciones asociadas al comando 'acabar turno'.
     private void acabarTurno() {
-        this.turno = (this.turno+1)%(jugadores.size()-1);
+        this.turno = (this.turno+1)%(jugadores.size());
     }
 
 }
