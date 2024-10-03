@@ -50,19 +50,38 @@ public class Menu {
     }
 
     public Menu(){
-        clearScreen();
+        this.avatares = new ArrayList<>();
+        this.jugadores = new ArrayList<>();
         Jugador banca = new Jugador();
         Tablero tablero = new Tablero(banca);
-        this.avatares = new ArrayList<>();
-        Jugador player1 = new Jugador("Maduro", "esfinge", tablero.obtenerCasilla(0), avatares);
-        //Menu start = new Menu();
-        //start.iniciarPartida(tablero);
-        //Menu.printBanner();
-        //Menu.clearScreen();
-        System.out.println(tablero);
-        player1.getAvatar().moverAvatar(tablero.getPosiciones(), 13);
-        System.out.println(tablero);
         
+        clearScreen();
+        printBanner();
+        clearScreen();
+        
+        Jugador player1 = new Jugador("Maduro", "esfinge", tablero.obtenerCasilla(0), avatares);
+
+        System.out.println("Introduce el nombre y el avatar en el siguiente formato:");
+        System.out.println("Nombre avatar");
+        System.err.println("Introduce INICIO para empezar la partida.");
+
+        Scanner scan = new Scanner(System.in);
+        String input;
+
+        while(input != "TRUE"){
+            input = scan.nextLine();
+            String[] palabras = input.split(" ");
+            
+            if(palabras.length==2){
+                String nombre = palabras[0];  
+                String avatar = palabras[1];
+                Jugador player = new Jugador(nombre, avatar, tablero.obtenerCasilla(0),avatares);
+            }else{
+                System.out.println("Formato incorrecto");
+            }
+        }
+
+        iniciarPartida(tablero);
     }
 
     
