@@ -1,0 +1,33 @@
+//////MARTIN/////
+Cuando creas jugador, que imprima el formato asi:
+$> crear jugador Pedro coche
+{
+nombre: Pedro,
+avatar: K
+}
+
+Indicar jugador que tiene el turno.
+$> jugador
+{
+nombre: Maria,
+avatar: M
+}
+
+Listar jugadores y avatares (revisar)
+
+
+//////BRAIS//////
+Describir casilla
+
+Revisar valores en Valores.java, e floats
+
+Describir casilla
+
+
+
+/////ASIER/////
+Acabar turno, y pasar ao siguiente
+
+Ir a carcel y salir de carcel.
+
+Listar prop en venta
