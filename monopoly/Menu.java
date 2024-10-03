@@ -46,11 +46,6 @@ public class Menu {
 
         System.out.println(banner);
 
-        try {
-            Thread.sleep(2000); // 2000 milisegundos = 2 segundos
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public Menu(){
@@ -63,8 +58,6 @@ public class Menu {
         printBanner();
         clearScreen();
         
-        Jugador player1 = new Jugador("Maduro", "esfinge", tablero.obtenerCasilla(0), avatares);
-
         System.out.println("Introduce el nombre y el avatar en el siguiente formato:");
         System.out.println("Nombre avatar");
         System.err.println("Introduce INICIO para empezar la partida.");
@@ -81,6 +74,7 @@ public class Menu {
                 String nombre = palabras[0];  
                 String avatar = palabras[1];
                 Jugador player = new Jugador(nombre, avatar, tablero.obtenerCasilla(0),avatares);
+                jugadores.add(player);
             }else{
                 System.out.println("Formato incorrecto");
             }
@@ -173,7 +167,6 @@ public class Menu {
             case("ver"):
                 System.out.println(tablero);
                 break;
-
         }
     }
 
