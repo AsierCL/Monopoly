@@ -115,6 +115,9 @@ public class Menu {
             case("lanzar"):
                 lanzarDados();
                 break;
+            case("dados"):
+                dadosTrucados();
+                break;
             //acabar turno
             case("acabar"):
                 acabarTurno();
@@ -144,6 +147,9 @@ public class Menu {
             //ver tablero
             case("ver"):
                 System.out.println(tablero);
+                break;
+            default:
+                System.out.println("Error, introduzca un comando valido");
                 break;
         }
     }
@@ -228,6 +234,21 @@ public class Menu {
         Avatar avatarActual = avatares.get(turno);
         ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones(); // Asumindo que Tablero ten este método
 
+        avatarActual.moverAvatar(casillas, resultadoTotal); 
+    }
+
+    private void dadosTrucados(){
+        Scanner scanDado = new Scanner(System.in);
+
+        System.out.print("Introduzca el valor de la tirada del dado 1: ");
+        int resultadoDado1 = scanDado.nextInt();
+        System.out.print("Introduzca el valor de la tirada del dado 2: ");
+        int resultadoDado2 = scanDado.nextInt();
+         
+        int resultadoTotal = resultadoDado1 + resultadoDado2;
+
+        Avatar avatarActual = avatares.get(turno);
+        ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones(); // Asumindo que Tablero ten este método
         avatarActual.moverAvatar(casillas, resultadoTotal); 
     }
 
