@@ -110,6 +110,8 @@ public class Menu {
                 System.out.print("Avatar: "); System.out.println(jugadores.get(turno).getAvatar().getId());
                 System.out.println("}\n");
 
+                ///// verTurno(); ?¿?¿?¿?¿?¿?
+
                 break;
             //listar jugadores / avatares / enventa
             case("listar"):
