@@ -1,6 +1,10 @@
 package monopoly;
 
 import java.util.ArrayList;
+import java.util.Scanner;
+
+import javax.swing.plaf.TreeUI;
+
 import partida.*;
 
 public class Menu {
@@ -42,36 +46,34 @@ public class Menu {
 
         System.out.println(banner);
 
-        try {
-            Thread.sleep(2000); // 2000 milisegundos = 2 segundos
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public Menu(){
-        clearScreen();
-        Jugador banca = new Jugador();
-        Tablero tablero = new Tablero(banca);
         this.avatares = new ArrayList<>();
-        Jugador player1 = new Jugador("Maduro", "esfinge", tablero.obtenerCasilla(0), avatares);
-        //Menu start = new Menu();
-        //start.iniciarPartida(tablero);
-        //Menu.printBanner();
-        //Menu.clearScreen();
-        System.out.println(tablero);
-        player1.getAvatar().moverAvatar(tablero.getPosiciones(), 13);
-        System.out.println(tablero);
+        this.jugadores = new ArrayList<>();
+        banca = new Jugador();
+        tablero = new Tablero(banca);
         
+        clearScreen();
+        printBanner();
+
+        iniciarPartida(tablero);
     }
 
     
     // Método para inciar una partida: crea los jugadores y avatares.
     public void iniciarPartida(Tablero tablero) {
-        this.avatares = new ArrayList<>();
-        this.jugadores = new ArrayList<>();
-        Jugador Player1 = new Jugador("Player1", "Coche", tablero.getPosiciones().get(0).get(0), avatares);
-        jugadores.add(Player1);
+
+        boolean partida = true;
+        while(partida){
+
+            System.out.println("Introduzca comando: ");
+            Scanner input = new Scanner(System.in);
+            String comando = input.nextLine();
+
+            analizarComando(comando);
+            //input.close();
+        }
     }
     
     /*Método que interpreta el comando introducido y toma la accion correspondiente.
@@ -83,11 +85,14 @@ public class Menu {
 
         String accion = palabras[0];  
         String subAccion = (palabras.length > 1) ? palabras[1] : "";
-        String parametro = (palabras.length > 2) ? palabras[2] : "";
+        String parametro1 = (palabras.length > 2) ? palabras[2] : "";
+        String parametro2 = (palabras.length > 3) ? palabras[3] : "";
 
         switch(accion){ 
             //crear jugador
             case("crear"):  //Dar de alta a un jugador: crear jugador Pedro coche
+                Jugador player = new Jugador(parametro1, parametro2, tablero.obtenerCasilla(0),avatares);
+                jugadores.add(player);
                 break;
             //jugador
             case("jugador"):  //indicar jugador que tiene el turno
@@ -122,13 +127,13 @@ public class Menu {
             case("describir"):
                 switch(subAccion){
                     case("jugador"):
-                        descJugador(parametro); // no entiendo bien esto
+                        descJugador(palabras);
                         break;
                     case("avatar"):
-                        descAvatar(parametro);
+                        descAvatar(parametro1);
                         break;
                     case(""): //igual usar default
-                        descCasilla(parametro);
+                        descCasilla(parametro1);
                         break;
                     }
                     break;
@@ -138,8 +143,8 @@ public class Menu {
                 break;
             //ver tablero
             case("ver"):
+                System.out.println(tablero);
                 break;
-
         }
     }
 
@@ -219,6 +224,11 @@ public class Menu {
         int resultadoDado1 = dado1.hacerTirada();
         int resultadoDado2 = dado2.hacerTirada();
         int resultadoTotal = resultadoDado1 + resultadoDado2;
+
+        Avatar avatarActual = avatares.get(turno);
+        ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones(); // Asumindo que Tablero ten este método
+
+        avatarActual.moverAvatar(casillas, resultadoTotal); 
     }
 
     /*Método que ejecuta todas las acciones realizadas con el comando 'comprar nombre_casilla'.
@@ -258,9 +268,9 @@ public class Menu {
         for(int i = 0; i<40; i++){
         Casilla casilla = this.tablero.obtenerCasilla(i);
         if(casilla.getDuenho()==banca && 
-        casilla.getTipo().equals("solar") || 
-        casilla.getTipo().equals("transporte") || 
-        casilla.getTipo().equals("servicios"))
+        casilla.getTipo().equals("Solar") || 
+        casilla.getTipo().equals("Transporte") || 
+        casilla.getTipo().equals("Servicios"))
         
         {
             System.out.println(this.tablero.obtenerCasilla(i).infoCasilla());
@@ -271,14 +281,14 @@ public class Menu {
 
     // Método que realiza las acciones asociadas al comando 'listar jugadores'.
     private void listarJugadores() {
-        for(int i = 1; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
+        for(int i = 0; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
             System.out.println(jugadores.get(i).getNombre());
         }
     }
 
     // Método que realiza las acciones asociadas al comando 'listar avatares'.
     private void listarAvatares() {
-        for(int i = 1; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
+        for(int i = 0; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
             System.out.println(jugadores.get(i).getAvatar().getId());
         }
     }
