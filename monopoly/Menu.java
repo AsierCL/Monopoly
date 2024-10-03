@@ -75,6 +75,69 @@ public class Menu {
     * Parámetro: cadena de caracteres (el comando).
     */
     private void analizarComando(String comando) {
+        // Dividimos el comando en palabras usando el espacio como separador
+        String[] palabras = comando.split(" ");
+
+        String accion = palabras[0];  
+        String subAccion = (palabras.length > 1) ? palabras[1] : "";
+        String parametro = (palabras.length > 2) ? palabras[2] : "";
+
+        switch(accion){ 
+            //crear jugador
+            case("crear"):  //Dar de alta a un jugador: crear jugador Pedro coche
+                break;
+            //jugador
+            case("jugador"):  //indicar jugador que tiene el turno
+                break;
+            //listar jugadores / avatares / enventa
+            case("listar"):
+                switch(subAccion){
+                    case("jugadores"):
+                        listarJugadores();
+                        break;
+                    case("avatares"):
+                        listarAvatares();
+                        break;
+                    case("enventa"):
+                        listarVenta();
+                        break;
+                }
+                break;
+            //lanzar dados
+            case("lanzar"):
+                lanzarDados();
+                break;
+            //acabar turno
+            case("acabar"):
+                acabarTurno();
+                break;
+            //salir carcel
+            case("salir"): //Pagar y salir de la carcel
+                salirCarcel();
+                break;
+            //describir _/jugador/avatar + Badajoz/Maria/M
+            case("describir"):
+                switch(subAccion){
+                    case("jugador"):
+                        descJugador(parametro); // no entiendo bien esto
+                        break;
+                    case("avatar"):
+                        descAvatar(parametro);
+                        break;
+                    case(""): //igual usar default
+                        descCasilla(parametro);
+                        break;
+                    }
+                    break;
+            //comprar + Mostoles
+            case("comprar"):
+                comprar(subAccion);
+                break;
+            //ver tablero
+            case("ver"):
+                break;
+
+        }
     }
 
     /*Método que realiza las acciones asociadas al comando 'describir jugador'.
