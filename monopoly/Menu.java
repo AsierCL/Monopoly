@@ -114,11 +114,13 @@ public class Menu {
 
         String accion = palabras[0];  
         String subAccion = (palabras.length > 1) ? palabras[1] : "";
-        String parametro = (palabras.length > 2) ? palabras[2] : "";
+        String parametro1 = (palabras.length > 2) ? palabras[2] : "";
+        String parametro2 = (palabras.length > 3) ? palabras[3] : "";
 
         switch(accion){ 
             //crear jugador
             case("crear"):  //Dar de alta a un jugador: crear jugador Pedro coche
+                Jugador nuevoJugador = new Jugador(parametro1, parametro2, tablero.obtenerCasilla(0), avatares);
                 break;
             //jugador
             case("jugador"):  //indicar jugador que tiene el turno
@@ -153,13 +155,13 @@ public class Menu {
             case("describir"):
                 switch(subAccion){
                     case("jugador"):
-                        descJugador(parametro); // no entiendo bien esto
+                        descJugador(parametro1); // no entiendo bien esto
                         break;
                     case("avatar"):
-                        descAvatar(parametro);
+                        descAvatar(parametro1);
                         break;
                     case(""): //igual usar default
-                        descCasilla(parametro);
+                        descCasilla(parametro1);
                         break;
                     }
                     break;
