@@ -1,14 +1,5 @@
 //////MARTIN/////
 
-Indicar jugador que tiene el turno.
-$> jugador
-{
-nombre: Maria,
-avatar: M
-}
-
-Listar jugadores y avatares (revisar)
-
 Dos jugadores pueden tener el mismo avatar
 
 
