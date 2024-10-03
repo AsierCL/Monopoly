@@ -141,10 +141,10 @@ public class Tablero {
         String colorOeste;
         String colorEste;
 
-        sb.append("*------------------------------------------------------------------------------------------------------------------------*\n");
+        sb.append("┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐\n");
 
         // 1. Lado Norte
-        sb.append("|");
+        sb.append("│");
         for (Casilla casilla : ladoNorte) {
 
             if(casilla.getTipo()=="Transporte"){
@@ -157,10 +157,10 @@ public class Tablero {
 
             //Formatear nombre de la casilla
             String nombreFormateado = String.format("%-10s", casilla.getNombre()); // %-10s alinea el texto a la izquierda en un campo de 10 caracteres
-            sb.append(color).append(nombreFormateado).append(Valor.RESET).append("|");
+            sb.append(color).append(nombreFormateado).append(Valor.RESET).append("│");
         }
         sb.append("\n");
-        sb.append("|");
+        sb.append("│");
         
         for (Casilla casilla : ladoNorte) {
             //Miramos el color
@@ -178,22 +178,22 @@ public class Tablero {
                     avataresStr.append(avatar.getId());
                 }
                 String avataresFormateados = String.format("%-10s", avataresStr.toString()); //No estoy seguro de si esto esta bien
-                sb.append(color).append(avataresFormateados).append("|");
+                sb.append(color).append(avataresFormateados).append(Valor.RESET).append("│");
             } else{
                 // Si no hay avatares, imprimir espacio vacío
-                sb.append(color).append(String.format("%-10s", "")).append(Valor.RESET).append("|");
+                sb.append(color).append(String.format("%-10s", "")).append(Valor.RESET).append("│");
             }
         }
         
         sb.append("\n");
-        sb.append("|----------|--------------------------------------------------------------------------------------------------|----------|\n");
+        sb.append("├──────────┼──────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┼──────────│\n");
         
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 2. Lados Oeste y Este impresos en paralelo con formato
         for (int i = 0; i < ladoOeste.size(); i++) {
             // Línea superior de cada celda
             if (primeraCasilla==1) {
-                sb.append("|----------|").append("\t\t\t\t\t\t\t\t\t\t\t\t      ").append("|----------|\n");
+                sb.append("├──────────┤").append("\t\t\t\t\t\t\t\t\t\t\t\t      ").append("├──────────┤\n");
             }
             
             // Lado Oeste
@@ -205,9 +205,9 @@ public class Tablero {
                 colorOeste = ladoOeste.get(i).getGrupo().getColorGrupo(); 
             }
             
-            sb.append("|"); // Separador izquierdo para el lado Oeste
+            sb.append("│"); // Separador izquierdo para el lado Oeste
             String nombreOesteFormateado = String.format("%-10s", ladoOeste.get(i).getNombre());
-            sb.append(colorOeste).append(nombreOesteFormateado).append(Valor.RESET).append("|");
+            sb.append(colorOeste).append(nombreOesteFormateado).append(Valor.RESET).append("│");
             
             // Espacios entre los lados
             sb.append("\t\t\t\t\t\t\t\t\t\t\t\t      ");
@@ -222,12 +222,12 @@ public class Tablero {
                 colorEste = ladoEste.get(i).getGrupo().getColorGrupo(); 
             }
 
-            sb.append("|"); // Separador izquierdo para el lado Este
+            sb.append("│"); // Separador izquierdo para el lado Este
             String nombreEsteFormateado = String.format("%-10s", ladoEste.get(i).getNombre());
-            sb.append(colorEste).append(nombreEsteFormateado).append(Valor.RESET).append("|");
+            sb.append(colorEste).append(nombreEsteFormateado).append(Valor.RESET).append("│");
 
             sb.append("\n");
-            sb.append("|");//Separados izquierdo lado oeste linea 2
+            sb.append("│");//Separados izquierdo lado oeste linea 2
 
             //Imprimimos avatares lado Oeste en caso de que tenga
             if (ladoOeste.get(i).getAvatares() != null && !ladoOeste.get(i).getAvatares().isEmpty()) {
@@ -240,9 +240,9 @@ public class Tablero {
             } else{
                 sb.append(colorOeste).append("          ");
             }
-            sb.append(Valor.RESET).append("|");
+            sb.append(Valor.RESET).append("│");
             sb.append("\t\t\t\t\t\t\t\t\t\t\t\t      "); //Tabulación para imprimir en la siguiente columna
-            sb.append("|");
+            sb.append("│");
 
             //Imprimimos avatares lado Este en caso de que tenga
             if (ladoEste.get(i).getAvatares() != null && !ladoEste.get(i).getAvatares().isEmpty()) {
@@ -256,15 +256,15 @@ public class Tablero {
             else{
                 sb.append(colorEste).append("          ");
             }
-            sb.append(Valor.RESET).append("|\n");
+            sb.append(Valor.RESET).append("│\n");
 
             primeraCasilla = 1;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 3. Lado Sur - Formato con separadores como el lado norte
-        sb.append(Valor.RESET).append("|----------|--------------------------------------------------------------------------------------------------|----------|\n");
-        sb.append("|");
+        sb.append(Valor.RESET).append("├──────────┼──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┼──────────┤\n");
+        sb.append("│");
         for (Casilla casilla : ladoSur) {
 
             if(casilla.getTipo().equals("Transporte")){
@@ -277,11 +277,11 @@ public class Tablero {
 
             //Formatear nombre casilla
             String nombreFormateado = String.format("%-10s", casilla.getNombre());
-            sb.append(color).append(nombreFormateado).append(Valor.RESET).append("|");
+            sb.append(color).append(nombreFormateado).append(Valor.RESET).append("│");
         }
 
         sb.append("\n");
-        sb.append("|");
+        sb.append("│");
         
         
         for (Casilla casilla : ladoSur) {
@@ -300,19 +300,49 @@ public class Tablero {
                     avataresStr.append(avatar.getId());
                 }
                 String avataresFormateados = String.format("%-10s", avataresStr.toString());
-                sb.append(color).append(avataresFormateados).append("|");
+                sb.append(color).append(avataresFormateados).append(Valor.RESET).append("│");
             } else{
                 // Si no hay avatares, imprimir espacio vacío
-                sb.append(color).append(String.format("%-10s", "")).append(Valor.RESET).append("|");
+                sb.append(color).append(String.format("%-10s", "")).append(Valor.RESET).append("│");
             }
         }
         
         sb.append("\n");
 
 
-        sb.append("*------------------------------------------------------------------------------------------------------------------------*\n");
+        sb.append("└──────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┘\n");
 
         return sb.toString();
     }
     
+
+
+    //Funcion para obtener casilla por índice
+    public Casilla obtenerCasilla(int posicion) {
+        for (ArrayList<Casilla> lado : this.getPosiciones()) {
+            for (Casilla casilla : lado) {
+                if (casilla.getPosicion()==posicion) {
+                    return casilla;  
+                }
+            }
+        }
+        return null;
+    }
+
+    //Funcion para obtener casilla por índice
+    public Casilla obtenerCasilla(String nombre) {
+        for (ArrayList<Casilla> lado : this.getPosiciones()) {
+            for (Casilla casilla : lado) {
+                if (casilla.getNombre()==nombre) {
+                    return casilla;  
+                }
+            }
+        }
+        return null;
+    }
 }
+
+
+
+
+

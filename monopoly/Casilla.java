@@ -77,6 +77,10 @@ public class Casilla {
         return duenho;
     }
 
+    public void setDuenho(Jugador duenho) {
+        this.duenho = duenho;
+    }
+
     public void setGrupo(Grupo grupo){
         this.grupo = grupo;
     }
