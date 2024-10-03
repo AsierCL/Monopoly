@@ -149,7 +149,7 @@ public class Menu {
             case("describir"):
                 switch(subAccion){
                     case("jugador"):
-                        descJugador(parametro1); // no entiendo bien esto
+                        descJugador(palabras); // no entiendo bien esto
                         break;
                     case("avatar"):
                         descAvatar(parametro1);
