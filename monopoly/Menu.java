@@ -62,18 +62,19 @@ public class Menu {
 
     
     // Método para inciar una partida: crea los jugadores y avatares.
-    public void iniciarPartida(Tablero tablero) {
-
+    public void iniciarPartida(Tablero tablero) 
+    {
+        Scanner input = new Scanner(System.in);
         boolean partida = true;
         while(partida){
 
-            System.out.println("Introduzca comando: ");
-            Scanner input = new Scanner(System.in);
+            System.out.print("Introduzca comando: ");
             String comando = input.nextLine();
 
             analizarComando(comando);
-            //input.close();
+            
         }
+        input.close();
     }
     
     /*Método que interpreta el comando introducido y toma la accion correspondiente.
@@ -93,10 +94,22 @@ public class Menu {
             case("crear"):  //Dar de alta a un jugador: crear jugador Pedro coche
                 Jugador player = new Jugador(parametro1, parametro2, tablero.obtenerCasilla(0),avatares);
                 jugadores.add(player);
+
+                System.out.println("\n{");
+                System.out.print("Nombre: ");System.out.println(player.getNombre());
+                System.out.print("Avatar: ");System.out.println(player.getAvatar().getId());
+                System.out.println("}\n");
+
                 break;
             //jugador
             case("jugador"):  //indicar jugador que tiene el turno
                 verTurno();
+
+                System.out.println("\n{");
+                System.out.print("Nombre: "); System.out.println(jugadores.get(turno).getNombre());
+                System.out.print("Avatar: "); System.out.println(jugadores.get(turno).getAvatar().getId());
+                System.out.println("}\n");
+
                 break;
             //listar jugadores / avatares / enventa
             case("listar"):
