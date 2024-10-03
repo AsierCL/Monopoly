@@ -2,6 +2,8 @@
 
 Dos jugadores pueden tener el mismo avatar
 
+Añadir lista de comandos para que los pueda ver el usuario
+
 
 //////BRAIS//////
 Describir casilla
