@@ -159,10 +159,22 @@ public class Menu {
     * Parámetros: nombre de la casilla a describir.
     */
     private void descCasilla(String nombre) {
+        Casilla casilla = tablero.obtenerCasilla(nombre);
+        if (casilla != null) {
+            System.out.println(casilla.infoCasilla());
+        } else {
+            System.out.println("No se encontró una casilla con ese nombre.");
+        }
     }
 
     //Método que ejecuta todas las acciones relacionadas con el comando 'lanzar dados'.
     private void lanzarDados() {
+        Dado dado1 = new Dado();
+        Dado dado2 = new Dado();
+
+        int resultadoDado1 = dado1.hacerTirada();
+        int resultadoDado2 = dado2.hacerTirada();
+        int resultadoTotal = resultadoDado1 + resultadoDado2;
     }
 
     /*Método que ejecuta todas las acciones realizadas con el comando 'comprar nombre_casilla'.
