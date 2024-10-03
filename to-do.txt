@@ -1,6 +1,6 @@
 //////MARTIN/////
 
-Dos jugadores pueden tener el mismo avatar
+
 
 Añadir lista de comandos para que los pueda ver el usuario
 
@@ -20,3 +20,5 @@ Acabar turno, y pasar ao siguiente
 Ir a carcel y salir de carcel.
 
 Listar prop en venta
+
+Dos jugadores pueden tener el mismo avatar
