@@ -1,9 +1,5 @@
 //////MARTIN/////
 
-Listar prop en venta
-
-Añadir lista de comandos para que los pueda ver el usuario
-
 
 //////BRAIS//////
 Describir casilla
