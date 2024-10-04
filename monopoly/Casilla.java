@@ -120,28 +120,37 @@ public class Casilla {
     * Valor devuelto: true en caso de ser solvente (es decir, de cumplir las deudas), y false
     * en caso de no cumplirlas.*/
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
-        switch(this.tipo){ 
-            //crear jugador
+        switch(this.tipo){
             case("Solar"):
-                if(this.duenho != actual){// Casilla de otro
-
+                if(this.duenho != actual && this.duenho != banca){// Casilla de otro
+                    System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                    actual.sumarGastos(this.impuesto);
+                    this.duenho.sumarFortuna(this.impuesto);
                 }
                 break;
 
             case("Transporte"):
-
+                if(this.duenho != actual && this.duenho != banca){// Casilla de otro
+                    System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                    actual.sumarGastos(this.impuesto);
+                    this.duenho.sumarFortuna(this.impuesto);
+                }
                 break;            
                 
             case("Servicios"):
-
+                if(this.duenho != actual && this.duenho != banca){// Casilla de otro
+                    System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                    actual.sumarGastos(this.impuesto);
+                    this.duenho.sumarFortuna(this.impuesto);
+                }
                 break;
 
             case("Suerte"):
-
+                System.out.println("TARJETA DE SUERTE\n");
                 break;
-            
+                
             case("Comunidad"):
-
+                System.out.println("TARJETA DE COMUNIDAD\n");
                 break;
         
             case("Especial"):
@@ -155,19 +164,24 @@ public class Casilla {
                         break;
 
                     case ("Parking"):
-
+                        System.out.println("Recibes el bote del parking: +" + this.valor + "€");
+                        actual.sumarFortuna(this.valor);
+                        this.valor = 0;
                         break;
                     
                     case ("Ir a Carcel"):
-
+                        // MIRAR COMO TERMINAR ESTO
                         break;
                     
                     case ("Impuesto1"):
+                        System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                        actual.sumarGastos(this.impuesto);
 
                         break;
 
                     case ("Impuesto2"):
-
+                    System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                    actual.sumarGastos(this.impuesto);
                         break;
                     
                     default:

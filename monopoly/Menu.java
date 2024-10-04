@@ -3,8 +3,6 @@ package monopoly;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.swing.plaf.TreeUI;
-
 import partida.*;
 
 public class Menu {
