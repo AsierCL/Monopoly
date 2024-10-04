@@ -411,9 +411,13 @@ public class Menu {
 
     // Método que realiza las acciones asociadas al comando 'acabar turno'.
     private void acabarTurno() {
-        this.turno = (this.turno+1)%(jugadores.size());
-        this.tirado = false;
-        this.lanzamientos = 0;
+        if(tirado){
+            this.turno = (this.turno+1)%(jugadores.size());
+            this.tirado = false;
+            this.lanzamientos = 0;
+        }else{
+            System.out.println("Debes tirar antes");
+        }
     }
 
 }
