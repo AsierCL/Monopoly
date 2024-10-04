@@ -1,10 +1,6 @@
 //////MARTIN/////
 
 
-
-Añadir lista de comandos para que los pueda ver el usuario
-
-
 //////BRAIS//////
 Describir casilla
 
@@ -17,4 +13,4 @@ Comprar casilla
 /////ASIER/////
 Ir a carcel y salir de carcel.
 
-Listar prop en venta
+Dos jugadores pueden tener el mismo avatar
