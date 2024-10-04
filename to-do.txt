@@ -1,16 +1,15 @@
 //////MARTIN/////
+Mirar no PDF que funcionalidades faltan por implementar
 
+Coller algunha das de brais
 
 //////BRAIS//////
 Describir casilla
 
-Revisar valores en Valores.java, e floats
+Revisar valores en Valores.java, e floats (Estan no foro)
 
-Comprar casilla
 
 
 
 /////ASIER/////
-Ir a carcel y salir de carcel.
-
-Dos jugadores pueden tener el mismo avatar
+Ir a carcel y salir de carcel
