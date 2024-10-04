@@ -30,6 +30,7 @@ public class Casilla {
         this.posicion = posicion;
         this.valor = valor;
         this.duenho = duenho;
+        this.impuesto = valor * 0.1f;
         this.avatares = new ArrayList<>();
     }
 
@@ -201,6 +202,20 @@ public class Casilla {
     * - Jugador que solicita la compra de la casilla.
     * - Banca del monopoly (es el dueño de las casillas no compradas aún).*/
     public void comprarCasilla(Jugador solicitante, Jugador banca) {
+        if(solicitante.getAvatar().getLugar() == this){
+            if(this.duenho == banca){
+                solicitante.sumarGastos(this.valor);
+                solicitante.anhadirPropiedad(this);
+                this.duenho = solicitante;
+                System.out.println("Has comprado la casilla " + this.nombre + " por " + this.valor);
+            }else if(this.duenho == solicitante){
+                System.out.println("Esta casilla ya te pertenece");
+            }else{
+                System.out.println("La casilla es de "+this.duenho.getNombre());
+            }
+        }else{
+            System.out.println("Debes estar en la casilla");
+        }
     }
 
     /*Método para añadir valor a una casilla. Utilidad:
@@ -208,6 +223,7 @@ public class Casilla {
     * - Sumar valor a las casillas de solar al no comprarlas tras cuatro vueltas de todos los jugadores.
     * Este método toma como argumento la cantidad a añadir del valor de la casilla.*/
     public void sumarValor(float suma) {
+        this.valor += suma;
     }
 
     /*Método para mostrar información sobre una casilla.

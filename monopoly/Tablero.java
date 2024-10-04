@@ -333,7 +333,7 @@ public class Tablero {
     public Casilla obtenerCasilla(String nombre) {
         for (ArrayList<Casilla> lado : this.getPosiciones()) {
             for (Casilla casilla : lado) {
-                if (casilla.getNombre()==nombre) {
+                if (casilla.getNombre().equals(nombre)) {
                     return casilla;  
                 }
             }

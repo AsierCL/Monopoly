@@ -347,7 +347,9 @@ public class Menu {
         Casilla casilla_compra = tablero.obtenerCasilla(nombre);
         Jugador jugador_compra = jugadores.get(turno);
 
-        if(casilla_compra.getDuenho()!=banca){
+        casilla_compra.comprarCasilla(jugador_compra, banca);
+
+        /* if(casilla_compra.getDuenho()!=banca){
             System.out.println("No se puede comprar la casilla");
             System.out.println("La casilla pertenece a: " + casilla_compra.getDuenho().getNombre());
         }else if(!casilla_compra.getAvatares().contains(jugador_compra.getAvatar())){
@@ -356,7 +358,7 @@ public class Menu {
         }else{
             casilla_compra.setDuenho(jugador_compra);
             jugador_compra.sumarGastos(casilla_compra.getValor());
-        }
+        } */
     }
 
     //Método que ejecuta todas las acciones relacionadas con el comando 'salir carcel'. 
