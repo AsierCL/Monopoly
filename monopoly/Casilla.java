@@ -30,6 +30,7 @@ public class Casilla {
         this.posicion = posicion;
         this.valor = valor;
         this.duenho = duenho;
+        this.impuesto = valor * 0.1f;
         this.avatares = new ArrayList<>();
     }
 
@@ -120,14 +121,101 @@ public class Casilla {
     * Valor devuelto: true en caso de ser solvente (es decir, de cumplir las deudas), y false
     * en caso de no cumplirlas.*/
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
-        //SOLO PARA ELIMINAR ERROR
-        return false;
+        switch(this.tipo){
+            case("Solar"):
+                if(this.duenho != actual && this.duenho != banca){// Casilla de otro
+                    System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                    actual.sumarGastos(this.impuesto);
+                    this.duenho.sumarFortuna(this.impuesto);
+                }
+                break;
+
+            case("Transporte"):
+                if(this.duenho != actual && this.duenho != banca){// Casilla de otro
+                    System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                    actual.sumarGastos(this.impuesto);
+                    this.duenho.sumarFortuna(this.impuesto);
+                }
+                break;            
+                
+            case("Servicios"):
+                if(this.duenho != actual && this.duenho != banca){// Casilla de otro
+                    System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                    actual.sumarGastos(this.impuesto);
+                    this.duenho.sumarFortuna(this.impuesto);
+                }
+                break;
+
+            case("Suerte"):
+                System.out.println("TARJETA DE SUERTE\n");
+                break;
+                
+            case("Comunidad"):
+                System.out.println("TARJETA DE COMUNIDAD\n");
+                break;
+        
+            case("Especial"):
+                switch (this.nombre) {
+                    case ("Salida"):
+                    
+                        break;
+                    
+                    case ("Carcel"):
+
+                        break;
+
+                    case ("Parking"):
+                        System.out.println("Recibes el bote del parking: +" + this.valor + "€");
+                        actual.sumarFortuna(this.valor);
+                        this.valor = 0;
+                        break;
+                    
+                    case ("Ir a Carcel"):
+                        // MIRAR COMO TERMINAR ESTO
+                        break;
+                    
+                    case ("Impuesto1"):
+                        System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                        actual.sumarGastos(this.impuesto);
+
+                        break;
+
+                    case ("Impuesto2"):
+                    System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                    actual.sumarGastos(this.impuesto);
+                        break;
+                    
+                    default:
+                        break;
+                }
+
+                break;
+
+            default:
+                System.out.println("Error evaluando casilla");
+                break;
+        }
+        return true;
     }
 
     /*Método usado para comprar una casilla determinada. Parámetros:
     * - Jugador que solicita la compra de la casilla.
     * - Banca del monopoly (es el dueño de las casillas no compradas aún).*/
     public void comprarCasilla(Jugador solicitante, Jugador banca) {
+        if(solicitante.getAvatar().getLugar() == this){
+            if(this.duenho == banca){
+                solicitante.sumarGastos(this.valor);
+                solicitante.anhadirPropiedad(this);
+                this.duenho = solicitante;
+                System.out.println("Has comprado la casilla " + this.nombre + " por " + this.valor);
+            }else if(this.duenho == solicitante){
+                System.out.println("Esta casilla ya te pertenece");
+            }else{
+                System.out.println("La casilla es de "+this.duenho.getNombre());
+            }
+        }else{
+            System.out.println("Debes estar en la casilla");
+        }
     }
 
     /*Método para añadir valor a una casilla. Utilidad:
@@ -135,6 +223,7 @@ public class Casilla {
     * - Sumar valor a las casillas de solar al no comprarlas tras cuatro vueltas de todos los jugadores.
     * Este método toma como argumento la cantidad a añadir del valor de la casilla.*/
     public void sumarValor(float suma) {
+        this.valor += suma;
     }
 
     /*Método para mostrar información sobre una casilla.
@@ -156,7 +245,7 @@ public class Casilla {
                 } else {
                     info.append("Dueño: Banca\n");
                 }
-                info.append("Grupo: ").append(grupo.getColorGrupo()).append("\n");
+                info.append("Grupo: ").append(grupo.getColorGrupo()).append("  ").append(Valor.RESET).append("\n");
                 break;
                 
             case "especial":

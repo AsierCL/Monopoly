@@ -3,8 +3,6 @@ package monopoly;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.swing.plaf.TreeUI;
-
 import partida.*;
 
 public class Menu {
@@ -46,6 +44,21 @@ public class Menu {
 
         System.out.println(banner);
 
+        System.out.println("\nEstos son los posibles comandos: \n");
+        System.out.println("crear jugador \"nombre\" \"ficha\"\t-> crea un nuevo jugador");
+        System.out.println("jugador \t\t\t-> indica que jugador tiene el turno");
+        System.out.println("listar jugadores \t\t\t-> lista los jugadores creados");
+        System.out.println("listar avatares \t\t-> lista los avatares de los jugadores creados");
+        System.out.println("listar enventa \t\t\t-> lista las propiedades a la venta");
+        System.out.println("lanzar dados \t\t\t-> lanza los dados");
+        System.out.println("dados trucados \t\t\t-> permite asignar un valor a cada dado");
+        System.out.println("acabar turno \t\t\t-> termina el turno del jugador que esté jugando");
+        System.out.println("salir cárcel \t\t\t-> permite pagar y salir de la cárcel");
+        System.out.println("describir \"nombre casilla\" \t-> describe la casilla introducida");
+        System.out.println("describir jugador \"nombre\" \t-> describe el jugador introducido");
+        System.out.println("describir avatar \"nombre\" \t-> describe el avatar introducido");
+        System.out.println("comprar \"nombre propiedad\" \t-> permite comprar una propiedad");
+        System.out.println("ver tablero \t\t\t-> muestra el tablero\n");
     }
 
     public Menu(){
@@ -125,6 +138,9 @@ public class Menu {
                     case("enventa"):
                         listarVenta();
                         break;
+                    default:
+                        System.out.println("Error, introduzca un comando valido");
+                        break;
                 }
                 break;
             //lanzar dados
@@ -142,20 +158,28 @@ public class Menu {
             case("salir"): //Pagar y salir de la carcel
                 salirCarcel();
                 break;
+            
+            ////////////////DEBUGG/////////////////////
+            case("carcel"): //Pagar y salir de la carcel
+                jugadores.get(turno).encarcelar(tablero.getPosiciones());
+                break;
+            ////////////////DEBUGG///////////////////
             //describir _/jugador/avatar + Badajoz/Maria/M
             case("describir"):
-                switch(subAccion){
-                    case("jugador"):
-                        descJugador(palabras);
-                        break;
-                    case("avatar"):
-                        descAvatar(parametro1);
-                        break;
-                    case(""): //igual usar default
-                        descCasilla(parametro1);
-                        break;
-                    }
-                    break;
+                if (subAccion.equals("jugador")) {
+                    // Describir un jugador
+                    descJugador(palabras);
+                } else if (subAccion.equals("avatar")) {
+                    // Describir un avatar
+                    descAvatar(parametro1);
+                } else if (!subAccion.isEmpty()) {
+                    // Asumimos que subAccion es el nombre de una casilla
+                    descCasilla(subAccion);  // Interpretamos subAccion como nombre de la casilla
+                } else {
+                    // Si no se recibe una subacción válida
+                    System.out.println("Error, introduzca un comando válido");
+                }
+                break;
             //comprar + Mostoles
             case("comprar"):
                 comprar(subAccion);
@@ -240,32 +264,79 @@ public class Menu {
 
     //Método que ejecuta todas las acciones relacionadas con el comando 'lanzar dados'.
     private void lanzarDados() {
-        Dado dado1 = new Dado();
-        Dado dado2 = new Dado();
+        if(!tirado){
+            Dado dado1 = new Dado();
+            Dado dado2 = new Dado();
 
-        int resultadoDado1 = dado1.hacerTirada();
-        int resultadoDado2 = dado2.hacerTirada();
-        int resultadoTotal = resultadoDado1 + resultadoDado2;
+            int resultadoDado1 = dado1.hacerTirada();
+            int resultadoDado2 = dado2.hacerTirada();
+            int resultadoTotal = resultadoDado1 + resultadoDado2;
+            System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
 
-        Avatar avatarActual = avatares.get(turno);
-        ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones(); // Asumindo que Tablero ten este método
+            Avatar avatarActual = avatares.get(turno);
+            ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
+            avatarActual.moverAvatar(casillas, resultadoTotal); 
 
-        avatarActual.moverAvatar(casillas, resultadoTotal); 
+
+            this.lanzamientos++;
+            tirado = true;
+            
+            avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal);
+            
+            if(resultadoDado1 == resultadoDado2){
+                System.out.println("LLevas " + this.lanzamientos + " dobles");
+                tirado = false;
+            
+                if(this.lanzamientos<3){
+                    System.out.println("Vuelve a tirar");
+                }else{
+                    System.out.println("VAS A LA CARCEL");
+                    avatarActual.getJugador().encarcelar(casillas);
+                }
+            }
+        }else{
+            System.out.println("Ya no puedes tirar más");
+        }
     }
 
     private void dadosTrucados(){
-        Scanner scanDado = new Scanner(System.in);
 
-        System.out.print("Introduzca el valor de la tirada del dado 1: ");
-        int resultadoDado1 = scanDado.nextInt();
-        System.out.print("Introduzca el valor de la tirada del dado 2: ");
-        int resultadoDado2 = scanDado.nextInt();
-         
-        int resultadoTotal = resultadoDado1 + resultadoDado2;
+        if(!tirado){
+            Scanner scanDado = new Scanner(System.in);
 
-        Avatar avatarActual = avatares.get(turno);
-        ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones(); // Asumindo que Tablero ten este método
-        avatarActual.moverAvatar(casillas, resultadoTotal); 
+            System.out.print("Introduzca el valor de la tirada del dado 1: ");
+            int resultadoDado1 = scanDado.nextInt();
+            System.out.print("Introduzca el valor de la tirada del dado 2: ");
+            int resultadoDado2 = scanDado.nextInt();
+             
+            int resultadoTotal = resultadoDado1 + resultadoDado2;
+            System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
+
+            Avatar avatarActual = avatares.get(turno);
+            ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
+            
+            this.lanzamientos++;
+            tirado = true;
+            
+            if(resultadoDado1 == resultadoDado2){
+                System.out.println("LLevas " + this.lanzamientos + " dobles");
+                tirado = false;
+            
+                if(this.lanzamientos<3){
+                    avatarActual.moverAvatar(casillas, resultadoTotal);
+                    avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal);
+                    System.out.println("Vuelve a tirar");
+                }else{
+                    System.out.println("VAS A LA CARCEL");
+                    avatarActual.getJugador().encarcelar(casillas);
+                }
+            }else{
+                avatarActual.moverAvatar(casillas, resultadoTotal);
+                avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal);
+            }
+        }else{
+            System.out.println("Ya no puedes tirar más");
+        }
     }
 
     /*Método que ejecuta todas las acciones realizadas con el comando 'comprar nombre_casilla'.
@@ -276,7 +347,9 @@ public class Menu {
         Casilla casilla_compra = tablero.obtenerCasilla(nombre);
         Jugador jugador_compra = jugadores.get(turno);
 
-        if(casilla_compra.getDuenho()!=banca){
+        casilla_compra.comprarCasilla(jugador_compra, banca);
+
+        /* if(casilla_compra.getDuenho()!=banca){
             System.out.println("No se puede comprar la casilla");
             System.out.println("La casilla pertenece a: " + casilla_compra.getDuenho().getNombre());
         }else if(!casilla_compra.getAvatares().contains(jugador_compra.getAvatar())){
@@ -285,7 +358,7 @@ public class Menu {
         }else{
             casilla_compra.setDuenho(jugador_compra);
             jugador_compra.sumarGastos(casilla_compra.getValor());
-        }
+        } */
     }
 
     //Método que ejecuta todas las acciones relacionadas con el comando 'salir carcel'. 
@@ -308,7 +381,6 @@ public class Menu {
         casilla.getTipo().equals("Solar") || 
         casilla.getTipo().equals("Transporte") || 
         casilla.getTipo().equals("Servicios"))
-        
         {
             System.out.println(this.tablero.obtenerCasilla(i).infoCasilla());
         }
@@ -339,7 +411,13 @@ public class Menu {
 
     // Método que realiza las acciones asociadas al comando 'acabar turno'.
     private void acabarTurno() {
-        this.turno = (this.turno+1)%(jugadores.size());
+        if(tirado){
+            this.turno = (this.turno+1)%(jugadores.size());
+            this.tirado = false;
+            this.lanzamientos = 0;
+        }else{
+            System.out.println("Debes tirar antes");
+        }
     }
 
 }

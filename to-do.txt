@@ -1,20 +1,15 @@
 //////MARTIN/////
+Mirar no PDF que funcionalidades faltan por implementar
 
-Listar prop en venta
-
-Añadir lista de comandos para que los pueda ver el usuario
-
+Coller algunha das de brais
 
 //////BRAIS//////
 Describir casilla
 
-Revisar valores en Valores.java, e floats,
-e asignar os valores e os impuestos a cada casilla
+Revisar valores en Valores.java, e floats (Estan no foro)
 
-Comprar casilla
 
 
 
 /////ASIER/////
-
-Movimiento y evaluar casillas
+Ir a carcel y salir de carcel
