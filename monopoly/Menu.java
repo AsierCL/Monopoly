@@ -46,6 +46,21 @@ public class Menu {
 
         System.out.println(banner);
 
+        System.out.println("\nEstos son los posibles comandos: \n");
+        System.out.println("crear jugador \"nombre\" \"ficha\"\t-> crea un nuevo jugador");
+        System.out.println("jugador \t\t\t-> indica que jugador tiene el turno");
+        System.out.println("listar jugadores \t\t\t-> lista los jugadores creados");
+        System.out.println("listar avatares \t\t-> lista los avatares de los jugadores creados");
+        System.out.println("listar enventa \t\t\t-> lista las propiedades a la venta");
+        System.out.println("lanzar dados \t\t\t-> lanza los dados");
+        System.out.println("dados trucados \t\t\t-> permite asignar un valor a cada dado");
+        System.out.println("acabar turno \t\t\t-> termina el turno del jugador que esté jugando");
+        System.out.println("salir cárcel \t\t\t-> permite pagar y salir de la cárcel");
+        System.out.println("describir \"nombre casilla\" \t-> describe la casilla introducida");
+        System.out.println("describir jugador \"nombre\" \t-> describe el jugador introducido");
+        System.out.println("describir avatar \"nombre\" \t-> describe el avatar introducido");
+        System.out.println("comprar \"nombre propiedad\" \t-> permite comprar una propiedad");
+        System.out.println("ver tablero \t\t\t-> muestra el tablero\n");
     }
 
     public Menu(){
@@ -125,6 +140,9 @@ public class Menu {
                     case("enventa"):
                         listarVenta();
                         break;
+                    default:
+                        System.out.println("Error, introduzca un comando valido");
+                        break;
                 }
                 break;
             //lanzar dados
@@ -144,18 +162,20 @@ public class Menu {
                 break;
             //describir _/jugador/avatar + Badajoz/Maria/M
             case("describir"):
-                switch(subAccion){
-                    case("jugador"):
-                        descJugador(palabras);
-                        break;
-                    case("avatar"):
-                        descAvatar(parametro1);
-                        break;
-                    case(""): //igual usar default
-                        descCasilla(parametro1);
-                        break;
-                    }
-                    break;
+                if (subAccion.equals("jugador")) {
+                    // Describir un jugador
+                    descJugador(palabras);
+                } else if (subAccion.equals("avatar")) {
+                    // Describir un avatar
+                    descAvatar(parametro1);
+                } else if (!subAccion.isEmpty()) {
+                    // Asumimos que subAccion es el nombre de una casilla
+                    descCasilla(subAccion);  // Interpretamos subAccion como nombre de la casilla
+                } else {
+                    // Si no se recibe una subacción válida
+                    System.out.println("Error, introduzca un comando válido");
+                }
+                break;
             //comprar + Mostoles
             case("comprar"):
                 comprar(subAccion);
