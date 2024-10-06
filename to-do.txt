@@ -6,6 +6,8 @@ Coller algunha das de brais
 //////BRAIS//////
 Describir casilla
 
+Describir avatar
+
 Revisar valores en Valores.java, e floats (Estan no foro)
 
 

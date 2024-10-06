@@ -120,7 +120,7 @@ public class Casilla {
     * - El valor de la tirada: para determinar impuesto a pagar en casillas de servicios.
     * Valor devuelto: true en caso de ser solvente (es decir, de cumplir las deudas), y false
     * en caso de no cumplirlas.*/
-    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada) {
+    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero) {//Solucion prvisional
         switch(this.tipo){
             case("Solar"):
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
@@ -170,22 +170,24 @@ public class Casilla {
                         this.valor = 0;
                         break;
                     
-                    case ("Ir a Carcel"):
-                        // MIRAR COMO TERMINAR ESTO
+                    case ("IrCarcel"):
+                        System.out.println("VAS A LA CARCEL");
+                        actual.encarcelar(tablero.getPosiciones());
                         break;
                     
-                    case ("Impuesto1"):
+                    case ("Impuesto 1"):
                         System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
                         actual.sumarGastos(this.impuesto);
 
                         break;
 
-                    case ("Impuesto2"):
+                    case ("Impuesto 2"):
                     System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
                     actual.sumarGastos(this.impuesto);
                         break;
                     
                     default:
+                        System.out.println("Defaul case");
                         break;
                 }
 

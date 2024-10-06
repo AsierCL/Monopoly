@@ -22,9 +22,10 @@ package monopoly;
 
 public class Valor {
     //Se incluyen una serie de constantes útiles para no repetir valores.
-    public static final float FORTUNA_BANCA = 50000;
-    public static final float FORTUNA_INICIAL = 14000000;
-    public static final float SUMA_VUELTA = 1800000; //Se aproxima a la media de los precios de los solares del tablero.
+    public static final float FORTUNA_BANCA = 500000000.0f;
+    public static final float FORTUNA_INICIAL = 9543076.28f; // Cantidad que recibe cada jugador al comenzar la partida
+    public static final float SUMA_VUELTA = 1301328.584f; // Cantidad que recibe un jugador al pasar pos la Salida
+    public static final float SALIR_CARCEL = SUMA_VUELTA * 0.25f; // Cantidad que paga un jugador por salir de la carcel
     
     //Colores del texto:
     public static final String RESET = "\u001B[0m";

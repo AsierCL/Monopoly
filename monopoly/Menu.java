@@ -281,7 +281,7 @@ public class Menu {
             this.lanzamientos++;
             tirado = true;
             
-            avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal);
+            avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
             
             if(resultadoDado1 == resultadoDado2){
                 System.out.println("LLevas " + this.lanzamientos + " dobles");
@@ -324,7 +324,7 @@ public class Menu {
             
                 if(this.lanzamientos<3){
                     avatarActual.moverAvatar(casillas, resultadoTotal);
-                    avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal);
+                    avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
                     System.out.println("Vuelve a tirar");
                 }else{
                     System.out.println("VAS A LA CARCEL");
@@ -332,7 +332,7 @@ public class Menu {
                 }
             }else{
                 avatarActual.moverAvatar(casillas, resultadoTotal);
-                avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal);
+                avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
             }
         }else{
             System.out.println("Ya no puedes tirar más");
@@ -348,17 +348,6 @@ public class Menu {
         Jugador jugador_compra = jugadores.get(turno);
 
         casilla_compra.comprarCasilla(jugador_compra, banca);
-
-        /* if(casilla_compra.getDuenho()!=banca){
-            System.out.println("No se puede comprar la casilla");
-            System.out.println("La casilla pertenece a: " + casilla_compra.getDuenho().getNombre());
-        }else if(!casilla_compra.getAvatares().contains(jugador_compra.getAvatar())){
-            System.out.println("No se puede comprar la casilla");
-            System.out.println("No estás en la casilla que quieres comprar");
-        }else{
-            casilla_compra.setDuenho(jugador_compra);
-            jugador_compra.sumarGastos(casilla_compra.getValor());
-        } */
     }
 
     //Método que ejecuta todas las acciones relacionadas con el comando 'salir carcel'. 
@@ -366,8 +355,8 @@ public class Menu {
         Jugador jugador = jugadores.get(turno);
         if(jugador.getEnCarcel()){
             jugador.setEnCarcel(false);
-            //jugador.sumarGastos();  ////VALOR DE SALIR CARCEL
-            System.out.println("El jugador "+jugador.getNombre()+" sale de la carcel " + " pagando VALOR"  );///VALOR DE SALIR CARCEL
+            jugador.sumarGastos(Valor.SALIR_CARCEL);
+            System.out.println("El jugador "+jugador.getNombre()+" sale de la carcel " + " pagando " + Valor.SALIR_CARCEL);
         }else{
             System.out.println("El jugador " + " no está en la carcel");
         }
