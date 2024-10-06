@@ -8,7 +8,7 @@ public class Casilla {
 
     //Atributos:
     private String nombre; //Nombre de la casilla
-    private String tipo; //Tipo de casilla (Solar, Especial, Transporte, Servicios, Comunidad).
+    private String tipo; //Tipo de casilla (Solar, Especial, Transporte, Servicios, Suerte, Comunidad).
     private float valor; //Valor de esa casilla (en la mayoría será valor de compra, en la casilla parking se usará como el bote).
     private int posicion; //Posición que ocupa la casilla en el tablero (entero entre 1 y 40).
     private Jugador duenho; //Dueño de la casilla (por defecto sería la banca).
@@ -42,6 +42,7 @@ public class Casilla {
         this.posicion = posicion;
         this.impuesto = impuesto;
         this.duenho = duenho;
+        this.tipo = "Especial";
         this.avatares = new ArrayList<>();
     }
 
@@ -176,16 +177,12 @@ public class Casilla {
                         break;
                     
                     case ("Impuesto 1"):
+                    case ("Impuesto 2"):
                         System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
                         actual.sumarGastos(this.impuesto);
-
+                        tablero.obtenerCasilla("Parking").sumarValor(this.impuesto);
                         break;
 
-                    case ("Impuesto 2"):
-                    System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                    actual.sumarGastos(this.impuesto);
-                        break;
-                    
                     default:
                         System.out.println("Defaul case");
                         break;
