@@ -137,8 +137,8 @@ public class Jugador {
     public void encarcelar(ArrayList<ArrayList<Casilla>> pos) {
         this.enCarcel = true;
         this.avatar.getLugar().eliminarAvatar(this.avatar);
-        this.avatar.setLugar(pos.get(2).get(10));
-        pos.get(2).get(10).anhadirAvatar(this.avatar);
+        this.avatar.setLugar(pos.get(0).get(0));
+        pos.get(0).get(0).anhadirAvatar(this.avatar);
     }
 
 }
