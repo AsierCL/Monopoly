@@ -204,19 +204,23 @@ public class Casilla {
     * - Jugador que solicita la compra de la casilla.
     * - Banca del monopoly (es el dueño de las casillas no compradas aún).*/
     public void comprarCasilla(Jugador solicitante, Jugador banca) {
-        if(solicitante.getAvatar().getLugar() == this){
-            if(this.duenho == banca){
-                solicitante.sumarGastos(this.valor);
-                solicitante.anhadirPropiedad(this);
-                this.duenho = solicitante;
-                System.out.println("Has comprado la casilla " + this.nombre + " por " + this.valor);
-            }else if(this.duenho == solicitante){
-                System.out.println("Esta casilla ya te pertenece");
+        if(this.tipo == "Solar" || this.tipo == "Transporte" || this.tipo == "Servicios"){
+            if(solicitante.getAvatar().getLugar() == this){
+                if(this.duenho == banca){
+                    solicitante.sumarGastos(this.valor);
+                    solicitante.anhadirPropiedad(this);
+                    this.duenho = solicitante;
+                    System.out.println("Has comprado la casilla " + this.nombre + " por " + this.valor);
+                }else if(this.duenho == solicitante){
+                    System.out.println("Esta casilla ya te pertenece");
+                }else{
+                    System.out.println("La casilla es de "+this.duenho.getNombre());
+                }
             }else{
-                System.out.println("La casilla es de "+this.duenho.getNombre());
+                System.out.println("Debes estar en la casilla");
             }
-        }else{
-            System.out.println("Debes estar en la casilla");
+        }else{ // Comprar carcel, salida, etcetc
+            System.out.println("Esta casilla no se puede comprar");
         }
     }
 
