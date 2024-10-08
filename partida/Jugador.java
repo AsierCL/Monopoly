@@ -44,7 +44,7 @@ public class Jugador {
         }else{
             System.out.println("\nTipo de avatar incorrecto\n");
         }
-        this.fortuna = 14000000;//Usar variable global FORTUNA_INICIAL
+        this.fortuna = Valor.FORTUNA_INICIAL;
         this.gastos = 0;
         this.enCarcel = false;
         this.tiradasCarcel = 0;
