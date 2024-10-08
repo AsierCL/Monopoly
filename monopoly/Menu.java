@@ -248,33 +248,21 @@ public class Menu {
     private void descAvatar(String ID) {
         Avatar avatarBuscado = null;
         // Iterar sobre os avatares para encontrar o que coincide co ID.
-        for (Jugador jugador : jugadores) {
-            for (Avatar avatar : avatares) {
-                if (avatar.getId().equals(ID)) {
-                    avatarBuscado = avatar;
-                    break;
-                }
-            }
-            if (avatarBuscado != null) {
-                break;  
+        for (Avatar avatar : avatares) {
+            if (avatar.getId().equals(ID)) {
+                avatarBuscado = avatar;
+                break;
             }
         }
 
         if (avatarBuscado == null) {
             System.out.println("Avatar con ID " + ID + " no encontrado.");
         } else {
-        System.out.println("ID: " + avatarBuscado.getId());
-        
-        //Mostrar nombre jugador
-        System.out.println("Jugador: " + avatarBuscado.getJugador().getNombre());
-
-        //Posicion
-        System.out.println("Posición actual: " +  avatarBuscado.getLugar());
-        
-        //Tipo
-        System.out.println("Tipo: " + avatarBuscado.getTipo());  
+            System.out.println("ID: " + avatarBuscado.getId());
+            System.out.println("Jugador: " + avatarBuscado.getJugador().getNombre());
+            System.out.println("Posición actual: " +  avatarBuscado.getLugar().getNombre());
+            System.out.println("Tipo: " + avatarBuscado.getTipo());  
         }
-
     }
                 
       
