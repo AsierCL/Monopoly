@@ -18,6 +18,7 @@ public class Menu {
     private Jugador banca; //El jugador banca.
     private boolean tirado; //Booleano para comprobar si el jugador que tiene el turno ha tirado o no.
     private boolean solvente; //Booleano para comprobar si el jugador que tiene el turno es solvente, es decir, si ha pagado sus deudas.
+    private boolean partida;
 
     public static void clearScreen() {
         try {
@@ -78,7 +79,7 @@ public class Menu {
     public void iniciarPartida(Tablero tablero) 
     {
         Scanner input = new Scanner(System.in);
-        boolean partida = true;
+        this.partida = true;
 
         Scanner nombreJugadorScan = new Scanner(System.in);
         Scanner nombreTipoAvatarScan = new Scanner(System.in);
@@ -329,7 +330,7 @@ public class Menu {
             this.lanzamientos++;
             tirado = true;
             
-            avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+            partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
             
             if(resultadoDado1 == resultadoDado2){
                 System.out.println("LLevas " + this.lanzamientos + " dobles");
@@ -372,7 +373,7 @@ public class Menu {
                     jugadorActual.setEnCarcel(false);
                     tirado = false;
                     avatarActual.moverAvatar(casillas, resultadoTotal);
-                    avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
                 }else{
                     jugadorActual.setTiradasCarcel(jugadorActual.getTiradasCarcel() + 1);
                     
@@ -393,7 +394,7 @@ public class Menu {
                 
                     if(this.lanzamientos<3){
                         avatarActual.moverAvatar(casillas, resultadoTotal);
-                        avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
                         System.out.println("Vuelve a tirar");
                     }else{
                         System.out.println("VAS A LA CARCEL");
@@ -402,7 +403,7 @@ public class Menu {
                     }
                 }else{
                     avatarActual.moverAvatar(casillas, resultadoTotal);
-                    avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
                 }
             }
 
