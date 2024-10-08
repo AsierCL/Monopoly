@@ -79,6 +79,35 @@ public class Menu {
     {
         Scanner input = new Scanner(System.in);
         boolean partida = true;
+
+        Scanner nombreJugadorScan = new Scanner(System.in);
+        Scanner nombreTipoAvatarScan = new Scanner(System.in);
+
+        System.out.println("Introduzca al menos dos jugadores para comenzar\n.");
+        System.out.println("Cuando termines introduce \"fin\"");
+
+        while(jugadores.size() < 7)
+        {
+            System.out.println("Introduzca el nombre del jugador: ");
+            String jugador = nombreJugadorScan.nextLine();
+
+            if(!jugador.equals("fin")){
+                    System.out.println("Introduzca la ficha: ");
+                    String tipoAvatar = nombreJugadorScan.nextLine();
+
+                    Jugador player = new Jugador(jugador, tipoAvatar, tablero.obtenerCasilla(0),avatares);
+                    jugadores.add(player);
+            }else if(jugadores.size()<2){
+                System.out.println("Non seas sunormal");
+            }else{
+                break;
+            }
+
+            
+        }
+
+        
+
         while(partida){
 
             System.out.print("Introduzca comando: ");
