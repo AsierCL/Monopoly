@@ -125,25 +125,40 @@ public class Casilla {
         switch(this.tipo){
             case("Solar"):
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
-                    System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                    actual.sumarGastos(this.impuesto);
-                    this.duenho.sumarFortuna(this.impuesto);
+                    if((actual.getFortuna()-this.impuesto)<0){
+                        System.out.println("Dinero insuficiente para pagar");
+                        return false;
+                    }else{
+                        System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                        actual.sumarGastos(this.impuesto);
+                        this.duenho.sumarFortuna(this.impuesto);
+                    }
                 }
                 break;
 
             case("Transporte"):
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
-                    System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                    actual.sumarGastos(this.impuesto);
-                    this.duenho.sumarFortuna(this.impuesto);
+                    if((actual.getFortuna()-this.impuesto)<0){
+                        System.out.println("Dinero insuficiente para pagar");
+                        return false;
+                    }else{
+                        System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                        actual.sumarGastos(this.impuesto);
+                        this.duenho.sumarFortuna(this.impuesto);
+                    }
                 }
                 break;            
                 
             case("Servicios"):
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
-                    System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                    actual.sumarGastos(this.impuesto);
-                    this.duenho.sumarFortuna(this.impuesto);
+                    if((actual.getFortuna()-this.impuesto)<0){
+                        System.out.println("Dinero insuficiente para pagar");
+                        return false;
+                    }else{
+                        System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                        actual.sumarGastos(this.impuesto);
+                        this.duenho.sumarFortuna(this.impuesto);
+                    }
                 }
                 break;
 
@@ -178,9 +193,14 @@ public class Casilla {
                     
                     case ("Impuesto 1"):
                     case ("Impuesto 2"):
-                        System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                        actual.sumarGastos(this.impuesto);
-                        tablero.obtenerCasilla("Parking").sumarValor(this.impuesto);
+                        if((actual.getFortuna()-this.impuesto)<0){
+                            System.out.println("Dinero insuficiente para pagar");
+                            return false;
+                        }else{
+                            System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                            actual.sumarGastos(this.impuesto);
+                            tablero.obtenerCasilla("Parking").sumarValor(this.impuesto);
+                        }
                         break;
 
                     default:
