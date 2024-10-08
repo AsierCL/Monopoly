@@ -329,7 +329,7 @@ public class Tablero {
         return null;
     }
 
-    //Funcion para obtener casilla por índice
+    //Funcion para obtener casilla por nombre.
     public Casilla obtenerCasilla(String nombre) {
         for (ArrayList<Casilla> lado : this.getPosiciones()) {
             for (Casilla casilla : lado) {
