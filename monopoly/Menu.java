@@ -76,47 +76,38 @@ public class Menu {
 
     
     // Método para inciar una partida: crea los jugadores y avatares.
-    public void iniciarPartida(Tablero tablero) 
-    {
+    public void iniciarPartida(Tablero tablero) {
+        // Crear un único Scanner
         Scanner input = new Scanner(System.in);
         this.partida = true;
-
-        Scanner nombreJugadorScan = new Scanner(System.in);
-        Scanner nombreTipoAvatarScan = new Scanner(System.in);
-
+    
         System.out.println("Introduzca al menos dos jugadores para comenzar\n.");
         System.out.println("Cuando termines introduce \"fin\"");
-
-        while(jugadores.size() < 7)
-        {
+    
+        while (jugadores.size() < 7) {
             System.out.println("Introduzca el nombre del jugador: ");
-            String jugador = nombreJugadorScan.nextLine();
-
-            if(!jugador.equals("fin")){
-                    System.out.println("Introduzca la ficha: ");
-                    String tipoAvatar = nombreJugadorScan.nextLine();
-
-                    Jugador player = new Jugador(jugador, tipoAvatar, tablero.obtenerCasilla(0),avatares);
-                    jugadores.add(player);
-            }else if(jugadores.size()<2){
-                System.out.println("Non seas sunormal");
-            }else{
+            String jugador = input.nextLine();  // Usar el mismo Scanner
+    
+            if (!jugador.equals("fin")) {
+                System.out.println("Introduzca la ficha: ");
+                String tipoAvatar = input.nextLine();  // Usar el mismo Scanner
+    
+                Jugador player = new Jugador(jugador, tipoAvatar, tablero.obtenerCasilla(0), avatares);
+                jugadores.add(player);
+            } else if (jugadores.size() < 2) {
+                System.out.println("Debes introducir al menos dos jugadores.");
+            } else {
                 break;
             }
-
-            
         }
-
-        
-
-        while(partida){
-
+    
+        while (partida) {
             System.out.print("Introduzca comando: ");
-            String comando = input.nextLine();
-
+            String comando = input.nextLine();  // Usar el mismo Scanner
             analizarComando(comando);
-            
         }
+    
+        // Cerrar el Scanner solo al final
         input.close();
     }
     
