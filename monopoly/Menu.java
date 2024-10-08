@@ -323,27 +323,52 @@ public class Menu {
             System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
 
             Avatar avatarActual = avatares.get(turno);
+            Jugador jugadorActual = avatares.get(turno).getJugador();
             ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
-            avatarActual.moverAvatar(casillas, resultadoTotal); 
-
-
+            
             this.lanzamientos++;
             tirado = true;
-            
-            partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-            
-            if(resultadoDado1 == resultadoDado2){
-                System.out.println("LLevas " + this.lanzamientos + " dobles");
-                tirado = false;
-            
-                if(this.lanzamientos<3){
-                    System.out.println("Vuelve a tirar");
+            if(jugadorActual.getEnCarcel()){// ESTÁ EN CARCEL
+                if(resultadoDado1 == resultadoDado2){
+                    System.out.println("Sales de la carcel");
+                    jugadorActual.setEnCarcel(false);
+                    tirado = false;
+                    avatarActual.moverAvatar(casillas, resultadoTotal);
+                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
                 }else{
-                    System.out.println("VAS A LA CARCEL");
-                    avatarActual.getJugador().encarcelar(casillas);
+                    jugadorActual.setTiradasCarcel(jugadorActual.getTiradasCarcel() + 1);
+                    
+                    if(jugadorActual.getTiradasCarcel() == 3){
+                        System.out.println("Te quedan " + (3-jugadorActual.getTiradasCarcel()) + " intentos");
+                        salirCarcel();
+                        jugadorActual.setTiradasCarcel(0);
+                    }else{
+                        System.out.println("Sigues en la carcel");
+                        System.out.println("Te quedan " + (3-jugadorActual.getTiradasCarcel()) + " intentos");
+                    }
+                }
+
+            }else{ // NO ESTÄ EN CARCEL
+                if(resultadoDado1 == resultadoDado2){
+                    System.out.println("LLevas " + this.lanzamientos + " dobles");
+                    tirado = false;
+                
+                    if(this.lanzamientos<3){
+                        avatarActual.moverAvatar(casillas, resultadoTotal);
+                        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                        System.out.println("Vuelve a tirar");
+                    }else{
+                        System.out.println("VAS A LA CARCEL");
+                        avatarActual.getJugador().encarcelar(casillas);
+                        tirado = true;
+                    }
+                }else{
+                    avatarActual.moverAvatar(casillas, resultadoTotal);
+                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
                 }
             }
-        }else{
+
+        }else{//TIRADAS COMPLETADAS
             System.out.println("Ya no puedes tirar más");
         }
     }
