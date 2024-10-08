@@ -246,9 +246,26 @@ public class Menu {
     * Parámetro: id del avatar a describir.
     */
     private void descAvatar(String ID) {
-        
+        Avatar avatarBuscado = null;
+        // Iterar sobre os avatares para encontrar o que coincide co ID.
+        for (Avatar avatar : avatares) {
+            if (avatar.getId().equals(ID)) {
+                avatarBuscado = avatar;
+                break;
+            }
+        }
 
+        if (avatarBuscado == null) {
+            System.out.println("Avatar con ID " + ID + " no encontrado.");
+        } else {
+            System.out.println("ID: " + avatarBuscado.getId());
+            System.out.println("Jugador: " + avatarBuscado.getJugador().getNombre());
+            System.out.println("Posición actual: " +  avatarBuscado.getLugar().getNombre());
+            System.out.println("Tipo: " + avatarBuscado.getTipo());  
+        }
     }
+                
+      
 
     /* Método que realiza las acciones asociadas al comando 'describir nombre_casilla'.
     * Parámetros: nombre de la casilla a describir.
