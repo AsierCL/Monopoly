@@ -205,6 +205,10 @@ public class Menu {
             case("comprar"):
                 comprar(subAccion);
                 break;
+            // hipotecar + Casilla
+            case("hipotecar"):
+                hipotecar(subAccion);
+                break;
             //ver tablero
             case("ver"):
                 System.out.println(tablero);
@@ -437,6 +441,14 @@ public class Menu {
         Jugador jugador_compra = jugadores.get(turno);
 
         casilla_compra.comprarCasilla(jugador_compra, banca);
+    }
+
+    private void hipotecar(String nombre) {
+
+        Casilla casilla_hipotecada = tablero.obtenerCasilla(nombre);
+        Jugador jugador_hipoteca = jugadores.get(turno);
+
+        casilla_hipotecada.hipotecarCasilla(jugador_hipoteca, casilla_hipotecada);
     }
 
     //Método que ejecuta todas las acciones relacionadas con el comando 'salir carcel'. 
