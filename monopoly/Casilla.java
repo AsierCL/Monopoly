@@ -16,6 +16,10 @@ public class Casilla {
     private float impuesto; //Cantidad a pagar por caer en la casilla: el alquiler en solares/servicios/transportes o impuestos.
     private float hipoteca; //Valor otorgado por hipotecar una casilla
     private ArrayList<Avatar> avatares; //Avatares que están situados en la casilla.
+    ///////////////////////////////////
+    //private int edificios; //Int do 0 ao 7 | 0=nada, 1=casa1, 2=casa2, 3=casa3, 4=casa4, 5=hotel, 6=piscina, 7=pistaDeDeporte//
+    private Edificios edificios;
+    
 
     //Constructores:
     public Casilla() {
@@ -32,6 +36,7 @@ public class Casilla {
         this.duenho = duenho;
         this.impuesto = valor * 0.1f;
         this.avatares = new ArrayList<>();
+        this.edificios = new Edificios(this);
     }
 
     /*Constructor utilizado para inicializar las casillas de tipo IMPUESTOS.
@@ -97,6 +102,10 @@ public class Casilla {
 
     public ArrayList<Avatar> getAvatares(){
         return this.avatares;
+    }
+
+    public Edificios getEdificios() {
+        return edificios;
     }
 
 
@@ -335,5 +344,84 @@ public class Casilla {
         return info.toString();
 
     }
+
+    public void Construir(Jugador jugador, String construccion){  // REFACTORIZAR E CAMBIAR this.valor*multiplicador por variables
+        if(!this.tipo.equals("Solar")){
+            System.out.println("No puedes edificar aqui");
+            return;
+        }else if(!jugador.getAvatar().getLugar().equals(this)){
+            System.out.println("Debes estar en la casilla para edificar");
+            return;
+        }else if(!this.getGrupo().esDuenhoGrupo(jugador)){
+            System.out.println("Debes ser dueño de todo el solar para edificar");
+            return;
+        }
+        switch (construccion) {
+            case "casa":
+                if((jugador.getFortuna()-this.valor*0.6f)<0){
+                    System.out.println("Dinero insuficiente para pagar");
+                }else{
+                    if(edificios.ConstruirCasa()){
+                        System.out.println("Pagas la construcción: -" + this.valor*0.6f + "€");
+                        jugador.sumarGastos(this.valor*0.6f);
+                        this.duenho.sumarFortuna(this.valor*0.6f);
+                    }else{
+                        System.out.println("Construcción cancelada");
+                    }
+                }
+
+                break;
+
+            case "hotel":
+                if((jugador.getFortuna()-this.valor*0.6f)<0){
+                    System.out.println("Dinero insuficiente para pagar");
+                }else{
+                    if(edificios.ConstruirHotel()){
+                        System.out.println("Pagas la construcción: -" + this.valor*0.6f + "€");
+                        jugador.sumarGastos(this.valor*0.6f);
+                        this.duenho.sumarFortuna(this.valor*0.6f);
+                    }else{
+                        System.out.println("Construcción cancelada");
+                    }
+                }
+
+                break;
+
+            case "piscina":
+                if((jugador.getFortuna()-this.valor*0.4f)<0){
+                    System.out.println("Dinero insuficiente para pagar");
+                }else{
+                    if(edificios.ConstruirPiscina()){
+                        System.out.println("Pagas la construcción: -" + this.valor*0.4f + "€");
+                        jugador.sumarGastos(this.valor*0.4f);
+                        this.duenho.sumarFortuna(this.valor*0.4f);
+                    }else{
+                        System.out.println("Construcción cancelada");
+                    }
+                }
+
+                break;
+
+            case "pista":
+                if((jugador.getFortuna()-this.valor*1.25f)<0){
+                    System.out.println("Dinero insuficiente para pagar");
+                }else{
+                    if(edificios.ConstruirPista()){
+                        System.out.println("Pagas la construcción: -" + this.valor*1.25f + "€");
+                        jugador.sumarGastos(this.valor*1.25f);
+                        this.duenho.sumarFortuna(this.valor*1.25f);
+                    }else{
+                        System.out.println("Construcción cancelada");
+                    }
+                }
+                break;
+        
+            default:
+            System.out.println("Construcción incorrecta");
+                break;
+        }
+    }
+
+    
 
 }

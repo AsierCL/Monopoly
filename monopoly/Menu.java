@@ -59,6 +59,7 @@ public class Menu {
         System.out.println("describir jugador \"nombre\" \t-> describe el jugador introducido");
         System.out.println("describir avatar \"nombre\" \t-> describe el avatar introducido");
         System.out.println("comprar \"nombre propiedad\" \t-> permite comprar una propiedad");
+        System.out.println("construir \"edificio\" \t\t\t-> construye un edificio");
         System.out.println("ver tablero \t\t\t-> muestra el tablero\n");
     }
 
@@ -115,6 +116,8 @@ public class Menu {
     * Parámetro: cadena de caracteres (el comando).
     */
     private void analizarComando(String comando) {
+        Jugador jugadorActual = jugadores.get(turno);
+        Casilla casillaActual = jugadorActual.getAvatar().getLugar();
         // Dividimos el comando en palabras usando el espacio como separador
         String[] palabras = comando.split(" ");
 
@@ -210,6 +213,8 @@ public class Menu {
                 hipotecar(subAccion);
                 break;
             //ver tablero
+            case("construir"):
+                casillaActual.Construir(jugadorActual, subAccion);
             case("ver"):
                 System.out.println(tablero);
                 break;
