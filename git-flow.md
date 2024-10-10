@@ -4,7 +4,7 @@
 
 #### Traballar nunha nova funcionalidad
 
-    git checkout develop
+    git checkout main
     git checkout -b feature/nombre_da_funcionalidad
 
 #### Facer na tua rama cambios
@@ -17,7 +17,7 @@
 
 #### Terminar funcionalidad
 
-    git checkout develop
+    git checkout main
     git pull
     git merge feature/nombre_da_funcionalidad
     git branch -D feature/nombre_da_funcionalidad
