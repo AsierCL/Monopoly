@@ -1,17 +1,10 @@
 //////MARTIN/////
-Mirar no PDF que funcionalidades faltan por implementar
+NovasFunc(26/29)
 
 Coller algunha das de brais
 
 //////BRAIS//////
-Describir casilla
-
-Describir avatar
-
-Revisar valores en Valores.java, e floats (Estan no foro)
-
-
-
+Hipotecar(22/25)
 
 /////ASIER/////
-Ir a carcel y salir de carcel
+Edificios(18/21)
