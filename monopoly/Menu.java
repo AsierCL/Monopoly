@@ -85,11 +85,11 @@ public class Menu {
         System.out.println("Cuando termines introduce \"fin\"");
     
         while (jugadores.size() < 7) {
-            System.out.println("Introduzca el nombre del jugador: ");
+            System.out.print("Introduzca el nombre del jugador: ");
             String jugador = input.nextLine();  // Usar el mismo Scanner
     
             if (!jugador.equals("fin")) {
-                System.out.println("Introduzca la ficha: ");
+                System.out.print("Introduzca la ficha: ");
                 String tipoAvatar = input.nextLine();  // Usar el mismo Scanner
     
                 Jugador player = new Jugador(jugador, tipoAvatar, tablero.obtenerCasilla(0), avatares);
@@ -100,6 +100,8 @@ public class Menu {
                 break;
             }
         }
+
+        System.out.println(tablero);
     
         while (partida) {
             System.out.print("Introduzca comando: ");
@@ -437,37 +439,64 @@ public class Menu {
                             if (resultadoTotal > 4){
                                 avatarActual.moverAvatar(casillas, 5);
                                 partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                System.out.println(tablero);
                                 turnoIntermedio();
                                 for (int i=7; i <= resultadoTotal; i+=2){
                                     avatarActual.moverAvatar(casillas, 2);
                                     partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                                    if (i!= resultadoTotal) turnoIntermedio();
+                                    if (i!= resultadoTotal) {
+                                        System.out.println(tablero); 
+                                        turnoIntermedio();
+                                    }
                                 }
                                 if (resultadoTotal % 2 == 0){
                                     avatarActual.moverAvatar(casillas, 1);
                                     partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                    System.out.println(tablero);
                                 }
                             } else {
                                 avatarActual.moverAvatar(casillas, -1);
                                 partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                System.out.println(tablero);
                                 turnoIntermedio();
                                 for (int i=3; i <= resultadoTotal; i+=2){
                                     avatarActual.moverAvatar(casillas, -2);
                                     partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                                    if (i!= resultadoTotal) turnoIntermedio();
+                                    if (i!= resultadoTotal) {
+                                        System.out.println(tablero); 
+                                        turnoIntermedio();
+                                    }
                                 }
                                 if (resultadoTotal % 2 == 0){
                                     avatarActual.moverAvatar(casillas, -1);
                                     partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                    System.out.println(tablero);
                                 }
                             }
                         }
                         else if (avatarActual.getTipo().equals("coche")){
-                            if (resultadoTotal > 4){
+                            int contador = 0;
+                            if (resultadoTotal < 4){ //falta anhadir que cuando toque esto no pueda volver a tirar en dos turnos
+                                avatarActual.moverAvatar(casillas, -resultadoTotal);
+                                partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                System.out.println("Has sacado menos de 4, no podrás tirar en los próximos dos turnos"); // NO IMPLEMENTADO
+                            }
+                            while (resultadoTotal >= 4 && contador < 4){
+                                avatarActual.moverAvatar(casillas, resultadoTotal);
+                                partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                System.out.println(tablero);
+
+                                if (contador < 3){
+                                    turnoIntermedio();
+                                    System.out.print("Introduzca el valor de la tirada del dado 1: ");
+                                    resultadoDado1 = scanDado.nextInt();
+                                    System.out.print("Introduzca el valor de la tirada del dado 2: ");
+                                    resultadoDado2 = scanDado.nextInt();
+                                    resultadoTotal = resultadoDado1 + resultadoDado2;
+                                    System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
+                                }
                                 
-            
-                            } else {
-            
+                                contador++;
                             }
                         }
                         else if (avatarActual.getTipo().equals("esfinge")){
