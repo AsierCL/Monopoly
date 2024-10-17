@@ -29,6 +29,9 @@ public class Grupo {
         this.numCasillas = 2;
         cas1.setGrupo(this);
         cas2.setGrupo(this);
+        for (Casilla casilla : miembros) {
+            casilla.getEdificios().setNum_max(numCasillas);
+        }
     }
 
     /*Constructor para cuando el grupo está formado por TRES CASILLAS:
@@ -44,6 +47,9 @@ public class Grupo {
         cas1.setGrupo(this);
         cas2.setGrupo(this);
         cas3.setGrupo(this);
+        for (Casilla casilla : miembros) {
+            casilla.getEdificios().setNum_max(numCasillas);
+        }
     }
 
     /* Método que añade una casilla al array de casillas miembro de un grupo.
