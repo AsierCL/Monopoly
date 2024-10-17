@@ -34,7 +34,16 @@ public class Casilla {
         this.posicion = posicion;
         this.valor = valor;
         this.duenho = duenho;
-        this.impuesto = valor * 0.1f;
+        if(tipo.equals("Solar")){
+            this.impuesto = valor * 0.1f;
+        }else if(tipo.equals("Transporte")){
+            this.impuesto = valor * 0.25f;
+        }else if(tipo.equals("Servicios")){
+            this.impuesto = Valor.SUMA_VUELTA/200f;
+        }else{
+            System.out.println("ERROR ASIGNANDO IMPUESTO CASILLAS");
+            System.exit(1);
+        }
         this.avatares = new ArrayList<>();
         this.edificios = new Edificios(this);
     }
@@ -131,6 +140,7 @@ public class Casilla {
     * Valor devuelto: true en caso de ser solvente (es decir, de cumplir las deudas), y false
     * en caso de no cumplirlas.*/
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero) {//Solucion prvisional
+        float pago = 0;
         switch(this.tipo){
             case("Solar"):
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
@@ -147,26 +157,28 @@ public class Casilla {
 
             case("Transporte"):
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
-                    if((actual.getFortuna()-this.impuesto)<0){
+                    pago = this.impuesto * this.numTransporte();
+                    if((actual.getFortuna()-pago)<0){
                         System.out.println("Dinero insuficiente para pagar");
                         return false;
                     }else{
-                        System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                        actual.sumarGastos(this.impuesto);
-                        this.duenho.sumarFortuna(this.impuesto);
+                        System.out.println("Pagas impuesto de casilla: -" + pago + "€");
+                        actual.sumarGastos(pago);
+                        this.duenho.sumarFortuna(pago);
                     }
                 }
                 break;            
                 
             case("Servicios"):
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
-                    if((actual.getFortuna()-this.impuesto)<0){
+                    pago = this.impuesto * this.numServicios() * tirada;
+                    if((actual.getFortuna()-pago)<0){
                         System.out.println("Dinero insuficiente para pagar");
                         return false;
                     }else{
-                        System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                        actual.sumarGastos(this.impuesto);
-                        this.duenho.sumarFortuna(this.impuesto);
+                        System.out.println("Pagas impuesto de casilla: -" + pago + "€");
+                        actual.sumarGastos(pago);
+                        this.duenho.sumarFortuna(pago);
                     }
                 }
                 break;
@@ -406,6 +418,28 @@ public class Casilla {
             System.out.println("Construcción incorrecta");
                 break;
         }
+    }
+
+    private int numTransporte(){
+        int contador = 0;
+        Jugador duenho = this.getDuenho();
+        for (Casilla casilla : duenho.getPropiedades(duenho)) {
+            if(casilla.tipo.equals("Transporte")){
+                contador++;
+            }
+        }
+        return contador;
+    }
+
+    private int numServicios(){
+        int contador = 0;
+        Jugador duenho = this.getDuenho();
+        for (Casilla casilla : duenho.getPropiedades(duenho)) {
+            if(casilla.tipo.equals("Servicios")){
+                contador++;
+            }
+        }
+        return contador;
     }
 
     
