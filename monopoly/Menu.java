@@ -223,8 +223,11 @@ public class Menu {
             case("cambiar"):
                 cambiarModo(jugadores.get(turno).getAvatar());
                 break;
+            case("f"):
+                System.out.println("Has terminado el turno intermedio\n");
+                break;
             default:
-                System.out.println("Error, introduzca un comando valido");
+                System.out.println("Error, introduzca un comando valido\n");
                 break;
         }
     }
@@ -476,12 +479,12 @@ public class Menu {
                         }
                         else if (avatarActual.getTipo().equals("coche")){
                             int contador = 0;
-                            if (resultadoTotal < 4){ //falta anhadir que cuando toque esto no pueda volver a tirar en dos turnos
+                            if (resultadoTotal <= 4){ //falta anhadir que cuando toque esto no pueda volver a tirar en dos turnos
                                 avatarActual.moverAvatar(casillas, -resultadoTotal);
                                 partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
                                 System.out.println("Has sacado menos de 4, no podrás tirar en los próximos dos turnos"); // NO IMPLEMENTADO
                             }
-                            while (resultadoTotal >= 4 && contador < 4){
+                            while (resultadoTotal > 4 && contador < 4){
                                 avatarActual.moverAvatar(casillas, resultadoTotal);
                                 partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
                                 System.out.println(tablero);
@@ -495,8 +498,36 @@ public class Menu {
                                     resultadoTotal = resultadoDado1 + resultadoDado2;
                                     System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
                                 }
-                                
                                 contador++;
+
+                                if(contador == 3 && resultadoDado1 == resultadoDado2){
+                                    avatarActual.moverAvatar(casillas, resultadoTotal);
+                                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                    while(resultadoDado1 == resultadoDado2){
+                                        System.out.println("LLevas " + this.lanzamientos + " dobles");
+                                        tirado = false;
+                                        if(this.lanzamientos<3){
+                                            System.out.println("Vuelve a tirar");
+
+                                            System.out.print("Introduzca el valor de la tirada del dado 1: ");
+                                            resultadoDado1 = scanDado.nextInt();
+                                            System.out.print("Introduzca el valor de la tirada del dado 2: ");
+                                            resultadoDado2 = scanDado.nextInt();
+                                            resultadoTotal = resultadoDado1 + resultadoDado2;
+                                            System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
+
+                                            avatarActual.moverAvatar(casillas, resultadoTotal);
+                                            partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                        }else{
+                                            System.out.println("VAS A LA CARCEL");
+                                            avatarActual.getJugador().encarcelar(casillas);
+                                            tirado = true;
+                                            contador++;
+                                            break;
+                                        }
+                                        this.lanzamientos++;
+                                    }
+                                }
                             }
                         }
                         else if (avatarActual.getTipo().equals("esfinge")){
@@ -513,6 +544,7 @@ public class Menu {
             
                             }
                         }
+                    ////////////////////////////////////
                     } else {
                         avatarActual.moverAvatar(casillas, resultadoTotal);
                         partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
@@ -615,5 +647,4 @@ public class Menu {
             analizarComando(comando);
         }
     }
-
 }
