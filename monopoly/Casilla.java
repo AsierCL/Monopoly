@@ -252,17 +252,18 @@ public class Casilla {
 
     public void hipotecarCasilla(Jugador solicitante, Casilla casilla) {
         if(casilla.getDuenho().equals(solicitante)) { 
-            if (casilla.tipo.equals("Solar") && casilla.getEdificios().EstaEdificado() == true ) {
+            if (casilla.tipo == "Solar" && casilla.getEdificios().EstaEdificado() == true) {
                 System.out.println("Debes vender todos los edificios de tu propiedad antes de hipotecarla.");
             } else {
                 if(casilla.tipo == "Solar" || casilla.tipo == "Transporte" || casilla.tipo == "Servicios") {
                     solicitante.setFortuna(solicitante.getFortuna() + casilla.getValor());
+                    System.out.println(solicitante.getNombre() + "ha hipotecado la casilla" + casilla.getNombre() +"y recibe"+ casilla.getValor() + "." );
                 }
             } 
         } else {
             System.out.println("No eres propietario de esta casilla.");
-    } 
-
+        } 
+    }
 
     /*Método para añadir valor a una casilla. Utilidad:
     * - Sumar valor a la casilla de parking.
