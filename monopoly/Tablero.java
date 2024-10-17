@@ -51,10 +51,10 @@ public class Tablero {
     ladoNorte.add(new Casilla("Solar13", "Solar", 23, 1142440, banca));
     ladoNorte.add(new Casilla("Solar14", "Solar", 24, 1142440, banca));
     ladoNorte.add(new Casilla("Estacion 3", "Transporte", 25, banca));
-    ladoNorte.add(new Casilla("Solar15", "Solar", 26, 4455516, banca));
-    ladoNorte.add(new Casilla("Solar16", "Solar", 27, 4455516, banca));
+    ladoNorte.add(new Casilla("Solar15", "Solar", 26, 1485172, banca));
+    ladoNorte.add(new Casilla("Solar16", "Solar", 27, 1485172, banca));
     ladoNorte.add(new Casilla("Servicio 2", "Servicios", 28, banca));
-    ladoNorte.add(new Casilla("Solar17", "Solar", 29, 4455516, banca));
+    ladoNorte.add(new Casilla("Solar17", "Solar", 29, 1485172, banca));
     ladoNorte.add(new Casilla("IrCarcel", "Especial", 30, banca));
     new Grupo(ladoNorte.get(1), ladoNorte.get(3), ladoNorte.get(4), Valor.RED);
     new Grupo(ladoNorte.get(6), ladoNorte.get(7), ladoNorte.get(9), Valor.YELLOW);
@@ -88,10 +88,10 @@ public class Tablero {
     private ArrayList<Casilla> insertarLadoOeste() {
         ArrayList<Casilla> ladoOeste = new ArrayList<>();
         
-        ladoOeste.add(new Casilla("Solar11", "Solar", 19, 878000, banca));
-        ladoOeste.add(new Casilla("Solar10", "Solar", 18, 878000, banca));
+        ladoOeste.add(new Casilla("Solar11", "Solar", 19, 878800, banca));
+        ladoOeste.add(new Casilla("Solar10", "Solar", 18, 878800, banca));
         ladoOeste.add(new Casilla("Caja 2", "Especial", 17, banca));
-        ladoOeste.add(new Casilla("Solar9", "Solar", 16, 878000, banca));
+        ladoOeste.add(new Casilla("Solar9", "Solar", 16, 878800, banca));
         ladoOeste.add(new Casilla("Estacion 2", "Transporte", 15, banca));
         ladoOeste.add(new Casilla("Solar8", "Solar", 14, 676000, banca));
         ladoOeste.add(new Casilla("Solar7", "Solar", 13, 676000, banca));
@@ -107,15 +107,15 @@ public class Tablero {
     private ArrayList<Casilla> insertarLadoEste() {
         ArrayList<Casilla> ladoEste = new ArrayList<>();
 
-        ladoEste.add(new Casilla("Solar18", "Solar", 31, 2970344, banca));
-        ladoEste.add(new Casilla("Solar19", "Solar", 32, 2970344,  banca));
+        ladoEste.add(new Casilla("Solar18", "Solar", 31, 1930723.6f, banca));
+        ladoEste.add(new Casilla("Solar19", "Solar", 32, 1930723.6f,  banca));
         ladoEste.add(new Casilla("Caja 3", "Especial", 33, banca));
-        ladoEste.add(new Casilla("Solar20", "Solar", 34, 2970344,  banca));
+        ladoEste.add(new Casilla("Solar20", "Solar", 34, 1930723.6f,  banca));
         ladoEste.add(new Casilla("Estación 4", "Transporte",35, banca));
         ladoEste.add(new Casilla("Suerte 3", "Especial", 36, banca));
-        ladoEste.add(new Casilla("Solar21", "Solar", 37, 5792170, banca));
+        ladoEste.add(new Casilla("Solar21", "Solar", 37, 3764911.02f, banca));
         ladoEste.add(new Casilla("Impuesto 2", 38, Valor.SUMA_VUELTA, banca));
-        ladoEste.add(new Casilla("Solar22", "Solar", 39,  5792170, banca));
+        ladoEste.add(new Casilla("Solar22", "Solar", 39,  3764911.02f, banca));
         new Grupo(ladoEste.get(0), ladoEste.get(1), ladoEste.get(3), Valor.GREEN);
         new Grupo(ladoEste.get(6), ladoEste.get(8), Valor.BLUE);
         return ladoEste;
