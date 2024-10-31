@@ -44,11 +44,13 @@ public class Menu {
         + "                                           |__/                     \\______/                                            \n";
 
         System.out.println(banner);
+    }
 
+    public void printAyuda(){
         System.out.println("\nEstos son los posibles comandos: \n");
         System.out.println("crear jugador \"nombre\" \"ficha\"\t-> crea un nuevo jugador");
         System.out.println("jugador \t\t\t-> indica que jugador tiene el turno");
-        System.out.println("listar jugadores \t\t\t-> lista los jugadores creados");
+        System.out.println("listar jugadores \t\t-> lista los jugadores creados");
         System.out.println("listar avatares \t\t-> lista los avatares de los jugadores creados");
         System.out.println("listar enventa \t\t\t-> lista las propiedades a la venta");
         System.out.println("lanzar dados \t\t\t-> lanza los dados");
@@ -59,8 +61,11 @@ public class Menu {
         System.out.println("describir jugador \"nombre\" \t-> describe el jugador introducido");
         System.out.println("describir avatar \"nombre\" \t-> describe el avatar introducido");
         System.out.println("comprar \"nombre propiedad\" \t-> permite comprar una propiedad");
-        System.out.println("construir \"edificio\" \t\t\t-> construye un edificio");
-        System.out.println("ver tablero \t\t\t-> muestra el tablero\n");
+        System.out.println("construir \"edificio\" \t\t-> construye un edificio");
+        System.out.println("ver tablero \t\t\t-> muestra el tablero");
+        System.out.println("? \t\t\t\t-> muestra este menú de ayuda");
+
+        System.out.println("\n");
     }
 
     public Menu(){
@@ -81,7 +86,7 @@ public class Menu {
         // Crear un único Scanner
         Scanner input = new Scanner(System.in);
         this.partida = true;
-    
+
         System.out.println("Introduzca al menos dos jugadores para comenzar\n.");
         System.out.println("Cuando termines introduce \"fin\"");
     
@@ -101,6 +106,8 @@ public class Menu {
                 break;
             }
         }
+
+        printAyuda();
     
         while (partida) {
             System.out.print("Introduzca comando: ");
@@ -211,8 +218,12 @@ public class Menu {
             //ver tablero
             case("construir"):
                 casillaActual.Construir(jugadorActual, subAccion);
+                break;
             case("ver"):
                 System.out.println(tablero);
+                break;
+            case("?"):
+                printAyuda();
                 break;
             default:
                 System.out.println("Error, introduzca un comando valido");

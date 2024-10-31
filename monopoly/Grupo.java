@@ -95,4 +95,35 @@ public class Grupo {
         this.numCasillas = numCasillas;
     }
 
+    public int getCasasGrupo(){
+        int total = 0;
+        for (Casilla casilla : miembros) {
+            total += casilla.getEdificios().getCasas();
+        }
+        return total;
+    }
+    
+    public int getHotelesGrupo(){
+        int total = 0;
+        for (Casilla casilla : miembros) {
+            total += casilla.getEdificios().getHoteles();
+        }
+        return total;
+    }
+    
+    public int getPiscinasGrupo(){
+        int total = 0;
+        for (Casilla casilla : miembros) {
+            total += casilla.getEdificios().getPiscinas();
+        }
+        return total;
+    }
+    
+    public int getPistasGrupo(){
+        int total = 0;
+        for (Casilla casilla : miembros) {
+            total += casilla.getEdificios().getPistas();
+        }
+        return total;
+    }
 }

@@ -39,7 +39,7 @@ public class Jugador {
     public Jugador(String nombre, String tipoAvatar, Casilla inicio, ArrayList<Avatar> avCreados) {
         this.nombre = nombre;
 
-        if(Avatar.tiposValidos.contains(tipoAvatar)){
+        if(Avatar.avataresValidos.contains(tipoAvatar)){
             this.avatar = new Avatar(tipoAvatar, this, inicio, avCreados);
         }else{
             System.out.println("\nTipo de avatar incorrecto\n");
