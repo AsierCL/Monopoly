@@ -39,7 +39,7 @@ public class Jugador {
     public Jugador(String nombre, String tipoAvatar, Casilla inicio, ArrayList<Avatar> avCreados) {
         this.nombre = nombre;
 
-        if(Avatar.tiposValidos.contains(tipoAvatar)){
+        if(Avatar.avataresValidos.contains(tipoAvatar)){
             this.avatar = new Avatar(tipoAvatar, this, inicio, avCreados);
         }else{
             System.out.println("\nTipo de avatar incorrecto\n");
@@ -109,15 +109,15 @@ public class Jugador {
     }
 
     public ArrayList<Casilla> getPropiedades(Jugador jugador) {
-        this.propiedades = new ArrayList<>();
+        ArrayList<Casilla> propiedadesJugador = new ArrayList<>();
         for (Casilla casilla : this.propiedades) {         
             if (casilla.getDuenho() != null && casilla.getDuenho().equals(jugador)) {
-                propiedades.add(casilla);
+                propiedadesJugador.add(casilla);
             }   
         }
-    
-        return propiedades;
+        return propiedadesJugador;
     }
+    
 
     //Método para añadir fortuna a un jugador
     //Como parámetro se pide el valor a añadir. Si hay que restar fortuna, se pasaría un valor negativo.

@@ -15,7 +15,7 @@ public class Avatar {
     private Casilla lugar; //Los avatares se sitúan en casillas del tablero.
     
     
-    public static final Set<String> tiposValidos = Set.of("esfinge", "sombrero", "coche", "pelota");
+    public static final Set<String> avataresValidos = Set.of("esfinge", "sombrero", "coche", "pelota");
     
     //Constructor vacío
     public Avatar() {

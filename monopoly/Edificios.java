@@ -1,5 +1,7 @@
 package monopoly;
 
+import java.util.Set;
+
 import partida.*;
 
 public class Edificios {
@@ -9,6 +11,9 @@ public class Edificios {
     private int piscinas;
     private int pistas;
     private int num_max;
+
+    public static final Set<String> edificiosValidos = Set.of("casa", "hotel", "piscina", "pista");
+
 
     public Edificios(Casilla casilla){
         this.casilla = casilla;
@@ -25,7 +30,7 @@ public class Edificios {
     public int getHoteles() {
         return hoteles;
     }
-    
+
     public int getPiscinas() {
         return piscinas;
     }
@@ -46,7 +51,7 @@ public class Edificios {
         this.num_max = num_max;
     }
 
-    public boolean EstaEdificado(){
+    public boolean EsSolarEdificado(){
         if(casas==0 && hoteles==0 && piscinas==0 && piscinas==0){
             return false;
         }else{
@@ -55,10 +60,10 @@ public class Edificios {
     }
 
     public boolean ConstruirCasa(){
-        if(casas == num_max && hoteles == num_max){
+        if(casilla.getGrupo().getCasasGrupo() == num_max && casilla.getGrupo().getHotelesGrupo() == num_max){
             System.out.println("No puedes construir más casas en este solar");
             return false;
-        }else if(casas == 4 && hoteles < num_max){
+        }else if(casas == 4 && casilla.getGrupo().getHotelesGrupo() < num_max){
             System.out.println("Debes construir un hotel");
             return false;
         }else{
@@ -68,21 +73,27 @@ public class Edificios {
     }
 
     public boolean ConstruirHotel(){
-        if(hoteles == num_max){
+        if(casilla.getGrupo().getHotelesGrupo() == num_max){
             System.out.println("No puedes construir más hoteles en este solar");
             return false;
-        }else if(hoteles < num_max && casas != 4){
+        }else if(casilla.getGrupo().getHotelesGrupo() < num_max && casas != 4){
             System.out.println("Debes tener 4 casas antes");
             return false;
-        }else{
+        }else if(casilla.getGrupo().getHotelesGrupo() == 1 && casilla.getGrupo().getCasasGrupo() > num_max){
+            System.out.println("Superas el máximo de casas. Debes eliminarlas antes de construir el hotel");
+            return false;
+        }else if(casas == 4 && casilla.getGrupo().getHotelesGrupo() < num_max && casilla.getGrupo().getCasasGrupo() <= num_max+4){
             hoteles += 1;
             casas = 0;
             return true;
+        }else{
+            System.out.println("CASO NON CONTEMPLADO, REVISAR CODIGO");
+            return false;
         }
     }
 
     public boolean ConstruirPiscina(){
-        if(piscinas == num_max){
+        if(casilla.getGrupo().getPiscinasGrupo() == num_max){
             System.out.println("No puedes tener más piscinas en este solar");
             return false;
         }else if(hoteles == 0 || hoteles == 1 && casas < 2){
@@ -95,7 +106,7 @@ public class Edificios {
     }
 
     public boolean ConstruirPista(){
-        if(pistas == num_max){
+        if(casilla.getGrupo().getPistasGrupo() == num_max){
             System.out.println("No puedes tener más pistas en este solar");
             return false;
         }else if(hoteles < 2){

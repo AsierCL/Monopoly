@@ -2,6 +2,8 @@ package monopoly;
 
 import partida.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Casilla {
@@ -16,9 +18,6 @@ public class Casilla {
     private float impuesto; //Cantidad a pagar por caer en la casilla: el alquiler en solares/servicios/transportes o impuestos.
     private float hipoteca; //Valor otorgado por hipotecar una casilla
     private ArrayList<Avatar> avatares; //Avatares que están situados en la casilla.
-
-    ///////////////////////////////////
-    //private int edificios; //Int do 0 ao 7 | 0=nada, 1=casa1, 2=casa2, 3=casa3, 4=casa4, 5=hotel, 6=piscina, 7=pistaDeDeporte//
     private Edificios edificios;
     private ArrayList <Casilla> casillashipotecadas; // Contén as casillas que están hipotecadas.
 
@@ -35,7 +34,16 @@ public class Casilla {
         this.posicion = posicion;
         this.valor = valor;
         this.duenho = duenho;
-        this.impuesto = valor * 0.1f;
+        if(tipo.equals("Solar")){
+            this.impuesto = valor * 0.1f;
+        }else if(tipo.equals("Transporte")){
+            this.impuesto = valor * 0.25f;
+        }else if(tipo.equals("Servicios")){
+            this.impuesto = Valor.SUMA_VUELTA/200f;
+        }else{
+            System.out.println("ERROR ASIGNANDO IMPUESTO CASILLAS");
+            System.exit(1);
+        }
         this.avatares = new ArrayList<>();
         this.edificios = new Edificios(this);
     }
@@ -132,42 +140,46 @@ public class Casilla {
     * Valor devuelto: true en caso de ser solvente (es decir, de cumplir las deudas), y false
     * en caso de no cumplirlas.*/
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero) {//Solucion prvisional
+        float pago = 0;
         switch(this.tipo){
             case("Solar"):
+                pago = pagoSolar(actual, banca, tirada, tablero);
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
-                    if((actual.getFortuna()-this.impuesto)<0){
+                    if((actual.getFortuna() - pago)<0){
                         System.out.println("Dinero insuficiente para pagar");
                         return false;
                     }else{
-                        System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                        actual.sumarGastos(this.impuesto);
-                        this.duenho.sumarFortuna(this.impuesto);
+                        System.out.println("Pagas impuesto de casilla: -" + pago + "€");
+                        actual.sumarGastos(pago);
+                        this.duenho.sumarFortuna(pago);
                     }
                 }
                 break;
 
             case("Transporte"):
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
-                    if((actual.getFortuna()-this.impuesto)<0){
+                    pago = this.impuesto * this.numTransporte();
+                    if((actual.getFortuna()-pago)<0){
                         System.out.println("Dinero insuficiente para pagar");
                         return false;
                     }else{
-                        System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                        actual.sumarGastos(this.impuesto);
-                        this.duenho.sumarFortuna(this.impuesto);
+                        System.out.println("Pagas impuesto de casilla: -" + pago + "€");
+                        actual.sumarGastos(pago);
+                        this.duenho.sumarFortuna(pago);
                     }
                 }
                 break;            
                 
             case("Servicios"):
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
-                    if((actual.getFortuna()-this.impuesto)<0){
+                    pago = this.impuesto * this.numServicios() * tirada;
+                    if((actual.getFortuna()-pago)<0){
                         System.out.println("Dinero insuficiente para pagar");
                         return false;
                     }else{
-                        System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                        actual.sumarGastos(this.impuesto);
-                        this.duenho.sumarFortuna(this.impuesto);
+                        System.out.println("Pagas impuesto de casilla: -" + pago + "€");
+                        actual.sumarGastos(pago);
+                        this.duenho.sumarFortuna(pago);
                     }
                 }
                 break;
@@ -225,6 +237,54 @@ public class Casilla {
                 break;
         }
         return true;
+    }
+
+    private float pagoSolar(Jugador actual, Jugador banca, int tirada, Tablero tablero){
+        Jugador duenhoCasillaActual = this.getDuenho();
+        float multiSolar = 0, multiCasa = 0, multiHotel = 0, multiPiscina = 0, multiPista = 0;
+        
+        if(this.getGrupo().esDuenhoGrupo(duenhoCasillaActual)){
+            multiSolar = 2;
+        }
+        
+        switch (this.getEdificios().getCasas()) {
+            case 0:
+                multiCasa = 0;
+                break;
+            case 1:
+                multiCasa = 5;
+                break;
+            case 2:
+                multiCasa = 15;
+                break;
+            case 3:
+                multiCasa = 35;
+                break;
+            case 4:
+                multiCasa = 50;
+                break;
+            default:
+                System.out.println("ERROR DE CODIGO; REVISAR PAGOSOLAR,EVALUAR CASILLA"); //DEBUG
+                break;
+        }
+        
+        return 0.1f;
+        /*
+        Alugueiro das casas:
+        Se hai unha casa: 5 veces o prezo do alugueiro do solar
+        Se hai dúas casas: 15 veces...
+        Se hai tres casas: 35 veces...
+        Se hai catro casas: 50 veces...
+        Alugueiro dos hoteis: 70 veces...
+        Piscina: 25 veces...
+        Pista de deporte: 25 veces...
+        Por exemplo, se un xogador cae nunha casilla cuxo valor inicial é 10.000€, na que o propietario é dono de todo o grupo, e na que hai un hotel, dúas casas e unha piscina, o alugueiro sería o seguinte:
+
+        Alugueiro do solar: (10% de 10.000)*2 = 2.000€
+        Alugueiro do hotel: 70*(10% de 10.000) = 70.000€
+        Alugueiro das casas: 15*(10% de 10.000) = 15.000€
+        Alugueiro da piscina: 25*(10% de 10.000) = 25.000€
+        TOTAL: 2.000+70.000+15.000+25.000=112.000€ */
     }
 
     /*Método usado para comprar una casilla determinada. Parámetros:
@@ -370,81 +430,79 @@ public class Casilla {
 
     }
 
-    public void Construir(Jugador jugador, String construccion){  // REFACTORIZAR E CAMBIAR this.valor*multiplicador por variables
-        if(!this.tipo.equals("Solar")){
+    public void Construir(Jugador jugador, String construccion) {
+        if(!Edificios.edificiosValidos.contains(construccion)){
+            System.out.println("Tipo de edificio incorrecto");
+            System.out.println("Tipos permitidos: | casa | hotel | piscina | pista |");
+            return;
+        }
+        if (!this.tipo.equals("Solar")) {
             System.out.println("No puedes edificar aqui");
             return;
-        }else if(!jugador.getAvatar().getLugar().equals(this)){
+        }
+        if (!jugador.getAvatar().getLugar().equals(this)) {
             System.out.println("Debes estar en la casilla para edificar");
             return;
-        }else if(!this.getGrupo().esDuenhoGrupo(jugador)){
+        }
+        if (!this.getGrupo().esDuenhoGrupo(jugador)) {
             System.out.println("Debes ser dueño de todo el solar para edificar");
             return;
         }
-        switch (construccion) {
-            case "casa":
-                if((jugador.getFortuna()-this.valor*0.6f)<0){
-                    System.out.println("Dinero insuficiente para pagar");
-                }else{
-                    if(edificios.ConstruirCasa()){
-                        System.out.println("Pagas la construcción: -" + this.valor*0.6f + "€");
-                        jugador.sumarGastos(this.valor*0.6f);
-                        this.duenho.sumarFortuna(this.valor*0.6f);
-                    }else{
-                        System.out.println("Construcción cancelada");
-                    }
-                }
 
-                break;
+        Map<String, Float> multiplicadores = new HashMap<>();
+        multiplicadores.put("casa", 0.6f);
+        multiplicadores.put("hotel", 0.6f);
+        multiplicadores.put("piscina", 0.4f);
+        multiplicadores.put("pista", 1.25f);
 
-            case "hotel":
-                if((jugador.getFortuna()-this.valor*0.6f)<0){
-                    System.out.println("Dinero insuficiente para pagar");
-                }else{
-                    if(edificios.ConstruirHotel()){
-                        System.out.println("Pagas la construcción: -" + this.valor*0.6f + "€");
-                        jugador.sumarGastos(this.valor*0.6f);
-                        this.duenho.sumarFortuna(this.valor*0.6f);
-                    }else{
-                        System.out.println("Construcción cancelada");
-                    }
-                }
-
-                break;
-
-            case "piscina":
-                if((jugador.getFortuna()-this.valor*0.4f)<0){
-                    System.out.println("Dinero insuficiente para pagar");
-                }else{
-                    if(edificios.ConstruirPiscina()){
-                        System.out.println("Pagas la construcción: -" + this.valor*0.4f + "€");
-                        jugador.sumarGastos(this.valor*0.4f);
-                        this.duenho.sumarFortuna(this.valor*0.4f);
-                    }else{
-                        System.out.println("Construcción cancelada");
-                    }
-                }
-
-                break;
-
-            case "pista":
-                if((jugador.getFortuna()-this.valor*1.25f)<0){
-                    System.out.println("Dinero insuficiente para pagar");
-                }else{
-                    if(edificios.ConstruirPista()){
-                        System.out.println("Pagas la construcción: -" + this.valor*1.25f + "€");
-                        jugador.sumarGastos(this.valor*1.25f);
-                        this.duenho.sumarFortuna(this.valor*1.25f);
-                    }else{
-                        System.out.println("Construcción cancelada");
-                    }
-                }
-                break;
-        
-            default:
+        float multiplicador = multiplicadores.get(construccion);
+        if (multiplicador == 0) {
             System.out.println("Construcción incorrecta");
-                break;
+            return;
         }
+
+        float costo = this.valor * multiplicador;
+        if (jugador.getFortuna() < costo) {
+            System.out.println("Dinero insuficiente para pagar");
+            return;
+        }
+
+        boolean construccionExitosa = switch (construccion) {
+            case "casa" -> edificios.ConstruirCasa();
+            case "hotel" -> edificios.ConstruirHotel();
+            case "piscina" -> edificios.ConstruirPiscina();
+            case "pista" -> edificios.ConstruirPista();
+            default -> false;
+        };
+
+        if (construccionExitosa) {
+            System.out.println("Pagas la construcción: -" + costo + "€");
+            jugador.sumarGastos(costo);
+        } else {
+            System.out.println("Construcción cancelada");
+        }
+    }
+
+    private int numTransporte(){
+        int contador = 0;
+        Jugador duenho = this.getDuenho();
+        for (Casilla casilla : duenho.getPropiedades(duenho)) {
+            if(casilla.tipo.equals("Transporte")){
+                contador++;
+            }
+        }
+        return contador;
+    }
+
+    private int numServicios(){
+        int contador = 0;
+        Jugador duenho = this.getDuenho();
+        for (Casilla casilla : duenho.getPropiedades(duenho)) {
+            if(casilla.tipo.equals("Servicios")){
+                contador++;
+            }
+        }
+        return contador;
     }
 
     
