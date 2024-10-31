@@ -524,50 +524,57 @@ public class Menu {
         Scanner scanDado = new Scanner(System.in);
         int contador = 0; // Contador del número de veces que se ha sacado más de 4
         int resultadoDado1 = 0, resultadoDado2 = 0;
+        boolean haComprado = false; // Controla si ya ha comprado una propiedad en este turno
 
         if (resultadoTotal <= 4){ // Si el resultado total es menor o igual a 4 retrocede esa cantidada
             moverAvatarYEvaluar(avatarActual, -resultadoTotal, resultadoTotal, casillas);
             System.out.println("Has sacado menos de 4, no podrás tirar en los próximos dos turnos"); // NO IMPLEMENTADO
-        }
-        while (resultadoTotal > 4 && contador < 4){ // Mientras se siga sacando más de 4 y no suceda más de 3 veces
-            moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
-            System.out.println(tablero);
-
-            if (contador < 3){ // En la tirada adicional 1 y 2 no se tienen en cuenta los dados dobles
-                turnoIntermedio(avatarActual, avatarActual.getLugar());
-                System.out.print("Introduzca el valor de la tirada del dado 1: ");
-                resultadoDado1 = scanDado.nextInt();
-                System.out.print("Introduzca el valor de la tirada del dado 2: ");
-                resultadoDado2 = scanDado.nextInt();
-                resultadoTotal = resultadoDado1 + resultadoDado2;
-                System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
-            }
-            contador++;
-
-            if(contador == 3 && resultadoDado1 == resultadoDado2){ // En la última tirada adicional se gestionan los dados dobles
+        } else {
+            while (resultadoTotal > 4 && contador < 4){ // Mientras se siga sacando más de 4 y no suceda más de 3 veces
                 moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
-                while(resultadoDado1 == resultadoDado2){
-                    System.out.println("LLevas " + this.lanzamientos + " dobles");
-                    tirado = false;
-                    if(this.lanzamientos<3){
-                        System.out.println("Vuelve a tirar");
+                System.out.println(tablero);
+                
+                if (!haComprado) { // Verificamos si ya compró en este turno
+                    turnoIntermedio(avatarActual, avatarActual.getLugar());
+                    haComprado = true; // Marcamos que ha hecho una compra
+                }
 
-                        System.out.print("Introduzca el valor de la tirada del dado 1: ");
-                        resultadoDado1 = scanDado.nextInt();
-                        System.out.print("Introduzca el valor de la tirada del dado 2: ");
-                        resultadoDado2 = scanDado.nextInt();
-                        resultadoTotal = resultadoDado1 + resultadoDado2;
-                        System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
-
-                        moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
-                    }else{
-                        System.out.println("VAS A LA CARCEL");
-                        avatarActual.getJugador().encarcelar(casillas);
-                        tirado = true;
-                        contador++;
-                        break;
+                if (contador < 3){ // En la tirada adicional 1 y 2 no se tienen en cuenta los dados dobles
+                    turnoIntermedio(avatarActual, avatarActual.getLugar());
+                    System.out.print("Introduzca el valor de la tirada del dado 1: ");
+                    resultadoDado1 = scanDado.nextInt();
+                    System.out.print("Introduzca el valor de la tirada del dado 2: ");
+                    resultadoDado2 = scanDado.nextInt();
+                    resultadoTotal = resultadoDado1 + resultadoDado2;
+                    System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
+                }
+                contador++;
+    
+                if(contador == 3 && resultadoDado1 == resultadoDado2){ // En la última tirada adicional se gestionan los dados dobles
+                    moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
+                    while(resultadoDado1 == resultadoDado2){
+                        System.out.println("LLevas " + this.lanzamientos + " dobles");
+                        tirado = false;
+                        if(this.lanzamientos<3){
+                            System.out.println("Vuelve a tirar");
+    
+                            System.out.print("Introduzca el valor de la tirada del dado 1: ");
+                            resultadoDado1 = scanDado.nextInt();
+                            System.out.print("Introduzca el valor de la tirada del dado 2: ");
+                            resultadoDado2 = scanDado.nextInt();
+                            resultadoTotal = resultadoDado1 + resultadoDado2;
+                            System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
+    
+                            moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
+                        }else{
+                            System.out.println("VAS A LA CARCEL");
+                            avatarActual.getJugador().encarcelar(casillas);
+                            tirado = true;
+                            contador++;
+                            break;
+                        }
+                        this.lanzamientos++;
                     }
-                    this.lanzamientos++;
                 }
             }
         }
@@ -582,7 +589,7 @@ public class Menu {
             
             if (respuesta.equalsIgnoreCase("s")) {
                 jugador.anhadirPropiedad(casillaActual); // Método que gestiona la compra
-                
+                casillaActual.setDuenho(jugador);
                 System.out.println(jugador.getNombre() + " ha comprado la casilla " + casillaActual.getNombre());
             }
         }
