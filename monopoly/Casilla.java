@@ -16,10 +16,11 @@ public class Casilla {
     private float impuesto; //Cantidad a pagar por caer en la casilla: el alquiler en solares/servicios/transportes o impuestos.
     private float hipoteca; //Valor otorgado por hipotecar una casilla
     private ArrayList<Avatar> avatares; //Avatares que están situados en la casilla.
+
     ///////////////////////////////////
     //private int edificios; //Int do 0 ao 7 | 0=nada, 1=casa1, 2=casa2, 3=casa3, 4=casa4, 5=hotel, 6=piscina, 7=pistaDeDeporte//
     private Edificios edificios;
-    
+    private ArrayList <Casilla> casillashipotecadas; // Contén as casillas que están hipotecadas.
 
     //Constructores:
     public Casilla() {
@@ -254,14 +255,37 @@ public class Casilla {
         if(casilla.getDuenho().equals(solicitante)) { 
             if (casilla.tipo == "Solar" && casilla.getEdificios().EstaEdificado() == true) {
                 System.out.println("Debes vender todos los edificios de tu propiedad antes de hipotecarla.");
-            } else {
-                if(casilla.tipo == "Solar" || casilla.tipo == "Transporte" || casilla.tipo == "Servicios") {
+            } 
+            if(casilla.tipo == "Solar" || casilla.tipo == "Transporte" || casilla.tipo == "Servicios") {
                     solicitante.setFortuna(solicitante.getFortuna() + casilla.getValor());
-                    System.out.println(solicitante.getNombre() + "ha hipotecado la casilla" + casilla.getNombre() +"y recibe"+ casilla.getValor() + "." );
-                }
+                    casillashipotecadas.add(casilla);
+                    System.out.println(solicitante.getNombre() + " ha hipotecado la casilla " + casilla.getNombre() + " y recibe " + casilla.getValor() + ".");
             } 
         } else {
             System.out.println("No eres propietario de esta casilla.");
+            // Array de casillas hiptotecadas para verificar se se pode construír.
+        } 
+    }
+
+    public boolean EstaHipotecada(Casilla casilla) {
+        if (casillashipotecadas.contains(casilla)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void deshipotecarCasilla(Jugador solicitante, Casilla casilla){
+        if(EstaHipotecada(casilla)) {
+            if (casilla.getDuenho() != solicitante) {
+                System.out.println("No puedes hipotecar la casilla si no eres su dueño.");    
+            } else if (casilla.getDuenho() == solicitante) {
+            solicitante.setFortuna(solicitante.getFortuna() - (casilla.getValor() + (10*casilla.getValor()/100)));
+            System.out.println(solicitante.getNombre() + " ha deshipotecado la casilla " + casilla.getNombre() + " y recibe " + (10*casilla.getValor()/100) "." );
+            casillashipotecadas.remove(casilla);
+            }
+        } else {
+            System.out.println("La casilla no está hipotecada.");
         } 
     }
 

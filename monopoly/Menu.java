@@ -212,6 +212,10 @@ public class Menu {
                 case("hipotecar"):
                     hipotecar(subAccion);
                     break;
+                // deshipotecar + Casilla
+                case("deshipotecar"):
+                    deshipotecar(subAccion);
+                    break;
                 //ver tablero
                 case("construir"):
                     casillaActual.Construir(jugadorActual, subAccion);
@@ -460,9 +464,25 @@ public class Menu {
         casilla_hipotecada.hipotecarCasilla(jugador_hipoteca, casilla_hipotecada);
     }
 
-    private void bancarrota(Strin)
-    
+    private void deshipotecar(String nombre) {
 
+        Casilla casilla_deshipotecar = tablero.obtenerCasilla(nombre)
+        Jugador jugador_deshipoteca = jugadores.get(turno);
+
+        casilla_deshipotecar.deshipotecarCasilla(jugador_deshipoteca, casilla_deshipotecar);
+    }
+
+
+
+    private void bancarrota(String nombre) {
+        Jugador jugadorActual = jugadores.get(turno);
+        Jugador jugador_bancarrota = buscarJugadorPorNombre(nombre);
+        Jugador jugador_acreedor = jugadorActual.getAvatar().getLugar().getDuenho();
+    
+        jugadorActual.declararBancarrota(jugador_bancarrota, jugador_acreedor, jugadorActual, jugadores);
+    }
+    
+    
     //Método que ejecuta todas las acciones relacionadas con el comando 'salir carcel'. 
     private void salirCarcel() {
         Jugador jugador = jugadores.get(turno);
