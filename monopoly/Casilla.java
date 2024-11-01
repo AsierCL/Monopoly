@@ -143,7 +143,7 @@ public class Casilla {
         float pago = 0;
         switch(this.tipo){
             case("Solar"):
-                pago = pagoSolar(actual, banca, tirada, tablero);
+                pago = calcularPagoSolar(actual, tablero);
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
                     if((actual.getFortuna() - pago)<0){
                         System.out.println("Dinero insuficiente para pagar");
@@ -239,52 +239,24 @@ public class Casilla {
         return true;
     }
 
-    private float pagoSolar(Jugador actual, Jugador banca, int tirada, Tablero tablero){
-        Jugador duenhoCasillaActual = this.getDuenho();
-        float multiSolar = 0, multiCasa = 0, multiHotel = 0, multiPiscina = 0, multiPista = 0;
-        
-        if(this.getGrupo().esDuenhoGrupo(duenhoCasillaActual)){
-            multiSolar = 2;
+    private float calcularPagoSolar(Jugador actual, Tablero tablero) {
+        float multiSolar = this.getGrupo().esDuenhoGrupo(this.duenho) ? 2 : 1;
+        float multiCasa = calcularMultiplicadorCasa(this.getEdificios().getCasas());
+        float multiHotel = this.getEdificios().getHoteles() * 70;
+        float multiPiscina = this.getEdificios().getPiscinas() * 25;
+        float multiPista = this.getEdificios().getPistas() * 25;
+    
+        return this.impuesto * (multiSolar + multiCasa + multiHotel + multiPiscina + multiPista);
+    }
+    
+    private float calcularMultiplicadorCasa(int numCasas) {
+        switch (numCasas) {
+            case 1: return 5;
+            case 2: return 15;
+            case 3: return 35;
+            case 4: return 50;
+            default: return 0;
         }
-        
-        switch (this.getEdificios().getCasas()) {
-            case 0:
-                multiCasa = 0;
-                break;
-            case 1:
-                multiCasa = 5;
-                break;
-            case 2:
-                multiCasa = 15;
-                break;
-            case 3:
-                multiCasa = 35;
-                break;
-            case 4:
-                multiCasa = 50;
-                break;
-            default:
-                System.out.println("ERROR DE CODIGO; REVISAR PAGOSOLAR,EVALUAR CASILLA"); //DEBUG
-                break;
-        }
-        
-        return 0.1f;
-        /*
-        Alugueiro das casas:
-        Se hai unha casa: 5 veces o prezo do alugueiro do solar
-        Se hai dúas casas: 15 veces...
-        Se hai tres casas: 35 veces...
-        Se hai catro casas: 50 veces...
-        Alugueiro dos hoteis: 70 veces...
-        Piscina: 25 veces...
-        Pista de deporte: 25 veces...
-        Por exemplo, se un xogador cae nunha casilla cuxo valor inicial é 10.000€, na que o propietario é dono de todo o grupo, e na que hai un hotel, dúas casas e unha piscina, o alugueiro sería o seguinte:
-
-        Alugueiro do solar: (10% de 10.000)*2 = 2.000€
-        Alugueiro do hotel: 70*(10% de 10.000) = 70.000€
-        Alugueiro das casas: 15*(10% de 10.000) = 15.000€
-        Alugueiro da piscina: 25*(10% de 10.000) = 25.000€
-        TOTAL: 2.000+70.000+15.000+25.000=112.000€ */
     }
 
     /*Método usado para comprar una casilla determinada. Parámetros:
@@ -466,7 +438,4 @@ public class Casilla {
         }
         return contador;
     }
-
-    
-
 }

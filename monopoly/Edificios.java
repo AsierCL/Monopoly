@@ -60,7 +60,7 @@ public class Edificios {
     }
 
     public boolean ConstruirCasa(){
-        if(casilla.getGrupo().getCasasGrupo() == num_max && casilla.getGrupo().getHotelesGrupo() == num_max){
+        if(casilla.getGrupo().getCasasGrupo() >= num_max+4 && casilla.getGrupo().getHotelesGrupo() == num_max){
             System.out.println("No puedes construir más casas en este solar");
             return false;
         }else if(casas == 4 && casilla.getGrupo().getHotelesGrupo() < num_max){
@@ -79,7 +79,7 @@ public class Edificios {
         }else if(casilla.getGrupo().getHotelesGrupo() < num_max && casas != 4){
             System.out.println("Debes tener 4 casas antes");
             return false;
-        }else if(casilla.getGrupo().getHotelesGrupo() == 1 && casilla.getGrupo().getCasasGrupo() > num_max){
+        }else if(casilla.getGrupo().getHotelesGrupo() == 1 && casilla.getGrupo().getCasasGrupo() > num_max+4){
             System.out.println("Superas el máximo de casas. Debes eliminarlas antes de construir el hotel");
             return false;
         }else if(casas == 4 && casilla.getGrupo().getHotelesGrupo() < num_max && casilla.getGrupo().getCasasGrupo() <= num_max+4){
