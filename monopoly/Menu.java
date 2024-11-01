@@ -248,6 +248,9 @@ public class Menu {
                 System.out.println("Propiedades: ");
                 for (Casilla propiedad : jugador.getPropiedades(jugador)) {
                     System.out.println(" - " + propiedad.getNombre());
+                    if(propiedad.getTipo().equals("Solar")){
+                        System.out.println("\t" + "|Casas=" + propiedad.getEdificios().getCasas() + "|Hoteles=" + propiedad.getEdificios().getHoteles() + "|Piscinas=" + propiedad.getEdificios().getPiscinas() + "|Pistas=" + propiedad.getEdificios().getPistas());
+                    }
                 }
             } else {
                 System.out.println("El jugador no tiene propiedades.");
@@ -263,7 +266,6 @@ public class Menu {
         
 
         // Hipotecas.
-        // Edificios.
         } else {
             System.out.println("No existe un jugador con este nombre.");
         }
