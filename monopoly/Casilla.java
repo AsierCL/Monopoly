@@ -143,7 +143,7 @@ public class Casilla {
         float pago = 0;
         switch(this.tipo){
             case("Solar"):
-                pago = calcularPagoSolar(actual, tablero);
+                pago = calcularPagoSolar(actual);
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
                     if((actual.getFortuna() - pago)<0){
                         System.out.println("Dinero insuficiente para pagar");
@@ -239,7 +239,7 @@ public class Casilla {
         return true;
     }
 
-    private float calcularPagoSolar(Jugador actual, Tablero tablero) {
+    private float calcularPagoSolar(Jugador actual) {
         float multiSolar = this.getGrupo().esDuenhoGrupo(this.duenho) ? 2 : 1;
         float multiCasa = calcularMultiplicadorCasa(this.getEdificios().getCasas());
         float multiHotel = this.getEdificios().getHoteles() * 70;
@@ -304,13 +304,14 @@ public class Casilla {
         switch (tipo.toLowerCase()) {
             case "solar":
                 info.append("Valor de compra: ").append(valor).append("\n");
-                info.append("Impuesto: ").append(impuesto).append("\n");
+                info.append("Impuesto: ").append(calcularPagoSolar(this.getDuenho())).append("\n");
                 if (duenho != null) {
                     info.append("Dueño: ").append(duenho.getNombre()).append("\n");
                 } else {
                     info.append("Dueño: Banca\n");
                 }
                 info.append("Grupo: ").append(grupo.getColorGrupo()).append("  ").append(Valor.RESET).append("\n");
+                info.append("Construcciones: " + "|Casas=" + this.getEdificios().getCasas() + "|Hoteles=" + this.getEdificios().getHoteles() + "|Piscinas=" + this.getEdificios().getPiscinas() + "|Pistas=" + this.getEdificios().getPistas() + "|\n");
                 break;
                 
             case "especial":
