@@ -323,60 +323,29 @@ public class Menu {
             Dado dado1 = new Dado();
             Dado dado2 = new Dado();
 
-            int resultadoDado1 = dado1.hacerTirada();
-            int resultadoDado2 = dado2.hacerTirada();
+
+            int[] resultadoDados = new int[2];
+            resultadoDados[0] = dado1.hacerTirada();
+            resultadoDados[1] = dado2.hacerTirada();
 
 
-            int resultadoTotal = resultadoDado1 + resultadoDado2;
-            System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
-
+            int resultadoTotal = resultadoDados[0] + resultadoDados[1];
+            System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
+    
             Avatar avatarActual = avatares.get(turno);
-            Jugador jugadorActual = avatares.get(turno).getJugador();
+            Jugador jugadorActual = avatarActual.getJugador();
             ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
-            
+    
             this.lanzamientos++;
             tirado = true;
-            if(jugadorActual.getEnCarcel()){// ESTÁ EN CARCEL
-                if(resultadoDado1 == resultadoDado2){
-                    System.out.println("Sales de la carcel");
-                    jugadorActual.setEnCarcel(false);
-                    tirado = false;
-                    avatarActual.moverAvatar(casillas, resultadoTotal);
-                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                }else{
-                    jugadorActual.setTiradasCarcel(jugadorActual.getTiradasCarcel() + 1);
-                    
-                    if(jugadorActual.getTiradasCarcel() == 3){
-                        System.out.println("Te quedan " + (3-jugadorActual.getTiradasCarcel()) + " intentos");
-                        salirCarcel();
-                        jugadorActual.setTiradasCarcel(0);
-                    }else{
-                        System.out.println("Sigues en la carcel");
-                        System.out.println("Te quedan " + (3-jugadorActual.getTiradasCarcel()) + " intentos");
-                    }
-                }
-
-            }else{ // NO ESTÄ EN CARCEL
-                if(resultadoDado1 == resultadoDado2){
-                    System.out.println("LLevas " + this.lanzamientos + " dobles");
-                    tirado = false;
-                
-                    if(this.lanzamientos<3){
-                        avatarActual.moverAvatar(casillas, resultadoTotal);
-                        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                        System.out.println("Vuelve a tirar");
-                    }else{
-                        System.out.println("VAS A LA CARCEL");
-                        avatarActual.getJugador().encarcelar(casillas);
-                        tirado = true;
-                    }
-                }else{
-                    avatarActual.moverAvatar(casillas, resultadoTotal);
-                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                }
+    
+            if (jugadorActual.getEnCarcel()) {
+                manejarJugadorEnCarcel(jugadorActual, avatarActual, resultadoTotal, resultadoDados, casillas);
+            } else {
+                manejarJugadorFueraCarcel(avatarActual, jugadorActual, resultadoTotal, resultadoDados, casillas);
             }
-
-        }else{//TIRADAS COMPLETADAS
+    
+        } else {
             System.out.println("Ya no puedes tirar más");
         }
     }
@@ -524,7 +493,7 @@ public class Menu {
         Scanner scanDado = new Scanner(System.in);
         int contador = 0; // Contador del número de veces que se ha sacado más de 4
         int resultadoDado1 = 0, resultadoDado2 = 0;
-        boolean haComprado = false; // Controla si ya ha comprado una propiedad en este turno
+        boolean haComprado = false; // Controla si ya ha comprado una propiedad en este turno 
 
         if (resultadoTotal <= 4){ // Si el resultado total es menor o igual a 4 retrocede esa cantidada
             moverAvatarYEvaluar(avatarActual, -resultadoTotal, resultadoTotal, casillas);
