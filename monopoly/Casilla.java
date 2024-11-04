@@ -130,8 +130,8 @@ public class Casilla {
                         return false;
                     }else{
                         System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                        actual.sumarGastos(this.impuesto);
-                        this.duenho.sumarFortuna(this.impuesto);
+                        actual.incrementarPagoDeAlquileres(this.impuesto);
+                        this.duenho.incrementarCobroDeAlquileres(this.impuesto);
                     }
                 }
                 break;
@@ -143,8 +143,8 @@ public class Casilla {
                         return false;
                     }else{
                         System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                        actual.sumarGastos(this.impuesto);
-                        this.duenho.sumarFortuna(this.impuesto);
+                        actual.incrementarPagoTasasEImpuestos(this.impuesto);
+                        this.duenho.incrementarCobroDeAlquileres(this.impuesto);
                     }
                 }
                 break;            
@@ -156,8 +156,8 @@ public class Casilla {
                         return false;
                     }else{
                         System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                        actual.sumarGastos(this.impuesto);
-                        this.duenho.sumarFortuna(this.impuesto);
+                        actual.incrementarPagoTasasEImpuestos(this.impuesto);
+                        this.duenho.incrementarCobroDeAlquileres(this.impuesto);
                     }
                 }
                 break;
@@ -182,7 +182,7 @@ public class Casilla {
 
                     case ("Parking"):
                         System.out.println("Recibes el bote del parking: +" + this.valor + "€");
-                        actual.sumarFortuna(this.valor);
+                        actual.incrementarPremiosInversionesOBote(this.valor);
                         this.valor = 0;
                         break;
                     
@@ -198,7 +198,7 @@ public class Casilla {
                             return false;
                         }else{
                             System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                            actual.sumarGastos(this.impuesto);
+                            actual.incrementarPagoTasasEImpuestos(this.impuesto);
                             tablero.obtenerCasilla("Parking").sumarValor(this.impuesto);
                         }
                         break;
@@ -224,7 +224,7 @@ public class Casilla {
         if(this.tipo == "Solar" || this.tipo == "Transporte" || this.tipo == "Servicios"){
             if(solicitante.getAvatar().getLugar() == this){
                 if(this.duenho == banca){
-                    solicitante.sumarGastos(this.valor);
+                    solicitante.incrementarDineroInvertido(this.valor);
                     solicitante.anhadirPropiedad(this);
                     this.duenho = solicitante;
                     System.out.println("Has comprado la casilla " + this.nombre + " por " + this.valor);

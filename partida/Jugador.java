@@ -17,6 +17,15 @@ public class Jugador {
     private int vueltas; //Cuenta las vueltas dadas al tablero.
     private ArrayList<Casilla> propiedades; //Propiedades que posee el jugador.
 
+    // Atributos para estadísticas
+    private float dineroInvertido;
+    private float pagoTasasEImpuestos;
+    private float pagoDeAlquileres;
+    private float cobroDeAlquileres;
+    private float pasarPorCasillaDeSalida;
+    private float premiosInversionesOBote;
+    private float vecesEnLaCarcel;
+
     //Constructor vacío. Se usará para crear la banca.
     public Jugador() {
         this.nombre = "banca";
@@ -29,6 +38,15 @@ public class Jugador {
         this.vueltas = 0;
         // Asignar array propiedades
         //this.propiedades ...
+
+        // Inicializar estadísticas a cero
+        this.dineroInvertido = 0;
+        this.pagoTasasEImpuestos = 0;
+        this.pagoDeAlquileres = 0;
+        this.cobroDeAlquileres = 0;
+        this.pasarPorCasillaDeSalida = 0;
+        this.premiosInversionesOBote = 0;
+        this.vecesEnLaCarcel = 0;
     }
 
     /*Constructor principal. Requiere parámetros:
@@ -45,10 +63,19 @@ public class Jugador {
             System.out.println("\nTipo de avatar incorrecto\n");
         }
         this.fortuna = Valor.FORTUNA_INICIAL;
+
+        //Aquí alomejor se puede sustituir todo esto por this();
         this.gastos = 0;
         this.enCarcel = false;
         this.tiradasCarcel = 0;
         this.vueltas = 0;
+        this.dineroInvertido = 0;
+        this.pagoTasasEImpuestos = 0;
+        this.pagoDeAlquileres = 0;
+        this.cobroDeAlquileres = 0;
+        this.pasarPorCasillaDeSalida = 0;
+        this.premiosInversionesOBote = 0;
+        this.vecesEnLaCarcel = 0;
 
         /*Non é necesario especificar <Casilla>,
         *por "diamond operator", e inferencia de tipos */
@@ -139,6 +166,52 @@ public class Jugador {
         this.avatar.getLugar().eliminarAvatar(this.avatar);
         this.avatar.setLugar(pos.get(0).get(0));
         pos.get(0).get(0).anhadirAvatar(this.avatar);
+        this.vecesEnLaCarcel++;
+    }
+
+    // Métodos para actualizar estadísticas
+    public void incrementarDineroInvertido(float cantidad) {
+        this.dineroInvertido += cantidad;
+        this.sumarGastos(cantidad);  // Añadido también a los gastos
+    }
+
+    public void incrementarPagoTasasEImpuestos(float cantidad) {
+        this.pagoTasasEImpuestos += cantidad;
+        this.sumarGastos(cantidad);
+    }
+
+    public void incrementarPagoDeAlquileres(float cantidad) {
+        this.pagoDeAlquileres += cantidad;
+        this.sumarGastos(cantidad);
+    }
+
+    public void incrementarCobroDeAlquileres(float cantidad) {
+        this.cobroDeAlquileres += cantidad;
+        this.sumarFortuna(cantidad);
+    }
+
+    public void incrementarPasarPorCasillaDeSalida(float cantidad) {
+        this.pasarPorCasillaDeSalida += cantidad;
+        this.sumarFortuna(cantidad);
+    }
+
+    public void incrementarPremiosInversionesOBote(float cantidad) {
+        this.premiosInversionesOBote += cantidad;
+        this.sumarFortuna(cantidad);
+    }
+
+    // Método para mostrar estadísticas
+    public void mostrarEstadisticasJugador() {
+        System.out.println("Estadísticas de " + this.nombre + ":");
+        System.out.println("{");
+        System.out.println("  dineroInvertido: " + this.dineroInvertido + ",");
+        System.out.println("  pagoTasasEImpuestos: " + this.pagoTasasEImpuestos + ",");
+        System.out.println("  pagoDeAlquileres: " + this.pagoDeAlquileres + ",");
+        System.out.println("  cobroDeAlquileres: " + this.cobroDeAlquileres + ",");
+        System.out.println("  pasarPorCasillaDeSalida: " + this.pasarPorCasillaDeSalida + ",");
+        System.out.println("  premiosInversionesOBote: " + this.premiosInversionesOBote + ",");
+        System.out.println("  vecesEnLaCarcel: " + this.vecesEnLaCarcel);
+        System.out.println("}");
     }
 
 }

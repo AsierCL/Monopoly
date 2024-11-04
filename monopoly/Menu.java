@@ -217,14 +217,11 @@ public class Menu {
                 if(subAccion.isEmpty()){ //Estadísticas del juego
 
                 } else { //Estadísticas del jugador
-
+                    jugadores.get(turno).mostrarEstadisticasJugador();
                 }
                 break;
             case("cambiar"):
                 cambiarModo(jugadores.get(turno).getAvatar());
-                break;
-            case("f"):
-                System.out.println("Has terminado el turno intermedio\n");
                 break;
             default:
                 System.out.println("Error, introduzca un comando valido\n");
@@ -590,7 +587,7 @@ public class Menu {
         Jugador jugador = jugadores.get(turno);
         if(jugador.getEnCarcel()){
             jugador.setEnCarcel(false);
-            jugador.sumarGastos(Valor.SALIR_CARCEL);
+            jugador.incrementarPagoTasasEImpuestos(Valor.SALIR_CARCEL);
             System.out.println("El jugador "+jugador.getNombre()+" sale de la carcel " + " pagando " + Valor.SALIR_CARCEL);
         }else{
             System.out.println("El jugador " + " no está en la carcel");
