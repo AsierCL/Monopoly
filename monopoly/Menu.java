@@ -53,6 +53,7 @@ public class Menu {
         System.out.println("listar jugadores \t\t-> lista los jugadores creados");
         System.out.println("listar avatares \t\t-> lista los avatares de los jugadores creados");
         System.out.println("listar enventa \t\t\t-> lista las propiedades a la venta");
+        System.out.println("listar edificios \t\t\t-> lista los edificios construidos");
         System.out.println("lanzar dados \t\t\t-> lanza los dados");
         System.out.println("dados trucados \t\t\t-> permite asignar un valor a cada dado");
         System.out.println("acabar turno \t\t\t-> termina el turno del jugador que esté jugando");
@@ -168,6 +169,15 @@ public class Menu {
                         break;
                     case("enventa"):
                         listarVenta();
+                        break;
+                    case("edificios"):
+                        if(parametro1.equals("")){
+                            listarEdificios();
+                        }else if(Grupo.coloresValidos.contains(parametro1)){
+                            listarEdificiosPorColor(parametro1);
+                        }else{
+                            System.out.println("Error, color invalido");
+                        }
                         break;
                     default:
                         System.out.println("Error, introduzca un comando valido");
@@ -484,6 +494,33 @@ public class Menu {
             System.out.println(this.tablero.obtenerCasilla(i).infoCasilla());
         }
 
+        }
+    }
+
+    private void listarEdificios() {
+        boolean ningunEdificio = true;
+        for(int i = 0; i<40; i++){
+            Casilla casilla = this.tablero.obtenerCasilla(i);
+            if(casilla.getEdificios()!=null){
+                if(casilla.getEdificios().EsSolarEdificado()){
+                    ningunEdificio = false;
+                    System.out.println(this.tablero.obtenerCasilla(i).getNombre() + ": "+ "|Casas=" + this.tablero.obtenerCasilla(i).getEdificios().getCasas() + "|Hoteles=" + this.tablero.obtenerCasilla(i).getEdificios().getHoteles() + "|Piscinas=" + this.tablero.obtenerCasilla(i).getEdificios().getPiscinas() + "|Pistas=" + this.tablero.obtenerCasilla(i).getEdificios().getPistas());
+                }
+            }
+        }
+        if(ningunEdificio){
+            System.out.println("No hai ningun edificio construido");
+        }
+    }
+    
+    private void listarEdificiosPorColor(String color) {
+        Grupo grupo = tablero.getGrupos().get(color); //For Loop para facelo case insensitive
+        if(grupo==null){
+            System.out.println("Grupo de color inválido");
+        }else{
+            for (Casilla casilla : grupo.getMiembros()) {
+                System.out.println(casilla.getNombre() + ": "+ "|Casas=" + casilla.getEdificios().getCasas() + "|Hoteles=" + casilla.getEdificios().getHoteles() + "|Piscinas=" + casilla.getEdificios().getPiscinas() + "|Pistas=" + casilla.getEdificios().getPistas());
+            }
         }
     }
 

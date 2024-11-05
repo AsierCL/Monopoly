@@ -23,6 +23,10 @@ public class Tablero {
     public ArrayList<ArrayList<Casilla>> getPosiciones() {
         return this.posiciones;
     }
+
+    public HashMap<String, Grupo> getGrupos() {
+        return grupos;
+    }
     
     //Método para crear todas las casillas del tablero. Formado a su vez por cuatro métodos (1/lado).
     private void generarCasillas() {
@@ -56,8 +60,11 @@ public class Tablero {
     ladoNorte.add(new Casilla("Servicio2", "Servicios", 28, banca));
     ladoNorte.add(new Casilla("Solar17", "Solar", 29, 4455516, banca));
     ladoNorte.add(new Casilla("IrCarcel", "Especial", 30, banca));
-    new Grupo(ladoNorte.get(1), ladoNorte.get(3), ladoNorte.get(4), Valor.RED);
-    new Grupo(ladoNorte.get(6), ladoNorte.get(7), ladoNorte.get(9), Valor.YELLOW);
+    Grupo G5 = new Grupo(ladoNorte.get(1), ladoNorte.get(3), ladoNorte.get(4), Valor.RED);
+    Grupo G6 = new Grupo(ladoNorte.get(6), ladoNorte.get(7), ladoNorte.get(9), Valor.YELLOW);
+
+    this.grupos.put("Rojo", G5);
+    this.grupos.put("Amarillo", G6);
     
     return ladoNorte;
     }
@@ -77,8 +84,11 @@ public class Tablero {
     ladoSur.add(new Casilla("Caja1", "Comunidad", 2, banca));
     ladoSur.add(new Casilla("Solar1", "Solar", 1, 600000, banca));
     ladoSur.add(new Casilla("Salida", "Especial", 0, banca));
-    new Grupo(ladoSur.get(1), ladoSur.get(2), ladoSur.get(4), Valor.CYAN);
-    new Grupo(ladoSur.get(7), ladoSur.get(9), Valor.BROWN);
+    Grupo G1 = new Grupo(ladoSur.get(7), ladoSur.get(9), Valor.BROWN);
+    Grupo G2 = new Grupo(ladoSur.get(1), ladoSur.get(2), ladoSur.get(4), Valor.CYAN);
+
+    this.grupos.put("Marron", G1);
+    this.grupos.put("Cian", G2);
     
     return ladoSur;
 
@@ -97,8 +107,11 @@ public class Tablero {
         ladoOeste.add(new Casilla("Solar7", "Solar", 13, 676000, banca));
         ladoOeste.add(new Casilla("Servicio1", "Servicios", 12, banca));
         ladoOeste.add(new Casilla("Solar6", "Solar", 11, 676000, banca));
-        new Grupo(ladoOeste.get(0), ladoOeste.get(1), ladoOeste.get(3), Valor.WHITE); //Puse white porque no hay naranja y es el que falta aquí
-        new Grupo(ladoOeste.get(5), ladoOeste.get(6),ladoOeste.get(8), Valor.PURPLE);
+        Grupo G3 = new Grupo(ladoOeste.get(5), ladoOeste.get(6),ladoOeste.get(8), Valor.PURPLE);
+        Grupo G4 = new Grupo(ladoOeste.get(0), ladoOeste.get(1), ladoOeste.get(3), Valor.WHITE); //Puse white porque no hay naranja y es el que falta aquí
+
+        this.grupos.put("Morado", G3);
+        this.grupos.put("Gris", G4);
     
         return ladoOeste;
     }
@@ -116,8 +129,12 @@ public class Tablero {
         ladoEste.add(new Casilla("Solar21", "Solar", 37, 5792170, banca));
         ladoEste.add(new Casilla("Impuesto2", 38, Valor.SUMA_VUELTA, banca));
         ladoEste.add(new Casilla("Solar22", "Solar", 39,  5792170, banca));
-        new Grupo(ladoEste.get(0), ladoEste.get(1), ladoEste.get(3), Valor.GREEN);
-        new Grupo(ladoEste.get(6), ladoEste.get(8), Valor.BLUE);
+        Grupo G7 = new Grupo(ladoEste.get(0), ladoEste.get(1), ladoEste.get(3), Valor.GREEN);
+        Grupo G8 = new Grupo(ladoEste.get(6), ladoEste.get(8), Valor.BLUE);
+
+        this.grupos.put("Verde", G7);
+        this.grupos.put("Azul", G8);
+
         return ladoEste;
     }
 
@@ -134,8 +151,6 @@ public class Tablero {
         ArrayList<Casilla> ladoOeste = posiciones.get(1); // Segundo lado
         ArrayList<Casilla> ladoNorte = posiciones.get(2); // Tercer lado
         ArrayList<Casilla> ladoEste = posiciones.get(3);  // Cuarto lado
-
-        ArrayList<Grupo> grupos = new ArrayList<>();
 
         String color;
         String colorOeste;

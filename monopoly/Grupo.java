@@ -2,6 +2,7 @@ package monopoly;
 
 import partida.*;
 import java.util.ArrayList;
+import java.util.Set;
 
 
 public class Grupo {
@@ -10,6 +11,7 @@ public class Grupo {
     private ArrayList<Casilla> miembros; //Casillas miembros del grupo.
     private String colorGrupo; //Color del grupo
     private int numCasillas; //Número de casillas del grupo.
+    public static final Set<String> coloresValidos = Set.of("Marron","Cian","Morado","Gris","Rojo","Amarillo","Verde","Azul");
 
     //Constructor vacío.
     public Grupo() {
@@ -93,6 +95,10 @@ public class Grupo {
 
     public void setNumCasillas(int numCasillas) {
         this.numCasillas = numCasillas;
+    }
+
+    public ArrayList<Casilla> getMiembros() {
+        return miembros;
     }
 
     public int getCasasGrupo(){
