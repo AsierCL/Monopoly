@@ -504,7 +504,7 @@ public class Menu {
             if(casilla.getEdificios()!=null){
                 if(casilla.getEdificios().EsSolarEdificado()){
                     ningunEdificio = false;
-                    System.out.println(this.tablero.obtenerCasilla(i).getNombre() + ": "+ "|Casas=" + this.tablero.obtenerCasilla(i).getEdificios().getCasas() + "|Hoteles=" + this.tablero.obtenerCasilla(i).getEdificios().getHoteles() + "|Piscinas=" + this.tablero.obtenerCasilla(i).getEdificios().getPiscinas() + "|Pistas=" + this.tablero.obtenerCasilla(i).getEdificios().getPistas());
+                    System.out.println(this.tablero.obtenerCasilla(i).getNombre() + ": "+ "|Casas=" + this.tablero.obtenerCasilla(i).getEdificios().getCasas() + "|Hoteles=" + this.tablero.obtenerCasilla(i).getEdificios().getHoteles() + "|Piscinas=" + this.tablero.obtenerCasilla(i).getEdificios().getPiscinas() + "|Pistas=" + this.tablero.obtenerCasilla(i).getEdificios().getPistas() + "|");
                 }
             }
         }
@@ -520,6 +520,18 @@ public class Menu {
         }else{
             for (Casilla casilla : grupo.getMiembros()) {
                 System.out.println(casilla.getNombre() + ": "+ "|Casas=" + casilla.getEdificios().getCasas() + "|Hoteles=" + casilla.getEdificios().getHoteles() + "|Piscinas=" + casilla.getEdificios().getPiscinas() + "|Pistas=" + casilla.getEdificios().getPistas());
+            }
+
+            if(grupo.getHotelesGrupo()==grupo.getNumCasillas()){
+                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getCasasGrupo()) + " casas.");
+                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getHotelesGrupo()) + " hoteles.");
+                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getPiscinasGrupo()) + " piscinas.");
+                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getPistasGrupo()) + " pistas.");
+            }else{
+                System.out.println("Puedes construir " + (4*grupo.getNumCasillas()+grupo.getNumCasillas()-(grupo.getCasasGrupo()+4*grupo.getHotelesGrupo())) + " casas.");
+                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getHotelesGrupo()) + " hoteles.");
+                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getPiscinasGrupo()) + " piscinas.");
+                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getPistasGrupo()) + " pistas.");
             }
         }
     }
