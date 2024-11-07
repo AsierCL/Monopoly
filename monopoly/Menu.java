@@ -520,6 +520,11 @@ public class Menu {
         }else{
             for (Casilla casilla : grupo.getMiembros()) {
                 System.out.println(casilla.getNombre() + ": "+ "|Casas=" + casilla.getEdificios().getCasas() + "|Hoteles=" + casilla.getEdificios().getHoteles() + "|Piscinas=" + casilla.getEdificios().getPiscinas() + "|Pistas=" + casilla.getEdificios().getPistas());
+                if(casilla.getDuenho().equals(banca)){
+                    System.out.println("Casilla en venta");
+                }else{
+                    System.out.println("El pago es de: " + casilla.calcularPagoSolar(casilla.getDuenho()));
+                }
             }
 
             if(grupo.getHotelesGrupo()==grupo.getNumCasillas()){

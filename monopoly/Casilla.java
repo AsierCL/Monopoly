@@ -239,7 +239,7 @@ public class Casilla {
         return true;
     }
 
-    private float calcularPagoSolar(Jugador actual) {
+    public float calcularPagoSolar(Jugador actual) {
         float multiSolar = this.getGrupo().esDuenhoGrupo(this.duenho) ? 2 : 1;
         float multiCasa = calcularMultiplicadorCasa(this.getEdificios().getCasas());
         float multiHotel = this.getEdificios().getHoteles() * 70;
