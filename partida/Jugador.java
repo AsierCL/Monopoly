@@ -250,4 +250,37 @@ public class Jugador {
         return fortunaTotal;
     }
 
+    public void declararBancarrota(Jugador jugador_bancarrota, Jugador jugador_acreedor, Jugador jugadorActual, ArrayList<Jugador> jugadores){
+        if(jugador_bancarrota.equals(null)) {
+            System.out.println("El jugador indicado no existe.");
+        }
+        if(jugadorActual != jugador_bancarrota){
+            System.out.println("No es el turno de " + jugador_bancarrota.getNombre() + ", no puede declararse en bancarrota.");
+        } else if (jugador_bancarrota.getFortuna() <= 0) {
+            System.out.println(jugador_bancarrota.getNombre() + " no puede pagar su deuda y se declara en bancarrota. Sus propiedades pasan a " + jugador_acreedor.getNombre() + ".");
+            ArrayList<Casilla> propiedades = jugador_bancarrota.getPropiedades(jugador_bancarrota);
+                for (Casilla propiedad : propiedades) {
+                    propiedad.setDuenho(jugador_acreedor);
+                }
+            jugador_bancarrota.setFortuna(0); 
+            jugadores.remove(jugador_bancarrota); 
+            if (jugadores.size() < 2) {
+                System.out.println("El ganador es" + jugador_acreedor.getNombre() + ", ¡enhorabuena!");
+                System.exit(0);
+            }
+        } else if (jugador_bancarrota.getFortuna() > 0) {
+            ArrayList<Casilla> propiedades = jugador_bancarrota.getPropiedades(jugador_bancarrota);
+            for (Casilla propiedad : propiedades) {
+                propiedad.setDuenho(jugador_acreedor);
+            }
+            jugador_bancarrota.setFortuna(0); 
+            jugadores.remove(jugador_bancarrota);            
+            System.out.println(jugador_bancarrota.getNombre() + " ha decidido declararse en bancarrota voluntariamente. Sus propiedades vuelven a la banca.");
+            if (jugadores.size() < 2) {
+                System.out.println("No quedan jugadores suficientes para continuar la partida.");
+                System.exit(0);
+            }
+        }
+    }
+
 }

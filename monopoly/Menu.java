@@ -125,39 +125,39 @@ public class Menu {
     /*Método que interpreta el comando introducido y toma la accion correspondiente.
     * Parámetro: cadena de caracteres (el comando).
     */
-    private void analizarComando(String comando) {
-        Jugador jugadorActual = jugadores.get(turno);
-        Casilla casillaActual = jugadorActual.getAvatar().getLugar();
-        // Dividimos el comando en palabras usando el espacio como separador
-        String[] palabras = comando.split(" ");
+        private void analizarComando(String comando) {
+            Jugador jugadorActual = jugadores.get(turno);
+            Casilla casillaActual = jugadorActual.getAvatar().getLugar();
+            // Dividimos el comando en palabras usando el espacio como separador
+            String[] palabras = comando.split(" ");
 
-        String accion = palabras[0];  
-        String subAccion = (palabras.length > 1) ? palabras[1] : "";
-        String parametro1 = (palabras.length > 2) ? palabras[2] : "";
-        String parametro2 = (palabras.length > 3) ? palabras[3] : "";
+            String accion = palabras[0];  
+            String subAccion = (palabras.length > 1) ? palabras[1] : "";
+            String parametro1 = (palabras.length > 2) ? palabras[2] : "";
+            String parametro2 = (palabras.length > 3) ? palabras[3] : "";
 
-        switch(accion){ 
-            //crear jugador
-            case("crear"):  //Dar de alta a un jugador: crear jugador Pedro coche
-                Jugador player = new Jugador(parametro1, parametro2, tablero.obtenerCasilla(0),avatares);
-                jugadores.add(player);
+            switch(accion){ 
+                //crear jugador
+                case("crear"):  //Dar de alta a un jugador: crear jugador Pedro coche
+                    Jugador player = new Jugador(parametro1, parametro2, tablero.obtenerCasilla(0),avatares);
+                    jugadores.add(player);
 
-                System.out.println("\n{");
-                System.out.print("Nombre: ");System.out.println(player.getNombre());
-                System.out.print("Avatar: ");System.out.println(player.getAvatar().getId());
-                System.out.println("}\n");
+                    System.out.println("\n{");
+                    System.out.print("Nombre: ");System.out.println(player.getNombre());
+                    System.out.print("Avatar: ");System.out.println(player.getAvatar().getId());
+                    System.out.println("}\n");
 
-                break;
-            //jugador
-            case("jugador"):  //indicar jugador que tiene el turno
-                verTurno();
+                    break;
+                //jugador
+                case("jugador"):  //indicar jugador que tiene el turno
+                    verTurno();
 
-                System.out.println("\n{");
-                System.out.print("Nombre: "); System.out.println(jugadores.get(turno).getNombre());
-                System.out.print("Avatar: "); System.out.println(jugadores.get(turno).getAvatar().getId());
-                System.out.println("}\n");
+                    System.out.println("\n{");
+                    System.out.print("Nombre: "); System.out.println(jugadores.get(turno).getNombre());
+                    System.out.print("Avatar: "); System.out.println(jugadores.get(turno).getAvatar().getId());
+                    System.out.println("}\n");
 
-                ///// verTurno(); ?¿?¿?¿?¿?¿?
+                    ///// verTurno(); ?¿?¿?¿?¿?¿?
 
                 break;
             //listar jugadores / avatares / enventa
@@ -224,6 +224,17 @@ public class Menu {
                     // Si no se recibe una subacción válida
                     System.out.println("Error, introduzca un comando válido");
                 }
+                break;
+            // hipotecar + Casilla
+            case("hipotecar"):
+                hipotecar(subAccion);
+                break;
+            // deshipotecar + Casilla
+            case("deshipotecar"):
+                deshipotecar(subAccion);
+                break;
+            case("bancarrota"):
+                bancarrota(subAccion);
                 break;
             //comprar + Mostoles
             case("comprar"):
@@ -612,6 +623,40 @@ public class Menu {
         }
     }
 
+    private void hipotecar(String nombre) {
+
+        Casilla casilla_hipotecada = tablero.obtenerCasilla(nombre);
+        Jugador jugador_hipoteca = jugadores.get(turno);
+
+        
+        casilla_hipotecada.hipotecarCasilla(jugador_hipoteca);
+    }
+
+    private void deshipotecar(String nombre) {
+   
+        Casilla casilla_deshipotecar = tablero.obtenerCasilla(nombre);
+        Jugador jugador_deshipoteca = jugadores.get(turno);
+
+        casilla_deshipotecar.deshipotecarCasilla(jugador_deshipoteca);
+    }
+
+
+
+    private void bancarrota(String nombre) {
+        if (!jugadores.contains(buscarJugadorPorNombre(nombre))) {
+            System.out.println("No existe un jugador con ese nombre.");
+            return;
+        }
+
+        Jugador jugadorActual = jugadores.get(turno);
+        Jugador jugador_bancarrota = buscarJugadorPorNombre(nombre);
+        Jugador jugador_acreedor = jugadorActual.getAvatar().getLugar().getDuenho();
+        this.tirado = true;
+    
+        jugadorActual.declararBancarrota(jugador_bancarrota, jugador_acreedor, jugadorActual, jugadores);
+    }
+    
+    
     //Método que ejecuta todas las acciones relacionadas con el comando 'salir carcel'. 
     private void salirCarcel() {
         Jugador jugador = jugadores.get(turno);
@@ -711,8 +756,8 @@ public class Menu {
             this.tirado = false;
             this.lanzamientos = 0;
         }else{
-            System.out.println("Debes tirar antes");
-        }
+                System.out.println("Debes tirar antes");
+            }
     }
 
     private void cambiarModo(Avatar avatar){
