@@ -238,8 +238,8 @@ public class Casilla {
                         actual.encarcelar(tablero.getPosiciones());
                         break;
                     
-                    case ("Impuesto 1"):
-                    case ("Impuesto 2"):
+                    case ("Impuesto1"):
+                    case ("Impuesto2"):
                         if((actual.getFortuna()-this.impuesto)<0){
                             System.out.println("Dinero insuficiente para pagar");
                             return false;

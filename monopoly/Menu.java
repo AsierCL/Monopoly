@@ -153,14 +153,6 @@ public class Menu {
                 //jugador
                 case("jugador"):  //indicar jugador que tiene el turno
                     verTurno();
-
-                    System.out.println("\n{");
-                    System.out.print("Nombre: "); System.out.println(jugadores.get(turno).getNombre());
-                    System.out.print("Avatar: "); System.out.println(jugadores.get(turno).getAvatar().getId());
-                    System.out.println("}\n");
-
-                    ///// verTurno(); ?¿?¿?¿?¿?¿?
-
                 break;
             //listar jugadores / avatares / enventa
             case("listar"):
@@ -211,7 +203,6 @@ public class Menu {
                 jugadores.get(turno).encarcelar(tablero.getPosiciones());
                 break;
             ////////////////DEBUGG///////////////////
-            //describir _/jugador/avatar + Badajoz/Maria/M
             case("describir"):
                 if (subAccion.equals("jugador")) {
                     // Describir un jugador
@@ -301,7 +292,6 @@ public class Menu {
             
             }
         
-
         // Hipotecas.
         } else {
             System.out.println("No existe un jugador con este nombre.");
@@ -314,7 +304,6 @@ public class Menu {
                 return jugador;
             }
         }
-
         return null;
     }
 
@@ -372,15 +361,12 @@ public class Menu {
             Dado dado1 = new Dado();
             Dado dado2 = new Dado();
 
-
             int[] resultadoDados = new int[2];
             resultadoDados[0] = dado1.hacerTirada();
             resultadoDados[1] = dado2.hacerTirada();
 
-
             int resultadoTotal = resultadoDados[0] + resultadoDados[1];
             System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
-    
     
             jugadorActual.incrementarLanzamientos(); 
             this.lanzamientos++;
@@ -400,7 +386,6 @@ public class Menu {
     //Lanzar dados trucados
     private void dadosTrucados() {
         if (!tirado) {
-
             Avatar avatarActual = avatares.get(turno);
             Jugador jugadorActual = avatarActual.getJugador();
             ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
@@ -414,7 +399,6 @@ public class Menu {
             int[] resultadoDados = solicitarTiradaDados(); // Pide que introduzcasd la tirada
             int resultadoTotal = resultadoDados[0] + resultadoDados[1];
             System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
-
     
             jugadorActual.incrementarLanzamientos();
             this.lanzamientos++;
@@ -489,10 +473,8 @@ public class Menu {
                     manejarMovimientoCoche(avatarActual, resultadoTotal, casillas);
                     break;
                 case "esfinge":
-                    // Esfinge
                     break;
                 case "sombrero":
-                    // Sombrero
                     break;
                 default:
                 moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
@@ -747,16 +729,13 @@ public class Menu {
     }
 
     private void hipotecar(String nombre) {
-
         Casilla casilla_hipotecada = tablero.obtenerCasilla(nombre);
         Jugador jugador_hipoteca = jugadores.get(turno);
-
         
         casilla_hipotecada.hipotecarCasilla(jugador_hipoteca);
     }
 
     private void deshipotecar(String nombre) {
-   
         Casilla casilla_deshipotecar = tablero.obtenerCasilla(nombre);
         Jugador jugador_deshipoteca = jugadores.get(turno);
 
@@ -786,7 +765,7 @@ public class Menu {
         if(jugador.getEnCarcel()){
             jugador.setEnCarcel(false);
             jugador.incrementarPagoTasasEImpuestos(Valor.SALIR_CARCEL);
-            System.out.println("El jugador "+jugador.getNombre()+" sale de la carcel " + " pagando " + Valor.SALIR_CARCEL);
+            System.out.println("El jugador " + jugador.getNombre() + " sale de la carcel " + " pagando " + Valor.SALIR_CARCEL);
         }else{
             System.out.println("El jugador " + " no está en la carcel");
         }
@@ -796,14 +775,13 @@ public class Menu {
     private void listarVenta() {
         for(int i = 0; i<40; i++){
         Casilla casilla = this.tablero.obtenerCasilla(i);
-        if(casilla.getDuenho()==banca && 
-        casilla.getTipo().equals("Solar") || 
-        casilla.getTipo().equals("Transporte") || 
-        casilla.getTipo().equals("Servicios"))
+        if( casilla.getDuenho()==banca && 
+            casilla.getTipo().equals("Solar") || 
+            casilla.getTipo().equals("Transporte") || 
+            casilla.getTipo().equals("Servicios"))
         {
             System.out.println(this.tablero.obtenerCasilla(i).infoCasilla());
         }
-
         }
     }
 
@@ -868,7 +846,11 @@ public class Menu {
     // Método que muestra el nombre y el avatar del jugador que tiene el turno
     private void verTurno() {
         if(!jugadores.isEmpty()){
-            System.out.println("El turno es de: " + jugadores.get(turno).getNombre());
+            System.out.println("El turno es de:");
+            System.out.println("\n{");
+            System.out.print("Nombre: "); System.out.println(jugadores.get(turno).getNombre());
+            System.out.print("Avatar: "); System.out.println(jugadores.get(turno).getAvatar().getId());
+            System.out.println("}\n");
         }
     }
 
@@ -879,8 +861,8 @@ public class Menu {
             this.tirado = false;
             this.lanzamientos = 0;
         }else{
-                System.out.println("Debes tirar antes");
-            }
+            System.out.println("Debes tirar antes");
+        }
     }
 
     private void cambiarModo(Avatar avatar){
