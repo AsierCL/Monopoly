@@ -102,7 +102,9 @@ public class Menu {
                 String tipoAvatar = input.nextLine();  // Usar el mismo Scanner
     
                 Jugador player = new Jugador(jugador, tipoAvatar, tablero.obtenerCasilla(0), avatares);
-                jugadores.add(player);
+                if(player.getAvatar()!=null){
+                    jugadores.add(player);
+                }
             } else if (jugadores.size() < 2) {
                 System.out.println("Debes introducir al menos dos jugadores.");
             } else {
@@ -277,7 +279,7 @@ public class Menu {
         
         if (jugador != null) {
             System.out.println("Nombre del Jugador: " + jugador.getNombre());
-            System.out.println("Fortuna: €" + jugador.getFortuna());
+            System.out.println("Fortuna: " + jugador.getFortuna() + "€" );
             
             if (!jugador.getPropiedades(jugador).isEmpty()) {
                 System.out.println("Propiedades: ");
