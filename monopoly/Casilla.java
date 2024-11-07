@@ -17,6 +17,10 @@ public class Casilla {
     private float hipoteca; //Valor otorgado por hipotecar una casilla
     private ArrayList<Avatar> avatares; //Avatares que están situados en la casilla.
 
+    //Atributos para  estadísticas
+    private float ingresosTotales;
+    private int contadorVisitas;
+
     //Constructores:
     public Casilla() {
     }//Parámetros vacíos
@@ -32,6 +36,9 @@ public class Casilla {
         this.duenho = duenho;
         this.impuesto = valor * 0.1f;
         this.avatares = new ArrayList<>();
+
+        this.ingresosTotales = 0;
+        this.contadorVisitas = 0;
     }
 
     /*Constructor utilizado para inicializar las casillas de tipo IMPUESTOS.
@@ -44,6 +51,9 @@ public class Casilla {
         this.duenho = duenho;
         this.tipo = "Especial";
         this.avatares = new ArrayList<>();
+
+        this.ingresosTotales = 0;
+        this.contadorVisitas = 0;
     }
 
     /*Constructor utilizado para crear las otras casillas (Suerte, Caja de comunidad y Especiales):
@@ -99,8 +109,13 @@ public class Casilla {
         return this.avatares;
     }
 
+    public float getIngresosTotales() {
+        return this.ingresosTotales;
+    }
 
-
+    public int getContadorVisitas(){
+        return this.contadorVisitas;
+    }
     //Método utilizado para añadir un avatar al array de avatares en casilla.
     public void anhadirAvatar(Avatar av) {
         if (av != null && !this.avatares.contains(av)) {
@@ -122,6 +137,7 @@ public class Casilla {
     * Valor devuelto: true en caso de ser solvente (es decir, de cumplir las deudas), y false
     * en caso de no cumplirlas.*/
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero) {//Solucion prvisional
+        this.contadorVisitas++;
         switch(this.tipo){
             case("Solar"):
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
@@ -132,6 +148,7 @@ public class Casilla {
                         System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
                         actual.incrementarPagoDeAlquileres(this.impuesto);
                         this.duenho.incrementarCobroDeAlquileres(this.impuesto);
+                        registrarIngreso(this.impuesto);
                     }
                 }
                 break;
@@ -145,6 +162,7 @@ public class Casilla {
                         System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
                         actual.incrementarPagoTasasEImpuestos(this.impuesto);
                         this.duenho.incrementarCobroDeAlquileres(this.impuesto);
+                        registrarIngreso(this.impuesto);
                     }
                 }
                 break;            
@@ -158,6 +176,7 @@ public class Casilla {
                         System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
                         actual.incrementarPagoTasasEImpuestos(this.impuesto);
                         this.duenho.incrementarCobroDeAlquileres(this.impuesto);
+                        registrarIngreso(this.impuesto);
                     }
                 }
                 break;
@@ -200,6 +219,7 @@ public class Casilla {
                             System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
                             actual.incrementarPagoTasasEImpuestos(this.impuesto);
                             tablero.obtenerCasilla("Parking").sumarValor(this.impuesto);
+                            registrarIngreso(this.impuesto);
                         }
                         break;
 
@@ -320,6 +340,13 @@ public class Casilla {
     
         return info.toString();
 
+    }
+
+    public void registrarIngreso(float cantidad) {
+        this.ingresosTotales += cantidad; // Suma la cantidad recibida a los ingresos totales
+        if (grupo != null) {
+            grupo.registrarIngresosGrupo(cantidad); // Registrar ingresos en el grupo si existe
+        }
     }
 
 }

@@ -215,9 +215,9 @@ public class Menu {
                 break;
             case("estadisticas"):
                 if(subAccion.isEmpty()){ //Estadísticas del juego
-
+                    mostrarEstadisticasJuego();
                 } else { //Estadísticas del jugador
-                    jugadores.get(turno).mostrarEstadisticasJugador();
+                    mostrarEstadisticasJugadorPorNombre(subAccion);
                 }
                 break;
             case("cambiar"):
@@ -333,6 +333,7 @@ public class Menu {
             Jugador jugadorActual = avatarActual.getJugador();
             ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
     
+            jugadorActual.incrementarLanzamientos(); 
             this.lanzamientos++;
             tirado = true;
     
@@ -358,6 +359,7 @@ public class Menu {
             Jugador jugadorActual = avatarActual.getJugador();
             ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
     
+            jugadorActual.incrementarLanzamientos();
             this.lanzamientos++;
             tirado = true;
     
@@ -568,9 +570,6 @@ public class Menu {
         
     }
     
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     /*Método que ejecuta todas las acciones realizadas con el comando 'comprar nombre_casilla'.
     * Parámetro: cadena de caracteres con el nombre de la casilla.
      */
@@ -649,6 +648,136 @@ public class Menu {
             System.out.println("El avatar no existe.");
         }
     }
+
+   // Nuevo método para buscar un jugador por nombre y mostrar sus estadísticas
+    private void mostrarEstadisticasJugadorPorNombre(String nombreJugador) {
+        for (Jugador jugador : jugadores) {
+            if (jugador.getNombre().equalsIgnoreCase(nombreJugador)) {
+                jugador.mostrarEstadisticasJugador(jugador);
+                return;
+            }
+        }
+        System.out.println("Jugador con nombre '" + nombreJugador + "' no encontrado.");
+    }
+
+    public void mostrarEstadisticasJuego() {
+        // Obtener las estadísticas usando los métodos correspondientes
+        Casilla casillaMasRentable = obtenerCasillaMasRentable();
+        Grupo grupoMasRentable = obtenerGrupoMasRentable();
+        Casilla casillaMasFrecuentada = obtenerCasillaMasFrecuentada();
+        Jugador jugadorMasVueltas = obtenerJugadorMasVueltas();
+        Jugador jugadorMasVecesDados = obtenerJugadorMasVecesDados();
+        Jugador jugadorEnCabeza = obtenerJugadorEnCabeza();
+
+        // Imprimir las estadísticas en el formato solicitado
+        System.out.println("$> estadisticas");
+        System.out.println("{");
+        System.out.println("  casillaMasRentable: " + (casillaMasRentable != null ? casillaMasRentable.getNombre() : "N/A") + ",");
+        System.out.println("  grupoMasRentable: " + (grupoMasRentable != null ? grupoMasRentable.getColorGrupo() : "N/A") + ","); 
+        System.out.print(Valor.RESET);
+        System.out.println("  casillaMasFrecuentada: " + (casillaMasFrecuentada != null ? casillaMasFrecuentada.getNombre() : "N/A") + ",");
+        System.out.println("  jugadorMasVueltas: " + (jugadorMasVueltas != null ? jugadorMasVueltas.getNombre() : "N/A") + ",");
+        System.out.println("  jugadorMasVecesDados: " + (jugadorMasVecesDados != null ? jugadorMasVecesDados.getNombre() : "N/A") + ",");
+        System.out.println("  jugadorEnCabeza: " + (jugadorEnCabeza != null ? jugadorEnCabeza.getNombre() : "N/A"));
+        System.out.println("}");
+    }
+
+    public Casilla obtenerCasillaMasRentable() {
+        Casilla masRentable = null;
+        float maxIngresos = 0;
+    
+        for (int i = 0; i < 40; i++) {
+            Casilla casilla = tablero.obtenerCasilla(i);
+            if (casilla.getIngresosTotales() > maxIngresos) {
+                maxIngresos = casilla.getIngresosTotales();
+                masRentable = casilla;
+            }
+        }
+    
+        return masRentable;
+    }
+
+    public Grupo obtenerGrupoMasRentable() {
+        Grupo grupoMasRentable = null;
+        float maxIngresos = 0;
+
+        for (int i = 0; i < 40; i++) {
+            Casilla casilla = tablero.obtenerCasilla(i); // Obtener la casilla
+            Grupo grupo = casilla.getGrupo();
+            if(grupo != null){
+                float ingresosGrupo = grupo.getIngresosTotales(); // Método que devuelve los ingresos totales del grupo
+                if (ingresosGrupo > maxIngresos) {
+                    maxIngresos = ingresosGrupo;
+                    grupoMasRentable = grupo;
+                }
+            }
+        }
+        return grupoMasRentable;
+    }
+
+    public Casilla obtenerCasillaMasFrecuentada() {
+        Casilla casillaMasFrecuentada = null;
+        int maxVisitas = 0;
+    
+        for (int i = 0; i < 40; i++) {
+            Casilla casilla = tablero.obtenerCasilla(i); // Obtener la casilla
+            if (casilla.getContadorVisitas() > maxVisitas) {
+                maxVisitas = casilla.getContadorVisitas();
+                casillaMasFrecuentada = casilla;
+            }
+        }
+    
+        return casillaMasFrecuentada; // Retorna la casilla más frecuentada
+    }
+
+    public Jugador obtenerJugadorMasVueltas() {
+        Jugador jugadorMasVueltas = null;
+        int maxVueltas = 0;
+    
+        for (Jugador jugador : jugadores) {
+            if (jugador.getVueltas() > maxVueltas) {
+                maxVueltas = jugador.getVueltas();
+                jugadorMasVueltas = jugador;
+            }
+        }
+    
+        return jugadorMasVueltas;  // Retorna el jugador con más vueltas
+    }
+    
+    public Jugador obtenerJugadorMasVecesDados() {
+        Jugador jugadorMasVecesDados = null;
+        int maxLanzamientos = 0;
+    
+        for (Jugador jugador : jugadores) {
+            if (jugador.getLanzamientos() > maxLanzamientos) {
+                maxLanzamientos = jugador.getLanzamientos();
+                jugadorMasVecesDados = jugador;
+            }
+        }
+    
+        return jugadorMasVecesDados;  // Retorna el jugador que ha lanzado más veces
+    }
+
+    /**
+     * Obtiene el jugador con la mayor fortuna total.
+     * @return el jugador con la mayor fortuna acumulada.
+     */
+    public Jugador obtenerJugadorEnCabeza() {
+        Jugador jugadorEnCabeza = null;
+        float fortunaMaxima = 0;
+
+        // Recorre todos los jugadores y calcula su fortuna total
+        for (Jugador jugador : jugadores) {
+            float fortunaActual = jugador.calcularFortunaTotal();
+            if (fortunaActual > fortunaMaxima) {
+                fortunaMaxima = fortunaActual;
+                jugadorEnCabeza = jugador;
+            }
+        }
+
+        return jugadorEnCabeza;  // Retorna el jugador con la mayor fortuna
+    }
+
 }
 
 /*

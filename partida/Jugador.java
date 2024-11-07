@@ -24,7 +24,8 @@ public class Jugador {
     private float cobroDeAlquileres;
     private float pasarPorCasillaDeSalida;
     private float premiosInversionesOBote;
-    private float vecesEnLaCarcel;
+    private int vecesEnLaCarcel;
+    private int lanzamientos;
 
     //Constructor vacío. Se usará para crear la banca.
     public Jugador() {
@@ -47,6 +48,7 @@ public class Jugador {
         this.pasarPorCasillaDeSalida = 0;
         this.premiosInversionesOBote = 0;
         this.vecesEnLaCarcel = 0;
+        this.lanzamientos = 0;
     }
 
     /*Constructor principal. Requiere parámetros:
@@ -76,6 +78,7 @@ public class Jugador {
         this.pasarPorCasillaDeSalida = 0;
         this.premiosInversionesOBote = 0;
         this.vecesEnLaCarcel = 0;
+        this.lanzamientos = 0;
 
         /*Non é necesario especificar <Casilla>,
         *por "diamond operator", e inferencia de tipos */
@@ -117,6 +120,14 @@ public class Jugador {
 
     public Avatar getAvatar() {
         return avatar;
+    }
+
+    public int getVueltas(){
+        return this.vueltas;
+    }
+
+    public int getLanzamientos(){
+        return this.lanzamientos;
     }
 
     //Otros métodos:
@@ -201,17 +212,42 @@ public class Jugador {
     }
 
     // Método para mostrar estadísticas
-    public void mostrarEstadisticasJugador() {
-        System.out.println("Estadísticas de " + this.nombre + ":");
+    public void mostrarEstadisticasJugador(Jugador jugador) {
+        System.out.println("Estadísticas de " + jugador.nombre + ":");
         System.out.println("{");
-        System.out.println("  dineroInvertido: " + this.dineroInvertido + ",");
-        System.out.println("  pagoTasasEImpuestos: " + this.pagoTasasEImpuestos + ",");
-        System.out.println("  pagoDeAlquileres: " + this.pagoDeAlquileres + ",");
-        System.out.println("  cobroDeAlquileres: " + this.cobroDeAlquileres + ",");
-        System.out.println("  pasarPorCasillaDeSalida: " + this.pasarPorCasillaDeSalida + ",");
-        System.out.println("  premiosInversionesOBote: " + this.premiosInversionesOBote + ",");
-        System.out.println("  vecesEnLaCarcel: " + this.vecesEnLaCarcel);
+        System.out.println("  dineroInvertido: " + jugador.dineroInvertido + ",");
+        System.out.println("  pagoTasasEImpuestos: " + jugador.pagoTasasEImpuestos + ",");
+        System.out.println("  pagoDeAlquileres: " + jugador.pagoDeAlquileres + ",");
+        System.out.println("  cobroDeAlquileres: " + jugador.cobroDeAlquileres + ",");
+        System.out.println("  pasarPorCasillaDeSalida: " + jugador.pasarPorCasillaDeSalida + ",");
+        System.out.println("  premiosInversionesOBote: " + jugador.premiosInversionesOBote + ",");
+        System.out.println("  vecesEnLaCarcel: " + jugador.vecesEnLaCarcel);
         System.out.println("}");
+    }
+
+    public void incrementarVueltas(){
+        this.vueltas++;
+    }
+
+    // Método para incrementar lanzamientos
+    public void incrementarLanzamientos() {
+        this.lanzamientos++;
+    }
+
+    /**
+     * Calcula la fortuna total del jugador, incluyendo su efectivo y el valor de sus propiedades y edificios.
+     * @return la fortuna total del jugador.
+     */
+    public float calcularFortunaTotal() {
+        float fortunaTotal = this.fortuna;  // Comienza con el efectivo del jugador
+
+        // Sumar el valor de todas las propiedades y edificios que posee el jugador
+        for (Casilla propiedad : this.propiedades) {
+            fortunaTotal += propiedad.getValor();           // Valor de la propiedad
+            //fortunaTotal += propiedad.getValorEdificios();  // Valor de los edificios en la propiedad
+        }
+
+        return fortunaTotal;
     }
 
 }
