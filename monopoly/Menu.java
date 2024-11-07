@@ -238,9 +238,9 @@ public class Menu {
                 break;
             case("estadisticas"):
                 if(subAccion.isEmpty()){ //Estadísticas del juego
-
+                    mostrarEstadisticasJuego();
                 } else { //Estadísticas del jugador
-
+                    mostrarEstadisticasJugadorPorNombre(subAccion);
                 }
                 break;
             case("cambiar"):
@@ -250,7 +250,7 @@ public class Menu {
                 printAyuda();
                 break;
             default:
-                System.out.println("Error, introduzca un comando valido");
+                System.out.println("Error, introduzca un comando valido\n");
                 break;
         }
     }
@@ -348,184 +348,256 @@ public class Menu {
             Dado dado1 = new Dado();
             Dado dado2 = new Dado();
 
-            int resultadoDado1 = dado1.hacerTirada();
-            int resultadoDado2 = dado2.hacerTirada();
+
+            int[] resultadoDados = new int[2];
+            resultadoDados[0] = dado1.hacerTirada();
+            resultadoDados[1] = dado2.hacerTirada();
 
 
-            int resultadoTotal = resultadoDado1 + resultadoDado2;
-            System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
-
+            int resultadoTotal = resultadoDados[0] + resultadoDados[1];
+            System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
+    
             Avatar avatarActual = avatares.get(turno);
-            Jugador jugadorActual = avatares.get(turno).getJugador();
+            Jugador jugadorActual = avatarActual.getJugador();
             ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
-            
+    
+            jugadorActual.incrementarLanzamientos(); 
             this.lanzamientos++;
             tirado = true;
-            if(jugadorActual.getEnCarcel()){// ESTÁ EN CARCEL
-                if(resultadoDado1 == resultadoDado2){
-                    System.out.println("Sales de la carcel");
-                    jugadorActual.setEnCarcel(false);
-                    tirado = false;
-                    avatarActual.moverAvatar(casillas, resultadoTotal);
-                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                }else{
-                    jugadorActual.setTiradasCarcel(jugadorActual.getTiradasCarcel() + 1);
-                    
-                    if(jugadorActual.getTiradasCarcel() == 3){
-                        System.out.println("Te quedan " + (3-jugadorActual.getTiradasCarcel()) + " intentos");
-                        salirCarcel();
-                        jugadorActual.setTiradasCarcel(0);
-                    }else{
-                        System.out.println("Sigues en la carcel");
-                        System.out.println("Te quedan " + (3-jugadorActual.getTiradasCarcel()) + " intentos");
-                    }
-                }
-
-            }else{ // NO ESTÄ EN CARCEL
-                if(resultadoDado1 == resultadoDado2){
-                    System.out.println("LLevas " + this.lanzamientos + " dobles");
-                    tirado = false;
-                
-                    if(this.lanzamientos<3){
-                        avatarActual.moverAvatar(casillas, resultadoTotal);
-                        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                        System.out.println("Vuelve a tirar");
-                    }else{
-                        System.out.println("VAS A LA CARCEL");
-                        avatarActual.getJugador().encarcelar(casillas);
-                        tirado = true;
-                    }
-                }else{
-                    avatarActual.moverAvatar(casillas, resultadoTotal);
-                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                }
+    
+            if (jugadorActual.getEnCarcel()) {
+                manejarJugadorEnCarcel(jugadorActual, avatarActual, resultadoTotal, resultadoDados, casillas);
+            } else {
+                manejarJugadorFueraCarcel(avatarActual, jugadorActual, resultadoTotal, resultadoDados, casillas);
             }
-
-        }else{//TIRADAS COMPLETADAS
+    
+        } else {
             System.out.println("Ya no puedes tirar más");
         }
     }
 
-    private void dadosTrucados(){
-
-        if(!tirado){
-            Scanner scanDado = new Scanner(System.in);
-
-            System.out.print("Introduzca el valor de la tirada del dado 1: ");
-            int resultadoDado1 = scanDado.nextInt();
-            System.out.print("Introduzca el valor de la tirada del dado 2: ");
-            int resultadoDado2 = scanDado.nextInt();
-             
-            int resultadoTotal = resultadoDado1 + resultadoDado2;
-            System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
-
+    //Lanzar dados trucados
+    private void dadosTrucados() {
+        if (!tirado) {
+            int[] resultadoDados = solicitarTiradaDados(); // Pide que introduzcasd la tirada
+            int resultadoTotal = resultadoDados[0] + resultadoDados[1];
+            System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
+    
             Avatar avatarActual = avatares.get(turno);
-            Jugador jugadorActual = avatares.get(turno).getJugador();
+            Jugador jugadorActual = avatarActual.getJugador();
             ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
-            
+    
+            jugadorActual.incrementarLanzamientos();
             this.lanzamientos++;
             tirado = true;
-            if(jugadorActual.getEnCarcel()){// ESTÁ EN CARCEL
-                if(resultadoDado1 == resultadoDado2){
-                    System.out.println("Sales de la carcel");
-                    jugadorActual.setEnCarcel(false);
-                    tirado = false;
-                    avatarActual.moverAvatar(casillas, resultadoTotal);
-                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                }else{
-                    jugadorActual.setTiradasCarcel(jugadorActual.getTiradasCarcel() + 1);
-                    
-                    if(jugadorActual.getTiradasCarcel() == 3){
-                        System.out.println("Te quedan " + (3-jugadorActual.getTiradasCarcel()) + " intentos");
-                        salirCarcel();
-                        jugadorActual.setTiradasCarcel(0);
-                    }else{
-                        System.out.println("Sigues en la carcel");
-                        System.out.println("Te quedan " + (3-jugadorActual.getTiradasCarcel()) + " intentos");
-                    }
-                }
-
-            }else{ // NO ESTÄ EN CARCEL
-                if(resultadoDado1 == resultadoDado2){
-                    System.out.println("LLevas " + this.lanzamientos + " dobles");
-                    tirado = false;
-                
-                    if(this.lanzamientos<3){
-                        avatarActual.moverAvatar(casillas, resultadoTotal);
-                        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                        System.out.println("Vuelve a tirar");
-                    }else{
-                        System.out.println("VAS A LA CARCEL");
-                        avatarActual.getJugador().encarcelar(casillas);
-                        tirado = true;
-                    }
-                }else{
-                    ///////////////////////////////////
-                    if (avatarActual.getModo()){
-                        
-                        if(avatarActual.getTipo().equals("pelota")){
-                            if (resultadoTotal > 4){
-                                avatarActual.moverAvatar(casillas, 5);
-                                partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                                turnoIntermedio();
-                                for (int i=7; i <= resultadoTotal; i+=2){
-                                    avatarActual.moverAvatar(casillas, 2);
-                                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                                    if (i!= resultadoTotal) turnoIntermedio();
-                                }
-                                if (resultadoTotal % 2 == 0){
-                                    avatarActual.moverAvatar(casillas, 1);
-                                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                                }
-                            } else {
-                                avatarActual.moverAvatar(casillas, -1);
-                                partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                                turnoIntermedio();
-                                for (int i=3; i <= resultadoTotal; i+=2){
-                                    avatarActual.moverAvatar(casillas, -2);
-                                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                                    if (i!= resultadoTotal) turnoIntermedio();
-                                }
-                                if (resultadoTotal % 2 == 0){
-                                    avatarActual.moverAvatar(casillas, -1);
-                                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                                }
-                            }
-                        }
-                        else if (avatarActual.getTipo().equals("coche")){
-                            if (resultadoTotal > 4){
-                                
-            
-                            } else {
-            
-                            }
-                        }
-                        else if (avatarActual.getTipo().equals("esfinge")){
-                            if (resultadoTotal > 4){
-                                
-                            } else {
-            
-                            }
-                        }
-                        else if (avatarActual.getTipo().equals("sombrero")){
-                            if (resultadoTotal > 4){
-                                
-                            } else {
-            
-                            }
-                        }
-                    } else {
-                        avatarActual.moverAvatar(casillas, resultadoTotal);
-                        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
-                    } 
-                }
+    
+            if (jugadorActual.getEnCarcel()) {
+                manejarJugadorEnCarcel(jugadorActual, avatarActual, resultadoTotal, resultadoDados, casillas);
+            } else {
+                manejarJugadorFueraCarcel(avatarActual, jugadorActual, resultadoTotal, resultadoDados, casillas);
             }
-
-        }else{//TIRADAS COMPLETADAS
+    
+        } else {
             System.out.println("Ya no puedes tirar más");
         }
     }
+    
+    // Método para solicitar las tiradas de los dados
+    private int[] solicitarTiradaDados() {
+        Scanner scanDado = new Scanner(System.in);
+        System.out.print("Introduzca el valor de la tirada del dado 1: ");
+        int resultadoDado1 = scanDado.nextInt();
+        System.out.print("Introduzca el valor de la tirada del dado 2: ");
+        int resultadoDado2 = scanDado.nextInt();
+        return new int[]{resultadoDado1, resultadoDado2};
+    }
+    
+    // Método para manejar la lógica cuando el jugador está en la cárcel
+    private void manejarJugadorEnCarcel(Jugador jugadorActual, Avatar avatarActual, int resultadoTotal, int[] resultadoDados, ArrayList<ArrayList<Casilla>> casillas) {
+        if (resultadoDados[0] == resultadoDados[1]) { // Si sacas dobles sales de la carcel
+            System.out.println("Sales de la carcel");
+            jugadorActual.setEnCarcel(false);
+            tirado = false;
+            moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
+        } else {
+            jugadorActual.setTiradasCarcel(jugadorActual.getTiradasCarcel() + 1); //Suma uno a sus turnos dentro de la carcel
+            if (jugadorActual.getTiradasCarcel() == 3) { // Si lleva tres turnos en la carcel sale
+                salirCarcel();
+                jugadorActual.setTiradasCarcel(0);
+            } else {
+                System.out.println("Sigues en la carcel. Te quedan " + (3 - jugadorActual.getTiradasCarcel()) + " intentos.");
+            }
+        }
+    }
+    
+    // Método para manejar la lógica cuando el jugador está fuera de la cárcel
+    private void manejarJugadorFueraCarcel(Avatar avatarActual, Jugador jugadorActual, int resultadoTotal, int[] resultadoDados, ArrayList<ArrayList<Casilla>> casillas) {
+        if (resultadoDados[0] == resultadoDados[1]) { 
+            System.out.println("LLevas " + this.lanzamientos + " dobles");
+            tirado = false;
+    
+            if (this.lanzamientos < 3) {
+                manejarMovimientoAvatarPorTipo(avatarActual, resultadoTotal, casillas);
+                System.out.println("Vuelve a tirar");
+            } else {
+                System.out.println("VAS A LA CARCEL");
+                avatarActual.getJugador().encarcelar(casillas);
+                tirado = true;
+            }
+        } else {
+            manejarMovimientoAvatarPorTipo(avatarActual, resultadoTotal, casillas);
+        }
+    }
+    
+    // Método para manejar el movimiento del avatar según su tipo
+    private void manejarMovimientoAvatarPorTipo(Avatar avatarActual, int resultadoTotal, ArrayList<ArrayList<Casilla>> casillas) {
+        if (avatarActual.getModo()) { // Si está en modo especial cambia el movimiento
+            switch (avatarActual.getTipo()) {
+                case "pelota":
+                    manejarMovimientoPelota(avatarActual, resultadoTotal, casillas);
+                    break;
+                case "coche":
+                    manejarMovimientoCoche(avatarActual, resultadoTotal, casillas);
+                    break;
+                case "esfinge":
+                    // Esfinge
+                    break;
+                case "sombrero":
+                    // Sombrero
+                    break;
+                default:
+                moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
+                    break;
+            }
+        } else {
+            moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
+        }
+    }
+    
+    // Método para mover el avatar y evaluar la casilla
+    private void moverAvatarYEvaluar(Avatar avatarActual, int valorTirada, int resultadoTotal, ArrayList<ArrayList<Casilla>> casillas) {
+        avatarActual.moverAvatar(casillas, valorTirada);
+        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+    }
+    
+    // Método para movimiento especial "pelota"
+    private void manejarMovimientoPelota(Avatar avatarActual, int resultadoTotal, ArrayList<ArrayList<Casilla>> casillas) {
+        if (resultadoTotal > 4){ // El avatar avanza hasta resultadoTotal parando en las casillas intermedias
+            moverAvatarYEvaluar(avatarActual, 5, resultadoTotal, casillas); // Primero avanza 5 casillas (primer impar mayor que 4, parará siempre ahí)
+            System.out.println(tablero);
+            turnoIntermedio(avatarActual, avatarActual.getLugar()); //turno intermedio en la misma tirada para dar la opción de comprar
+            for (int i=7; i <= resultadoTotal; i+=2){ // Mover el avatar por los números impares hasta llegar a resultadoTotal.
+                moverAvatarYEvaluar(avatarActual, 2, resultadoTotal, casillas);
+                if (i!= resultadoTotal) {
+                    System.out.println(tablero); 
+                    turnoIntermedio(avatarActual, avatarActual.getLugar()); // Turno intermedio para poder comprar en cada una de las tiradas
+                }
+            }
+            if (resultadoTotal % 2 == 0){ // Si el resultado total es par avanzar una casilla más para terminar en él
+                moverAvatarYEvaluar(avatarActual, 1, resultadoTotal, casillas);
+                System.out.println(tablero);
+            }
+        } else { // Si el resultadoTotal es menor que 4
+            moverAvatarYEvaluar(avatarActual, -1, resultadoTotal, casillas); // retroceder una casilla para empezar en 3
+            System.out.println(tablero);
+            turnoIntermedio(avatarActual, avatarActual.getLugar()); // Turno intermedio para poder comprar entre tiradas
+            for (int i=3; i <= resultadoTotal; i+=2){ // Ir retrocediendo de dos en dos a partir de ahí
+                moverAvatarYEvaluar(avatarActual, -2, resultadoTotal, casillas);
+                if (i!= resultadoTotal) {
+                    System.out.println(tablero); 
+                    turnoIntermedio(avatarActual, avatarActual.getLugar()); // Turno intermedio para poder comprar entre tiradas
+                }
+            }
+            if (resultadoTotal % 2 == 0){ // Si el resultado total es par retroceder una casilla más para terminar en él
+                moverAvatarYEvaluar(avatarActual, -1, resultadoTotal, casillas);
+                System.out.println(tablero);
+            }
+        }
+    }
+    
+    //Método para movimimento especial "coche"
+    private void manejarMovimientoCoche(Avatar avatarActual, int resultadoTotal, ArrayList<ArrayList<Casilla>> casillas) {
+        Scanner scanDado = new Scanner(System.in);
+        int contador = 0; // Contador del número de veces que se ha sacado más de 4
+        int resultadoDado1 = 0, resultadoDado2 = 0;
+        boolean haComprado = false; // Controla si ya ha comprado una propiedad en este turno 
 
+        if (resultadoTotal <= 4){ // Si el resultado total es menor o igual a 4 retrocede esa cantidada
+            moverAvatarYEvaluar(avatarActual, -resultadoTotal, resultadoTotal, casillas);
+            System.out.println("Has sacado menos de 4, no podrás tirar en los próximos dos turnos"); // NO IMPLEMENTADO
+        } else {
+            while (resultadoTotal > 4 && contador < 4){ // Mientras se siga sacando más de 4 y no suceda más de 3 veces
+                moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
+                System.out.println(tablero);
+                
+                if (!haComprado) { // Verificamos si ya compró en este turno
+                    turnoIntermedio(avatarActual, avatarActual.getLugar());
+                    haComprado = true; // Marcamos que ha hecho una compra
+                }
+
+                if (contador < 3){ // En la tirada adicional 1 y 2 no se tienen en cuenta los dados dobles
+                    turnoIntermedio(avatarActual, avatarActual.getLugar());
+                    System.out.print("Introduzca el valor de la tirada del dado 1: ");
+                    resultadoDado1 = scanDado.nextInt();
+                    System.out.print("Introduzca el valor de la tirada del dado 2: ");
+                    resultadoDado2 = scanDado.nextInt();
+                    resultadoTotal = resultadoDado1 + resultadoDado2;
+                    System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
+                }
+                contador++;
+    
+                if(contador == 3 && resultadoDado1 == resultadoDado2){ // En la última tirada adicional se gestionan los dados dobles
+                    moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
+                    while(resultadoDado1 == resultadoDado2){
+                        System.out.println("LLevas " + this.lanzamientos + " dobles");
+                        tirado = false;
+                        if(this.lanzamientos<3){
+                            System.out.println("Vuelve a tirar");
+    
+                            System.out.print("Introduzca el valor de la tirada del dado 1: ");
+                            resultadoDado1 = scanDado.nextInt();
+                            System.out.print("Introduzca el valor de la tirada del dado 2: ");
+                            resultadoDado2 = scanDado.nextInt();
+                            resultadoTotal = resultadoDado1 + resultadoDado2;
+                            System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
+    
+                            moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
+                        }else{
+                            System.out.println("VAS A LA CARCEL");
+                            avatarActual.getJugador().encarcelar(casillas);
+                            tirado = true;
+                            contador++;
+                            break;
+                        }
+                        this.lanzamientos++;
+                    }
+                }
+            }
+        }
+    }
+
+    private void turnoIntermedio(Avatar avatarActual, Casilla casillaActual) {
+        Jugador jugador = avatarActual.getJugador();
+        if (casillaActual.getDuenho() == banca) { // Si no tiene propietario, dar opción de compra
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("¿Quieres comprar esta casilla por " + casillaActual.getValor() + "? (s/n): ");
+            String respuesta = scanner.nextLine();
+            
+            if (respuesta.equalsIgnoreCase("s")) {
+                jugador.anhadirPropiedad(casillaActual); // Método que gestiona la compra
+                casillaActual.setDuenho(jugador);
+                System.out.println(jugador.getNombre() + " ha comprado la casilla " + casillaActual.getNombre());
+            }
+        }
+        else if (casillaActual.getDuenho() != banca && casillaActual.getDuenho() != jugador) {
+            // Si la casilla pertenece a otro jugador, pagar el alquiler
+            float alquiler = casillaActual.getValor(); // Método que calcula el alquiler
+            //Pagar alquiler
+            System.out.println(jugador.getNombre() + " paga un alquiler de " + alquiler + " a " + casillaActual.getDuenho().getNombre());
+        }
+        
+    }
+    
     /*Método que ejecuta todas las acciones realizadas con el comando 'comprar nombre_casilla'.
     * Parámetro: cadena de caracteres con el nombre de la casilla.
      */
@@ -545,7 +617,7 @@ public class Menu {
         Jugador jugador = jugadores.get(turno);
         if(jugador.getEnCarcel()){
             jugador.setEnCarcel(false);
-            jugador.sumarGastos(Valor.SALIR_CARCEL);
+            jugador.incrementarPagoTasasEImpuestos(Valor.SALIR_CARCEL);
             System.out.println("El jugador "+jugador.getNombre()+" sale de la carcel " + " pagando " + Valor.SALIR_CARCEL);
         }else{
             System.out.println("El jugador " + " no está en la carcel");
@@ -652,16 +724,146 @@ public class Menu {
         }
     }
 
-    private void turnoIntermedio(){ //Falta cerrar el scan una vez más
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Introduzca comando (para salir f): ");
-        String comando = scan.nextLine();
-        analizarComando(comando);
-        while(!comando.equals("f")){
-            System.out.print("Introduzca comando (para salir f): ");
-            comando = scan.nextLine();
-            analizarComando(comando);
+   // Nuevo método para buscar un jugador por nombre y mostrar sus estadísticas
+    private void mostrarEstadisticasJugadorPorNombre(String nombreJugador) {
+        for (Jugador jugador : jugadores) {
+            if (jugador.getNombre().equalsIgnoreCase(nombreJugador)) {
+                jugador.mostrarEstadisticasJugador(jugador);
+                return;
+            }
         }
+        System.out.println("Jugador con nombre '" + nombreJugador + "' no encontrado.");
+    }
+
+    public void mostrarEstadisticasJuego() {
+        // Obtener las estadísticas usando los métodos correspondientes
+        Casilla casillaMasRentable = obtenerCasillaMasRentable();
+        Grupo grupoMasRentable = obtenerGrupoMasRentable();
+        Casilla casillaMasFrecuentada = obtenerCasillaMasFrecuentada();
+        Jugador jugadorMasVueltas = obtenerJugadorMasVueltas();
+        Jugador jugadorMasVecesDados = obtenerJugadorMasVecesDados();
+        Jugador jugadorEnCabeza = obtenerJugadorEnCabeza();
+
+        // Imprimir las estadísticas en el formato solicitado
+        System.out.println("$> estadisticas");
+        System.out.println("{");
+        System.out.println("  casillaMasRentable: " + (casillaMasRentable != null ? casillaMasRentable.getNombre() : "N/A") + ",");
+        System.out.println("  grupoMasRentable: " + (grupoMasRentable != null ? grupoMasRentable.getColorGrupo() : "N/A") + ","); 
+        System.out.print(Valor.RESET);
+        System.out.println("  casillaMasFrecuentada: " + (casillaMasFrecuentada != null ? casillaMasFrecuentada.getNombre() : "N/A") + ",");
+        System.out.println("  jugadorMasVueltas: " + (jugadorMasVueltas != null ? jugadorMasVueltas.getNombre() : "N/A") + ",");
+        System.out.println("  jugadorMasVecesDados: " + (jugadorMasVecesDados != null ? jugadorMasVecesDados.getNombre() : "N/A") + ",");
+        System.out.println("  jugadorEnCabeza: " + (jugadorEnCabeza != null ? jugadorEnCabeza.getNombre() : "N/A"));
+        System.out.println("}");
+    }
+
+    public Casilla obtenerCasillaMasRentable() {
+        Casilla masRentable = null;
+        float maxIngresos = 0;
+    
+        for (int i = 0; i < 40; i++) {
+            Casilla casilla = tablero.obtenerCasilla(i);
+            if (casilla.getIngresosTotales() > maxIngresos) {
+                maxIngresos = casilla.getIngresosTotales();
+                masRentable = casilla;
+            }
+        }
+    
+        return masRentable;
+    }
+
+    public Grupo obtenerGrupoMasRentable() {
+        Grupo grupoMasRentable = null;
+        float maxIngresos = 0;
+
+        for (int i = 0; i < 40; i++) {
+            Casilla casilla = tablero.obtenerCasilla(i); // Obtener la casilla
+            Grupo grupo = casilla.getGrupo();
+            if(grupo != null){
+                float ingresosGrupo = grupo.getIngresosTotales(); // Método que devuelve los ingresos totales del grupo
+                if (ingresosGrupo > maxIngresos) {
+                    maxIngresos = ingresosGrupo;
+                    grupoMasRentable = grupo;
+                }
+            }
+        }
+        return grupoMasRentable;
+    }
+
+    public Casilla obtenerCasillaMasFrecuentada() {
+        Casilla casillaMasFrecuentada = null;
+        int maxVisitas = 0;
+    
+        for (int i = 0; i < 40; i++) {
+            Casilla casilla = tablero.obtenerCasilla(i); // Obtener la casilla
+            if (casilla.getContadorVisitas() > maxVisitas) {
+                maxVisitas = casilla.getContadorVisitas();
+                casillaMasFrecuentada = casilla;
+            }
+        }
+    
+        return casillaMasFrecuentada; // Retorna la casilla más frecuentada
+    }
+
+    public Jugador obtenerJugadorMasVueltas() {
+        Jugador jugadorMasVueltas = null;
+        int maxVueltas = 0;
+    
+        for (Jugador jugador : jugadores) {
+            if (jugador.getVueltas() > maxVueltas) {
+                maxVueltas = jugador.getVueltas();
+                jugadorMasVueltas = jugador;
+            }
+        }
+    
+        return jugadorMasVueltas;  // Retorna el jugador con más vueltas
+    }
+    
+    public Jugador obtenerJugadorMasVecesDados() {
+        Jugador jugadorMasVecesDados = null;
+        int maxLanzamientos = 0;
+    
+        for (Jugador jugador : jugadores) {
+            if (jugador.getLanzamientos() > maxLanzamientos) {
+                maxLanzamientos = jugador.getLanzamientos();
+                jugadorMasVecesDados = jugador;
+            }
+        }
+    
+        return jugadorMasVecesDados;  // Retorna el jugador que ha lanzado más veces
+    }
+
+    /**
+     * Obtiene el jugador con la mayor fortuna total.
+     * @return el jugador con la mayor fortuna acumulada.
+     */
+    public Jugador obtenerJugadorEnCabeza() {
+        Jugador jugadorEnCabeza = null;
+        float fortunaMaxima = 0;
+
+        // Recorre todos los jugadores y calcula su fortuna total
+        for (Jugador jugador : jugadores) {
+            float fortunaActual = jugador.calcularFortunaTotal();
+            if (fortunaActual > fortunaMaxima) {
+                fortunaMaxima = fortunaActual;
+                jugadorEnCabeza = jugador;
+            }
+        }
+
+        return jugadorEnCabeza;  // Retorna el jugador con la mayor fortuna
     }
 
 }
+
+/*
+Martin
+pelota
+Asier
+coche
+Brais
+pelota
+fin
+jugador
+cambiar
+dados
+ */

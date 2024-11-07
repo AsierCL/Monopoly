@@ -17,6 +17,16 @@ public class Jugador {
     private int vueltas; //Cuenta las vueltas dadas al tablero.
     private ArrayList<Casilla> propiedades; //Propiedades que posee el jugador.
 
+    // Atributos para estadísticas
+    private float dineroInvertido;
+    private float pagoTasasEImpuestos;
+    private float pagoDeAlquileres;
+    private float cobroDeAlquileres;
+    private float pasarPorCasillaDeSalida;
+    private float premiosInversionesOBote;
+    private int vecesEnLaCarcel;
+    private int lanzamientos;
+
     //Constructor vacío. Se usará para crear la banca.
     public Jugador() {
         this.nombre = "banca";
@@ -29,6 +39,16 @@ public class Jugador {
         this.vueltas = 0;
         // Asignar array propiedades
         //this.propiedades ...
+
+        // Inicializar estadísticas a cero
+        this.dineroInvertido = 0;
+        this.pagoTasasEImpuestos = 0;
+        this.pagoDeAlquileres = 0;
+        this.cobroDeAlquileres = 0;
+        this.pasarPorCasillaDeSalida = 0;
+        this.premiosInversionesOBote = 0;
+        this.vecesEnLaCarcel = 0;
+        this.lanzamientos = 0;
     }
 
     /*Constructor principal. Requiere parámetros:
@@ -45,10 +65,20 @@ public class Jugador {
             System.out.println("\nTipo de avatar incorrecto\n");
         }
         this.fortuna = Valor.FORTUNA_INICIAL;
+
+        //Aquí alomejor se puede sustituir todo esto por this();
         this.gastos = 0;
         this.enCarcel = false;
         this.tiradasCarcel = 0;
         this.vueltas = 0;
+        this.dineroInvertido = 0;
+        this.pagoTasasEImpuestos = 0;
+        this.pagoDeAlquileres = 0;
+        this.cobroDeAlquileres = 0;
+        this.pasarPorCasillaDeSalida = 0;
+        this.premiosInversionesOBote = 0;
+        this.vecesEnLaCarcel = 0;
+        this.lanzamientos = 0;
 
         /*Non é necesario especificar <Casilla>,
         *por "diamond operator", e inferencia de tipos */
@@ -90,6 +120,14 @@ public class Jugador {
 
     public Avatar getAvatar() {
         return avatar;
+    }
+
+    public int getVueltas(){
+        return this.vueltas;
+    }
+
+    public int getLanzamientos(){
+        return this.lanzamientos;
     }
 
     //Otros métodos:
@@ -139,6 +177,77 @@ public class Jugador {
         this.avatar.getLugar().eliminarAvatar(this.avatar);
         this.avatar.setLugar(pos.get(0).get(0));
         pos.get(0).get(0).anhadirAvatar(this.avatar);
+        this.vecesEnLaCarcel++;
+    }
+
+    // Métodos para actualizar estadísticas
+    public void incrementarDineroInvertido(float cantidad) {
+        this.dineroInvertido += cantidad;
+        this.sumarGastos(cantidad);  // Añadido también a los gastos
+    }
+
+    public void incrementarPagoTasasEImpuestos(float cantidad) {
+        this.pagoTasasEImpuestos += cantidad;
+        this.sumarGastos(cantidad);
+    }
+
+    public void incrementarPagoDeAlquileres(float cantidad) {
+        this.pagoDeAlquileres += cantidad;
+        this.sumarGastos(cantidad);
+    }
+
+    public void incrementarCobroDeAlquileres(float cantidad) {
+        this.cobroDeAlquileres += cantidad;
+        this.sumarFortuna(cantidad);
+    }
+
+    public void incrementarPasarPorCasillaDeSalida(float cantidad) {
+        this.pasarPorCasillaDeSalida += cantidad;
+        this.sumarFortuna(cantidad);
+    }
+
+    public void incrementarPremiosInversionesOBote(float cantidad) {
+        this.premiosInversionesOBote += cantidad;
+        this.sumarFortuna(cantidad);
+    }
+
+    // Método para mostrar estadísticas
+    public void mostrarEstadisticasJugador(Jugador jugador) {
+        System.out.println("Estadísticas de " + jugador.nombre + ":");
+        System.out.println("{");
+        System.out.println("  dineroInvertido: " + jugador.dineroInvertido + ",");
+        System.out.println("  pagoTasasEImpuestos: " + jugador.pagoTasasEImpuestos + ",");
+        System.out.println("  pagoDeAlquileres: " + jugador.pagoDeAlquileres + ",");
+        System.out.println("  cobroDeAlquileres: " + jugador.cobroDeAlquileres + ",");
+        System.out.println("  pasarPorCasillaDeSalida: " + jugador.pasarPorCasillaDeSalida + ",");
+        System.out.println("  premiosInversionesOBote: " + jugador.premiosInversionesOBote + ",");
+        System.out.println("  vecesEnLaCarcel: " + jugador.vecesEnLaCarcel);
+        System.out.println("}");
+    }
+
+    public void incrementarVueltas(){
+        this.vueltas++;
+    }
+
+    // Método para incrementar lanzamientos
+    public void incrementarLanzamientos() {
+        this.lanzamientos++;
+    }
+
+    /**
+     * Calcula la fortuna total del jugador, incluyendo su efectivo y el valor de sus propiedades y edificios.
+     * @return la fortuna total del jugador.
+     */
+    public float calcularFortunaTotal() {
+        float fortunaTotal = this.fortuna;  // Comienza con el efectivo del jugador
+
+        // Sumar el valor de todas las propiedades y edificios que posee el jugador
+        for (Casilla propiedad : this.propiedades) {
+            fortunaTotal += propiedad.getValor();           // Valor de la propiedad
+            //fortunaTotal += propiedad.getValorEdificios();  // Valor de los edificios en la propiedad
+        }
+
+        return fortunaTotal;
     }
 
 }

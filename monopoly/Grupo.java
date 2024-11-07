@@ -13,11 +13,16 @@ public class Grupo {
     private int numCasillas; //Número de casillas del grupo.
     public static final Set<String> coloresValidos = Set.of("Marron","Cian","Morado","Gris","Rojo","Amarillo","Verde","Azul");
 
+    //Atributos para estadísticas
+    private float ingresosTotales;
+
     //Constructor vacío.
     public Grupo() {
         this.miembros = new ArrayList<>();
         this.colorGrupo = "";
         this.numCasillas = 0;
+
+        this.ingresosTotales = 0;
     }
 
     /*Constructor para cuando el grupo está formado por DOS CASILLAS:
@@ -34,6 +39,8 @@ public class Grupo {
         for (Casilla casilla : miembros) {
             casilla.getEdificios().setNum_max(numCasillas);
         }
+
+        this.ingresosTotales = 0;
     }
 
     /*Constructor para cuando el grupo está formado por TRES CASILLAS:
@@ -52,6 +59,8 @@ public class Grupo {
         for (Casilla casilla : miembros) {
             casilla.getEdificios().setNum_max(numCasillas);
         }
+
+        this.ingresosTotales = 0;
     }
 
     /* Método que añade una casilla al array de casillas miembro de un grupo.
@@ -132,4 +141,12 @@ public class Grupo {
         }
         return total;
     }
+    public float getIngresosTotales() {
+        return this.ingresosTotales; // Devuelve el total de ingresos acumulados
+    }
+
+    public void registrarIngresosGrupo(float ingresos) {
+        this.ingresosTotales += ingresos;
+    }
+
 }
