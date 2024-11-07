@@ -57,7 +57,7 @@ public class Tablero {
     ladoNorte.add(new Casilla("Estacion3", "Transporte", 25, Valor.SUMA_VUELTA, banca));
     ladoNorte.add(new Casilla("Solar15", "Solar", 26, 4455516, banca));
     ladoNorte.add(new Casilla("Solar16", "Solar", 27, 4455516, banca));
-    ladoNorte.add(new Casilla("Servicio2", "Servicios", 28, banca));
+    ladoNorte.add(new Casilla("Servicio2", "Servicios", 28, Valor.SUMA_VUELTA*0.75f,banca));
     ladoNorte.add(new Casilla("Solar17", "Solar", 29, 4455516, banca));
     ladoNorte.add(new Casilla("IrCarcel", "Especial", 30, banca));
     Grupo G5 = new Grupo(ladoNorte.get(1), ladoNorte.get(3), ladoNorte.get(4), Valor.RED);
@@ -105,7 +105,7 @@ public class Tablero {
         ladoOeste.add(new Casilla("Estacion2", "Transporte", 15, Valor.SUMA_VUELTA, banca));
         ladoOeste.add(new Casilla("Solar8", "Solar", 14, 676000, banca));
         ladoOeste.add(new Casilla("Solar7", "Solar", 13, 676000, banca));
-        ladoOeste.add(new Casilla("Servicio1", "Servicios", 12, banca));
+        ladoOeste.add(new Casilla("Servicio1", "Servicios", 12, Valor.SUMA_VUELTA*0.75f, banca));
         ladoOeste.add(new Casilla("Solar6", "Solar", 11, 676000, banca));
         Grupo G3 = new Grupo(ladoOeste.get(5), ladoOeste.get(6),ladoOeste.get(8), Valor.PURPLE);
         Grupo G4 = new Grupo(ladoOeste.get(0), ladoOeste.get(1), ladoOeste.get(3), Valor.WHITE); //Puse white porque no hay naranja y es el que falta aquí
