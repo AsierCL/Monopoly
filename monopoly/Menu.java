@@ -356,6 +356,17 @@ public class Menu {
     //Método que ejecuta todas las acciones relacionadas con el comando 'lanzar dados'.
     private void lanzarDados() {
         if(!tirado){
+
+            Avatar avatarActual = avatares.get(turno);
+            Jugador jugadorActual = avatarActual.getJugador();
+            ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
+
+            if (jugadorActual.estaBloqueado()) {
+                System.out.println("Estás bloqueado para tirar los dados, te quedan " + jugadorActual.getTurnosBloqueado() + " turno(s) bloqueado(s).");
+                jugadorActual.decrementarTurnosBloqueados(); // Decrementamos el número de turnos bloqueados
+                return; // No se permite tirar los dados
+            }
+
             Dado dado1 = new Dado();
             Dado dado2 = new Dado();
 
@@ -368,9 +379,6 @@ public class Menu {
             int resultadoTotal = resultadoDados[0] + resultadoDados[1];
             System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
     
-            Avatar avatarActual = avatares.get(turno);
-            Jugador jugadorActual = avatarActual.getJugador();
-            ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
     
             jugadorActual.incrementarLanzamientos(); 
             this.lanzamientos++;
@@ -390,13 +398,21 @@ public class Menu {
     //Lanzar dados trucados
     private void dadosTrucados() {
         if (!tirado) {
-            int[] resultadoDados = solicitarTiradaDados(); // Pide que introduzcasd la tirada
-            int resultadoTotal = resultadoDados[0] + resultadoDados[1];
-            System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
-    
+
             Avatar avatarActual = avatares.get(turno);
             Jugador jugadorActual = avatarActual.getJugador();
             ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
+
+            if (jugadorActual.estaBloqueado()) {
+                System.out.println("Estás bloqueado para tirar los dados, te quedan " + jugadorActual.getTurnosBloqueado() + " turno(s) bloqueado(s).");
+                jugadorActual.decrementarTurnosBloqueados(); // Decrementamos el número de turnos bloqueados
+                return; // No se permite tirar los dados
+            }
+
+            int[] resultadoDados = solicitarTiradaDados(); // Pide que introduzcasd la tirada
+            int resultadoTotal = resultadoDados[0] + resultadoDados[1];
+            System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
+
     
             jugadorActual.incrementarLanzamientos();
             this.lanzamientos++;
@@ -496,12 +512,15 @@ public class Menu {
         if (resultadoTotal > 4){ // El avatar avanza hasta resultadoTotal parando en las casillas intermedias
             moverAvatarYEvaluar(avatarActual, 5, resultadoTotal, casillas); // Primero avanza 5 casillas (primer impar mayor que 4, parará siempre ahí)
             System.out.println(tablero);
-            turnoIntermedio(avatarActual, avatarActual.getLugar()); //turno intermedio en la misma tirada para dar la opción de comprar
+            turnoIntermedio(avatarActual, avatarActual.getLugar(), false); //turno intermedio en la misma tirada para dar la opción de comprar
+            if (avatarActual.getJugador().getEnCarcel()) return;
+
             for (int i=7; i <= resultadoTotal; i+=2){ // Mover el avatar por los números impares hasta llegar a resultadoTotal.
                 moverAvatarYEvaluar(avatarActual, 2, resultadoTotal, casillas);
                 if (i!= resultadoTotal) {
                     System.out.println(tablero); 
-                    turnoIntermedio(avatarActual, avatarActual.getLugar()); // Turno intermedio para poder comprar en cada una de las tiradas
+                    turnoIntermedio(avatarActual, avatarActual.getLugar(), false); // Turno intermedio para poder comprar en cada una de las tiradas
+                    if (avatarActual.getJugador().getEnCarcel()) return;
                 }
             }
             if (resultadoTotal % 2 == 0){ // Si el resultado total es par avanzar una casilla más para terminar en él
@@ -511,12 +530,15 @@ public class Menu {
         } else { // Si el resultadoTotal es menor que 4
             moverAvatarYEvaluar(avatarActual, -1, resultadoTotal, casillas); // retroceder una casilla para empezar en 3
             System.out.println(tablero);
-            turnoIntermedio(avatarActual, avatarActual.getLugar()); // Turno intermedio para poder comprar entre tiradas
+            turnoIntermedio(avatarActual, avatarActual.getLugar(), false); // Turno intermedio para poder comprar entre tiradas
+            if (avatarActual.getJugador().getEnCarcel()) return;
+            
             for (int i=3; i <= resultadoTotal; i+=2){ // Ir retrocediendo de dos en dos a partir de ahí
                 moverAvatarYEvaluar(avatarActual, -2, resultadoTotal, casillas);
                 if (i!= resultadoTotal) {
                     System.out.println(tablero); 
-                    turnoIntermedio(avatarActual, avatarActual.getLugar()); // Turno intermedio para poder comprar entre tiradas
+                    turnoIntermedio(avatarActual, avatarActual.getLugar(), false); // Turno intermedio para poder comprar entre tiradas
+                    if (avatarActual.getJugador().getEnCarcel()) return;
                 }
             }
             if (resultadoTotal % 2 == 0){ // Si el resultado total es par retroceder una casilla más para terminar en él
@@ -533,21 +555,21 @@ public class Menu {
         int resultadoDado1 = 0, resultadoDado2 = 0;
         boolean haComprado = false; // Controla si ya ha comprado una propiedad en este turno 
 
+        Jugador jugador = avatarActual.getJugador();
+
         if (resultadoTotal <= 4){ // Si el resultado total es menor o igual a 4 retrocede esa cantidada
             moverAvatarYEvaluar(avatarActual, -resultadoTotal, resultadoTotal, casillas);
-            System.out.println("Has sacado menos de 4, no podrás tirar en los próximos dos turnos"); // NO IMPLEMENTADO
+            System.out.println("Has sacado menos de 4, no podrás tirar en los próximos dos turnos");
+            jugador.setTurnosBloqueado(2); // Bloqueamos los próximos dos turnos
         } else {
             while (resultadoTotal > 4 && contador < 4){ // Mientras se siga sacando más de 4 y no suceda más de 3 veces
                 moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
                 System.out.println(tablero);
                 
-                if (!haComprado) { // Verificamos si ya compró en este turno
-                    turnoIntermedio(avatarActual, avatarActual.getLugar());
-                    haComprado = true; // Marcamos que ha hecho una compra
-                }
+                haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
 
                 if (contador < 3){ // En la tirada adicional 1 y 2 no se tienen en cuenta los dados dobles
-                    turnoIntermedio(avatarActual, avatarActual.getLugar());
+                    haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
                     System.out.print("Introduzca el valor de la tirada del dado 1: ");
                     resultadoDado1 = scanDado.nextInt();
                     System.out.print("Introduzca el valor de la tirada del dado 2: ");
@@ -587,27 +609,126 @@ public class Menu {
         }
     }
 
-    private void turnoIntermedio(Avatar avatarActual, Casilla casillaActual) {
+    private boolean turnoIntermedio(Avatar avatarActual, Casilla casillaActual, boolean haComprado) {
         Jugador jugador = avatarActual.getJugador();
-        if (casillaActual.getDuenho() == banca) { // Si no tiene propietario, dar opción de compra
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("¿Quieres comprar esta casilla por " + casillaActual.getValor() + "? (s/n): ");
-            String respuesta = scanner.nextLine();
+        Scanner scanner = new Scanner(System.in);
+        boolean turnoActivo = true;
+    
+        while (turnoActivo) {
+            // Mostrar el menú de opciones disponibles
+            System.out.println();
+            System.out.println("\n--- Menú de Turno ---");
+            System.out.println("1. Ver jugador con el turno actual");
+            System.out.println("2. Listar jugadores");
+            System.out.println("3. Listar avatares");
+            System.out.println("4. Listar propiedades en venta");
+            System.out.println("5. Listar edificios construidos");
+            System.out.println("6. Salir de la cárcel");
+            System.out.println("7. Describir casilla actual");
+            System.out.println("8. Describir un jugador");
+            System.out.println("9. Describir un avatar");
+            System.out.println("10. Comprar propiedad");
+            System.out.println("11. Construir edificio");
+            System.out.println("12. Ver estadísticas de la partida");
+            System.out.println("13. Ver estadísticas de un jugador específico");
+            System.out.println("14. Ver ayuda del menú");
+            System.out.println("15. Acabar turno intermedio");
+            System.out.print("Seleccione una opción: ");
             
-            if (respuesta.equalsIgnoreCase("s")) {
-                jugador.anhadirPropiedad(casillaActual); // Método que gestiona la compra
-                casillaActual.setDuenho(jugador);
-                System.out.println(jugador.getNombre() + " ha comprado la casilla " + casillaActual.getNombre());
+            int opcion = scanner.nextInt();
+            scanner.nextLine();  // Consumir el salto de línea
+
+            System.out.println();
+    
+            switch (opcion) {
+                case 1:  // Ver jugador con el turno actual
+                    verTurno();
+                    break;
+    
+                case 2:  // Listar jugadores
+                    listarJugadores();
+                    break;
+    
+                case 3:  // Listar avatares
+                    listarAvatares();
+                    break;
+    
+                case 4:  // Listar propiedades en venta
+                    listarVenta();
+                    break;
+    
+                case 5:  // Listar edificios construidos
+                    listarEdificios();
+                    break;
+    
+                case 6:  // Salir de la cárcel
+                    salirCarcel();
+                    break;
+    
+                case 7:  // Describir casilla actual
+                    descCasilla(casillaActual.getNombre());
+                    break;
+    
+                case 8:  // Describir un jugador específico
+                    System.out.print("Introduce el nombre del jugador: ");
+                    String nombreJugador = scanner.nextLine();
+                    descJugador(new String[]{"describir", "jugador", nombreJugador});
+                    break;
+    
+                case 9:  // Describir un avatar específico
+                    System.out.print("Introduce el nombre del avatar: ");
+                    String nombreAvatar = scanner.nextLine();
+                    descAvatar(nombreAvatar);
+                    break;
+    
+                case 10:  // Comprar propiedad
+                    if (casillaActual.getDuenho() == banca) {
+                        System.out.print("¿Quieres comprar esta casilla por " + casillaActual.getValor() + "? (s/n): ");
+                        String respuesta = scanner.nextLine();
+                        if (respuesta.equalsIgnoreCase("s")) {
+                            jugador.anhadirPropiedad(casillaActual); 
+                            casillaActual.setDuenho(jugador);
+                            System.out.println(jugador.getNombre() + " ha comprado la casilla " + casillaActual.getNombre());
+                        }
+                    } else {
+                        System.out.println("Esta propiedad ya tiene dueño.");
+                    }
+                    break;
+    
+                case 11:  // Construir edificio
+                    System.out.print("Introduce el tipo de edificio (casa, hotel, piscina, pista): ");
+                    String tipoEdificio = scanner.nextLine();
+                    casillaActual.Construir(jugador, tipoEdificio); 
+                    break;
+    
+                case 12:  // Ver estadísticas de la partida
+                    mostrarEstadisticasJuego();
+                    break;
+    
+                case 13:  // Ver estadísticas de un jugador específico
+                    System.out.print("Introduce el nombre del jugador: ");
+                    String nombreEstadisticas = scanner.nextLine();
+                    mostrarEstadisticasJugadorPorNombre(nombreEstadisticas);
+                    break;
+    
+                case 14:  // Ver ayuda del menú
+                    printAyuda();
+                    break;
+    
+                case 15:  // Acabar turno
+                    System.out.println("Turno de " + jugador.getNombre() + " finalizado.");
+                    turnoActivo = false;  // Terminar el turno
+                    break;
+    
+                default:
+                    System.out.println("Opción inválida. Intente de nuevo.");
+                    break;
             }
         }
-        else if (casillaActual.getDuenho() != banca && casillaActual.getDuenho() != jugador) {
-            // Si la casilla pertenece a otro jugador, pagar el alquiler
-            float alquiler = casillaActual.getValor(); // Método que calcula el alquiler
-            //Pagar alquiler
-            System.out.println(jugador.getNombre() + " paga un alquiler de " + alquiler + " a " + casillaActual.getDuenho().getNombre());
-        }
-        
+        System.out.println();
+        return haComprado; // Retorna el estado actualizado de haComprado
     }
+    
     
     /*Método que ejecuta todas las acciones realizadas con el comando 'comprar nombre_casilla'.
     * Parámetro: cadena de caracteres con el nombre de la casilla.
