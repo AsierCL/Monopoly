@@ -4,6 +4,7 @@ import partida.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 
 public class Casilla {
@@ -155,7 +156,7 @@ public class Casilla {
     * - El valor de la tirada: para determinar impuesto a pagar en casillas de servicios.
     * Valor devuelto: true en caso de ser solvente (es decir, de cumplir las deudas), y false
     * en caso de no cumplirlas.*/
-    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero) {//Solucion prvisional
+    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores) {//Solucion prvisional
         if (this.hipotecada == true){
             return true;
         }
@@ -211,10 +212,42 @@ public class Casilla {
 
             case("Suerte"):
                 System.out.println("TARJETA DE SUERTE\n");
+                
+                Scanner scannerS = new Scanner(System.in);
+                int numeroAccionSuerte;
+                
+                // Pedir un número entre 1 y 6 al usuario
+                do {
+                    System.out.print("Introduce un número del 1 al 6 para seleccionar una carta de Suerte: ");
+                    numeroAccionSuerte = scannerS.nextInt();
+                } while (numeroAccionSuerte < 1 || numeroAccionSuerte > 6);
+
+                // Crear una carta de "Suerte" con el número elegido como acción
+                Carta cartaSuerte = new Carta("Suerte",  numeroAccionSuerte);
+
+                // Ejecutar la acción de la carta usando la lista de jugadores y el tablero
+                cartaSuerte.ejecutarAccion(actual, tablero, jugadores);
+
                 break;
                 
             case("Comunidad"):
                 System.out.println("TARJETA DE COMUNIDAD\n");
+
+                Scanner scannerC = new Scanner(System.in);
+                int numeroAccionComunidad;
+                
+                // Pedir un número entre 1 y 6 al usuario
+                do {
+                    System.out.print("Introduce un número del 1 al 6 para seleccionar una carta de Suerte: ");
+                    numeroAccionComunidad = scannerC.nextInt();
+                } while (numeroAccionComunidad < 1 || numeroAccionComunidad > 6);
+
+                // Crear una carta de "Suerte" con el número elegido como acción
+                Carta cartaComunidad = new Carta("Comunidad", numeroAccionComunidad);
+
+                // Ejecutar la acción de la carta usando la lista de jugadores y el tablero
+                cartaComunidad.ejecutarAccion(actual, tablero, jugadores);
+
                 break;
         
             case("Especial"):

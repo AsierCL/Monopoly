@@ -504,7 +504,7 @@ public class Menu {
     // Método para mover el avatar y evaluar la casilla
     private void moverAvatarYEvaluar(Avatar avatarActual, int valorTirada, int resultadoTotal, ArrayList<ArrayList<Casilla>> casillas) {
         avatarActual.moverAvatar(casillas, valorTirada);
-        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores);
     }
     
     // Método para movimiento especial "pelota"
@@ -1019,6 +1019,12 @@ public class Menu {
         return jugadorEnCabeza;  // Retorna el jugador con la mayor fortuna
     }
 
+    public void cobrarPasarSalida(Casilla origen, Casilla destino, Jugador jugador){
+
+        
+
+    }
+
 }
 
 /*
@@ -1030,6 +1036,8 @@ Brais
 pelota
 fin
 jugador
-cambiar
 dados
+6
+1
+2
  */
