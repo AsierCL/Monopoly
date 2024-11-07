@@ -25,11 +25,15 @@ public class Carta {
         switch (accion) {
             case 1:
                 if (tipo.equals("Suerte")) {
-
+                    Casilla casillaOrigen = jugador.getAvatar().getLugar();
                     Casilla casillaTransporte = tablero.obtenerCasilla("Estacion1");
+
                     jugador.getAvatar().getLugar().eliminarAvatar(jugador.getAvatar());
                     jugador.getAvatar().setLugar(casillaTransporte);
                     casillaTransporte.anhadirAvatar(jugador.getAvatar());
+
+                    // Verificar paso por la casilla de salida
+                    jugador.cobrarPasoPorSalida(casillaOrigen, casillaTransporte);
 
                     System.out.println("Ve al Transportes1 y coge un avión. Si pasas por la casilla de Salida, cobra la cantidad habitual.");
 

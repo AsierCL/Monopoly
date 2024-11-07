@@ -1019,12 +1019,6 @@ public class Menu {
         return jugadorEnCabeza;  // Retorna el jugador con la mayor fortuna
     }
 
-    public void cobrarPasarSalida(Casilla origen, Casilla destino, Jugador jugador){
-
-        
-
-    }
-
 }
 
 /*
