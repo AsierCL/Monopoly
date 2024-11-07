@@ -53,7 +53,7 @@ public class Menu {
         System.out.println("listar jugadores \t\t-> lista los jugadores creados");
         System.out.println("listar avatares \t\t-> lista los avatares de los jugadores creados");
         System.out.println("listar enventa \t\t\t-> lista las propiedades a la venta");
-        System.out.println("listar edificios \t\t\t-> lista los edificios construidos");
+        System.out.println("listar edificios \t\t-> lista los edificios construidos");
         System.out.println("lanzar dados \t\t\t-> lanza los dados");
         System.out.println("dados trucados \t\t\t-> permite asignar un valor a cada dado");
         System.out.println("acabar turno \t\t\t-> termina el turno del jugador que esté jugando");
@@ -64,6 +64,8 @@ public class Menu {
         System.out.println("comprar \"nombre propiedad\" \t-> permite comprar una propiedad");
         System.out.println("construir \"edificio\" \t\t-> construye un edificio");
         System.out.println("ver tablero \t\t\t-> muestra el tablero");
+        System.out.println("estadisticas \t\t\t-> muestra estadisticas partida");
+        System.out.println("estadisticas \"nombre jugador\" \t-> muestra estadisticas partida");
         System.out.println("? \t\t\t\t-> muestra este menú de ayuda");
 
         System.out.println("\n");
@@ -92,11 +94,11 @@ public class Menu {
         System.out.println("Cuando termines introduce \"fin\"");
     
         while (jugadores.size() < 7) {
-            System.out.println("Introduzca el nombre del jugador: ");
+            System.out.print("Introduzca el nombre del jugador: ");
             String jugador = input.nextLine();  // Usar el mismo Scanner
     
             if (!jugador.equals("fin")) {
-                System.out.println("Introduzca la ficha: ");
+                System.out.print("Introduzca la ficha: ");
                 String tipoAvatar = input.nextLine();  // Usar el mismo Scanner
     
                 Jugador player = new Jugador(jugador, tipoAvatar, tablero.obtenerCasilla(0), avatares);
