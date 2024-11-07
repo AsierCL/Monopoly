@@ -16,6 +16,7 @@ public class Jugador {
     private int tiradasCarcel; //Cuando está en la carcel, contará las tiradas sin éxito que ha hecho allí para intentar salir (se usa para limitar el numero de intentos).
     private int vueltas; //Cuenta las vueltas dadas al tablero.
     private ArrayList<Casilla> propiedades; //Propiedades que posee el jugador.
+    private int turnosBloqueado;
 
     // Atributos para estadísticas
     private float dineroInvertido;
@@ -37,6 +38,7 @@ public class Jugador {
         this.enCarcel = false;
         this.tiradasCarcel = 0;
         this.vueltas = 0;
+        this.turnosBloqueado = 0;
         // Asignar array propiedades
         //this.propiedades ...
 
@@ -79,6 +81,7 @@ public class Jugador {
         this.premiosInversionesOBote = 0;
         this.vecesEnLaCarcel = 0;
         this.lanzamientos = 0;
+        this.turnosBloqueado = 0;
 
         /*Non é necesario especificar <Casilla>,
         *por "diamond operator", e inferencia de tipos */
@@ -128,6 +131,14 @@ public class Jugador {
 
     public int getLanzamientos(){
         return this.lanzamientos;
+    }
+
+    public int getTurnosBloqueado() {
+        return this.turnosBloqueado;
+    }
+
+    public void setTurnosBloqueado(int turnosBloqueado) {
+        this.turnosBloqueado = turnosBloqueado;
     }
 
     //Otros métodos:
@@ -248,6 +259,16 @@ public class Jugador {
         }
 
         return fortunaTotal;
+    }
+
+    public void decrementarTurnosBloqueados() {
+        if (turnosBloqueado > 0) {
+            turnosBloqueado--;
+        }
+    }
+
+    public boolean estaBloqueado() {
+        return turnosBloqueado > 0;
     }
 
 }

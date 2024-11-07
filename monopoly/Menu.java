@@ -345,6 +345,17 @@ public class Menu {
     //Método que ejecuta todas las acciones relacionadas con el comando 'lanzar dados'.
     private void lanzarDados() {
         if(!tirado){
+
+            Avatar avatarActual = avatares.get(turno);
+            Jugador jugadorActual = avatarActual.getJugador();
+            ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
+
+            if (jugadorActual.estaBloqueado()) {
+                System.out.println("Estás bloqueado para tirar los dados, te quedan " + jugadorActual.getTurnosBloqueado() + " turno(s) bloqueado(s).");
+                jugadorActual.decrementarTurnosBloqueados(); // Decrementamos el número de turnos bloqueados
+                return; // No se permite tirar los dados
+            }
+
             Dado dado1 = new Dado();
             Dado dado2 = new Dado();
 
@@ -357,9 +368,6 @@ public class Menu {
             int resultadoTotal = resultadoDados[0] + resultadoDados[1];
             System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
     
-            Avatar avatarActual = avatares.get(turno);
-            Jugador jugadorActual = avatarActual.getJugador();
-            ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
     
             jugadorActual.incrementarLanzamientos(); 
             this.lanzamientos++;
@@ -379,13 +387,21 @@ public class Menu {
     //Lanzar dados trucados
     private void dadosTrucados() {
         if (!tirado) {
-            int[] resultadoDados = solicitarTiradaDados(); // Pide que introduzcasd la tirada
-            int resultadoTotal = resultadoDados[0] + resultadoDados[1];
-            System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
-    
+
             Avatar avatarActual = avatares.get(turno);
             Jugador jugadorActual = avatarActual.getJugador();
             ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
+
+            if (jugadorActual.estaBloqueado()) {
+                System.out.println("Estás bloqueado para tirar los dados, te quedan " + jugadorActual.getTurnosBloqueado() + " turno(s) bloqueado(s).");
+                jugadorActual.decrementarTurnosBloqueados(); // Decrementamos el número de turnos bloqueados
+                return; // No se permite tirar los dados
+            }
+
+            int[] resultadoDados = solicitarTiradaDados(); // Pide que introduzcasd la tirada
+            int resultadoTotal = resultadoDados[0] + resultadoDados[1];
+            System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
+
     
             jugadorActual.incrementarLanzamientos();
             this.lanzamientos++;
@@ -528,9 +544,12 @@ public class Menu {
         int resultadoDado1 = 0, resultadoDado2 = 0;
         boolean haComprado = false; // Controla si ya ha comprado una propiedad en este turno 
 
+        Jugador jugador = avatarActual.getJugador();
+
         if (resultadoTotal <= 4){ // Si el resultado total es menor o igual a 4 retrocede esa cantidada
             moverAvatarYEvaluar(avatarActual, -resultadoTotal, resultadoTotal, casillas);
-            System.out.println("Has sacado menos de 4, no podrás tirar en los próximos dos turnos"); // NO IMPLEMENTADO
+            System.out.println("Has sacado menos de 4, no podrás tirar en los próximos dos turnos");
+            jugador.setTurnosBloqueado(2); // Bloqueamos los próximos dos turnos
         } else {
             while (resultadoTotal > 4 && contador < 4){ // Mientras se siga sacando más de 4 y no suceda más de 3 veces
                 moverAvatarYEvaluar(avatarActual, resultadoTotal, resultadoTotal, casillas);
