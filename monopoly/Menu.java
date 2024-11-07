@@ -187,9 +187,11 @@ public class Menu {
             //lanzar dados
             case("lanzar"):
                 lanzarDados();
+                System.out.println(tablero);
                 break;
             case("dados"):
                 dadosTrucados();
+                System.out.println(tablero);
                 break;
             //acabar turno
             case("acabar"):
@@ -231,6 +233,16 @@ public class Menu {
                 break;
             case("ver"):
                 System.out.println(tablero);
+                break;
+            case("estadisticas"):
+                if(subAccion.isEmpty()){ //Estadísticas del juego
+
+                } else { //Estadísticas del jugador
+
+                }
+                break;
+            case("cambiar"):
+                cambiarModo(jugadores.get(turno).getAvatar());
                 break;
             case("?"):
                 printAyuda();
@@ -446,8 +458,64 @@ public class Menu {
                         tirado = true;
                     }
                 }else{
-                    avatarActual.moverAvatar(casillas, resultadoTotal);
-                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                    ///////////////////////////////////
+                    if (avatarActual.getModo()){
+                        
+                        if(avatarActual.getTipo().equals("pelota")){
+                            if (resultadoTotal > 4){
+                                avatarActual.moverAvatar(casillas, 5);
+                                partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                turnoIntermedio();
+                                for (int i=7; i <= resultadoTotal; i+=2){
+                                    avatarActual.moverAvatar(casillas, 2);
+                                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                    if (i!= resultadoTotal) turnoIntermedio();
+                                }
+                                if (resultadoTotal % 2 == 0){
+                                    avatarActual.moverAvatar(casillas, 1);
+                                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                }
+                            } else {
+                                avatarActual.moverAvatar(casillas, -1);
+                                partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                turnoIntermedio();
+                                for (int i=3; i <= resultadoTotal; i+=2){
+                                    avatarActual.moverAvatar(casillas, -2);
+                                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                    if (i!= resultadoTotal) turnoIntermedio();
+                                }
+                                if (resultadoTotal % 2 == 0){
+                                    avatarActual.moverAvatar(casillas, -1);
+                                    partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                                }
+                            }
+                        }
+                        else if (avatarActual.getTipo().equals("coche")){
+                            if (resultadoTotal > 4){
+                                
+            
+                            } else {
+            
+                            }
+                        }
+                        else if (avatarActual.getTipo().equals("esfinge")){
+                            if (resultadoTotal > 4){
+                                
+                            } else {
+            
+                            }
+                        }
+                        else if (avatarActual.getTipo().equals("sombrero")){
+                            if (resultadoTotal > 4){
+                                
+                            } else {
+            
+                            }
+                        }
+                    } else {
+                        avatarActual.moverAvatar(casillas, resultadoTotal);
+                        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+                    } 
                 }
             }
 
@@ -570,6 +638,27 @@ public class Menu {
             this.lanzamientos = 0;
         }else{
             System.out.println("Debes tirar antes");
+        }
+    }
+
+    private void cambiarModo(Avatar avatar){
+        if (avatar != null) {
+            avatar.setModo(!avatar.getModo());
+            System.out.println("Modo cambiado. El avatar ahora está en modo " + (avatar.getModo() ? "avanzado" : "normal") + ".");
+        } else {
+            System.out.println("El avatar no existe.");
+        }
+    }
+
+    private void turnoIntermedio(){ //Falta cerrar el scan una vez más
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Introduzca comando (para salir f): ");
+        String comando = scan.nextLine();
+        analizarComando(comando);
+        while(!comando.equals("f")){
+            System.out.print("Introduzca comando (para salir f): ");
+            comando = scan.nextLine();
+            analizarComando(comando);
         }
     }
 

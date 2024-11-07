@@ -13,6 +13,7 @@ public class Avatar {
     private String tipo; //Sombrero, Esfinge, Pelota, Coche
     private Jugador jugador; //Un jugador al que pertenece ese avatar.
     private Casilla lugar; //Los avatares se sitúan en casillas del tablero.
+    private boolean modo; //Modo de movimiento avanzado
     
     
     public static final Set<String> avataresValidos = Set.of("esfinge", "sombrero", "coche", "pelota");
@@ -29,6 +30,7 @@ public class Avatar {
         this.tipo = tipo;
         this.jugador = jugador;
         this.lugar = lugar;
+        this.modo = false;
         lugar.anhadirAvatar(this);
 
         /* // Generamos ID
@@ -59,6 +61,14 @@ public class Avatar {
         return tipo;
     }
 
+    public boolean getModo(){
+        return modo;
+    }
+
+    public void setModo(boolean modo){
+        this.modo = modo;
+    }
+
     //A continuación, tenemos otros métodos útiles para el desarrollo del juego.
     /*Método que permite mover a un avatar a una casilla concreta. Parámetros:
     * - Un array con las casillas del tablero. Se trata de un arrayList de arrayList de casillas (uno por lado).
@@ -69,6 +79,10 @@ public class Avatar {
         int posicionActual = lugar.getPosicion();
         Casilla casillaActual = obtenerCasilla(posicionActual, casillas);
         int posicionNueva = (posicionActual + valorTirada)%40;
+
+        if (posicionNueva < 0) { 
+            posicionNueva += 40; // Si el resultado es negativo, lo ajustamos sumando 40
+        }
 
         Casilla nuevaCasilla = obtenerCasilla(posicionNueva, casillas);
         lugar.eliminarAvatar(this);
