@@ -219,6 +219,9 @@ public class Menu {
             case("deshipotecar"):
                 deshipotecar(subAccion);
                 break;
+            case("bancarrota"):
+                bancarrota(subAccion);
+                break;
             //comprar + Mostoles
             case("comprar"):
                 comprar(subAccion);
@@ -472,23 +475,29 @@ public class Menu {
         Jugador jugador_hipoteca = jugadores.get(turno);
 
         
-        casilla_hipotecada.hipotecarCasilla(jugador_hipoteca, casilla_hipotecada);
+        casilla_hipotecada.hipotecarCasilla(jugador_hipoteca);
     }
 
     private void deshipotecar(String nombre) {
-
-        Casilla casilla_deshipotecar = tablero.obtenerCasilla(nombre)
+   
+        Casilla casilla_deshipotecar = tablero.obtenerCasilla(nombre);
         Jugador jugador_deshipoteca = jugadores.get(turno);
 
-        casilla_deshipotecar.deshipotecarCasilla(jugador_deshipoteca, casilla_deshipotecar);
+        casilla_deshipotecar.deshipotecarCasilla(jugador_deshipoteca);
     }
 
 
 
     private void bancarrota(String nombre) {
+        if (!jugadores.contains(buscarJugadorPorNombre(nombre))) {
+            System.out.println("No existe un jugador con ese nombre.");
+            return;
+        }
+
         Jugador jugadorActual = jugadores.get(turno);
         Jugador jugador_bancarrota = buscarJugadorPorNombre(nombre);
         Jugador jugador_acreedor = jugadorActual.getAvatar().getLugar().getDuenho();
+        this.tirado = true;
     
         jugadorActual.declararBancarrota(jugador_bancarrota, jugador_acreedor, jugadorActual, jugadores);
     }
@@ -549,8 +558,8 @@ public class Menu {
             this.tirado = false;
             this.lanzamientos = 0;
         }else{
-            System.out.println("Debes tirar antes");
-        }
+                System.out.println("Debes tirar antes");
+            }
     }
 
 }

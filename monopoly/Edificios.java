@@ -117,4 +117,50 @@ public class Edificios {
             return true;
         }
     }
+
+
+    public void VenderEdificios(Casilla casilla, Jugador jugador, String construccion) {
+        if(!Edificios.edificiosValidos.contains(construccion)){
+            System.out.println("Tipo de edificio incorrecto");
+            System.out.println("Tipos permitidos: | casa | hotel | piscina | pista |");
+            return;
+        }
+        if (casilla.getDuenho().equals(jugador)) {
+            System.out.println("No eres el dueño de esta casilla");
+            return;
+        }
+        if(casilla.getTipo().equals("Solar")){
+            if (casilla.getEdificios().EsSolarEdificado()) {
+                int casas = casilla.getEdificios().getCasas();
+                int hoteles = casilla.getEdificios().getHoteles();
+                int piscinas = casilla.getEdificios().getPiscinas();
+                int pistas = casilla.getEdificios().getPistas();
+                System.out.println("Edificios en esta propiedad:");
+                System.out.println("Casas: " + casas + ", Hoteles: " + hoteles + ", Piscinas: " + piscinas + ", Pistas: " + pistas);
+                if (0 < casas){
+                    casas -= casas;
+                    jugador.setFortuna(jugador.getFortuna());
+
+                } else {
+                    System.out.println("No hay edificios de este tipo.");
+                }
+                
+                
+
+            
+
+
+
+
+
+
+            
+            } else {
+                System.out.println("Este solar no ha sido edificado.");
+            }
+        } else {
+            System.out.println("La propiedad no puede albergar construcciones.");
+        }
+    }
+        
 }
