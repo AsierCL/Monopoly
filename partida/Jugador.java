@@ -304,4 +304,17 @@ public class Jugador {
         return turnosBloqueado > 0;
     }
 
+    public void cobrarPasoPorSalida(Casilla origen, Casilla destino){
+
+        if(origen.getPosicion() > destino.getPosicion()){
+
+            float vuelta = Valor.SUMA_VUELTA;
+            this.incrementarVueltas(); // No sé si contaría como vuelta o no
+            this.incrementarPasarPorCasillaDeSalida(vuelta);
+
+            System.out.println(this.getNombre() + " ha pasado por la casilla de Salida y cobra " + vuelta + "€.");
+        }
+
+    }
+
 }

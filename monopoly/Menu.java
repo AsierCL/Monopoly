@@ -488,7 +488,7 @@ public class Menu {
     // Método para mover el avatar y evaluar la casilla
     private void moverAvatarYEvaluar(Avatar avatarActual, int valorTirada, int resultadoTotal, ArrayList<ArrayList<Casilla>> casillas) {
         avatarActual.moverAvatar(casillas, valorTirada);
-        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores);
     }
     
     // Método para movimiento especial "pelota"
@@ -898,8 +898,7 @@ public class Menu {
         System.out.println("$> estadisticas");
         System.out.println("{");
         System.out.println("  casillaMasRentable: " + (casillaMasRentable != null ? casillaMasRentable.getNombre() : "N/A") + ",");
-        System.out.println("  grupoMasRentable: " + (grupoMasRentable != null ? grupoMasRentable.getColorGrupo() : "N/A") + ","); 
-        System.out.print(Valor.RESET);
+        System.out.println("  grupoMasRentable: " + (grupoMasRentable != null ? grupoMasRentable.getColorGrupo() + "  " : "N/A") + Valor.RESET + ",");
         System.out.println("  casillaMasFrecuentada: " + (casillaMasFrecuentada != null ? casillaMasFrecuentada.getNombre() : "N/A") + ",");
         System.out.println("  jugadorMasVueltas: " + (jugadorMasVueltas != null ? jugadorMasVueltas.getNombre() : "N/A") + ",");
         System.out.println("  jugadorMasVecesDados: " + (jugadorMasVecesDados != null ? jugadorMasVecesDados.getNombre() : "N/A") + ",");
@@ -1013,7 +1012,11 @@ coche
 Brais
 pelota
 fin
-jugador
-cambiar
 dados
+6
+1
+1
+acabar
+dados
+
  */
