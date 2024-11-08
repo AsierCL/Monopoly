@@ -25,6 +25,7 @@ public class Carta {
         switch (accion) {
             case 1:
                 if (tipo.equals("Suerte")) {
+                    
                     Casilla casillaOrigen = jugador.getAvatar().getLugar();
                     Casilla casillaTransporte = tablero.obtenerCasilla("Estacion1");
 
@@ -35,12 +36,12 @@ public class Carta {
                     // Verificar paso por la casilla de salida
                     jugador.cobrarPasoPorSalida(casillaOrigen, casillaTransporte);
 
-                    System.out.println("Ve al Transportes1 y coge un avión. Si pasas por la casilla de Salida, cobra la cantidad habitual.");
+                    System.out.println("\nVe al Transportes1 y coge un avión. Si pasas por la casilla de Salida, cobra la cantidad habitual.");
 
 
-                } else if (tipo.equals("Caja de Comunidad")) {
+                } else if (tipo.equals("Comunidad")) {
                     jugador.incrementarPagoTasasEImpuestos(500000);
-                    System.out.println("Pagas 500000€ por un fin de semana en un balneario.");
+                    System.out.println("\nPagas 500000€ por un fin de semana en un balneario.");
                 }
                 break;
 
@@ -52,10 +53,10 @@ public class Carta {
                     jugador.getAvatar().setLugar(casillaSolar);
                     casillaSolar.anhadirAvatar(jugador.getAvatar());
 
-                    System.out.println("Decides hacer un viaje de placer. Avanza hasta Solar15 directamente, sin pasar por la casilla de Salida y sin cobrar la cantidad habitual.");
-                } else if (tipo.equals("Caja de Comunidad")) {
+                    System.out.println("\nDecides hacer un viaje de placer. Avanza hasta Solar15 directamente, sin pasar por la casilla de Salida y sin cobrar la cantidad habitual.");
+                } else if (tipo.equals("Comunidad")) {
                     jugador.encarcelar(tablero.getPosiciones()); // Ve a la Cárcel
-                    System.out.println("Te investigan por fraude de identidad. Vas a la Cárcel.");
+                    System.out.println("\nTe investigan por fraude de identidad. Vas a la Cárcel.");
                     System.out.println("Ve directamente sin pasar por la casilla de Salida y sin cobrar la cantidad habitual");
                 }
                 break;
@@ -63,55 +64,61 @@ public class Carta {
             case 3:
                 if (tipo.equals("Suerte")) {
                     jugador.incrementarPagoTasasEImpuestos(500000); //Falta venderlo para Solar17
-                    System.out.println("Vendes tu billete de avión para Solar17 en una subasta por Internet. Cobra 500000€");
-                } else if (tipo.equals("Caja de Comunidad")) {
+                    System.out.println("\nVendes tu billete de avión para Solar17 en una subasta por Internet. Cobra 500000€");
+                } else if (tipo.equals("Comunidad")) {
 
+                    Casilla casillaOrigen = jugador.getAvatar().getLugar();
                     Casilla casillaSalida = tablero.obtenerCasilla("Salida");
+
                     jugador.getAvatar().getLugar().eliminarAvatar(jugador.getAvatar());
                     jugador.getAvatar().setLugar(casillaSalida);
                     casillaSalida.anhadirAvatar(jugador.getAvatar());
 
                     System.out.println("Te colocas en la casilla de Salida y cobras la cantidad habitual.");
+                    jugador.cobrarPasoPorSalida(casillaOrigen, casillaSalida);
                 }
                 break;
 
             case 4:
                 if (tipo.equals("Suerte")) {
 
+                    Casilla casillaOrigen = jugador.getAvatar().getLugar();
                     Casilla casillaSolar = tablero.obtenerCasilla("Solar3");
+
                     jugador.getAvatar().getLugar().eliminarAvatar(jugador.getAvatar());
                     jugador.getAvatar().setLugar(casillaSolar);
                     casillaSolar.anhadirAvatar(jugador.getAvatar());
 
-                    System.out.println("Ve a Solar3. Si pasas por la casilla de Salida, cobra la cantidad habitual.");
+                    System.out.println("\nVe a Solar3. Si pasas por la casilla de Salida, cobra la cantidad habitual.");
+                    // Verificar paso por la casilla de salida
+                    jugador.cobrarPasoPorSalida(casillaOrigen, casillaSolar);
 
 
-                } else if (tipo.equals("Caja de Comunidad")) {
+                } else if (tipo.equals("Comunidad")) {
                     jugador.incrementarPremiosInversionesOBote(2000000);
-                    System.out.println("Tu compañía de Internet obtiene beneficios. Recibes 2000000€.");
+                    System.out.println("\nTu compañía de Internet obtiene beneficios. Recibes 2000000€.");
                 }
                 break;
 
             case 5:
                 if (tipo.equals("Suerte")) {
                     jugador.encarcelar(tablero.getPosiciones());
-                    System.out.println("Los acreedores te persiguen. Vas a la Cárcel.");
-                } else if (tipo.equals("Caja de Comunidad")) {
+                    System.out.println("\nLos acreedores te persiguen. Vas a la Cárcel.");
+                } else if (tipo.equals("Comunidad")) {
                     jugador.incrementarPagoTasasEImpuestos(1000000);
-                    System.out.println("Invitas a tus amigos a un viaje a Solar14. Pagas 1000000€.");
+                    System.out.println("\nInvitas a tus amigos a un viaje a Solar14. Pagas 1000000€.");
                 }
                 break;
 
             case 6:
                 if (tipo.equals("Suerte")) {
                     jugador.incrementarPremiosInversionesOBote(1000000);
-                    System.out.println("¡Has ganado el bote de la lotería! Recibes 1000000€!");
-                } else if (tipo.equals("Caja de Comunidad")) {
+                    System.out.println("\n¡Has ganado el bote de la lotería! Recibes 1000000€!");
+                } else if (tipo.equals("Comunidad")) {
+                    System.out.println("\nAlquilas a tus compañeros una villa en Solar7 durante una semana. Paga 200000€ a cada jugador\n");
                     pagarATodosLosJugadores(jugador, jugadores, 200000);
-                    System.out.println(" Alquilas a tus compañeros una villa en Solar7 durante una semana. Paga 200000€ a cada jugador");
                 }
                 break;
-
             default:
                 System.out.println("Acción no reconocida.");
                 break;

@@ -1029,9 +1029,11 @@ coche
 Brais
 pelota
 fin
-jugador
 dados
 6
 1
-2
+1
+acabar
+dados
+
  */
