@@ -18,6 +18,7 @@ public class Casilla {
     private Grupo grupo; //Grupo al que pertenece la casilla (si es solar).
     private float impuesto; //Cantidad a pagar por caer en la casilla: el alquiler en solares/servicios/transportes o impuestos.
     private ArrayList<Avatar> avatares; //Avatares que están situados en la casilla.
+    private ArrayList<Integer> hanEstado; //Avatares que están situados en la casilla.
     private Edificios edificios;
     private boolean hipotecada; //
     //Atributos para  estadísticas
@@ -49,6 +50,10 @@ public class Casilla {
             System.exit(1);
         }
         this.avatares = new ArrayList<>();
+        this.hanEstado = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            this.hanEstado.add(0);
+        }
         this.edificios = new Edificios(this);
 
         this.ingresosTotales = 0;
@@ -66,6 +71,10 @@ public class Casilla {
         this.tipo = "Especial";
         this.hipotecada = false;
         this.avatares = new ArrayList<>();
+        this.hanEstado = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            this.hanEstado.add(0);
+        }
 
         this.ingresosTotales = 0;
         this.contadorVisitas = 0;
@@ -80,6 +89,11 @@ public class Casilla {
         this.posicion = posicion;
         this.duenho = duenho;
         this.avatares = new ArrayList<>();
+        this.hanEstado = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            this.hanEstado.add(0);
+        }
+
         this.hipotecada = false;
     }
 
@@ -162,6 +176,8 @@ public class Casilla {
         }
         float pago = 0;
         this.contadorVisitas++;
+        this.hanEstado.set(jugadores.indexOf(actual), this.hanEstado.get(jugadores.indexOf(actual)) + 1);
+
         switch(this.tipo){
             case("Solar"):
                 pago = calcularPagoSolar(actual);
@@ -456,7 +472,7 @@ public class Casilla {
 
     }
 
-    public void Construir(Jugador jugador, String construccion) {
+    public void Construir(Jugador jugador, String construccion, ArrayList<Jugador> jugadores) {
         if(!Edificios.edificiosValidos.contains(construccion)){
             System.out.println("Tipo de edificio incorrecto");
             System.out.println("Tipos permitidos: | casa | hotel | piscina | pista |");
@@ -470,8 +486,8 @@ public class Casilla {
             System.out.println("Debes estar en la casilla para edificar");
             return;
         }
-        if (!this.getGrupo().esDuenhoGrupo(jugador)) {
-            System.out.println("Debes ser dueño de todo el solar para edificar");
+        if (!this.getGrupo().esDuenhoGrupo(jugador) && !(this.hanEstado.get(jugadores.indexOf(jugador))>1)) {
+            System.out.println("Debes ser dueño de todo el solar para edificar o haber caido 2 veces");
             return;
         }
 

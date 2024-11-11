@@ -136,20 +136,8 @@ public class Menu {
             String accion = palabras[0];  
             String subAccion = (palabras.length > 1) ? palabras[1] : "";
             String parametro1 = (palabras.length > 2) ? palabras[2] : "";
-            String parametro2 = (palabras.length > 3) ? palabras[3] : "";
 
             switch(accion){ 
-                //crear jugador
-                case("crear"):  //Dar de alta a un jugador: crear jugador Pedro coche
-                    Jugador player = new Jugador(parametro1, parametro2, tablero.obtenerCasilla(0),avatares);
-                    jugadores.add(player);
-
-                    System.out.println("\n{");
-                    System.out.print("Nombre: ");System.out.println(player.getNombre());
-                    System.out.print("Avatar: ");System.out.println(player.getAvatar().getId());
-                    System.out.println("}\n");
-
-                    break;
                 //jugador
                 case("jugador"):  //indicar jugador que tiene el turno
                     verTurno();
@@ -235,7 +223,7 @@ public class Menu {
                 break;
             //ver tablero
             case("construir"):
-                casillaActual.Construir(jugadorActual, subAccion);
+                casillaActual.Construir(jugadorActual, subAccion, jugadores);
                 break;
             case("ver"):
                 System.out.println(tablero);
@@ -682,7 +670,7 @@ public class Menu {
                 case 11:  // Construir edificio
                     System.out.print("Introduce el tipo de edificio (casa, hotel, piscina, pista): ");
                     String tipoEdificio = scanner.nextLine();
-                    casillaActual.Construir(jugador, tipoEdificio); 
+                    casillaActual.Construir(jugador, tipoEdificio, jugadores); 
                     break;
     
                 case 12:  // Ver estadísticas de la partida
