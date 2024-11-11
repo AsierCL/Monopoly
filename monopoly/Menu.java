@@ -364,6 +364,7 @@ public class Menu {
             if (jugadorActual.estaBloqueado()) {
                 System.out.println("Estás bloqueado para tirar los dados, te quedan " + jugadorActual.getTurnosBloqueado() + " turno(s) bloqueado(s).");
                 jugadorActual.decrementarTurnosBloqueados(); // Decrementamos el número de turnos bloqueados
+                tirado = true;
                 return; // No se permite tirar los dados
             }
 
@@ -406,6 +407,7 @@ public class Menu {
             if (jugadorActual.estaBloqueado()) {
                 System.out.println("Estás bloqueado para tirar los dados, te quedan " + jugadorActual.getTurnosBloqueado() + " turno(s) bloqueado(s).");
                 jugadorActual.decrementarTurnosBloqueados(); // Decrementamos el número de turnos bloqueados
+                tirado = true;
                 return; // No se permite tirar los dados
             }
 
@@ -503,8 +505,15 @@ public class Menu {
     
     // Método para mover el avatar y evaluar la casilla
     private void moverAvatarYEvaluar(Avatar avatarActual, int valorTirada, int resultadoTotal, ArrayList<ArrayList<Casilla>> casillas) {
+        Casilla origen = avatarActual.getLugar();
+
         avatarActual.moverAvatar(casillas, valorTirada);
         partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores);
+        
+        Casilla destino = avatarActual.getLugar();
+
+        if(valorTirada >= 0) avatarActual.getJugador().cobrarPasoPorSalida(origen, destino);
+        else avatarActual.getJugador().PasoPorSalidaInverso(origen, destino);
     }
     
     // Método para movimiento especial "pelota"
