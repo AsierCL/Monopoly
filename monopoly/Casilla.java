@@ -226,7 +226,7 @@ public class Casilla {
                 Carta cartaSuerte = new Carta("Suerte",  numeroAccionSuerte);
 
                 // Ejecutar la acción de la carta usando la lista de jugadores y el tablero
-                cartaSuerte.ejecutarAccion(actual, tablero, jugadores);
+                cartaSuerte.ejecutarAccion(actual, banca, tablero, jugadores, tirada);
 
                 break;
                 
@@ -246,7 +246,7 @@ public class Casilla {
                 Carta cartaComunidad = new Carta("Comunidad", numeroAccionComunidad);
 
                 // Ejecutar la acción de la carta usando la lista de jugadores y el tablero
-                cartaComunidad.ejecutarAccion(actual, tablero, jugadores);
+                cartaComunidad.ejecutarAccion(actual, banca, tablero, jugadores, tirada);
 
                 break;
         
