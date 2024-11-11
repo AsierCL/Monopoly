@@ -166,7 +166,7 @@ public class Casilla {
                 pago = calcularPagoSolar(actual);
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
                     if((actual.getFortuna() - pago)<0){
-                        System.out.println("Dinero insuficiente para pagar");
+                        System.out.println("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
                         return false;
                     }else{
                         System.out.println("Pagas impuesto de casilla: -" + pago + "€");
@@ -182,7 +182,7 @@ public class Casilla {
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
                     pago = this.impuesto * this.numTransporte();
                     if((actual.getFortuna()-pago)<0){
-                        System.out.println("Dinero insuficiente para pagar");
+                        System.out.println("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
                         return false;
                     }else{
                         System.out.println("Pagas impuesto de casilla: -" + pago + "€");
@@ -198,7 +198,7 @@ public class Casilla {
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
                     pago = this.impuesto * this.numServicios() * tirada;
                     if((actual.getFortuna()-pago)<0){
-                        System.out.println("Dinero insuficiente para pagar");
+                        System.out.println("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
                         return false;
                     }else{
                         System.out.println("Pagas impuesto de casilla: -" + pago + "€");
@@ -241,7 +241,7 @@ public class Casilla {
                     case ("Impuesto 1"):
                     case ("Impuesto 2"):
                         if((actual.getFortuna()-this.impuesto)<0){
-                            System.out.println("Dinero insuficiente para pagar");
+                            System.out.println("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
                             return false;
                         }else{
                             System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
@@ -503,5 +503,7 @@ public class Casilla {
             grupo.registrarIngresosGrupo(cantidad); // Registrar ingresos en el grupo si existe
         }
     }
+
+    
 
 }

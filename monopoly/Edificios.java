@@ -137,7 +137,7 @@ public class Edificios {
                 int pistas = casilla.getEdificios().getPistas();
                 System.out.println("Edificios en esta propiedad:");
                 System.out.println("Casas: " + casas + ", Hoteles: " + hoteles + ", Piscinas: " + piscinas + ", Pistas: " + pistas);
-                if (0 < casas){
+                if (construccion.equals("casa") && 0 < casas){
                     casas -= casas;
                     jugador.setFortuna(jugador.getFortuna());
 

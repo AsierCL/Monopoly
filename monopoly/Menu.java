@@ -19,6 +19,7 @@ public class Menu {
     private boolean tirado; //Booleano para comprobar si el jugador que tiene el turno ha tirado o no.
     private boolean solvente; //Booleano para comprobar si el jugador que tiene el turno es solvente, es decir, si ha pagado sus deudas.
     private boolean partida;
+    private int ultimatirada;
 
     public static void clearScreen() {
         try {
@@ -366,6 +367,7 @@ public class Menu {
 
 
             int resultadoTotal = resultadoDados[0] + resultadoDados[1];
+            this.ultimatirada = resultadoTotal;
             System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
     
             Avatar avatarActual = avatares.get(turno);
@@ -392,6 +394,7 @@ public class Menu {
         if (!tirado) {
             int[] resultadoDados = solicitarTiradaDados(); // Pide que introduzcasd la tirada
             int resultadoTotal = resultadoDados[0] + resultadoDados[1];
+            this.ultimatirada = resultadoTotal;
             System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
     
             Avatar avatarActual = avatares.get(turno);
@@ -640,7 +643,9 @@ public class Menu {
         casilla_deshipotecar.deshipotecarCasilla(jugador_deshipoteca);
     }
 
-
+    public int obtenerTirada() {
+        return this.ultimatirada;
+    }
 
     private void bancarrota(String nombre) {
         if (!jugadores.contains(buscarJugadorPorNombre(nombre))) {
@@ -650,10 +655,12 @@ public class Menu {
 
         Jugador jugadorActual = jugadores.get(turno);
         Jugador jugador_bancarrota = buscarJugadorPorNombre(nombre);
-        Jugador jugador_acreedor = jugadorActual.getAvatar().getLugar().getDuenho();
-        this.tirado = true;
+        Jugador jugador_acreedor = jugador_bancarrota.getAvatar().getLugar().getDuenho();
+        Casilla casilla = jugador_bancarrota.getAvatar().getLugar();
+        int tirada = this.ultimatirada;
+        solvente = casilla.evaluarCasilla(jugador_bancarrota, banca, tirada, tablero);
     
-        jugadorActual.declararBancarrota(jugador_bancarrota, jugador_acreedor, jugadorActual, jugadores);
+        jugador_bancarrota.declararBancarrota(jugador_acreedor, banca, jugadorActual, jugadores, solvente, avatares);
     }
     
     
@@ -897,8 +904,10 @@ public class Menu {
 
         return jugadorEnCabeza;  // Retorna el jugador con la mayor fortuna
     }
-
 }
+
+
+
 
 /*
 Martin
