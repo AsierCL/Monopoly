@@ -241,6 +241,9 @@ public class Menu {
             case("comprar"):
                 comprar(subAccion);
                 break;
+            case("vender"):
+                vender(palabras);
+                break;
             //ver tablero
             case("construir"):
                 casillaActual.Construir(jugadorActual, subAccion);
@@ -616,6 +619,7 @@ public class Menu {
     * Parámetro: cadena de caracteres con el nombre de la casilla.
      */
     private void comprar(String nombre) {
+
         Jugador jugador_actual = jugadores.get(turno);
         Casilla casilla_compra = tablero.obtenerCasilla(nombre);
 
@@ -675,6 +679,21 @@ public class Menu {
             System.out.println("El jugador " + " no está en la carcel");
         }
     }
+
+    private void vender(String[] partes ){
+        if (partes.length < 4){
+            System.out.println("No has pasado todos los parámetros");
+            return;
+        }
+
+        String construccion = partes[1];
+        Jugador jugador = jugadores.get(turno);
+        Casilla casilla = tablero.obtenerCasilla(partes[2]);
+        int cantidad = Integer.valueOf(partes[3]);
+
+        casilla.VenderEdificios(jugador, construccion, cantidad);
+    }
+        
 
     // Método que realiza las acciones asociadas al comando 'listar enventa'.
     private void listarVenta() {
