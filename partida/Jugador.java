@@ -240,6 +240,10 @@ public class Jugador {
         this.vueltas++;
     }
 
+    public void decrementarVueltas(){
+        this.vueltas--;
+    }
+
     // Método para incrementar lanzamientos
     public void incrementarLanzamientos() {
         this.lanzamientos++;
@@ -309,10 +313,24 @@ public class Jugador {
         if(origen.getPosicion() > destino.getPosicion()){
 
             float vuelta = Valor.SUMA_VUELTA;
-            this.incrementarVueltas(); // No sé si contaría como vuelta o no
+            this.incrementarVueltas();
             this.incrementarPasarPorCasillaDeSalida(vuelta);
 
             System.out.println(this.getNombre() + " ha pasado por la casilla de Salida y cobra " + vuelta + "€.");
+        }
+
+    }
+
+    // En principio solo debe usarse en movimientos hacia atrás
+    public void PasoPorSalidaInverso(Casilla origen, Casilla destino){ 
+
+        if(origen.getPosicion() < destino.getPosicion()){
+
+            float vuelta = Valor.SUMA_VUELTA;
+            this.decrementarVueltas();
+            this.incrementarPasarPorCasillaDeSalida(-vuelta);
+
+            System.out.println(this.getNombre() + " ha retrocedido por la casilla de Salida y paga " + vuelta + "€.");
         }
 
     }

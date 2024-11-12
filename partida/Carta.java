@@ -21,7 +21,7 @@ public class Carta {
         return this.accion;
     }
 
-    public void ejecutarAccion(Jugador jugador, Tablero tablero, ArrayList<Jugador> jugadores) {
+    public void ejecutarAccion(Jugador jugador, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores, int tirada) {
         switch (accion) {
             case 1:
                 if (tipo.equals("Suerte")) {
@@ -33,10 +33,11 @@ public class Carta {
                     jugador.getAvatar().setLugar(casillaTransporte);
                     casillaTransporte.anhadirAvatar(jugador.getAvatar());
 
-                    // Verificar paso por la casilla de salida
-                    jugador.cobrarPasoPorSalida(casillaOrigen, casillaTransporte);
+                    casillaTransporte.evaluarCasilla(jugador, banca, tirada, tablero, jugadores);
 
+                    // Verificar paso por la casilla de salida
                     System.out.println("\nVe al Transportes1 y coge un avión. Si pasas por la casilla de Salida, cobra la cantidad habitual.");
+                    jugador.cobrarPasoPorSalida(casillaOrigen, casillaTransporte);
 
 
                 } else if (tipo.equals("Comunidad")) {
@@ -52,6 +53,8 @@ public class Carta {
                     jugador.getAvatar().getLugar().eliminarAvatar(jugador.getAvatar());
                     jugador.getAvatar().setLugar(casillaSolar);
                     casillaSolar.anhadirAvatar(jugador.getAvatar());
+
+                    casillaSolar.evaluarCasilla(jugador, banca, tirada, tablero, jugadores);
 
                     System.out.println("\nDecides hacer un viaje de placer. Avanza hasta Solar15 directamente, sin pasar por la casilla de Salida y sin cobrar la cantidad habitual.");
                 } else if (tipo.equals("Comunidad")) {
@@ -74,6 +77,8 @@ public class Carta {
                     jugador.getAvatar().setLugar(casillaSalida);
                     casillaSalida.anhadirAvatar(jugador.getAvatar());
 
+                    casillaSalida.evaluarCasilla(jugador, banca, tirada, tablero, jugadores);
+
                     System.out.println("Te colocas en la casilla de Salida y cobras la cantidad habitual.");
                     jugador.cobrarPasoPorSalida(casillaOrigen, casillaSalida);
                 }
@@ -88,6 +93,8 @@ public class Carta {
                     jugador.getAvatar().getLugar().eliminarAvatar(jugador.getAvatar());
                     jugador.getAvatar().setLugar(casillaSolar);
                     casillaSolar.anhadirAvatar(jugador.getAvatar());
+
+                    casillaSolar.evaluarCasilla(jugador, banca, tirada, tablero, jugadores);
 
                     System.out.println("\nVe a Solar3. Si pasas por la casilla de Salida, cobra la cantidad habitual.");
                     // Verificar paso por la casilla de salida
