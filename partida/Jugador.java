@@ -146,14 +146,8 @@ public class Jugador {
         }
     }
 
-    public ArrayList<Casilla> getPropiedades(Jugador jugador) {
-        ArrayList<Casilla> propiedadesJugador = new ArrayList<>();
-        for (Casilla casilla : this.propiedades) {         
-            if (casilla.getDuenho() != null && casilla.getDuenho().equals(jugador)) {
-                propiedadesJugador.add(casilla);
-            }   
-        }
-        return propiedadesJugador;
+    public ArrayList<Casilla> getPropiedades() {
+        return propiedades;
     }
     
 
@@ -249,43 +243,52 @@ public class Jugador {
 
         return fortunaTotal;
     }
-
-    public void declararBancarrota(Jugador jugador_acreedor, Jugador banca, Jugador jugadorActual, ArrayList<Jugador> jugadores, boolean solvente, ArrayList<Avatar> avatares){
-        
-        if(this.equals(null)) {
-            System.out.println("El jugador indicado no existe.");
-            return;
-        }
-        if(jugadorActual != this){
-            System.out.println("No es el turno de " + this.getNombre() + ", no puede declararse en bancarrota.");
-            return;   
-        }
-        if (!solvente) {
-            System.out.println(this.getNombre() + " no puede pagar su deuda y se declara en bancarrota. Sus propiedades pasan a " + jugador_acreedor.getNombre() + ".");
-            ArrayList<Casilla> propiedades = this.getPropiedades(this);
-                for (Casilla propiedad : propiedades) {
-                    propiedad.setDuenho(jugador_acreedor);
-                } 
-            jugadores.remove(this); 
-            avatares.remove(this.getAvatar());
-            if (jugadores.size() < 2) {
-                System.out.println("El ganador es" + jugador_acreedor.getNombre() + ", ¡enhorabuena!");
-            }
-        } else if (solvente) {
-            ArrayList<Casilla> propiedades = this.getPropiedades(this);
-            for (Casilla propiedad : propiedades) {
-                propiedad.setDuenho(banca);
-            }
-            this.setFortuna(0); 
-            jugadores.remove(this); 
-            avatares.remove(this.getAvatar());           
-            System.out.println(this.getNombre() + " ha decidido declararse en bancarrota voluntariamente. Sus propiedades vuelven a la banca.");
-            if (jugadores.size() < 2) {
-                System.out.println("No quedan jugadores suficientes para continuar la partida.");
-            }
-        }
-    }
-
-// A lógica de bancarrota está ben implementada, pero o programa peta cando non se pode pagar a deuda.
-//  Cando haxa que pagar unha deuda que non se poida acabar o turno hasta declararse en bancarrota ou fortuna > deuda con hipoteca e venta.<
 }
+
+/* 
+
+1
+coche
+2
+coche
+3
+coche
+fin
+dados
+0
+1
+comprar Solar1
+acabar 
+dados 
+6
+0
+comprar Solar3
+acabar
+dados 
+5
+0
+comprar Estacion1
+acabar
+dados
+0
+2
+comprar Solar2
+construir casa
+construir casa
+construir casa
+construir casa
+construir hotel
+construir casa
+construir casa
+construir casa
+construir casa
+construir hotel
+construir piscina 
+construir piscina
+construir pista
+construir pista
+acabar
+dados 
+-3
+0
+ */

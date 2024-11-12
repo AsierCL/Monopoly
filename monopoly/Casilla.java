@@ -479,7 +479,7 @@ public class Casilla {
     private int numTransporte(){
         int contador = 0;
         Jugador duenho = this.getDuenho();
-        for (Casilla casilla : duenho.getPropiedades(duenho)) {
+        for (Casilla casilla : duenho.getPropiedades()) {
             if(casilla.tipo.equals("Transporte")){
                 contador++;
             }
@@ -490,7 +490,7 @@ public class Casilla {
     private int numServicios(){
         int contador = 0;
         Jugador duenho = this.getDuenho();
-        for (Casilla casilla : duenho.getPropiedades(duenho)) {
+        for (Casilla casilla : duenho.getPropiedades()) {
             if(casilla.tipo.equals("Servicios")){
                 contador++;
             }
@@ -590,5 +590,12 @@ public class Casilla {
         } else {
             System.out.println("Esta casilla no es un solar.");
         }
+    }
+
+    public void cambiarDuenho(Jugador nuevoduenho){
+
+        this.duenho.getPropiedades().remove(this);
+        this.duenho = nuevoduenho;
+        nuevoduenho.getPropiedades().add(this);
     }
 }

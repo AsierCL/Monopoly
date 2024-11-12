@@ -1,6 +1,7 @@
 package monopoly;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import partida.*;
@@ -283,9 +284,9 @@ public class Menu {
             System.out.println("Nombre del Jugador: " + jugador.getNombre());
             System.out.println("Fortuna: €" + jugador.getFortuna());
             
-            if (!jugador.getPropiedades(jugador).isEmpty()) {
+            if (!jugador.getPropiedades().isEmpty()) {
                 System.out.println("Propiedades: ");
-                for (Casilla propiedad : jugador.getPropiedades(jugador)) {
+                for (Casilla propiedad : jugador.getPropiedades()) {
                     System.out.println(" - " + propiedad.getNombre());
                     if(propiedad.getTipo().equals("Solar")){
                         System.out.println("\t" + "|Casas=" + propiedad.getEdificios().getCasas() + "|Hoteles=" + propiedad.getEdificios().getHoteles() + "|Piscinas=" + propiedad.getEdificios().getPiscinas() + "|Pistas=" + propiedad.getEdificios().getPistas());
@@ -494,7 +495,10 @@ public class Menu {
     // Método para mover el avatar y evaluar la casilla
     private void moverAvatarYEvaluar(Avatar avatarActual, int valorTirada, int resultadoTotal, ArrayList<ArrayList<Casilla>> casillas) {
         avatarActual.moverAvatar(casillas, valorTirada);
-        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero);
+        if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero)){
+            partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
+        }
+
     }
     
     // Método para movimiento especial "pelota"
@@ -658,13 +662,14 @@ public class Menu {
         }
 
         Jugador jugadorActual = jugadores.get(turno);
-        Jugador jugador_bancarrota = buscarJugadorPorNombre(nombre);
-        Jugador jugador_acreedor = jugador_bancarrota.getAvatar().getLugar().getDuenho();
-        Casilla casilla = jugador_bancarrota.getAvatar().getLugar();
+        Jugador jugador_acreedor = jugadorActual.getAvatar().getLugar().getDuenho();
         int tirada = this.ultimatirada;
-        solvente = casilla.evaluarCasilla(jugador_bancarrota, banca, tirada, tablero);
-    
-        jugador_bancarrota.declararBancarrota(jugador_acreedor, banca, jugadorActual, jugadores, solvente, avatares);
+        Casilla casilla = jugadorActual.getAvatar().getLugar();
+        solvente = casilla.evaluarCasilla(jugadorActual, banca, tirada, tablero);
+
+        declararBancarrota(jugador_acreedor, jugadorActual);
+        tirado = true;
+        lanzamientos = 0;
     }
     
     
@@ -693,7 +698,44 @@ public class Menu {
 
         casilla.VenderEdificios(jugador, construccion, cantidad);
     }
-        
+
+    public boolean declararBancarrota(Jugador jugador_acreedor, Jugador jugadorActual){
+        if (jugador_acreedor == null) {
+            System.out.println("El jugador acreedor no existe.");
+            return true;
+        } 
+        if (!solvente) {
+            System.out.println(jugadorActual.getNombre() + " no puede pagar su deuda y se declara en bancarrota. Sus propiedades pasan a " + jugador_acreedor.getNombre() + ".");
+                List<Casilla> propiedadesJugador = new ArrayList<>(jugadorActual.getPropiedades());    
+                for (Casilla propiedad : propiedadesJugador) {
+                    propiedad.cambiarDuenho(jugador_acreedor);
+
+                }
+            jugadorActual.getAvatar().getLugar().getAvatares().remove(jugadorActual.getAvatar());
+            jugadores.remove(jugadorActual); 
+            avatares.remove(jugadorActual.getAvatar());
+            if (jugadores.size() < 2) {
+                System.out.println("El ganador es " + jugador_acreedor.getNombre() + ", ¡enhorabuena!");
+                return false;
+            }
+        } else if (solvente) {
+            List<Casilla> propiedadesJugador = new ArrayList<>(jugadorActual.getPropiedades());
+            for (Casilla propiedad : propiedadesJugador) {
+                propiedad.setDuenho(banca);
+                jugadorActual.getPropiedades().remove(propiedad);
+            }
+            jugadorActual.getAvatar().getLugar().getAvatares().remove(jugadorActual.getAvatar());
+            jugadores.remove(jugadorActual);
+            avatares.remove(jugadorActual.getAvatar());           
+            System.out.println(jugadorActual.getNombre() + " ha decidido declararse en bancarrota voluntariamente. Sus propiedades vuelven a la banca.");
+            if (jugadores.size() < 2){
+                System.out.println("No hay suficientes jugadores para continuar.");
+            }
+            return false;
+        }
+        return true;
+    }
+
 
     // Método que realiza las acciones asociadas al comando 'listar enventa'.
     private void listarVenta() {
