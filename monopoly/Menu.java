@@ -64,7 +64,11 @@ public class Menu {
         System.out.println("describir jugador \"nombre\" \t-> describe el jugador introducido");
         System.out.println("describir avatar \"nombre\" \t-> describe el avatar introducido");
         System.out.println("comprar \"nombre propiedad\" \t-> permite comprar una propiedad");
+        System.out.println("hipotecar \"nombre casilla\" \t-> permite hipotecar una propiedad");
+        System.out.println("deshipotecar \"nombre casilla\" \t-> permite deshipotecar una propiedad");
+        System.out.println("bancarrota \"nombre jugador\" \t-> declararse en bancarrota");
         System.out.println("construir \"edificio\" \t\t-> construye un edificio");
+        System.out.println("vender \"edificio , solar, cantidad\" \t-> permite vender edificios");
         System.out.println("ver tablero \t\t\t-> muestra el tablero");
         System.out.println("estadisticas \t\t\t-> muestra estadisticas partida");
         System.out.println("estadisticas \"nombre jugador\" \t-> muestra estadisticas partida");
