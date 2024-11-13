@@ -183,7 +183,7 @@ public class Casilla {
                 pago = calcularPagoSolar(actual);
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
                     if((actual.getFortuna() - pago)<0){
-                        System.out.println("Dinero insuficiente para pagar");
+                        System.out.println("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
                         return false;
                     }else{
                         System.out.println("Pagas impuesto de casilla: -" + pago + "€");
@@ -199,7 +199,7 @@ public class Casilla {
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
                     pago = this.impuesto * this.numTransporte();
                     if((actual.getFortuna()-pago)<0){
-                        System.out.println("Dinero insuficiente para pagar");
+                        System.out.println("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
                         return false;
                     }else{
                         System.out.println("Pagas impuesto de casilla: -" + pago + "€");
@@ -215,7 +215,7 @@ public class Casilla {
                 if(this.duenho != actual && this.duenho != banca){// Casilla de otro
                     pago = this.impuesto * this.numServicios() * tirada;
                     if((actual.getFortuna()-pago)<0){
-                        System.out.println("Dinero insuficiente para pagar");
+                        System.out.println("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
                         return false;
                     }else{
                         System.out.println("Pagas impuesto de casilla: -" + pago + "€");
@@ -290,7 +290,7 @@ public class Casilla {
                     case ("Impuesto1"):
                     case ("Impuesto2"):
                         if((actual.getFortuna()-this.impuesto)<0){
-                            System.out.println("Dinero insuficiente para pagar");
+                            System.out.println("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
                             return false;
                         }else{
                             System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
@@ -528,7 +528,7 @@ public class Casilla {
     private int numTransporte(){
         int contador = 0;
         Jugador duenho = this.getDuenho();
-        for (Casilla casilla : duenho.getPropiedades(duenho)) {
+        for (Casilla casilla : duenho.getPropiedades()) {
             if(casilla.tipo.equals("Transporte")){
                 contador++;
             }
@@ -539,7 +539,7 @@ public class Casilla {
     private int numServicios(){
         int contador = 0;
         Jugador duenho = this.getDuenho();
-        for (Casilla casilla : duenho.getPropiedades(duenho)) {
+        for (Casilla casilla : duenho.getPropiedades()) {
             if(casilla.tipo.equals("Servicios")){
                 contador++;
             }
@@ -553,4 +553,98 @@ public class Casilla {
         }
     }
 
+    public void VenderEdificios(Jugador jugador, String construccion, int cantidad) {
+        if (!Edificios.edificiosValidos.contains(construccion)) {
+            System.out.println("Tipo de edificio incorrecto");
+            System.out.println("Tipos permitidos: | casa | hotel | piscina | pista |");
+            return;
+        }
+        if (!this.getDuenho().equals(jugador)) {
+            System.out.println("No eres el dueño de esta casilla");
+            return;
+        }
+    
+        if (cantidad <= 0) {
+            System.out.println("La cantidad debe ser mayor que cero");
+            return;
+        }
+    
+        if (this.getTipo().equals("Solar")) {
+            if (this.getEdificios().EsSolarEdificado()) {
+                int casas = this.getEdificios().getCasas();
+                int hoteles = this.getEdificios().getHoteles();
+                int piscinas = this.getEdificios().getPiscinas();
+                int pistas = this.getEdificios().getPistas();
+                System.out.println("Edificios en esta propiedad:");
+                System.out.println("Casas: " + casas + ", Hoteles: " + hoteles + ", Piscinas: " + piscinas + ", Pistas: " + pistas);
+    
+                float valorVenta = 0;
+    
+                switch (construccion) {
+                    case "casa":
+                        if (casas >= cantidad) {
+                            valorVenta = this.getValor() * 0.3f * cantidad;
+                            casas -= cantidad;  // Disminuir la cantidad de casas
+                            jugador.setFortuna(jugador.getFortuna() + valorVenta);
+                            this.getEdificios().setCasas(casas);  // Actualizar las casas en la propiedad
+                            System.out.println("El jugador " + jugador.getNombre() + " ha vendido " + cantidad + " casas y recibe " + valorVenta + "€");
+                        } else {
+                            System.out.println("No tienes tantas casas para vender");
+                            return;
+                        }
+                        break;
+                    case "hotel":
+                        if (hoteles >= cantidad) {
+                            valorVenta = this.getValor() * 0.6f * cantidad;
+                            hoteles -= cantidad;  // Disminuir la cantidad de hoteles
+                            jugador.setFortuna(jugador.getFortuna() + valorVenta);
+                            this.getEdificios().setHoteles(hoteles);  // Actualizar los hoteles en la propiedad
+                            System.out.println("El jugador " + jugador.getNombre() + " ha vendido " + cantidad + " hoteles y recibe " + valorVenta + "€");
+                        } else {
+                            System.out.println("No tienes tantos hoteles para vender");
+                            return;
+                        }
+                        break;
+                    case "piscina":
+                        if (piscinas >= cantidad) {
+                            valorVenta = this.getValor() * 0.4f * cantidad;
+                            piscinas -= cantidad;  // Disminuir la cantidad de piscinas
+                            jugador.setFortuna(jugador.getFortuna() + valorVenta);
+                            this.getEdificios().setPiscinas(piscinas);  // Actualizar las piscinas en la propiedad
+                            System.out.println("El jugador " + jugador.getNombre() + " ha vendido " + cantidad + " piscinas y recibe " + valorVenta + "€");
+                        } else {
+                            System.out.println("No tienes tantas piscinas para vender");
+                            return;
+                        }
+                        break;
+                    case "pista":
+                        if (pistas >= cantidad) {
+                            valorVenta = this.getValor() * 0.5f * cantidad;
+                            pistas -= cantidad;  // Disminuir la cantidad de pistas
+                            jugador.setFortuna(jugador.getFortuna() + valorVenta);
+                            this.getEdificios().setPistas(pistas);  // Actualizar las pistas en la propiedad
+                            System.out.println("El jugador " + jugador.getNombre() + " ha vendido " + cantidad + " pistas y recibe " + valorVenta + "€");
+                        } else {
+                            System.out.println("No tienes tantas pistas para vender");
+                            return;
+                        }
+                        break;
+                    default:
+                        System.out.println("Tipo de construcción no válido");
+                        break;
+                }
+            } else {
+                System.out.println("Este solar no tiene edificios para vender.");
+            }
+        } else {
+            System.out.println("Esta casilla no es un solar.");
+        }
+    }
+
+    public void cambiarDuenho(Jugador nuevoduenho){
+
+        this.duenho.getPropiedades().remove(this);
+        this.duenho = nuevoduenho;
+        nuevoduenho.getPropiedades().add(this);
+    }
 }

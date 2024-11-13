@@ -157,14 +157,8 @@ public class Jugador {
         }
     }
 
-    public ArrayList<Casilla> getPropiedades(Jugador jugador) {
-        ArrayList<Casilla> propiedadesJugador = new ArrayList<>();
-        for (Casilla casilla : this.propiedades) {         
-            if (casilla.getDuenho() != null && casilla.getDuenho().equals(jugador)) {
-                propiedadesJugador.add(casilla);
-            }   
-        }
-        return propiedadesJugador;
+    public ArrayList<Casilla> getPropiedades() {
+        return propiedades;
     }
     
 
@@ -264,40 +258,6 @@ public class Jugador {
 
         return fortunaTotal;
     }
-
-    public void declararBancarrota(Jugador jugador_bancarrota, Jugador jugador_acreedor, Jugador jugadorActual, ArrayList<Jugador> jugadores){
-        if(jugador_bancarrota.equals(null)) {
-            System.out.println("El jugador indicado no existe.");
-        }
-        if(jugadorActual != jugador_bancarrota){
-            System.out.println("No es el turno de " + jugador_bancarrota.getNombre() + ", no puede declararse en bancarrota.");
-        } else if (jugador_bancarrota.getFortuna() <= 0) {
-            System.out.println(jugador_bancarrota.getNombre() + " no puede pagar su deuda y se declara en bancarrota. Sus propiedades pasan a " + jugador_acreedor.getNombre() + ".");
-            ArrayList<Casilla> propiedades = jugador_bancarrota.getPropiedades(jugador_bancarrota);
-                for (Casilla propiedad : propiedades) {
-                    propiedad.setDuenho(jugador_acreedor);
-                }
-            jugador_bancarrota.setFortuna(0); 
-            jugadores.remove(jugador_bancarrota); 
-            if (jugadores.size() < 2) {
-                System.out.println("El ganador es" + jugador_acreedor.getNombre() + ", ¡enhorabuena!");
-                System.exit(0);
-            }
-        } else if (jugador_bancarrota.getFortuna() > 0) {
-            ArrayList<Casilla> propiedades = jugador_bancarrota.getPropiedades(jugador_bancarrota);
-            for (Casilla propiedad : propiedades) {
-                propiedad.setDuenho(jugador_acreedor);
-            }
-            jugador_bancarrota.setFortuna(0); 
-            jugadores.remove(jugador_bancarrota);            
-            System.out.println(jugador_bancarrota.getNombre() + " ha decidido declararse en bancarrota voluntariamente. Sus propiedades vuelven a la banca.");
-            if (jugadores.size() < 2) {
-                System.out.println("No quedan jugadores suficientes para continuar la partida.");
-                System.exit(0);
-            }
-        }
-    }
-
     public void decrementarTurnosBloqueados() {
         if (turnosBloqueado > 0) {
             turnosBloqueado--;
@@ -336,3 +296,51 @@ public class Jugador {
     }
 
 }
+
+/* 
+
+1
+coche
+2
+coche
+3
+coche
+fin
+dados
+0
+1
+comprar Solar1
+acabar 
+dados 
+6
+0
+comprar Solar3
+acabar
+dados 
+5
+0
+comprar Estacion1
+acabar
+dados
+0
+2
+comprar Solar2
+construir casa
+construir casa
+construir casa
+construir casa
+construir hotel
+construir casa
+construir casa
+construir casa
+construir casa
+construir hotel
+construir piscina 
+construir piscina
+construir pista
+construir pista
+acabar
+dados 
+-3
+0
+ */

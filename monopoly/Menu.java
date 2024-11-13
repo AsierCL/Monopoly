@@ -1,6 +1,7 @@
 package monopoly;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import partida.*;
@@ -19,6 +20,7 @@ public class Menu {
     private boolean tirado; //Booleano para comprobar si el jugador que tiene el turno ha tirado o no.
     private boolean solvente; //Booleano para comprobar si el jugador que tiene el turno es solvente, es decir, si ha pagado sus deudas.
     private boolean partida;
+    private int ultimatirada;
 
     public static void clearScreen() {
         try {
@@ -221,6 +223,9 @@ public class Menu {
             case("comprar"):
                 comprar(subAccion);
                 break;
+            case("vender"):
+                vender(palabras);
+                break;
             //ver tablero
             case("construir"):
                 casillaActual.Construir(jugadorActual, subAccion, jugadores);
@@ -260,9 +265,9 @@ public class Menu {
             System.out.println("Nombre del Jugador: " + jugador.getNombre());
             System.out.println("Fortuna: " + jugador.getFortuna() + "€" );
             
-            if (!jugador.getPropiedades(jugador).isEmpty()) {
+            if (!jugador.getPropiedades().isEmpty()) {
                 System.out.println("Propiedades: ");
-                for (Casilla propiedad : jugador.getPropiedades(jugador)) {
+                for (Casilla propiedad : jugador.getPropiedades()) {
                     System.out.println(" - " + propiedad.getNombre());
                     if(propiedad.getTipo().equals("Solar")){
                         System.out.println("\t" + "|Casas=" + propiedad.getEdificios().getCasas() + "|Hoteles=" + propiedad.getEdificios().getHoteles() + "|Piscinas=" + propiedad.getEdificios().getPiscinas() + "|Pistas=" + propiedad.getEdificios().getPistas());
@@ -355,6 +360,7 @@ public class Menu {
             resultadoDados[1] = dado2.hacerTirada();
 
             int resultadoTotal = resultadoDados[0] + resultadoDados[1];
+            this.ultimatirada = resultadoTotal;
             System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
     
             jugadorActual.incrementarLanzamientos(); 
@@ -388,6 +394,7 @@ public class Menu {
 
             int[] resultadoDados = solicitarTiradaDados(); // Pide que introduzcasd la tirada
             int resultadoTotal = resultadoDados[0] + resultadoDados[1];
+            this.ultimatirada = resultadoTotal;
             System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
     
             jugadorActual.incrementarLanzamientos();
@@ -480,7 +487,9 @@ public class Menu {
         Casilla origen = avatarActual.getLugar();
 
         avatarActual.moverAvatar(casillas, valorTirada);
-        partida = avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores);
+        if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero,jugadores)){
+            partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
+        }
         
         Casilla destino = avatarActual.getLugar();
 
@@ -715,6 +724,7 @@ public class Menu {
     * Parámetro: cadena de caracteres con el nombre de la casilla.
      */
     private void comprar(String nombre) {
+
         Jugador jugador_actual = jugadores.get(turno);
         Casilla casilla_compra = tablero.obtenerCasilla(nombre);
 
@@ -739,7 +749,9 @@ public class Menu {
         casilla_deshipotecar.deshipotecarCasilla(jugador_deshipoteca);
     }
 
-
+    public int obtenerTirada() {
+        return this.ultimatirada;
+    }
 
     private void bancarrota(String nombre) {
         if (!jugadores.contains(buscarJugadorPorNombre(nombre))) {
@@ -748,11 +760,14 @@ public class Menu {
         }
 
         Jugador jugadorActual = jugadores.get(turno);
-        Jugador jugador_bancarrota = buscarJugadorPorNombre(nombre);
         Jugador jugador_acreedor = jugadorActual.getAvatar().getLugar().getDuenho();
-        this.tirado = true;
-    
-        jugadorActual.declararBancarrota(jugador_bancarrota, jugador_acreedor, jugadorActual, jugadores);
+        int tirada = this.ultimatirada;
+        Casilla casilla = jugadorActual.getAvatar().getLugar();
+        solvente = casilla.evaluarCasilla(jugadorActual, banca, tirada, tablero,jugadores);
+
+        declararBancarrota(jugador_acreedor, jugadorActual);
+        tirado = true;
+        lanzamientos = 0;
     }
     
     
@@ -767,6 +782,58 @@ public class Menu {
             System.out.println("El jugador " + " no está en la carcel");
         }
     }
+
+    private void vender(String[] partes ){
+        if (partes.length < 4){
+            System.out.println("No has pasado todos los parámetros");
+            return;
+        }
+
+        String construccion = partes[1];
+        Jugador jugador = jugadores.get(turno);
+        Casilla casilla = tablero.obtenerCasilla(partes[2]);
+        int cantidad = Integer.valueOf(partes[3]);
+
+        casilla.VenderEdificios(jugador, construccion, cantidad);
+    }
+
+    public boolean declararBancarrota(Jugador jugador_acreedor, Jugador jugadorActual){
+        if (jugador_acreedor == null) {
+            System.out.println("El jugador acreedor no existe.");
+            return true;
+        } 
+        if (!solvente) {
+            System.out.println(jugadorActual.getNombre() + " no puede pagar su deuda y se declara en bancarrota. Sus propiedades pasan a " + jugador_acreedor.getNombre() + ".");
+                List<Casilla> propiedadesJugador = new ArrayList<>(jugadorActual.getPropiedades());    
+                for (Casilla propiedad : propiedadesJugador) {
+                    propiedad.cambiarDuenho(jugador_acreedor);
+
+                }
+            jugadorActual.getAvatar().getLugar().getAvatares().remove(jugadorActual.getAvatar());
+            jugadores.remove(jugadorActual); 
+            avatares.remove(jugadorActual.getAvatar());
+            if (jugadores.size() < 2) {
+                System.out.println("El ganador es " + jugador_acreedor.getNombre() + ", ¡enhorabuena!");
+                return false;
+            }
+        } else if (solvente) {
+            List<Casilla> propiedadesJugador = new ArrayList<>(jugadorActual.getPropiedades());
+            for (Casilla propiedad : propiedadesJugador) {
+                propiedad.setDuenho(banca);
+                jugadorActual.getPropiedades().remove(propiedad);
+            }
+            jugadorActual.getAvatar().getLugar().getAvatares().remove(jugadorActual.getAvatar());
+            jugadores.remove(jugadorActual);
+            avatares.remove(jugadorActual.getAvatar());           
+            System.out.println(jugadorActual.getNombre() + " ha decidido declararse en bancarrota voluntariamente. Sus propiedades vuelven a la banca.");
+            if (jugadores.size() < 2){
+                System.out.println("No hay suficientes jugadores para continuar.");
+            }
+            return false;
+        }
+        return true;
+    }
+
 
     // Método que realiza las acciones asociadas al comando 'listar enventa'.
     private void listarVenta() {
@@ -998,8 +1065,10 @@ public class Menu {
 
         return jugadorEnCabeza;  // Retorna el jugador con la mayor fortuna
     }
-
 }
+
+
+
 
 /*
 Martin
