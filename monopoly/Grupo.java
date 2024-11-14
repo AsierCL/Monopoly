@@ -4,6 +4,8 @@ import partida.*;
 import java.util.ArrayList;
 import java.util.Set;
 
+import monopoly.casillas.Casilla;
+
 
 public class Grupo {
 

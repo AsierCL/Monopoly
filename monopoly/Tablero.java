@@ -1,8 +1,12 @@
 package monopoly;
 
 import partida.*;
+import partida.avatares.Avatar;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import monopoly.casillas.Casilla;
 
 
 public class Tablero {

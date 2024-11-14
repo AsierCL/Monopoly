@@ -1,8 +1,9 @@
-package monopoly;
+package monopoly.edificios;
+
+import monopoly.casillas.Casilla;
+import partida.*;
 
 import java.util.Set;
-
-import partida.*;
 
 public class Edificios {
     private Casilla casilla;

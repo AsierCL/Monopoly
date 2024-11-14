@@ -3,6 +3,8 @@ package partida;
 import java.util.ArrayList;
 
 import monopoly.*;
+import monopoly.casillas.Casilla;
+import partida.avatares.Avatar;
 
 
 public class Jugador {

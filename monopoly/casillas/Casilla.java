@@ -1,6 +1,14 @@
-package monopoly;
+package monopoly.casillas;
 
 import partida.*;
+import partida.avatares.Avatar;
+import partida.cartas.Carta;
+
+import monopoly.Grupo;
+import monopoly.Tablero;
+import monopoly.Valor;
+import monopoly.edificios.Edificios;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
