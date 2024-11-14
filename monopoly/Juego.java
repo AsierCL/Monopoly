@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import partida.*;
 
-public class Menu {
+public class Juego {
 
     //Atributos
     private ArrayList<Jugador> jugadores; //Jugadores de la partida.
@@ -77,7 +77,7 @@ public class Menu {
         System.out.println("\n");
     }
 
-    public Menu(){
+    public Juego(){
         this.avatares = new ArrayList<>();
         this.jugadores = new ArrayList<>();
         banca = new Jugador();
