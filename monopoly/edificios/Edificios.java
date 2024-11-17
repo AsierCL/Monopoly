@@ -20,7 +20,7 @@ public class Edificios {
         casas = 0;
         hoteles = 0;
         piscinas = 0;
-        piscinas = 0;
+        pistas = 0;
     }
 
     public void setCasas(int casas) {
