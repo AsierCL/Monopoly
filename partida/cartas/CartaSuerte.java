@@ -19,7 +19,7 @@ public class CartaSuerte extends Carta {
     }
 
     @Override
-    public void ejecutarAccion(Jugador jugador, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores, int tirada) {
+    public void accion(Jugador jugador, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores, int tirada) {
         Casilla casillaOrigen;
         Casilla casillaSolar;
         switch (accion) {

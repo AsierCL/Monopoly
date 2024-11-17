@@ -44,7 +44,7 @@ public class Baraja {
 
         // Verificar si el índice es válido
         if (indice < 1 || indice > cartas.size()) {
-            System.out.println("El índice introducido no es válido.");
+            System.out.println("Debes introducir un número del 1 al 6.");
             return;
         }
 
@@ -57,6 +57,6 @@ public class Baraja {
         // Ejecutar la acción de la carta seleccionada
         Carta cartaSeleccionada = cartas.get(indice - 1); // Convertir índice a base 0
         System.out.println("Has seleccionado la carta de " + cartaSeleccionada.getTipo() + ".");
-        cartaSeleccionada.ejecutarAccion(jugador, banca, tablero, jugadores, tirada);
+        cartaSeleccionada.accion(jugador, banca, tablero, jugadores, tirada);
     }
 }
