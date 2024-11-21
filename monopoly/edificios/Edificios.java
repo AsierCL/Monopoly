@@ -7,68 +7,67 @@ import java.util.Set;
 
 public class Edificios {
     private Casilla casilla;
-    private int casas;
-    private int hoteles;
-    private int piscinas;
-    private int pistas;
-    private int num_max;
+    private Casa casas;
+    private Hotel hoteles;
+    private Piscina piscinas;
+    private Pista pistas;
+    int numMax;
 
-    public static final Set<String> edificiosValidos = Set.of("casa", "hotel", "piscina", "pista");
-
-    public Edificios(Casilla casilla){
+    public Edificios(Casilla casilla) {
         this.casilla = casilla;
-        casas = 0;
-        hoteles = 0;
-        piscinas = 0;
-        pistas = 0;
+        numMax = casilla.getGrupo().getNumCasillas();
+        this.casas = new Casa(numMax);
+        this.hoteles = new Hotel(numMax);
+        this.piscinas = new Piscina(numMax);
+        this.pistas = new Pista(numMax);
     }
 
-    public void setCasas(int casas) {
-        this.casas = casas;
+    public boolean construirCasa() {
+        return casas.Construir();
     }
 
-    public void setHoteles(int hoteles) {
-        this.hoteles = hoteles;
+    public boolean construirHotel() {
+        return hoteles.Construir();
     }
 
-    public void setPiscinas(int piscinas) {
-        this.piscinas = piscinas;
+    public boolean construirPiscina() {
+        return piscinas.Construir();
     }
 
-    public void setPistas(int pistas) {
-        this.pistas = pistas;
+    public boolean construirPista() {
+        return pistas.Construir();
     }
 
-    public int getCasas() {
-        return casas;
+    public int getCantidadCasas() {
+        return casas.getCantidad();
     }
 
-    public int getHoteles() {
-        return hoteles;
+    public int getCantidadHoteles() {
+        return hoteles.getCantidad();
     }
 
-    public int getPiscinas() {
-        return piscinas;
+    public int getCantidadPiscinas() {
+        return piscinas.getCantidad();
     }
-    
-    public int getPistas() {
-        return pistas;
+
+    public int getCantidadPistas() {
+        return pistas.getCantidad();
     }
     
     public Casilla getCasilla() {
         return casilla;
     }
     
-    public int getNum_max() {
-        return num_max;
+    public int getnumMax() {
+        return numMax;
     }
     
-    public void setNum_max(int num_max) {
-        this.num_max = num_max;
+    public void setnumMax(int numMax) {
+        this.numMax = numMax;
     }
 
     public boolean EsSolarEdificado(){
-        if(casas==0 && hoteles==0 && piscinas==0 && piscinas==0){
+        if(casas.getCantidad()==0 && hoteles.getCantidad()==0 && piscinas.getCantidad()==0 && piscinas.getCantidad()==0){
             return false;
         }else{
             return true;
@@ -76,10 +75,10 @@ public class Edificios {
     }
 
     public boolean ConstruirCasa(){
-        if(casilla.getGrupo().getCasasGrupo() >= num_max+4 && casilla.getGrupo().getHotelesGrupo() == num_max){
+        if(casilla.getGrupo().getCasasGrupo() >= numMax+4 && casilla.getGrupo().getHotelesGrupo() == numMax){
             System.out.println("No puedes construir más casas en este solar");
             return false;
-        }else if(casas == 4 && casilla.getGrupo().getHotelesGrupo() < num_max){
+        }else if(casas.getCantidad() == 4 && casilla.getGrupo().getHotelesGrupo() < numMax){
             System.out.println("Debes construir un hotel");
             return false;
         }else{
@@ -89,16 +88,16 @@ public class Edificios {
     }
 
     public boolean ConstruirHotel(){
-        if(casilla.getGrupo().getHotelesGrupo() == num_max){
+        if(casilla.getGrupo().getHotelesGrupo() == numMax){
             System.out.println("No puedes construir más hoteles en este solar");
             return false;
-        }else if(casilla.getGrupo().getHotelesGrupo() < num_max && casas != 4){
+        }else if(casilla.getGrupo().getHotelesGrupo() < numMax && casas.getCantidad() != 4){
             System.out.println("Debes tener 4 casas antes");
             return false;
-        }else if(casilla.getGrupo().getHotelesGrupo() == 1 && casilla.getGrupo().getCasasGrupo() > num_max+4){
+        }else if(casilla.getGrupo().getHotelesGrupo() == 1 && casilla.getGrupo().getCasasGrupo() > numMax+4){
             System.out.println("Superas el máximo de casas. Debes eliminarlas antes de construir el hotel");
             return false;
-        }else if(casas == 4 && casilla.getGrupo().getHotelesGrupo() < num_max && casilla.getGrupo().getCasasGrupo() <= num_max+4){
+        }else if(casas.getCantidad() == 4 && casilla.getGrupo().getHotelesGrupo() < numMax && casilla.getGrupo().getCasasGrupo() <= numMax+4){
             hoteles += 1;
             casas = 0;
             return true;
@@ -109,10 +108,10 @@ public class Edificios {
     }
 
     public boolean ConstruirPiscina(){
-        if(casilla.getGrupo().getPiscinasGrupo() == num_max){
+        if(casilla.getGrupo().getPiscinasGrupo() == numMax){
             System.out.println("No puedes tener más piscinas en este solar");
             return false;
-        }else if(hoteles == 0 || hoteles == 1 && casas < 2){
+        }else if(hoteles.getCantidad() == 0 || hoteles.getCantidad() == 1 && casas.getCantidad() < 2){
             System.out.println("Debes tener, como mínimo, 1 hotel y 2 casas");
             return false;
         }else{
@@ -122,15 +121,21 @@ public class Edificios {
     }
 
     public boolean ConstruirPista(){
-        if(casilla.getGrupo().getPistasGrupo() == num_max){
+        if(casilla.getGrupo().getPistasGrupo() == numMax){
             System.out.println("No puedes tener más pistas en este solar");
             return false;
-        }else if(hoteles < 2){
+        }else if(hoteles.getCantidad() < 2){
             System.out.println("Debes tener, como mínimo, 2 hoteles");
             return false;
         }else{
             pistas += 1;
             return true;
         }
+    }
+
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return "\t" + "|Casas=" + casas.getCantidad() + "|Hoteles=" + hoteles.getCantidad() + "|Piscinas=" + piscinas.getCantidad() + "|Pistas=" + pistas.getCantidad();
     }
 }

@@ -1,5 +1,7 @@
 package monopoly.edificios;
 
-public class Pista {
-    
+public class Pista extends Edificio {
+    public Pista(int numMax){
+        super(numMax);
+    }
 }

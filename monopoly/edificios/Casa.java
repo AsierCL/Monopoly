@@ -1,5 +1,7 @@
 package monopoly.edificios;
 
-public class Casa {
-    
+public class Casa extends Edificio {
+    public Casa(int numMax) {
+        super(numMax);
+    }
 }
