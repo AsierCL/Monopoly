@@ -19,10 +19,10 @@ public abstract class Avatar {
     private Casilla lugar; //Los avatares se sitúan en casillas del tablero.
     private boolean modo; //Modo de movimiento avanzado
 
-    private boolean tirado; //Booleano para comprobar si el jugador que tiene el turno ha tirado o no.
-    private int lanzamientos; //Variable para contar el número de lanzamientos de un jugador en un turno.
-    private int ultimatirada;
-    private int turno = 0; //Índice correspondiente a la posición en el arrayList del jugador (y el avatar) que tienen el turno
+    public boolean tirado; //Booleano para comprobar si el jugador que tiene el turno ha tirado o no.
+    public int lanzamientos; //Variable para contar el número de lanzamientos de un jugador en un turno.
+    public int ultimatirada;
+    public int turno = 0; //Índice correspondiente a la posición en el arrayList del jugador (y el avatar) que tienen el turno
     
     public static final Set<String> avataresValidos = Set.of("esfinge", "sombrero", "coche", "pelota");
     
