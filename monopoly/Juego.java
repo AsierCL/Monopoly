@@ -358,8 +358,10 @@ public class Juego {
                 return; // No se permite tirar los dados
             }
 
+            ////////////REVISAR////////////
             Dado dado1 = new Dado();
             Dado dado2 = new Dado();
+            ////////////REVISAR////////////
 
             int[] resultadoDados = new int[2];
             resultadoDados[0] = dado1.hacerTirada();
