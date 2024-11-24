@@ -1,17 +1,13 @@
 package monopoly.casillas;
 
-import partida.*;
+import partida.Jugador;
 import partida.avatares.Avatar;
-import partida.cartas.Carta;
+
+import monopoly.casillas.Propiedades.*;
 
 import monopoly.Grupo;
-import monopoly.Tablero;
-import monopoly.Valor;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 
 
 public abstract class Casilla {
@@ -112,42 +108,21 @@ public abstract class Casilla {
         }
     }
 
+    public void haEstado(Jugador jugador, ArrayList<Jugador> jugadores){
+        this.hanEstado.set(jugadores.indexOf(jugador), this.hanEstado.get(jugadores.indexOf(jugador)) + 1);
 
-    /*Método usado para comprar una casilla determinada. Parámetros:
-    * - Jugador que solicita la compra de la casilla.
-    * - Banca del monopoly (es el dueño de las casillas no compradas aún).*/
-    public void comprarCasilla(Jugador solicitante, Jugador banca) {
-        if(this.tipo == "Solar" || this.tipo == "Transporte" || this.tipo == "Servicios"){
-            if(solicitante.getAvatar().getLugar() == this){
-                if(this.duenho == banca){
-                    solicitante.incrementarDineroInvertido(this.valor);
-                    solicitante.anhadirPropiedad(this);
-                    this.duenho = solicitante;
-                    System.out.println("Has comprado la casilla " + this.nombre + " por " + this.valor);
-                }else if(this.duenho == solicitante){
-                    System.out.println("Esta casilla ya te pertenece");
-                }else{
-                    System.out.println("La casilla es de "+this.duenho.getNombre());
-                }
-            }else{
-                System.out.println("Debes estar en la casilla");
-            }
-        }else{ // Comprar carcel, salida, etcetc
-            System.out.println("Esta casilla no se puede comprar");
-        }
     }
-
-    /*Método para añadir valor a una casilla. Utilidad:
+        /*Método para añadir valor a una casilla. Utilidad:
     * - Sumar valor a la casilla de parking.
     * - Sumar valor a las casillas de solar al no comprarlas tras cuatro vueltas de todos los jugadores.
     * Este método toma como argumento la cantidad a añadir del valor de la casilla.*/
-    public void sumarValor(float suma) {
+    /* public void sumarValor(float suma) {
         this.valor += suma;
-    }
+    } */
 
     /*Método para mostrar información sobre una casilla.
     * Devuelve una cadena con información específica de cada tipo de casilla.*/
-    public String infoCasilla() {
+    /* public String infoCasilla() {
         //Creamos a cadena a devolver
         StringBuilder info = new StringBuilder();
         
@@ -156,40 +131,8 @@ public abstract class Casilla {
         info.append("Tipo: ").append(tipo).append("\n");
     
         switch (tipo.toLowerCase()) {
-            case "solar":
-                info.append("Valor de compra: ").append(valor).append("\n");
-                info.append("Impuesto: ").append(calcularPagoSolar(this.getDuenho())).append("\n");
-                if (duenho != null) {
-                    info.append("Dueño: ").append(duenho.getNombre()).append("\n");
-                } else {
-                    info.append("Dueño: Banca\n");
-                }
-                info.append("Grupo: ").append(grupo.getColorGrupo()).append("  ").append(Valor.RESET).append("\n");
-                info.append("Construcciones: " + "|Casas=" + this.getEdificios().getCasas() + "|Hoteles=" + this.getEdificios().getHoteles() + "|Piscinas=" + this.getEdificios().getPiscinas() + "|Pistas=" + this.getEdificios().getPistas() + "|\n");
-                break;
-                
             case "especial":
                 info.append("Descripción: Casilla especial.\n");
-                break;
-                
-            case "transporte":
-                info.append("Valor de compra: ").append(valor).append("\n");
-                info.append("Impuesto: ").append(impuesto).append("\n");
-                if (duenho != null) {
-                    info.append("Dueño: ").append(duenho.getNombre()).append("\n");
-                } else {
-                    info.append("Dueño: Banca\n");
-                }
-                break;
-                
-            case "servicios":
-                info.append("Valor de compra: ").append(valor).append("\n");
-                info.append("Impuesto: ").append(impuesto).append("\n");
-                if (duenho != null) {
-                    info.append("Dueño: ").append(duenho.getNombre()).append("\n");
-                } else {
-                    info.append("Dueño: Banca\n");
-                }
                 break;
                 
             case "comunidad":
@@ -203,43 +146,130 @@ public abstract class Casilla {
     
         return info.toString();
     }
-
+ */
     
+    public abstract String infoCasilla();
 
-    private int numTransporte(){
-        int contador = 0;
-        Jugador duenho = this.getDuenho();
-        for (Casilla casilla : duenho.getPropiedades()) {
-            if(casilla.tipo.equals("Transporte")){
-                contador++;
-            }
-        }
-        return contador;
-    }
 
-    private int numServicios(){
-        int contador = 0;
-        Jugador duenho = this.getDuenho();
-        for (Casilla casilla : duenho.getPropiedades()) {
-            if(casilla.tipo.equals("Servicios")){
-                contador++;
-            }
-        }
-        return contador;
-    }
     public void registrarIngreso(float cantidad) {
         this.ingresosTotales += cantidad; // Suma la cantidad recibida a los ingresos totales
-        if (grupo != null) {
-            grupo.registrarIngresosGrupo(cantidad); // Registrar ingresos en el grupo si existe
+        if (this instanceof Propiedad) {
+            ((Propiedad) this).getGrupo().registrarIngresosGrupo(cantidad); // Registrar ingresos en el grupo si existe
         }
     }
 
-    
-
     public void cambiarDuenho(Jugador nuevoduenho){
-
         this.duenho.getPropiedades().remove(this);
         this.duenho = nuevoduenho;
         nuevoduenho.getPropiedades().add(this);
     }
+
+
+
+
+
+
+
+
+
+
+
+    /* 
+    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores) {//Solucion prvisional
+        if (this.hipotecada == true){
+            return true;
+        }
+        float pago = 0;
+        this.contadorVisitas++;
+        this.hanEstado.set(jugadores.indexOf(actual), this.hanEstado.get(jugadores.indexOf(actual)) + 1);
+
+        switch(this.tipo){
+            case("Suerte"):
+                System.out.println("TARJETA DE SUERTE\n");
+                
+                Scanner scannerS = new Scanner(System.in);
+                int numeroAccionSuerte;
+                
+                // Pedir un número entre 1 y 6 al usuario
+                do {
+                    System.out.print("Introduce un número del 1 al 6 para seleccionar una carta de Suerte: ");
+                    numeroAccionSuerte = scannerS.nextInt();
+                } while (numeroAccionSuerte < 1 || numeroAccionSuerte > 6);
+
+                // Crear una carta de "Suerte" con el número elegido como acción
+                Carta cartaSuerte = new Carta("Suerte",  numeroAccionSuerte);
+
+                // Ejecutar la acción de la carta usando la lista de jugadores y el tablero
+                cartaSuerte.ejecutarAccion(actual, banca, tablero, jugadores, tirada);
+
+                break;
+                
+            case("Comunidad"):
+                System.out.println("TARJETA DE COMUNIDAD\n");
+
+                Scanner scannerC = new Scanner(System.in);
+                int numeroAccionComunidad;
+                
+                // Pedir un número entre 1 y 6 al usuario
+                do {
+                    System.out.print("Introduce un número del 1 al 6 para seleccionar una carta de Suerte: ");
+                    numeroAccionComunidad = scannerC.nextInt();
+                } while (numeroAccionComunidad < 1 || numeroAccionComunidad > 6);
+
+                // Crear una carta de "Suerte" con el número elegido como acción
+                Carta cartaComunidad = new Carta("Comunidad", numeroAccionComunidad);
+
+                // Ejecutar la acción de la carta usando la lista de jugadores y el tablero
+                cartaComunidad.ejecutarAccion(actual, banca, tablero, jugadores, tirada);
+
+                break;
+        
+            case("Especial"):
+                switch (this.nombre) {
+                    case ("Salida"):
+                    
+                        break;
+                    
+                    case ("Carcel"):
+
+                        break;
+
+                    case ("Parking"):
+                        System.out.println("Recibes el bote del parking: +" + this.valor + "€");
+                        actual.incrementarPremiosInversionesOBote(this.valor);
+                        this.valor = 0;
+                        break;
+                    
+                    case ("IrCarcel"):
+                        System.out.println("VAS A LA CARCEL");
+                        actual.encarcelar(tablero.getPosiciones());
+                        break;
+                    
+                    case ("Impuesto1"):
+                    case ("Impuesto2"):
+                        if((actual.getFortuna()-this.impuesto)<0){
+                            System.out.println("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
+                            return false;
+                        }else{
+                            System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+                            actual.incrementarPagoTasasEImpuestos(this.impuesto);
+                            tablero.obtenerCasilla("Parking").sumarValor(this.impuesto);
+                            registrarIngreso(this.impuesto);
+                        }
+                        break;
+
+                    default:
+                        System.out.println("Defaul case");
+                        break;
+                }
+
+                break;
+
+            default:
+                System.out.println("Error evaluando casilla");
+                break;
+        }
+        return true;
+    }
+     */
 }

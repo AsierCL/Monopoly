@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import monopoly.Tablero;
+import monopoly.Valor;
+import monopoly.casillas.Casilla;
 import monopoly.edificios.Casa;
 import monopoly.edificios.Edificio;
 import monopoly.edificios.Hotel;
@@ -25,17 +27,43 @@ public class Solar extends Propiedad {
         this.hoteles = new ArrayList<>();
         this.piscinas = new ArrayList<>();
         this.pistas = new ArrayList<>();
-        numMax = this.getGrupo().getNumCasillas();
+    }
+
+    public int getNumMax() {
+        return numMax;
+    }
+
+    public void setNumMax(int numMax) {
+        this.numMax = numMax;
     }
 
 
+    @Override
+    public String infoCasilla() {
+        //Creamos a cadena a devolver
+        StringBuilder info = new StringBuilder();
+        
+        info.append("Nombre: ").append(this.getNombre()).append("\n");
+        info.append("Posición: ").append(this.getPosicion()).append("\n");
+        info.append("Tipo: Solar").append("\n");
+    
+        info.append("Valor de compra: ").append(this.getValor()).append("\n");
+        info.append("Impuesto: ").append(calcularPagoSolar(this.getDuenho())).append("\n");
+        if (this.getDuenho() != null) {
+            info.append("Dueño: ").append(this.getDuenho().getNombre()).append("\n");
+        } else {
+            info.append("Dueño: Banca\n");
+        }
+        info.append("Grupo: ").append(this.getGrupo().getColorGrupo()).append("  ").append(Valor.RESET).append("\n");
+        info.append("Construcciones: " + "|Casas=" + this.casas.size() + "|Hoteles=" + this.hoteles.size() + "|Piscinas=" + this.piscinas.size() + "|Pistas=" + this.pistas.size() + "|\n");
+
+        return info.toString();
+    }
 
     @Override
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores){
+        haEstado(actual, jugadores);
         float pago = 0;
-        /////////// CREAR METODOS PARA ESTO ///////////////
-        //this.contadorVisitas++;
-        //this.hanEstado.set(jugadores.indexOf(actual), this.hanEstado.get(jugadores.indexOf(actual)) + 1);
         
         if (this.getHipotecada()){
             return true;
@@ -57,7 +85,6 @@ public class Solar extends Propiedad {
         return true;
     }
 
-
     public float calcularPagoSolar(Jugador actual) {
         float multiSolar = this.getGrupo().esDuenhoGrupo(this.getDuenho()) ? 2 : 1;
         float multiCasa = calcularMultiplicadorCasa(this.casas.size());
@@ -78,6 +105,7 @@ public class Solar extends Propiedad {
         }
     }
 
+    
     public void Construir(Jugador jugador, String construccion, ArrayList<Jugador> jugadores) {
         if(!Edificio.edificiosValidos.contains(construccion)){
             System.out.println("Tipo de edificio incorrecto");
@@ -180,7 +208,6 @@ public class Solar extends Propiedad {
         }
     }
     
-
     public boolean EsSolarEdificado(){
         if(casas.size()==0 && hoteles.size()==0 && piscinas.size()==0 && piscinas.size()==0){
             return false;
@@ -189,11 +216,17 @@ public class Solar extends Propiedad {
         }
     }
 
+
+    /* 
+     * GESTION DE EDIFICIOS:
+     * CONSTRUIR, DESTRUIR,
+     * EdificiosGrupo, getEdificios
+     */
     private boolean ConstruirCasa(){
-        if(this.getGrupo().getCasasGrupo() >= numMax+4 && this.getGrupo().getHotelesGrupo() == numMax){
+        if(this.getCasasGrupo() >= numMax+4 && this.getHotelesGrupo() == numMax){
             System.out.println("No puedes construir más casas en este solar");
             return false;
-        }else if(casas.size() == 4 && this.getGrupo().getHotelesGrupo() < numMax){
+        }else if(casas.size() == 4 && this.getHotelesGrupo() < numMax){
             System.out.println("Debes construir un hotel");
             return false;
         }else{
@@ -204,16 +237,16 @@ public class Solar extends Propiedad {
     }
 
     private boolean ConstruirHotel(){
-        if(this.getGrupo().getHotelesGrupo() == numMax){
+        if(this.getHotelesGrupo() == numMax){
             System.out.println("No puedes construir más hoteles en este solar");
             return false;
-        }else if(this.getGrupo().getHotelesGrupo() < numMax && casas.size() != 4){
+        }else if(this.getHotelesGrupo() < numMax && casas.size() != 4){
             System.out.println("Debes tener 4 casas antes");
             return false;
-        }else if(this.getGrupo().getHotelesGrupo() == 1 && this.getGrupo().getCasasGrupo() > numMax+4){
+        }else if(this.getHotelesGrupo() == 1 && this.getCasasGrupo() > numMax+4){
             System.out.println("Superas el máximo de casas. Debes eliminarlas antes de construir el hotel");
             return false;
-        }else if(casas.size() == 4 && this.getGrupo().getHotelesGrupo() < numMax && this.getGrupo().getCasasGrupo() <= numMax+4){
+        }else if(casas.size() == 4 && this.getHotelesGrupo() < numMax && this.getCasasGrupo() <= numMax+4){
             hoteles.add(new Hotel());
             casas.removeAll(casas);
             return true;
@@ -224,7 +257,7 @@ public class Solar extends Propiedad {
     }
 
     private boolean ConstruirPiscina(){
-        if(this.getGrupo().getPiscinasGrupo() == numMax){
+        if(this.getPiscinasGrupo() == numMax){
             System.out.println("No puedes tener más piscinas en este solar");
             return false;
         }else if(hoteles.size() == 0 || hoteles.size() == 1 && casas.size() < 2){
@@ -237,7 +270,7 @@ public class Solar extends Propiedad {
     }
 
     private boolean ConstruirPista(){
-        if(this.getGrupo().getPistasGrupo() == numMax){
+        if(this.getPistasGrupo() == numMax){
             System.out.println("No puedes tener más pistas en este solar");
             return false;
         }else if(hoteles.size() < 2){
@@ -307,5 +340,53 @@ public class Solar extends Propiedad {
             System.out.println("No tienes tantas pistas para vender");
             return false;
         }
+    }
+
+    public int getCasasGrupo(){
+        int total = 0;
+        for (Propiedad casilla : this.getGrupo().getMiembros()) {
+            total += ((Solar) casilla).getCasas();
+        }
+        return total;
+    }
+    
+    public int getHotelesGrupo(){
+        int total = 0;
+        for (Propiedad casilla : this.getGrupo().getMiembros()) {
+            total += ((Solar) casilla).getHoteles();
+        }
+        return total;
+    }
+    
+    public int getPiscinasGrupo(){
+        int total = 0;
+        for (Propiedad casilla : this.getGrupo().getMiembros()) {
+            total += ((Solar) casilla).getPiscinas();
+        }
+        return total;
+    }
+    
+    public int getPistasGrupo(){
+        int total = 0;
+        for (Propiedad casilla : this.getGrupo().getMiembros()) {
+            total += ((Solar) casilla).getPistas();
+        }
+        return total;
+    }
+    
+    public int getCasas(){
+        return casas.size();
+    }
+    
+    public int getHoteles(){
+        return hoteles.size();
+    }
+    
+    public int getPiscinas(){
+        return piscinas.size();
+    }
+    
+    public int getPistas(){
+        return pistas.size();
     }
 }
