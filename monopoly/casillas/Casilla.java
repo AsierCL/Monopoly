@@ -3,7 +3,8 @@ package monopoly.casillas;
 import partida.*;
 import partida.avatares.Avatar;
 import partida.cartas.Carta;
-
+import partida.cartas.CartaCajaComunidad;
+import partida.cartas.CartaSuerte;
 import monopoly.Grupo;
 import monopoly.Tablero;
 import monopoly.Valor;
@@ -247,10 +248,10 @@ public class Casilla {
                 } while (numeroAccionSuerte < 1 || numeroAccionSuerte > 6);
 
                 // Crear una carta de "Suerte" con el número elegido como acción
-                Carta cartaSuerte = new Carta("Suerte",  numeroAccionSuerte);
+                Carta cartaSuerte = new CartaSuerte(numeroAccionSuerte);
 
                 // Ejecutar la acción de la carta usando la lista de jugadores y el tablero
-                cartaSuerte.ejecutarAccion(actual, banca, tablero, jugadores, tirada);
+                cartaSuerte.accion(actual, banca, tablero, jugadores, tirada);
 
                 break;
                 
@@ -267,10 +268,10 @@ public class Casilla {
                 } while (numeroAccionComunidad < 1 || numeroAccionComunidad > 6);
 
                 // Crear una carta de "Suerte" con el número elegido como acción
-                Carta cartaComunidad = new Carta("Comunidad", numeroAccionComunidad);
+                Carta cartaComunidad = new CartaCajaComunidad(numeroAccionComunidad);
 
                 // Ejecutar la acción de la carta usando la lista de jugadores y el tablero
-                cartaComunidad.ejecutarAccion(actual, banca, tablero, jugadores, tirada);
+                cartaComunidad.accion(actual, banca, tablero, jugadores, tirada);
 
                 break;
         

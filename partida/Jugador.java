@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import monopoly.*;
 import monopoly.casillas.Casilla;
 import partida.avatares.Avatar;
+import partida.avatares.Coche;
+import partida.avatares.Esfinge;
+import partida.avatares.Pelota;
+import partida.avatares.Sombrero;
 
 
 public class Jugador {
@@ -33,7 +37,7 @@ public class Jugador {
     //Constructor vacío. Se usará para crear la banca.
     public Jugador() {
         this.nombre = "banca";
-        this.avatar = new Avatar();
+        this.avatar = null;
         //Realmente pode non ser necesario asignar fortuna
         this.fortuna = 999999999; //Usar variabe global FORTUNA_BANCA¿?
         this.gastos = 0;
@@ -64,7 +68,22 @@ public class Jugador {
         this.nombre = nombre;
 
         if(Avatar.avataresValidos.contains(tipoAvatar)){
-            this.avatar = new Avatar(tipoAvatar, this, inicio, avCreados);
+            switch (tipoAvatar) {
+                case "Pelota":
+                    this.avatar = new Pelota(this, inicio, avCreados);
+                    break;
+                case "Coche":
+                    this.avatar = new Coche(this, inicio, avCreados);
+                    break;
+                case "Esfinge":
+                    this.avatar = new Esfinge(this, inicio, avCreados);
+                    break;
+                case "Sombrero":
+                    this.avatar = new Sombrero(this, inicio, avCreados);
+                    break;
+                default:
+                    break;
+            }
         }else{
             System.out.println("\nTipo de avatar incorrecto\n");
         }
