@@ -6,6 +6,7 @@ import partida.avatares.Avatar;
 import monopoly.casillas.Propiedades.*;
 
 import monopoly.Grupo;
+import monopoly.Tablero;
 
 import java.util.ArrayList;
 
@@ -45,7 +46,6 @@ public abstract class Casilla {
         
         // Stats
         this.ingresosTotales = 0;
-        this.contadorVisitas = 0;
     }
 
     private void inicializarHanEstado(){
@@ -110,7 +110,6 @@ public abstract class Casilla {
 
     public void haEstado(Jugador jugador, ArrayList<Jugador> jugadores){
         this.hanEstado.set(jugadores.indexOf(jugador), this.hanEstado.get(jugadores.indexOf(jugador)) + 1);
-
     }
         /*Método para añadir valor a una casilla. Utilidad:
     * - Sumar valor a la casilla de parking.
@@ -150,6 +149,9 @@ public abstract class Casilla {
     
     public abstract String infoCasilla();
 
+    public abstract boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores);
+
+
 
     public void registrarIngreso(float cantidad) {
         this.ingresosTotales += cantidad; // Suma la cantidad recibida a los ingresos totales
@@ -163,113 +165,4 @@ public abstract class Casilla {
         this.duenho = nuevoduenho;
         nuevoduenho.getPropiedades().add(this);
     }
-
-
-
-
-
-
-
-
-
-
-
-    /* 
-    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores) {//Solucion prvisional
-        if (this.hipotecada == true){
-            return true;
-        }
-        float pago = 0;
-        this.contadorVisitas++;
-        this.hanEstado.set(jugadores.indexOf(actual), this.hanEstado.get(jugadores.indexOf(actual)) + 1);
-
-        switch(this.tipo){
-            case("Suerte"):
-                System.out.println("TARJETA DE SUERTE\n");
-                
-                Scanner scannerS = new Scanner(System.in);
-                int numeroAccionSuerte;
-                
-                // Pedir un número entre 1 y 6 al usuario
-                do {
-                    System.out.print("Introduce un número del 1 al 6 para seleccionar una carta de Suerte: ");
-                    numeroAccionSuerte = scannerS.nextInt();
-                } while (numeroAccionSuerte < 1 || numeroAccionSuerte > 6);
-
-                // Crear una carta de "Suerte" con el número elegido como acción
-                Carta cartaSuerte = new Carta("Suerte",  numeroAccionSuerte);
-
-                // Ejecutar la acción de la carta usando la lista de jugadores y el tablero
-                cartaSuerte.ejecutarAccion(actual, banca, tablero, jugadores, tirada);
-
-                break;
-                
-            case("Comunidad"):
-                System.out.println("TARJETA DE COMUNIDAD\n");
-
-                Scanner scannerC = new Scanner(System.in);
-                int numeroAccionComunidad;
-                
-                // Pedir un número entre 1 y 6 al usuario
-                do {
-                    System.out.print("Introduce un número del 1 al 6 para seleccionar una carta de Suerte: ");
-                    numeroAccionComunidad = scannerC.nextInt();
-                } while (numeroAccionComunidad < 1 || numeroAccionComunidad > 6);
-
-                // Crear una carta de "Suerte" con el número elegido como acción
-                Carta cartaComunidad = new Carta("Comunidad", numeroAccionComunidad);
-
-                // Ejecutar la acción de la carta usando la lista de jugadores y el tablero
-                cartaComunidad.ejecutarAccion(actual, banca, tablero, jugadores, tirada);
-
-                break;
-        
-            case("Especial"):
-                switch (this.nombre) {
-                    case ("Salida"):
-                    
-                        break;
-                    
-                    case ("Carcel"):
-
-                        break;
-
-                    case ("Parking"):
-                        System.out.println("Recibes el bote del parking: +" + this.valor + "€");
-                        actual.incrementarPremiosInversionesOBote(this.valor);
-                        this.valor = 0;
-                        break;
-                    
-                    case ("IrCarcel"):
-                        System.out.println("VAS A LA CARCEL");
-                        actual.encarcelar(tablero.getPosiciones());
-                        break;
-                    
-                    case ("Impuesto1"):
-                    case ("Impuesto2"):
-                        if((actual.getFortuna()-this.impuesto)<0){
-                            System.out.println("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
-                            return false;
-                        }else{
-                            System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
-                            actual.incrementarPagoTasasEImpuestos(this.impuesto);
-                            tablero.obtenerCasilla("Parking").sumarValor(this.impuesto);
-                            registrarIngreso(this.impuesto);
-                        }
-                        break;
-
-                    default:
-                        System.out.println("Defaul case");
-                        break;
-                }
-
-                break;
-
-            default:
-                System.out.println("Error evaluando casilla");
-                break;
-        }
-        return true;
-    }
-     */
 }
