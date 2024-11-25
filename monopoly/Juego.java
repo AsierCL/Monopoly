@@ -135,21 +135,21 @@ public class Juego {
     /*Método que interpreta el comando introducido y toma la accion correspondiente.
     * Parámetro: cadena de caracteres (el comando).
     */
-        private void analizarComando(String comando) {
-            Jugador jugadorActual = jugadores.get(turno);
-            Casilla casillaActual = jugadorActual.getAvatar().getLugar();
-            // Dividimos el comando en palabras usando el espacio como separador
-            String[] palabras = comando.split(" ");
+    private void analizarComando(String comando) {
+        Jugador jugadorActual = jugadores.get(turno);
+        Casilla casillaActual = jugadorActual.getAvatar().getLugar();
+        // Dividimos el comando en palabras usando el espacio como separador
+        String[] palabras = comando.split(" ");
 
-            String accion = palabras[0];  
-            String subAccion = (palabras.length > 1) ? palabras[1] : "";
-            String parametro1 = (palabras.length > 2) ? palabras[2] : "";
+        String accion = palabras[0];  
+        String subAccion = (palabras.length > 1) ? palabras[1] : "";
+        String parametro1 = (palabras.length > 2) ? palabras[2] : "";
 
-            switch(accion){ 
-                //jugador
-                case("jugador"):  //indicar jugador que tiene el turno
-                    verTurno();
-                break;
+        switch(accion){ 
+            //jugador
+            case("jugador"):  //indicar jugador que tiene el turno
+                verTurno();
+            break;
             //listar jugadores / avatares / enventa
             case("listar"):
                 switch(subAccion){
@@ -358,8 +358,10 @@ public class Juego {
                 return; // No se permite tirar los dados
             }
 
+            ////////////REVISAR////////////
             Dado dado1 = new Dado();
             Dado dado2 = new Dado();
+            ////////////REVISAR////////////
 
             int[] resultadoDados = new int[2];
             resultadoDados[0] = dado1.hacerTirada();
@@ -1072,23 +1074,3 @@ public class Juego {
         return jugadorEnCabeza;  // Retorna el jugador con la mayor fortuna
     }
 }
-
-
-
-
-/*
-Martin
-pelota
-Asier
-coche
-Brais
-pelota
-fin
-dados
-6
-1
-1
-acabar
-dados
-
- */

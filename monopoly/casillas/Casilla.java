@@ -28,7 +28,7 @@ public abstract class Casilla {
 
     //Atributos para estadísticas
     private float ingresosTotales;
-    private int contadorVisitas;
+    private int contadorVisitas; //Borrar y usar hanEstado
 
     //Constructores:
     public Casilla() {
