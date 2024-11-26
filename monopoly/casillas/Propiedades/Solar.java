@@ -111,6 +111,11 @@ public class Solar extends Propiedad {
 
     
     public void Construir(Jugador jugador, String construccion, ArrayList<Jugador> jugadores) {
+        if(!getDuenho().equals(jugador)){
+            System.out.println("No eres el propietario de esta casilla");
+            return;
+        }
+        
         if(!Edificio.edificiosValidos.contains(construccion)){
             System.out.println("Tipo de edificio incorrecto");
             System.out.println("Tipos permitidos: | casa | hotel | piscina | pista |");
@@ -177,36 +182,52 @@ public class Solar extends Propiedad {
             return;
         }
     
-        if (this.EsSolarEdificado()) {
-            /* int casas = this.casas.size();
-            int hoteles = this.hoteles.size();
-            int piscinas = this.piscinas.size();
-            int pistas = this.pistas.size(); */
+        Map<String, Float> multiplicadores = new HashMap<>();
+        multiplicadores.put("casa", 0.6f);
+        multiplicadores.put("hotel", 0.6f);
+        multiplicadores.put("piscina", 0.4f);
+        multiplicadores.put("pista", 1.25f);
 
+        float multiplicador = multiplicadores.get(construccion);
+        if (multiplicador == 0) {
+            System.out.println("Construcción incorrecta");
+            return;
+        }
+        float valor_venta = this.getValor() * multiplicador;
+
+
+        if (this.EsSolarEdificado()) {
             System.out.println("Edificios en esta propiedad:");
             System.out.println("Casas: " + casas.size() + ", Hoteles: " + hoteles.size() + ", Piscinas: " + piscinas.size() + ", Pistas: " + pistas.size());
 
-            switch (construccion) {
-                case "casa":
-                    if (casas.size() >= cantidad)
-                        DestruirCasa(cantidad);
-                    break;
-                case "hotel":
-                    if (hoteles.size() >= cantidad)
-                        DestruirHotel(cantidad);
-                    break;
-                case "piscina":
-                    if (piscinas.size() >= cantidad) 
-                        DestruirPiscina(cantidad);
-                    break;
-                case "pista":
-                    if (pistas.size() >= cantidad) 
-                        DestruirPista(cantidad);
-                    break;
-                default:
-                    System.out.println("Tipo de construcción no válido");
-                    break;
+            for (int i = 0; i < cantidad; i++) {
+                switch (construccion) {
+                    case "casa":
+                        if (casas.size() >= cantidad)
+                            DestruirCasa(cantidad);
+                            jugador.sumarFortuna(valor_venta);
+                        break;
+                    case "hotel":
+                        if (hoteles.size() >= cantidad)
+                            DestruirHotel(cantidad);
+                            jugador.sumarFortuna(valor_venta);
+                        break;
+                    case "piscina":
+                        if (piscinas.size() >= cantidad) 
+                            jugador.sumarFortuna(valor_venta);
+                            DestruirPiscina(cantidad);
+                        break;
+                    case "pista":
+                        if (pistas.size() >= cantidad) 
+                            jugador.sumarFortuna(valor_venta);
+                            DestruirPista(cantidad);
+                        break;
+                    default:
+                        System.out.println("Tipo de construcción no válido");
+                        break;
+                }
             }
+
         } else {
             System.out.println("Este solar no tiene edificios para vender.");
         }

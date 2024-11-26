@@ -6,6 +6,7 @@ import java.util.Scanner;
 import monopoly.Tablero;
 import partida.Jugador;
 import partida.cartas.Carta;
+import partida.cartas.CartaSuerte;
 
 
 
@@ -27,7 +28,7 @@ public class Suerte extends Acciones {
     }
 
     @Override
-    public boolean evaluarCasilla(Jugador var1, Jugador var2, int var3, Tablero var4, ArrayList<Jugador> var5) {
+    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero,ArrayList<Jugador> jugadores) {
         System.out.println("TARJETA DE SUERTE\n");
         Scanner var9 = new Scanner(System.in);
 
@@ -39,9 +40,9 @@ public class Suerte extends Acciones {
            } while(var10 < 1);
         } while(var10 > 6);
 
-        Carta var11 = new Carta("Suerte", var10);
-        var11.ejecutarAccion(var1, var2, var4, var5, var3);
-        break;
+        Carta var11 = new CartaSuerte(var10);
+        var11.accion(actual, banca, tablero, jugadores, tirada);
+        return true;
     }
 
     

@@ -161,10 +161,4 @@ public abstract class Casilla {
             ((Propiedad) this).getGrupo().registrarIngresosGrupo(cantidad); // Registrar ingresos en el grupo si existe
         }
     }
-
-    public void cambiarDuenho(Jugador nuevoduenho){
-        this.duenho.getPropiedades().remove(this);
-        this.duenho = nuevoduenho;
-        nuevoduenho.getPropiedades().add(this);
-    }
 }

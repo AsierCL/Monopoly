@@ -236,7 +236,11 @@ public class Juego {
                 break;
             //ver tablero
             case("construir"):
-                casillaActual.Construir(jugadorActual, subAccion, jugadores);
+                if(casillaActual instanceof Solar){
+                    ((Solar)casillaActual).Construir(jugadorActual, subAccion, jugadores);
+                }else{
+                    System.out.println("No puedes construir aqui");
+                }
                 break;
             case("ver"):
                 System.out.println(tablero);
@@ -681,23 +685,29 @@ public class Juego {
                     break;
     
                 case 10:  // Comprar propiedad
-                    if (casillaActual.getDuenho() == banca) {
-                        System.out.print("¿Quieres comprar esta casilla por " + casillaActual.getValor() + "? (s/n): ");
-                        String respuesta = scanner.nextLine();
-                        if (respuesta.equalsIgnoreCase("s")) {
-                            jugador.anhadirPropiedad(casillaActual); 
-                            casillaActual.setDuenho(jugador);
-                            System.out.println(jugador.getNombre() + " ha comprado la casilla " + casillaActual.getNombre());
+                    if(casillaActual instanceof Solar){
+                        if (casillaActual.getDuenho() == banca) {
+                            System.out.print("¿Quieres comprar esta casilla por " + ((Solar)casillaActual).getValor() + "? (s/n): ");
+                            String respuesta = scanner.nextLine();
+                            if (respuesta.equalsIgnoreCase("s")) {
+                                jugador.anhadirPropiedad(casillaActual); 
+                                casillaActual.setDuenho(jugador);
+                                System.out.println(jugador.getNombre() + " ha comprado la casilla " + casillaActual.getNombre());
+                            }
+                        } else {
+                            System.out.println("Esta propiedad ya tiene dueño.");
                         }
-                    } else {
-                        System.out.println("Esta propiedad ya tiene dueño.");
                     }
                     break;
     
                 case 11:  // Construir edificio
                     System.out.print("Introduce el tipo de edificio (casa, hotel, piscina, pista): ");
                     String tipoEdificio = scanner.nextLine();
-                    casillaActual.Construir(jugador, tipoEdificio, jugadores); 
+                    if(casillaActual instanceof Solar){
+                        ((Solar)casillaActual).Construir(avatarActual.getJugador(), tipoEdificio, jugadores);
+                    }else{
+                        System.out.println("No puedes construir aqui");
+                    }
                     break;
     
                 case 12:  // Ver estadísticas de la partida
@@ -733,29 +743,30 @@ public class Juego {
     * Parámetro: cadena de caracteres con el nombre de la casilla.
      */
     private void comprar(String nombre) {
-
         Jugador jugador_actual = jugadores.get(turno);
         Casilla casilla_compra = tablero.obtenerCasilla(nombre);
-
-        if(casilla_compra != null && jugador_actual != null){
-            casilla_compra.comprarCasilla(jugador_actual, banca);
-        }else{
-            System.out.println("Casilla no encontrada");
+        
+        if(casilla_compra instanceof Propiedad){
+            if(((Propiedad)casilla_compra).comprarPropiedad(jugador_actual, banca));
         }
     }
 
     private void hipotecar(String nombre) {
         Casilla casilla_hipotecada = tablero.obtenerCasilla(nombre);
-        Jugador jugador_hipoteca = jugadores.get(turno);
+        Jugador jugador_actual = jugadores.get(turno);
         
-        casilla_hipotecada.hipotecarCasilla(jugador_hipoteca);
+        if(casilla_hipotecada instanceof Propiedad){
+            ((Propiedad)casilla_hipotecada).hipotecarCasilla(jugador_actual);
+        }
     }
 
     private void deshipotecar(String nombre) {
-        Casilla casilla_deshipotecar = tablero.obtenerCasilla(nombre);
-        Jugador jugador_deshipoteca = jugadores.get(turno);
-
-        casilla_deshipotecar.deshipotecarCasilla(jugador_deshipoteca);
+        Casilla casilla_deshipotecada = tablero.obtenerCasilla(nombre);
+        Jugador jugador_actual = jugadores.get(turno);
+        
+        if(casilla_deshipotecada instanceof Propiedad){
+            ((Propiedad)casilla_deshipotecada).deshipotecarCasilla(jugador_actual);
+        }
     }
 
     public int obtenerTirada() {
@@ -792,7 +803,7 @@ public class Juego {
         }
     }
 
-    private void vender(String[] partes ){
+    private void vender(String[] partes){
         if (partes.length < 4){
             System.out.println("No has pasado todos los parámetros");
             return;
@@ -803,7 +814,7 @@ public class Juego {
         Casilla casilla = tablero.obtenerCasilla(partes[2]);
         int cantidad = Integer.valueOf(partes[3]);
 
-        casilla.VenderEdificios(jugador, construccion, cantidad);
+        ((Solar)casilla).VenderEdificios(jugador, construccion, cantidad);
     }
 
     public boolean declararBancarrota(Jugador jugador_acreedor, Jugador jugadorActual){
@@ -815,7 +826,7 @@ public class Juego {
             System.out.println(jugadorActual.getNombre() + " no puede pagar su deuda y se declara en bancarrota. Sus propiedades pasan a " + jugador_acreedor.getNombre() + ".");
                 List<Casilla> propiedadesJugador = new ArrayList<>(jugadorActual.getPropiedades());    
                 for (Casilla propiedad : propiedadesJugador) {
-                    propiedad.cambiarDuenho(jugador_acreedor);
+                    ((Propiedad)propiedad).cambiarDuenho(jugador_acreedor);
 
                 }
             jugadorActual.getAvatar().getLugar().getAvatares().remove(jugadorActual.getAvatar());
@@ -875,26 +886,7 @@ public class Juego {
         if(grupo==null){
             System.out.println("Grupo de color inválido");
         }else{
-            for (Casilla casilla : grupo.getMiembros()) {
-                ((Solar)casilla).listarEdificios();
-                if(casilla.getDuenho().equals(banca)){
-                    System.out.println("Casilla en venta");
-                }else{
-                    System.out.println("El pago es de: " + ((Solar)casilla).calcularPagoSolar(casilla.getDuenho()));
-                }
-            }
-
-            if(grupo.getHotelesGrupo()==grupo.getNumCasillas()){
-                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getCasasGrupo()) + " casas.");
-                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getHotelesGrupo()) + " hoteles.");
-                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getPiscinasGrupo()) + " piscinas.");
-                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getPistasGrupo()) + " pistas.");
-            }else{
-                System.out.println("Puedes construir " + (4*grupo.getNumCasillas()+grupo.getNumCasillas()-(grupo.getCasasGrupo()+4*grupo.getHotelesGrupo())) + " casas.");
-                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getHotelesGrupo()) + " hoteles.");
-                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getPiscinasGrupo()) + " piscinas.");
-                System.out.println("Puedes construir " + (grupo.getNumCasillas()-grupo.getPistasGrupo()) + " pistas.");
-            }
+            grupo.listarEdificiosPorColor(banca);
         }
     }
 
@@ -990,7 +982,7 @@ public class Juego {
         return masRentable;
     }
 
-    public Grupo obtenerGrupoMasRentable() {
+    /* public Grupo obtenerGrupoMasRentable() {
         Grupo grupoMasRentable = null;
         float maxIngresos = 0;
 
@@ -1001,6 +993,23 @@ public class Juego {
                 float ingresosGrupo = grupo.getIngresosTotales(); // Método que devuelve los ingresos totales del grupo
                 if (ingresosGrupo > maxIngresos) {
                     maxIngresos = ingresosGrupo;
+                    grupoMasRentable = grupo;
+                }
+            }
+        }
+        return grupoMasRentable;
+    } */
+
+    public Grupo obtenerGrupoMasRentable(){
+        Grupo grupoMasRentable = null;
+        float maxIngresos = 0;
+
+        for (int i = 0; i < 40; i++) {
+            Casilla casilla = tablero.obtenerCasilla(i); // Obtener la casilla
+            if(casilla instanceof Solar){
+                Grupo grupo = ((Solar)casilla).getGrupo();
+                if (grupo.getIngresosTotales() > maxIngresos) {
+                    maxIngresos = grupo.getIngresosTotales();
                     grupoMasRentable = grupo;
                 }
             }

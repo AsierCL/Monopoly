@@ -43,26 +43,6 @@ public abstract class Propiedad extends monopoly.casillas.Casilla {
 
     public abstract boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores);
 
-    /*Método usado para comprar una casilla determinada. Parámetros:
-    * - Jugador que solicita la compra de la casilla.
-    * - Banca del monopoly (es el dueño de las casillas no compradas aún).*/
-    public void comprarCasilla(Jugador solicitante, Jugador banca) {
-        if(solicitante.getAvatar().getLugar() == this){
-            if(this.getDuenho() == banca){
-                solicitante.incrementarDineroInvertido(this.valor);
-                solicitante.anhadirPropiedad(this);
-                setDuenho(solicitante);
-                System.out.println("Has comprado la casilla " + this.getNombre() + " por " + this.valor);
-            }else if(this.getDuenho() == solicitante){
-                System.out.println("Esta casilla ya te pertenece");
-            }else{
-                System.out.println("La casilla es de " + this.getDuenho().getNombre());
-            }
-        }else{
-            System.out.println("Debes estar en la casilla");
-        }
-    }
-
     public void hipotecarCasilla(Jugador solicitante) { //SOBREESCRIBIR EN SOLAR PARA CHECKEAR SI ESTÁ CONSTRUIDA
         if (this.getDuenho().equals(solicitante)) {
             if (this.hipotecada == true) {
@@ -90,5 +70,33 @@ public abstract class Propiedad extends monopoly.casillas.Casilla {
         } else {
             System.out.println("La casilla no está hipotecada.");
         } 
+    }
+
+    public void cambiarDuenho(Jugador nuevoduenho){
+        this.getDuenho().getPropiedades().remove(this);
+        this.setDuenho(nuevoduenho);
+        nuevoduenho.anhadirPropiedad(this);
+    }
+
+    public boolean comprarPropiedad(Jugador jugador, Jugador banca){
+        if(!jugador.getAvatar().getLugar().equals(this)){
+            System.out.println("Debes de estar en la casilla para comprarla");
+            return false;
+        }
+        if(!this.getDuenho().equals(banca)){
+            System.out.println("La casilla no está en venta");
+            return false;
+        }
+        if(jugador.getFortuna() < valor){
+            System.out.println("No tienes dinero suficiente");
+            return false;
+        }
+        banca.eliminarPropiedad(this);
+        banca.sumarFortuna(valor);
+        jugador.anhadirPropiedad(this);
+        jugador.incrementarDineroInvertido(this.valor);
+        setDuenho(jugador);
+        System.out.println("Has comprado la casilla " + this.getNombre() + " por " + this.valor);
+        return true;
     }
 }
