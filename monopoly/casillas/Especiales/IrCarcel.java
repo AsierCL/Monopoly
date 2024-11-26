@@ -3,11 +3,10 @@ package monopoly.casillas.Especiales;
 import java.util.ArrayList;
 
 import monopoly.Tablero;
-import monopoly.casillas.*;
 import partida.Jugador;
 
-public abstract class IrCarcel extends Casilla {
-    public IrCarcel(String nombre, int posicion, Jugador duenho, float valor){
+public class IrCarcel extends Especial {
+    public IrCarcel(String nombre, int posicion, Jugador duenho){
         super(nombre, posicion, duenho);
     }
 

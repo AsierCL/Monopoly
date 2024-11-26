@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 import monopoly.casillas.Casilla;
 import monopoly.casillas.Impuesto;
+import monopoly.casillas.Especiales.*;
+import monopoly.casillas.Acciones.*;
 import monopoly.casillas.Propiedades.*;
 
 
@@ -51,7 +53,7 @@ public class Tablero {
 
         Grupo Servicios = new Grupo((Propiedad)obtenerCasilla(12),(Propiedad)obtenerCasilla(28), "Servicios");
         Grupo Estaciones = new Grupo((Propiedad)obtenerCasilla(5),(Propiedad)obtenerCasilla(15),(Propiedad)obtenerCasilla(25), (Propiedad)obtenerCasilla(35), "Servicios");
-        this.grupos.put("Rojo", Servicios);
+        this.grupos.put(Valor.RESET, Servicios);
         this.grupos.put(Valor.BLACK, Estaciones);
     }
     
@@ -60,9 +62,9 @@ public class Tablero {
     private ArrayList<Casilla> insertarLadoNorte() {
     ArrayList<Casilla> ladoNorte = new ArrayList<>(); // Creamos un nuevo lado del tablero (sur)
 
-    ladoNorte.add(new Casilla("Parking", "Especial", 20, banca));
+    ladoNorte.add(new Parking("Parking", 20, banca));
     ladoNorte.add(new Solar("Solar12", 21, banca,1142440));
-    ladoNorte.add(new Casilla("Suerte", "Especial", 22, banca));
+    ladoNorte.add(new Suerte("Suerte", 22, banca));
     ladoNorte.add(new Solar("Solar13",23, banca, 1142440));
     ladoNorte.add(new Solar("Solar14",24,banca, 1142440));
     ladoNorte.add(new Transporte("Estacion3", 25, banca, Valor.SUMA_VUELTA));
@@ -70,7 +72,7 @@ public class Tablero {
     ladoNorte.add(new Solar("Solar16", 27, banca, 1485172));
     ladoNorte.add(new Servicio("Servicio2", 28, banca, Valor.SUMA_VUELTA*0.75f));
     ladoNorte.add(new Solar("Solar17", 29, banca, 1485172));
-    ladoNorte.add(new Casilla("IrCarcel", "Especial", 30, banca));
+    ladoNorte.add(new IrCarcel("IrCarcel", 30, banca));
     Grupo G5 = new Grupo((Propiedad)ladoNorte.get(1), (Propiedad)ladoNorte.get(3), (Propiedad)ladoNorte.get(4), Valor.RED);
     Grupo G6 = new Grupo((Propiedad)ladoNorte.get(6), (Propiedad)ladoNorte.get(7), (Propiedad)ladoNorte.get(9), Valor.YELLOW);
 
@@ -84,17 +86,17 @@ public class Tablero {
     private ArrayList<Casilla> insertarLadoSur() {
     ArrayList<Casilla> ladoSur = new ArrayList<>(); // Creamos un nuevo lado del tablero (sur)
 
-    ladoSur.add(new Casilla("Carcel", "Especial", 10, banca));
+    ladoSur.add(new Carcel("Carcel", 10, banca));
     ladoSur.add(new Solar("Solar5", 9, banca, 520000));
     ladoSur.add(new Solar("Solar4", 8, banca, 520000));
-    ladoSur.add(new Casilla("Suerte1", "Suerte", 7, banca));
+    ladoSur.add(new Suerte("Suerte1", 7, banca));
     ladoSur.add(new Solar("Solar3", 6, banca, 520000));
     ladoSur.add(new Transporte("Estacion1", 5, banca, Valor.SUMA_VUELTA));
     ladoSur.add(new Impuesto("Impuesto1", 4, banca, (Valor.SUMA_VUELTA/2f)));
     ladoSur.add(new Solar("Solar2", 3, banca, 600000));
-    ladoSur.add(new Casilla("Caja1", "Comunidad", 2, banca));
+    ladoSur.add(new Comunidad("Caja1", 2, banca));
     ladoSur.add(new Solar("Solar1", 1, banca, 600000));
-    ladoSur.add(new Casilla("Salida", "Especial", 0, banca));
+    ladoSur.add(new Salida("Salida", 0, banca));
     Grupo G1 = new Grupo((Propiedad)ladoSur.get(7), (Propiedad)ladoSur.get(9), Valor.BROWN);
     Grupo G2 = new Grupo((Propiedad)ladoSur.get(1), (Propiedad)ladoSur.get(2), (Propiedad)ladoSur.get(4), Valor.CYAN);
 
@@ -111,8 +113,8 @@ public class Tablero {
         
         ladoOeste.add(new Solar("Solar11", 19, banca, 878800));
         ladoOeste.add(new Solar("Solar10", 18, banca, 878800));
-        ladoOeste.add(new Casilla("Caja2", "Especial", 17, banca));
-        ladoOeste.add(new Casilla("Solar9", "Solar", 16, 878800, banca));
+        ladoOeste.add(new Comunidad("Caja2", 17, banca));
+        ladoOeste.add(new Solar("Solar9", 16, banca, 878800));
         ladoOeste.add(new Transporte("Estacion2", 15, banca, Valor.SUMA_VUELTA));
         ladoOeste.add(new Solar("Solar8", 14, banca, 676000));
         ladoOeste.add(new Solar("Solar7", 13, banca, 676000));
@@ -133,10 +135,10 @@ public class Tablero {
 
         ladoEste.add(new Solar("Solar18", 31, banca, 1930723.6f));
         ladoEste.add(new Solar("Solar19", 32, banca, 1930723.6f));
-        ladoEste.add(new Casilla("Caja3", "Especial", 33, banca));
+        ladoEste.add(new Comunidad("Caja3", 33, banca));
         ladoEste.add(new Solar("Solar20", 34, banca, 1930723.6f));
         ladoEste.add(new Transporte("Estación4", 35, banca, Valor.SUMA_VUELTA));
-        ladoEste.add(new Casilla("Suerte3", "Especial", 36, banca));
+        ladoEste.add(new Suerte("Suerte3", 36, banca));
         ladoEste.add(new Solar("Solar21", 37,banca, 3764911.02f));
         ladoEste.add(new Impuesto("Impuesto2", 38, banca, Valor.SUMA_VUELTA));
         ladoEste.add(new Solar("Solar22", 39,  banca, 3764911.02f));
@@ -173,12 +175,10 @@ public class Tablero {
         sb.append("│");
         for (Casilla casilla : ladoNorte) {
 
-            if(casilla.getTipo()=="Transporte"){
-                color = Valor.BLACK;
-            }else if(casilla.getGrupo() == null){
-                color = Valor.RESET; // Valor por defecto (sin color)
+            if(casilla instanceof Propiedad){
+                color = ((Propiedad)casilla).getGrupo().getColorGrupo(); 
             }else{
-                color = casilla.getGrupo().getColorGrupo(); 
+                color = Valor.RESET; // Valor por defecto (sin color)
             }
 
             //Formatear nombre de la casilla
@@ -190,12 +190,10 @@ public class Tablero {
         
         for (Casilla casilla : ladoNorte) {
             //Miramos el color
-            if(casilla.getTipo().equals("Transporte")){
-                color = Valor.BLACK;
-            }else if(casilla.getGrupo() == null){
-                color = Valor.RESET; // Valor por defecto (sin color)
+            if(casilla instanceof Propiedad){
+                color = ((Propiedad)casilla).getGrupo().getColorGrupo(); 
             }else{
-                color = casilla.getGrupo().getColorGrupo(); 
+                color = Valor.RESET; // Valor por defecto (sin color)
             }
             // Si la casilla tiene avatares, los mostramos
             if (casilla.getAvatares() != null && !casilla.getAvatares().isEmpty()) {
@@ -223,12 +221,10 @@ public class Tablero {
             }
             
             // Lado Oeste
-            if(ladoOeste.get(i).getTipo().equals("Transporte")){
-                colorOeste = Valor.BLACK;
-            }else if(ladoOeste.get(i).getGrupo() == null){
-                colorOeste = Valor.RESET; // Valor por defecto (sin color)
+            if(ladoOeste.get(i) instanceof Propiedad){
+                colorOeste = ((Propiedad)ladoOeste.get(i)).getGrupo().getColorGrupo(); 
             }else{
-                colorOeste = ladoOeste.get(i).getGrupo().getColorGrupo(); 
+                colorOeste = Valor.RESET; // Valor por defecto (sin color)
             }
             
             sb.append("│"); // Separador izquierdo para el lado Oeste
@@ -240,12 +236,10 @@ public class Tablero {
             
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Lado Este
-            if(ladoEste.get(i).getTipo().equals("Transporte")){
-                colorEste = Valor.BLACK;
-            }else if(ladoEste.get(i).getGrupo() == null){
-                colorEste = Valor.RESET; // Valor por defecto (sin color)
+            if(ladoEste.get(i) instanceof Propiedad){
+                colorEste = ((Propiedad)ladoEste.get(i)).getGrupo().getColorGrupo(); 
             }else{
-                colorEste = ladoEste.get(i).getGrupo().getColorGrupo(); 
+                colorEste = Valor.RESET; // Valor por defecto (sin color)
             }
 
             sb.append("│"); // Separador izquierdo para el lado Este
@@ -293,12 +287,10 @@ public class Tablero {
         sb.append("│");
         for (Casilla casilla : ladoSur) {
 
-            if(casilla.getTipo().equals("Transporte")){
-                color = Valor.BLACK;
-            }else if(casilla.getGrupo() == null){
-                color = Valor.RESET; // Valor por defecto (sin color)
+            if(casilla instanceof Propiedad){
+                color = ((Propiedad)casilla).getGrupo().getColorGrupo(); 
             }else{
-                color = casilla.getGrupo().getColorGrupo(); 
+                color = Valor.RESET; // Valor por defecto (sin color)
             }
 
             //Formatear nombre casilla
@@ -312,13 +304,12 @@ public class Tablero {
         
         for (Casilla casilla : ladoSur) {
             //Miramos el color
-            if(casilla.getTipo().equals("Transporte")){
-                color = Valor.BLACK;
-            }else if(casilla.getGrupo() == null){
-                color = Valor.RESET; // Valor por defecto (sin color)
+            if(casilla instanceof Propiedad){
+                color = ((Propiedad)casilla).getGrupo().getColorGrupo(); 
             }else{
-                color = casilla.getGrupo().getColorGrupo(); 
+                color = Valor.RESET; // Valor por defecto (sin color)
             }
+
             // Si la casilla tiene avatares, los mostramos
             if (casilla.getAvatares() != null && !casilla.getAvatares().isEmpty()) {
                 StringBuilder avataresStr = new StringBuilder();

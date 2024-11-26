@@ -14,7 +14,7 @@ public abstract class Acciones extends Casilla {
     public abstract String infoCasilla();
 
     @Override 
-    public abstract boolean evaluarCasilla(Jugador var1, Jugador var2, int var3, Tablero var4, ArrayList<Jugador> var5);
+    public abstract boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero,ArrayList<Jugador> jugadores);
 
 }
 
