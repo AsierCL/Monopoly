@@ -7,6 +7,7 @@ import monopoly.casillas.Propiedades.*;
 
 import monopoly.Grupo;
 import monopoly.Tablero;
+import monopoly.Tablero;
 
 import java.util.ArrayList;
 
@@ -148,6 +149,7 @@ public abstract class Casilla {
  */
     
     public abstract String infoCasilla();
+    
 
     public abstract boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores);
 
