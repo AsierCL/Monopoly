@@ -1,5 +1,5 @@
 package monopoly.casillas;
 
-public class Especial {
+public class Especial extends Casilla {
     
 }

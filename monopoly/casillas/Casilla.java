@@ -6,6 +6,7 @@ import partida.avatares.Avatar;
 import monopoly.casillas.Propiedades.*;
 
 import monopoly.Grupo;
+import monopoly.Tablero;
 
 import java.util.ArrayList;
 
@@ -149,6 +150,8 @@ public abstract class Casilla {
  */
     
     public abstract String infoCasilla();
+    
+    public abstract boolean evaluarCasilla(Jugador var1, Jugador var2, int var3, Tablero var4, ArrayList<Jugador> var5);
 
 
     public void registrarIngreso(float cantidad) {
@@ -163,6 +166,7 @@ public abstract class Casilla {
         this.duenho = nuevoduenho;
         nuevoduenho.getPropiedades().add(this);
     }
+
 
 
 
