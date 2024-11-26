@@ -61,7 +61,7 @@ public class Solar extends Propiedad {
     }
 
     public String listarEdificios(){
-        return("|Casas=" + casas.size() + "|Hoteles=" + hoteles.size() + "|Piscinas=" + piscinas.size() + "|Pistas=" + pistas.size());
+        return(this.getNombre() + "|Casas=" + casas.size() + "|Hoteles=" + hoteles.size() + "|Piscinas=" + piscinas.size() + "|Pistas=" + pistas.size());
     }
     
     @Override

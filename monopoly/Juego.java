@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import monopoly.casillas.Casilla;
+import monopoly.casillas.Propiedades.*;
 import partida.*;
 import monopoly.*;
 import partida.avatares.Avatar;
@@ -277,7 +278,7 @@ public class Juego {
                 for (Casilla propiedad : jugador.getPropiedades()) {
                     System.out.println(" - " + propiedad.getNombre());
                     if(propiedad instanceof Solar){
-                        System.out.println("\t" + ((Solar)propiedad).listarPropiedades());
+                        System.out.println("\t" + ((Solar)propiedad).listarEdificios());
                     }
                 }
             } else {
@@ -846,14 +847,10 @@ public class Juego {
     // Método que realiza las acciones asociadas al comando 'listar enventa'.
     private void listarVenta() {
         for(int i = 0; i<40; i++){
-        Casilla casilla = this.tablero.obtenerCasilla(i);
-        if( casilla.getDuenho()==banca && 
-            casilla.getTipo().equals("Solar") || 
-            casilla.getTipo().equals("Transporte") || 
-            casilla.getTipo().equals("Servicios"))
-        {
-            System.out.println(this.tablero.obtenerCasilla(i).infoCasilla());
-        }
+            Casilla casilla = this.tablero.obtenerCasilla(i);
+            if((casilla instanceof Propiedad) && (casilla.getDuenho().equals(banca))){
+                System.out.println(this.tablero.obtenerCasilla(i).infoCasilla());
+            }
         }
     }
 
@@ -861,10 +858,10 @@ public class Juego {
         boolean ningunEdificio = true;
         for(int i = 0; i<40; i++){
             Casilla casilla = this.tablero.obtenerCasilla(i);
-            if(casilla.getEdificios()!=null){
-                if(casilla.getEdificios().EsSolarEdificado()){
+            if(casilla instanceof Solar){
+                if(((Solar)casilla).EsSolarEdificado()){
                     ningunEdificio = false;
-                    System.out.println(this.tablero.obtenerCasilla(i).getNombre() + ": "+ "|Casas=" + this.tablero.obtenerCasilla(i).getEdificios().getCasas() + "|Hoteles=" + this.tablero.obtenerCasilla(i).getEdificios().getHoteles() + "|Piscinas=" + this.tablero.obtenerCasilla(i).getEdificios().getPiscinas() + "|Pistas=" + this.tablero.obtenerCasilla(i).getEdificios().getPistas() + "|");
+                    ((Solar)casilla).listarEdificios();
                 }
             }
         }
@@ -879,11 +876,11 @@ public class Juego {
             System.out.println("Grupo de color inválido");
         }else{
             for (Casilla casilla : grupo.getMiembros()) {
-                System.out.println(casilla.getNombre() + ": "+ "|Casas=" + casilla.getEdificios().getCasas() + "|Hoteles=" + casilla.getEdificios().getHoteles() + "|Piscinas=" + casilla.getEdificios().getPiscinas() + "|Pistas=" + casilla.getEdificios().getPistas());
+                ((Solar)casilla).listarEdificios();
                 if(casilla.getDuenho().equals(banca)){
                     System.out.println("Casilla en venta");
                 }else{
-                    System.out.println("El pago es de: " + casilla.calcularPagoSolar(casilla.getDuenho()));
+                    System.out.println("El pago es de: " + ((Solar)casilla).calcularPagoSolar(casilla.getDuenho()));
                 }
             }
 
