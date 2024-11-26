@@ -60,6 +60,10 @@ public class Solar extends Propiedad {
         return info.toString();
     }
 
+    public String listarEdificios(){
+        return("|Casas=" + casas.size() + "|Hoteles=" + hoteles.size() + "|Piscinas=" + piscinas.size() + "|Pistas=" + pistas.size());
+    }
+    
     @Override
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores){
         haEstado(actual, jugadores);

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import monopoly.*;
 import monopoly.casillas.Casilla;
-import partida.avatares.Avatar;
+import monopoly.casillas.Propiedades.Solar;
+import monopoly.casillas.Propiedades.*;
+import partida.avatares.*;
+import partida.avatares.Coche;
 
 
 public class Jugador {
@@ -33,7 +36,7 @@ public class Jugador {
     //Constructor vacío. Se usará para crear la banca.
     public Jugador() {
         this.nombre = "banca";
-        this.avatar = new Avatar();
+        this.avatar = null;
         //Realmente pode non ser necesario asignar fortuna
         this.fortuna = 999999999; //Usar variabe global FORTUNA_BANCA¿?
         this.gastos = 0;
@@ -64,7 +67,23 @@ public class Jugador {
         this.nombre = nombre;
 
         if(Avatar.avataresValidos.contains(tipoAvatar)){
-            this.avatar = new Avatar(tipoAvatar, this, inicio, avCreados);
+            switch (tipoAvatar) {
+                case "coche":
+                    this.avatar = new Coche(this, inicio, avCreados);
+                    break;
+                case "esfinge":
+                    this.avatar = new Esfinge(this, inicio, avCreados);
+                    break;
+                case "pelota":
+                    this.avatar = new Esfinge(this, inicio, avCreados);
+                    break;
+                case "sombrero":
+                    this.avatar = new Sombrero(this, inicio, avCreados);
+                    break;
+                default:
+                    System.out.println("DEBUGGGG, error creando avatar");
+                    break;
+            }
         }else{
             System.out.println("\nTipo de avatar incorrecto\n");
         }
@@ -254,7 +273,7 @@ public class Jugador {
 
         // Sumar el valor de todas las propiedades y edificios que posee el jugador
         for (Casilla propiedad : this.propiedades) {
-            fortunaTotal += propiedad.getValor();           // Valor de la propiedad
+            fortunaTotal += ((Propiedad)propiedad).getValor();           // Valor de la propiedad
             //fortunaTotal += propiedad.getValorEdificios();  // Valor de los edificios en la propiedad
         }
 
@@ -295,6 +314,29 @@ public class Jugador {
             System.out.println(this.getNombre() + " ha retrocedido por la casilla de Salida y paga " + vuelta + "€.");
         }
 
+    }
+
+    public void DescribirJugador() {
+        System.out.println("Nombre del Jugador: " + nombre);
+        System.out.println("Fortuna: " + fortuna + "€" );
+        
+        if (!propiedades.isEmpty()) {
+            System.out.println("Propiedades: ");
+            for (Casilla propiedad : propiedades) {
+                System.out.println(" - " + propiedad.getNombre());
+                if(propiedad instanceof Solar){
+                    System.out.println("\t" + ((Solar)propiedad).listarEdificios());
+                }
+            }
+        } else {
+            System.out.println("El jugador no tiene propiedades.");
+        }
+
+        if (avatar != null) {
+            System.out.println("Avatar: " + avatar.getId());
+        } else {
+            System.out.println("El jugador no tiene un avatar asignado.");
+        }
     }
 
 }

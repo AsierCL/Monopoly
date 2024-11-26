@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import monopoly.casillas.Casilla;
 import partida.*;
+import monopoly.*;
 import partida.avatares.Avatar;
 
 public class Juego {
@@ -275,8 +276,8 @@ public class Juego {
                 System.out.println("Propiedades: ");
                 for (Casilla propiedad : jugador.getPropiedades()) {
                     System.out.println(" - " + propiedad.getNombre());
-                    if(propiedad.getTipo().equals("Solar")){
-                        System.out.println("\t" + "|Casas=" + propiedad.getEdificios().getCasas() + "|Hoteles=" + propiedad.getEdificios().getHoteles() + "|Piscinas=" + propiedad.getEdificios().getPiscinas() + "|Pistas=" + propiedad.getEdificios().getPistas());
+                    if(propiedad instanceof Solar){
+                        System.out.println("\t" + ((Solar)propiedad).listarPropiedades());
                     }
                 }
             } else {
@@ -288,7 +289,6 @@ public class Juego {
                 System.out.println("Avatar: " + avatar.getId());
             } else {
                 System.out.println("El jugador no tiene un avatar asignado.");
-            
             }
         
         // Hipotecas.
