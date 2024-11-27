@@ -4,7 +4,8 @@ import partida.Jugador;
 import partida.avatares.Avatar;
 
 import monopoly.casillas.Propiedades.*;
-
+import partida.cartas.CartaCajaComunidad;
+import partida.cartas.CartaSuerte;
 import monopoly.Grupo;
 import monopoly.Tablero;
 import monopoly.Tablero;

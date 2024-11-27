@@ -8,6 +8,10 @@ import monopoly.casillas.Propiedades.Solar;
 import monopoly.casillas.Propiedades.*;
 import partida.avatares.*;
 import partida.avatares.Coche;
+import partida.avatares.Coche;
+import partida.avatares.Esfinge;
+import partida.avatares.Pelota;
+import partida.avatares.Sombrero;
 
 
 public class Jugador {
