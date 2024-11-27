@@ -7,7 +7,7 @@ import java.util.Scanner;
 import monopoly.casillas.Casilla;
 import monopoly.casillas.Propiedades.*;
 import partida.*;
-import monopoly.*;
+import partida.Tratos.Tratos;
 import partida.avatares.Avatar;
 
 public class Juego {
@@ -25,6 +25,7 @@ public class Juego {
     private boolean solvente; //Booleano para comprobar si el jugador que tiene el turno es solvente, es decir, si ha pagado sus deudas.
     private boolean partida;
     private int ultimatirada;
+    Tratos tratos;
 
     public static void clearScreen() {
         try {
@@ -76,6 +77,8 @@ public class Juego {
         System.out.println("ver tablero \t\t\t-> muestra el tablero");
         System.out.println("estadisticas \t\t\t-> muestra estadisticas partida");
         System.out.println("estadisticas \"nombre jugador\" \t-> muestra estadisticas partida");
+        System.out.println("crear trato  \t\t\t\t-> crea un nuevo trato");
+        System.out.println("listar tratos  \t\t\t\t-> lista los tratos actuales");
         System.out.println("? \t\t\t\t-> muestra este menú de ayuda");
 
         System.out.println("\n");
@@ -86,6 +89,7 @@ public class Juego {
         this.jugadores = new ArrayList<>();
         banca = new Jugador();
         tablero = new Tablero(banca);
+        this.tratos = new Tratos();
         
         clearScreen();
         printBanner();
@@ -173,10 +177,18 @@ public class Juego {
                             System.out.println("Error, color invalido");
                         }
                         break;
+                    case("tratos"):
+                        tratos.listarTratos();
+                        break;
                     default:
                         System.out.println("Error, introduzca un comando valido");
                         break;
                 }
+                break;
+            case("crear"):
+                if(!subAccion.equals("trato"))
+                    break;
+                tratos.proponerTrato(jugadorActual, jugadores, tablero);
                 break;
             //lanzar dados
             case("lanzar"):
@@ -302,12 +314,27 @@ public class Juego {
         }
     }
 
-    public Jugador buscarJugadorPorNombre(String nombre) {
+    //////////////////  MIRAR ESTO URGENTEMENTEEEEEEEEEEEEEEEEEEEE  ////////////////
+    //////////////////  MIRAR ESTO URGENTEMENTEEEEEEEEEEEEEEEEEEEE  ////////////////
+    private Jugador buscarJugadorPorNombre(String nombre) {
         for (Jugador jugador : jugadores) {  
-            if (jugador.getNombre().equals(nombre)) {  // .equalsIgnoreCase(nombre.trim())
+            if (jugador.getNombre().equalsIgnoreCase(nombre.trim())) {
                 return jugador;
             }
         }
+        System.out.println("Jugador no encontrado");
+        return null;
+    }
+    
+    //////////////////  MIRAR ESTO URGENTEMENTEEEEEEEEEEEEEEEEEEEE  ////////////////
+    //////////////////  MIRAR ESTO URGENTEMENTEEEEEEEEEEEEEEEEEEEE  ////////////////
+    public static Jugador buscarJugadorPorNombre(String nombre, ArrayList<Jugador> jugadores) {
+        for (Jugador jugador : jugadores) {  
+            if (jugador.getNombre().equalsIgnoreCase(nombre.trim())) {
+                return jugador;
+            }
+        }
+        System.out.println("Jugador no encontrado");
         return null;
     }
 

@@ -44,8 +44,7 @@ public class Jugador {
         this.tiradasCarcel = 0;
         this.vueltas = 0;
         this.turnosBloqueado = 0;
-        // Asignar array propiedades
-        //this.propiedades ...
+        this.propiedades = new ArrayList<>();
 
         // Inicializar estadísticas a cero
         this.dineroInvertido = 0;
@@ -174,7 +173,6 @@ public class Jugador {
             this.propiedades.remove(casilla);
         }else{
             System.err.println("La casilla no pertenece al jugador\n");
-            System.exit(1);
         }
     }
 
