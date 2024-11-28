@@ -180,11 +180,11 @@ public class Juego {
                 break;
             //lanzar dados
             case("lanzar"):
-                lanzarDados();
+                lanzarDados(false);
                 System.out.println(tablero);
                 break;
             case("dados"):
-                dadosTrucados();
+                lanzarDados(true);
                 System.out.println(tablero);
                 break;
             //acabar turno
@@ -349,7 +349,7 @@ public class Juego {
     }
 
     //Método que ejecuta todas las acciones relacionadas con el comando 'lanzar dados'.
-    public void lanzarDados(boolean trucados, ArrayList<Avatar> avatares) {
+    public void lanzarDados(boolean trucados) {
         if(!tirado){
 
             Avatar avatarActual = avatares.get(turno);
@@ -412,10 +412,10 @@ public class Juego {
             System.out.println("Sales de la carcel");
             jugadorActual.setEnCarcel(false);
             tirado = false;
-            avatarActual.moverEnBasico(casillas, resultadoTotal);
-            /*if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero,jugadores)){
+            avatarActual.moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);
+            if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero,jugadores)){
                 partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
-            }*/ //Aquí hay que comprobar esto cada vez que se mueve el jugador para ver si hay que terminar la partida
+            } //Aquí hay que comprobar esto cada vez que se mueve el jugador para ver si hay que terminar la partida
         } else {
             jugadorActual.setTiradasCarcel(jugadorActual.getTiradasCarcel() + 1); //Suma uno a sus turnos dentro de la carcel
             if (jugadorActual.getTiradasCarcel() == 3) { // Si lleva tres turnos en la carcel sale
@@ -450,11 +450,11 @@ public class Juego {
     private void manejarMovimientoAvatarPorTipo(Avatar avatarActual, int resultadoTotal, ArrayList<ArrayList<Casilla>> casillas) {
         if (avatarActual.getModo()) { // Si está en modo especial cambia el movimiento
             // Llama al método moverEnAvanzado, definido por cada subclase
-            avatarActual.moverEnAvanzado(casillas, resultadoTotal);
+            avatarActual.moverEnAvanzado(casillas, resultadoTotal, banca, tablero, jugadores);
         }
         else {
             // Llama al método moverEnBasico, implementado en la clase base
-            avatarActual.moverEnBasico(casillas, resultadoTotal);
+            partida = avatarActual.moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);   
         }
     }
     

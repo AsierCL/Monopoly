@@ -1,5 +1,6 @@
 package partida.avatares;
 
+import monopoly.Tablero;
 import monopoly.casillas.Casilla;
 import partida.Jugador;
 
@@ -13,7 +14,7 @@ public class Coche extends Avatar {
     }
 
     @Override
-    public void moverEnAvanzado(ArrayList<ArrayList<Casilla>> casillas, int resultadoTotal) {
+    public boolean moverEnAvanzado(ArrayList<ArrayList<Casilla>> casillas, int resultadoTotal, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores) {
         // Lógica específica del movimiento avanzado para "Coche"
         Scanner scanDado = new Scanner(System.in);
         int contador = 0; // Contador del número de veces que se ha sacado más de 4
@@ -23,12 +24,16 @@ public class Coche extends Avatar {
         Jugador jugador = this.getJugador();
 
         if (resultadoTotal <= 4){ // Si el resultado total es menor o igual a 4 retrocede esa cantidada
-            moverAvatarYEvaluar(this, -resultadoTotal, resultadoTotal, casillas);
+            if(!moverEnBasico(casillas, -resultadoTotal, banca, tablero, jugadores)){
+                return false;
+            }
             System.out.println("Has sacado menos de 4, no podrás tirar en los próximos dos turnos");
             jugador.setTurnosBloqueado(2); // Bloqueamos los próximos dos turnos
         } else {
             while (resultadoTotal > 4 && contador < 4){ // Mientras se siga sacando más de 4 y no suceda más de 3 veces
-                moverAvatarYEvaluar(this, resultadoTotal, resultadoTotal, casillas);
+                if(!moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores)){
+                    return false;
+                }
                 //System.out.println(tablero);
                 
                 haComprado = turnoIntermedio(this, this.getLugar(), haComprado);
@@ -45,7 +50,9 @@ public class Coche extends Avatar {
                 contador++;
     
                 if(contador == 3 && resultadoDado1 == resultadoDado2){ // En la última tirada adicional se gestionan los dados dobles
-                    moverAvatarYEvaluar(this, resultadoTotal, resultadoTotal, casillas);
+                    if(!moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores)){
+                        return false;
+                    }
                     while(resultadoDado1 == resultadoDado2){
                         System.out.println("LLevas " + this.lanzamientos + " dobles");
                         tirado = false;
@@ -58,8 +65,10 @@ public class Coche extends Avatar {
                             resultadoDado2 = scanDado.nextInt();
                             resultadoTotal = resultadoDado1 + resultadoDado2;
                             System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
-    
-                            moverAvatarYEvaluar(this, resultadoTotal, resultadoTotal, casillas);
+                            
+                            if(!moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores)){
+                                return false;
+                            }
                         }else{
                             System.out.println("VAS A LA CARCEL");
                             this.getJugador().encarcelar(casillas);

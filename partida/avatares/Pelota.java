@@ -1,5 +1,6 @@
 package partida.avatares;
 
+import monopoly.Tablero;
 import monopoly.casillas.Casilla;
 import partida.Jugador;
 
@@ -12,42 +13,52 @@ public class Pelota extends Avatar {
     }
 
     @Override
-    public void moverEnAvanzado(ArrayList<ArrayList<Casilla>> casillas, int resultadoTotal) {
+    public boolean moverEnAvanzado(ArrayList<ArrayList<Casilla>> casillas, int resultadoTotal, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores) {
         // Lógica específica del movimiento avanzado para "Pelota"
         if (resultadoTotal > 4){ // El avatar avanza hasta resultadoTotal parando en las casillas intermedias
-            moverAvatarYEvaluar(this, 5, resultadoTotal, casillas); // Primero avanza 5 casillas (primer impar mayor que 4, parará siempre ahí)
+            if(!moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores)){ // Primero avanza 5 casillas (primer impar mayor que 4, parará siempre ahí)
+                return false;
+            }    
             //System.out.println(tablero);
             turnoIntermedio(this, this.getLugar(), false); //turno intermedio en la misma tirada para dar la opción de comprar
-            if (this.getJugador().getEnCarcel()) return;
+            if (this.getJugador().getEnCarcel()) return true;
     
             for (int i=7; i <= resultadoTotal; i+=2){ // Mover el avatar por los números impares hasta llegar a resultadoTotal.
-                moverAvatarYEvaluar(this, 2, resultadoTotal, casillas);
+                if(!moverEnBasico(casillas, 2, banca, tablero, jugadores)){
+                    return false;
+                }
                 if (i!= resultadoTotal) {
                     //System.out.println(tablero); 
                     turnoIntermedio(this, this.getLugar(), false); // Turno intermedio para poder comprar en cada una de las tiradas
-                    if (this.getJugador().getEnCarcel()) return;
+                    if (this.getJugador().getEnCarcel()) return true;
                 }
             }
             if (resultadoTotal % 2 == 0){ // Si el resultado total es par avanzar una casilla más para terminar en él
-                this.moverAvatarYEvaluar(this, 1, resultadoTotal, casillas);
+                if(!moverEnBasico(casillas, 1, banca, tablero, jugadores)){
+                    return false;
+                }
                 //System.out.println(tablero);
             }
         } else { // Si el resultadoTotal es menor que 4
-            moverAvatarYEvaluar(this, -1, resultadoTotal, casillas); // retroceder una casilla para empezar en 3
+            if(!moverEnBasico(casillas, -1, banca, tablero, jugadores)){ // retroceder una casilla para empezar en 3
+                return false;
+            }
             //System.out.println(tablero);
             turnoIntermedio(this, this.getLugar(), false); // Turno intermedio para poder comprar entre tiradas
-            if (this.getJugador().getEnCarcel()) return;
+            if (this.getJugador().getEnCarcel()) return true;
             
             for (int i=3; i <= resultadoTotal; i+=2){ // Ir retrocediendo de dos en dos a partir de ahí
-                moverAvatarYEvaluar(this, -2, resultadoTotal, casillas);
+                moverEnBasico(casillas, -2, banca, tablero, jugadores);
                 if (i!= resultadoTotal) {
                     //System.out.println(tablero); 
                     turnoIntermedio(this, this.getLugar(), false); // Turno intermedio para poder comprar entre tiradas
-                    if (this.getJugador().getEnCarcel()) return;
+                    if (this.getJugador().getEnCarcel()) return true;
                 }
             }
             if (resultadoTotal % 2 == 0){ // Si el resultado total es par retroceder una casilla más para terminar en él
-                moverAvatarYEvaluar(this, -1, resultadoTotal, casillas);
+                if(!moverEnBasico(casillas, -1, banca, tablero, jugadores)){
+                    return false;
+                }
                 //System.out.println(tablero);
             }
         }
