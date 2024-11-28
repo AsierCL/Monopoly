@@ -43,17 +43,17 @@ public class Tratos {
         }
 
         // Solicitar la cantidad de dinero que ofrece el jugador de oferta
-        System.out.print("Ingrese la cantidad que el jugador ofrece: ");
+        System.out.print("Ingrese la cantidad que ofreces: ");
         cantidadOferta = scanner.nextInt();
         scanner.nextLine(); // Limpiar buffer
 
         // Solicitar la cantidad de dinero que espera recibir el jugador de oferta
-        System.out.print("Ingrese la cantidad que el jugador espera recibir: ");
+        System.out.print("Ingrese la cantidad que esperas recibir: ");
         cantidadAcepta = scanner.nextInt();
         scanner.nextLine(); // Limpiar buffer
 
         // Solicitar las propiedades ofrecidas por el jugador de oferta
-        System.out.println("Ingrese los nombres de las propiedades que el jugador ofrece, para terminar escribe \"fin\": ");
+        System.out.println("Ingrese los nombres de las propiedades que ofreces, para terminar escribe \"fin\": ");
         while(true) {
             String propiedadesOfertaInput = scanner.nextLine();
             if(propiedadesOfertaInput.equals("fin"))
@@ -70,10 +70,10 @@ public class Tratos {
             }if(!jugadorOferta.getPropiedades().contains(propiedad)){
                 System.out.println("No posees esa propiedad aún");
                 break;
+            }else{
+                /// QUIZAS HABIA QUE DESTRUIR TODOS OS EDIFICIOS ANTES ///
+                propiedadesOferta.add((Propiedad)propiedad);
             }
-
-            /// QUIZAS HABIA QUE DESTRUIR TODOS OS EDIFICIOS ANTES ///
-            propiedadesOferta.add((Propiedad)propiedad);
         }
 
         // Solicitar las propiedades esperadas del jugador que acepta
@@ -84,14 +84,21 @@ public class Tratos {
                 break;
             
             Casilla propiedad = tablero.obtenerCasilla(propiedadesAceptaInput);
-            if(propiedad==null)
+            if(propiedad==null){
                 System.out.println("Propiedad no encontrada");
-            if(!(propiedad instanceof Propiedad))
+                break;
+            }
+            if(!(propiedad instanceof Propiedad)){
                 System.out.println("La casilla " + propiedad.getNombre() + "no se puede transferir");
-            if(!jugadorAcepta.getPropiedades().contains(propiedad))
-                System.out.println("No posees esa propiedad aún");
-            /// QUIZAS HABIA QUE DESTRUIR TODOS OS EDIFICIOS ANTES ///
-            propiedadesAcepta.add((Propiedad)propiedad);
+                break;
+            }
+            if(!jugadorAcepta.getPropiedades().contains(propiedad)){
+                System.out.println(jugadorAcepta.getNombre() + " no posee esa propiedad aún");
+                break;
+            }else{
+                /// QUIZAS HABIA QUE DESTRUIR TODOS OS EDIFICIOS ANTES ///
+                propiedadesAcepta.add((Propiedad)propiedad);
+            }
         }
 
         // Crear el nuevo trato
@@ -103,15 +110,52 @@ public class Tratos {
         System.out.println("Trato propuesto con éxito. ID del trato: " + id);
         id++;
     }
-
     
     public void aceptarTrato(){
         //REVISAR QUE A PROPIEDAD INDA PERTENEZCA A OS XOGADORES
     }
 
-    public void rechazarTrato(){
+    public void rechazarTrato(Jugador jugador) {
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        boolean rechazado = false;
+    
+        // Validar si hay tratos disponibles
+        if (tratos.isEmpty()) {
+            System.out.println("No hay tratos disponibles para rechazar.");
+            return;
+        }
+    
+        do {
+            System.out.print("Introduce el número del trato que quieres rechazar (? para listarlos / x para salir): ");
+            input = scanner.nextLine().trim(); // Leer la entrada como String
+    
+            if (input.equals("?")) {
+                listarTratos(); // Listar los tratos disponibles
+            } else if (input.equalsIgnoreCase("x")) {
+                System.out.println("Saliendo del rechazo de tratos...");
+                break;
+            } else {
+                int idRechazo = Integer.parseInt(input); // Convertir la entrada a un número
 
-    }
+                for (Trato trato : tratos) {
+                    if(trato.getId()==idRechazo){
+                        if(!(trato.getJugador_oferta().equals(jugador)||trato.getJugador_acepta().equals(jugador))){
+                            System.out.println("El jugador " + jugador.getNombre() + " no forma parte del trato " + trato.getId());
+                        }
+                        rechazado = true;
+                        tratos.remove(trato);
+                        System.out.println("El trato con ID " + idRechazo + " ha sido rechazado.");
+                    }
+                }
+                
+                // Validar si el idRechazo es válido
+                if (!rechazado) {
+                    System.out.println("El número del trato no es válido. Inténtalo de nuevo.");
+                }
+            }
+        } while (rechazado);
+    } 
 
     public void listarTratos(){
         boolean hayTratos = false;
@@ -121,6 +165,5 @@ public class Tratos {
         }
         if(!hayTratos)
             System.out.println("No hay tratos propuestos");
-        System.out.println("\n");
     }
 }

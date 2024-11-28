@@ -30,6 +30,14 @@ public class Trato {
         return id;
     }
 
+    public Jugador getJugador_oferta() {
+        return jugador_oferta;
+    }
+
+    public Jugador getJugador_acepta() {
+        return jugador_acepta;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

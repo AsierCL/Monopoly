@@ -1,0 +1,14 @@
+[
+Introduzca el valor de la tirada del dado 1: q
+Exception in thread "main" java.util.InputMismatchException
+        at java.base/java.util.Scanner.throwFor(Scanner.java:964)
+        at java.base/java.util.Scanner.next(Scanner.java:1619)
+        at java.base/java.util.Scanner.nextInt(Scanner.java:2284)
+        at java.base/java.util.Scanner.nextInt(Scanner.java:2238)
+        at monopoly.Juego.solicitarTiradaDados(Juego.java:459)
+        at monopoly.Juego.dadosTrucados(Juego.java:435)
+        at monopoly.Juego.analizarComando(Juego.java:199)
+        at monopoly.Juego.iniciarPartida(Juego.java:134)
+        at monopoly.Juego.<init>(Juego.java:97)
+        at monopoly.MonopolyETSE.main(MonopolyETSE.java:7)
+]

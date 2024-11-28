@@ -190,6 +190,11 @@ public class Juego {
                     break;
                 tratos.proponerTrato(jugadorActual, jugadores, tablero);
                 break;
+            case("rechazar"):
+                if(!subAccion.equals("trato"))
+                    break;
+                tratos.rechazarTrato(jugadorActual);
+                break;
             //lanzar dados
             case("lanzar"):
                 lanzarDados();
