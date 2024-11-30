@@ -10,8 +10,8 @@ import monopoly.Tablero;
 import partida.Jugador;
 
 public class Tratos {
-    ArrayList<Trato> tratos;
-    int id;
+    private ArrayList<Trato> tratos;
+    private int id;
     
     public Tratos(){
         this.tratos = new ArrayList<>();
@@ -21,8 +21,8 @@ public class Tratos {
     public void proponerTrato(Jugador jugadorOferta, ArrayList<Jugador> jugadores, Tablero tablero) {
         Scanner scanner = new Scanner(System.in);
         Jugador jugadorAcepta;
-        int cantidadOferta;
-        int cantidadAcepta;
+        float cantidadOferta;
+        float cantidadAcepta;
         ArrayList<Propiedad> propiedadesOferta = new ArrayList<>();
         ArrayList<Propiedad> propiedadesAcepta = new ArrayList<>();
 
@@ -44,12 +44,12 @@ public class Tratos {
 
         // Solicitar la cantidad de dinero que ofrece el jugador de oferta
         System.out.print("Ingrese la cantidad que ofreces: ");
-        cantidadOferta = scanner.nextInt();
+        cantidadOferta = scanner.nextFloat();
         scanner.nextLine(); // Limpiar buffer
 
         // Solicitar la cantidad de dinero que espera recibir el jugador de oferta
         System.out.print("Ingrese la cantidad que esperas recibir: ");
-        cantidadAcepta = scanner.nextInt();
+        cantidadAcepta = scanner.nextFloat();
         scanner.nextLine(); // Limpiar buffer
 
         // Solicitar las propiedades ofrecidas por el jugador de oferta
@@ -111,8 +111,48 @@ public class Tratos {
         id++;
     }
     
-    public void aceptarTrato(){
-        //REVISAR QUE A PROPIEDAD INDA PERTENEZCA A OS XOGADORES
+    public void aceptarTrato(Jugador jugador){
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        boolean aceptado = false;
+    
+        // Validar si hay tratos disponibles
+        if (tratos.isEmpty()) {
+            System.out.println("No hay tratos disponibles para rechazar.");
+            return;
+        }
+    
+        do {
+            System.out.print("Introduce el número del trato que quieres aceptar (? para listarlos / x para salir): ");
+            input = scanner.nextLine().trim(); // Leer la entrada como String
+    
+            if (input.equals("?")) {
+                listarTratos(); // Listar los tratos disponibles
+            } else if (input.equalsIgnoreCase("x")) {
+                System.out.println("Saliendo de tratos...");
+                break;
+            } else {
+                int idAcepta = Integer.parseInt(input); // Convertir la entrada a un número
+
+                for (Trato trato : tratos) {
+                    if(trato.getId()==idAcepta){
+                        if(!trato.getJugador_acepta().equals(jugador)){
+                            System.out.println("El jugador " + jugador.getNombre() + " no forma parte del trato " + trato.getId());
+                            break;
+                        }
+                        ejecucionTrato(trato);
+                        aceptado = true;
+                        System.out.println("El trato con ID " + idAcepta + " ha sido aceptado.");
+                        return;
+                    }
+                }
+                
+                // Validar si el idRechazo es válido
+                if (!aceptado) {
+                    System.out.println("El número del trato no es válido. Inténtalo de nuevo.");
+                }
+            }
+        } while (!aceptado);
     }
 
     public void rechazarTrato(Jugador jugador) {
@@ -154,8 +194,8 @@ public class Tratos {
                     System.out.println("El número del trato no es válido. Inténtalo de nuevo.");
                 }
             }
-        } while (rechazado);
-    } 
+        } while (!rechazado);
+    }
 
     public void listarTratos(){
         boolean hayTratos = false;
@@ -165,5 +205,52 @@ public class Tratos {
         }
         if(!hayTratos)
             System.out.println("No hay tratos propuestos");
+    }
+
+    //Aux
+    //////////////////////  IMPORTANTE   //////////////////////
+    /// Facer que te avise cando no trato hai unha hipoteca ///
+    //////////////////////  IMPORTANTE   //////////////////////
+    private boolean ejecucionTrato(Trato trato){
+        for (Propiedad propiedad : trato.getPropiedades_oferta()) {
+            if(!trato.getJugador_oferta().getPropiedades().contains(propiedad)){
+                System.out.println("El jugador " + trato.getJugador_oferta().getNombre() + " no posee la propiedad " + propiedad.getNombre());
+                return false;
+            }
+        }
+
+        for (Propiedad propiedad : trato.getPropiedades_acepta()) {
+            if(!trato.getJugador_acepta().getPropiedades().contains(propiedad)){
+                System.out.println("El jugador " + trato.getJugador_acepta().getNombre() + " no posee la propiedad " + propiedad.getNombre());
+                return false;
+            }
+        }
+
+        if(trato.getJugador_oferta().getFortuna()<trato.getCantidad_oferta()){
+            System.out.println("El jugador " + trato.getJugador_oferta() + " no tiene el dinero suficiente para el trato (" + trato.getCantidad_oferta() +")");
+            return false;
+        }
+
+        if(trato.getJugador_acepta().getFortuna()<trato.getCantidad_acepta()){
+            System.out.println("El jugador " + trato.getJugador_acepta() + " no tiene el dinero suficiente para el trato (" + trato.getCantidad_acepta() +")");
+            return false;
+        }
+
+        // REVISAR SI SE USAN BEN AS ESTADISTICAS //
+        trato.getJugador_acepta().incrementarDineroInvertido(trato.getCantidad_acepta());
+        trato.getJugador_oferta().sumarFortuna(trato.getCantidad_acepta());
+
+        trato.getJugador_oferta().incrementarDineroInvertido(trato.getCantidad_oferta());
+        trato.getJugador_acepta().sumarFortuna(trato.getCantidad_oferta());
+
+        for (Propiedad propiedad : trato.getPropiedades_acepta()) {
+            propiedad.cambiarDuenho(trato.getJugador_oferta());
+        }
+        for (Propiedad propiedad : trato.getPropiedades_oferta()) {
+            propiedad.cambiarDuenho(trato.getJugador_acepta());
+        }
+
+        tratos.remove(trato);
+        return true;
     }
 }

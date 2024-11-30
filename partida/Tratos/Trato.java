@@ -6,16 +6,16 @@ import monopoly.casillas.Propiedades.Propiedad;
 import partida.Jugador;
 
 public class Trato {
-    int id;
-    Jugador jugador_oferta;
-    Jugador jugador_acepta;
-    int cantidad_oferta;
-    int cantidad_acepta;
-    ArrayList<Propiedad> propiedades_oferta;
-    ArrayList<Propiedad> propiedades_acepta;
+    private int id;
+    private Jugador jugador_oferta;
+    private Jugador jugador_acepta;
+    private float cantidad_oferta;
+    private float cantidad_acepta;
+    private ArrayList<Propiedad> propiedades_oferta;
+    private ArrayList<Propiedad> propiedades_acepta;
 
     public Trato(int id, Jugador jugador_oferta, Jugador jugador_acepta, 
-    int cantidad_oferta, int cantidad_acepta,
+    float cantidad_oferta, float cantidad_acepta,
     ArrayList<Propiedad> propiedades_oferta, ArrayList<Propiedad> propiedades_acepta){
         this.id = id;
         this.jugador_oferta = jugador_oferta;
@@ -36,6 +36,22 @@ public class Trato {
 
     public Jugador getJugador_acepta() {
         return jugador_acepta;
+    }
+
+    public float getCantidad_oferta() {
+        return cantidad_oferta;
+    }
+
+    public float getCantidad_acepta() {
+        return cantidad_acepta;
+    }
+    
+    public ArrayList<Propiedad> getPropiedades_oferta() {
+        return propiedades_oferta;
+    }
+    
+    public ArrayList<Propiedad> getPropiedades_acepta() {
+        return propiedades_acepta;
     }
 
     @Override

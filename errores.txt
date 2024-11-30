@@ -12,3 +12,36 @@ Exception in thread "main" java.util.InputMismatchException
         at monopoly.Juego.<init>(Juego.java:97)
         at monopoly.MonopolyETSE.main(MonopolyETSE.java:7)
 ]
+
+[
+Introduzca comando: describir jugador
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 2 out of bounds for length 2
+        at monopoly.Juego.descJugador(Juego.java:290)
+        at monopoly.Juego.analizarComando(Juego.java:224)
+        at monopoly.Juego.iniciarPartida(Juego.java:134)
+        at monopoly.Juego.<init>(Juego.java:97)
+        at monopoly.MonopolyETSE.main(MonopolyETSE.java:7)
+]
+
+[
+        tarjeta 3 de suerte, cobra 500000, quitache cartos?¿?¿?¿?
+]
+
+
+/*
+j1
+coche
+j2
+coche
+fin
+dados
+0
+1
+comprar Solar1
+acabar
+dados
+0
+5
+comprar Estacion1
+
+*/
