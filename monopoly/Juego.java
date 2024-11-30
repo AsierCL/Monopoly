@@ -272,12 +272,10 @@ public class Juego {
         while (turnoActivo) {
             // Mostrar el menú de opciones disponibles
             System.out.println();
-            System.out.println("Para salir 's'.");
+            System.out.println("TURNO INTERMEDIO");
+            System.out.println("Para salir \"continuar\".");
             System.out.print("Seleccione una opción: ");
-            
-            
             String opcion = scanner.nextLine();
-            scanner.nextLine();  // Consumir el salto de línea
 
             String[] palabras = opcion.split(" ");
 
@@ -373,7 +371,8 @@ public class Juego {
                 case("?"):
                     printAyuda();
                     break;
-                case("s"):
+                case("continuar"):
+                turnoActivo = false;
                     break;
                 default:
                     System.out.println("Error, introduzca un comando valido\n");
@@ -392,6 +391,7 @@ public class Juego {
         if(avatarActual.getTipo() == "pelota"){
             while(faltaPorMover != 0){
                 faltaPorMover = avatarActual.moverEnAvanzado2(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
+                System.out.println(tablero);
                 turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
             }
         }
@@ -403,14 +403,12 @@ public class Juego {
                         System.out.println("LLevas " + this.lanzamientos + " dobles");
                         tirado = false;
                         if(this.lanzamientos<3){
-                            System.out.println("Vuelve a tirar");
-                            System.out.print("Introduzca el valor de la tirada del dado 1: ");
-                            resultadoDados[0] = scanDado.nextInt();
-                            System.out.print("Introduzca el valor de la tirada del dado 2: ");
-                            resultadoDados[1] = scanDado.nextInt();
+                            resultadoDados = vuelveATirar(resultadoDados);
                             resultadoTotal = resultadoDados[0] + resultadoDados[1];
                             System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
                             avatarActual.moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);
+                            System.out.println(tablero);
+                            turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
                         }else{
                             System.out.println("VAS A LA CARCEL");
                             avatarActual.getJugador().encarcelar(casillas);
@@ -421,11 +419,29 @@ public class Juego {
                         this.lanzamientos++;
                     }
                 }
-                faltaPorMover = avatarActual.moverEnAvanzado2(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
-                contador += faltaPorMover;
-                turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
+                if (contador < 3){
+                    faltaPorMover = avatarActual.moverEnAvanzado2(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
+                    contador += faltaPorMover;
+                    System.out.println(tablero);
+                    turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
+                    resultadoDados = vuelveATirar(resultadoDados);
+                    resultadoTotal = resultadoDados[0] + resultadoDados[1];
+                    System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
+                }
             }
         }
+    }
+
+    private int[] vuelveATirar(int[] resultadoDados){
+        Scanner scanDado = new Scanner(System.in);
+        System.out.println("Vuelve a tirar");
+        System.out.print("Introduzca el valor de la tirada del dado 1: ");
+        resultadoDados[0] = scanDado.nextInt();
+        System.out.print("Introduzca el valor de la tirada del dado 2: ");
+        resultadoDados[1] = scanDado.nextInt();
+        System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
+
+        return resultadoDados;
     }
 
     /*Método que realiza las acciones asociadas al comando 'describir jugador'.
