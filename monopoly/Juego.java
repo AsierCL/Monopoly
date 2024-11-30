@@ -264,6 +264,170 @@ public class Juego {
         }
     }
 
+    public boolean turnoIntermedio(Avatar avatarActual, Casilla casillaActual, boolean haComprado) {
+        Jugador jugador = avatarActual.getJugador();
+        Scanner scanner = new Scanner(System.in);
+        boolean turnoActivo = true;
+    
+        while (turnoActivo) {
+            // Mostrar el menú de opciones disponibles
+            System.out.println();
+            System.out.println("Para salir 's'.");
+            System.out.print("Seleccione una opción: ");
+            
+            
+            String opcion = scanner.nextLine();
+            scanner.nextLine();  // Consumir el salto de línea
+
+            String[] palabras = opcion.split(" ");
+
+            String accion = palabras[0];  
+            String subAccion = (palabras.length > 1) ? palabras[1] : "";
+            String parametro1 = (palabras.length > 2) ? palabras[2] : "";
+    
+            switch (accion) {
+                case("jugador"):  // Ver jugador con el turno actual
+                    verTurno();
+                    break;
+    
+                //listar jugadores / avatares / enventa
+                case("listar"):
+                    switch(subAccion){
+                        case("jugadores"):
+                            listarJugadores();
+                            break;
+                        case("avatares"):
+                            listarAvatares();
+                            break;
+                        case("enventa"):
+                            listarVenta();
+                            break;
+                        case("edificios"):
+                            if(parametro1.equals("")); //listarEdificios();
+                            else if(Grupo.coloresValidos.contains(parametro1)); //listarEdificiosPorColor(parametro1);
+                            else; System.out.println("Error, color invalido");
+                            break;
+                        default:
+                            System.out.println("Error, introduzca un comando valido");
+                            break;
+                        }
+                        break;
+                //salir carcel
+                case("salir"): //Pagar y salir de la carcel
+                    salirCarcel();
+                    break;
+                case("describir"):
+                    if (subAccion.equals("jugador")) {
+                        // Describir un jugador
+                        descJugador(palabras);
+                    } else if (subAccion.equals("avatar")) {
+                        // Describir un avatar
+                        descAvatar(parametro1);
+                    } else if (!subAccion.isEmpty()) {
+                        // Asumimos que subAccion es el nombre de una casilla
+                        descCasilla(subAccion);  // Interpretamos subAccion como nombre de la casilla
+                    } else {
+                        // Si no se recibe una subacción válida
+                        System.out.println("Error, introduzca un comando válido");
+                    }
+                    break;
+                // hipotecar + Casilla
+                case("hipotecar"):
+                    hipotecar(subAccion);
+                    break;
+                // deshipotecar + Casilla
+                case("deshipotecar"):
+                    deshipotecar(subAccion);
+                    break;
+                case("bancarrota"):
+                    bancarrota(subAccion);
+                    break;
+                //comprar + Mostoles
+                case("comprar"):
+                    comprar(subAccion);
+                    break;
+                case("vender"):
+                    vender(palabras);
+                    break;
+                //ver tablero
+                case("construir"):
+                    if(casillaActual instanceof Solar){
+                        ((Solar)casillaActual).Construir(jugador, subAccion, jugadores);
+                    }else{
+                        System.out.println("No puedes construir aqui");
+                    }
+                    break;
+                case("ver"):
+                    System.out.println(tablero);
+                    break;
+                case("estadisticas"):
+                    if(subAccion.isEmpty()){ //Estadísticas del juego
+                        mostrarEstadisticasJuego();
+                    } else { //Estadísticas del jugador
+                        mostrarEstadisticasJugadorPorNombre(subAccion);
+                    }
+                    break;
+                case("cambiar"):
+                    cambiarModo(jugadores.get(turno).getAvatar());
+                    break;
+                case("?"):
+                    printAyuda();
+                    break;
+                case("s"):
+                    break;
+                default:
+                    System.out.println("Error, introduzca un comando valido\n");
+                    break;
+            }
+        }
+        System.out.println();
+        return haComprado; // Retorna el estado actualizado de haComprado
+    }
+
+    public void gestionMovimientoAvanzado(Avatar avatarActual, int resultadoTotal, int[] resultadoDados, ArrayList<ArrayList<Casilla>> casillas) {
+        Scanner scanDado = new Scanner(System.in);
+        boolean haComprado = false;
+        int contador = 0;
+        int faltaPorMover = resultadoTotal;
+        if(avatarActual.getTipo() == "pelota"){
+            while(faltaPorMover != 0){
+                faltaPorMover = avatarActual.moverEnAvanzado2(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
+                turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
+            }
+        }
+        else if(avatarActual.getTipo() == "coche"){
+            while(faltaPorMover != 0 && contador < 4){
+                // gestionar dobles cuando contador es igual a 3 (solución no optima?)
+                if(contador == 3 && resultadoDados[0]== resultadoDados[1]){ // En la última tirada adicional se gestionan los dados dobles
+                    while(resultadoDados[0]== resultadoDados[1]){
+                        System.out.println("LLevas " + this.lanzamientos + " dobles");
+                        tirado = false;
+                        if(this.lanzamientos<3){
+                            System.out.println("Vuelve a tirar");
+                            System.out.print("Introduzca el valor de la tirada del dado 1: ");
+                            resultadoDados[0] = scanDado.nextInt();
+                            System.out.print("Introduzca el valor de la tirada del dado 2: ");
+                            resultadoDados[1] = scanDado.nextInt();
+                            resultadoTotal = resultadoDados[0] + resultadoDados[1];
+                            System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
+                            avatarActual.moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);
+                        }else{
+                            System.out.println("VAS A LA CARCEL");
+                            avatarActual.getJugador().encarcelar(casillas);
+                            tirado = true;
+                            contador++;
+                            break;
+                        }
+                        this.lanzamientos++;
+                    }
+                }
+                faltaPorMover = avatarActual.moverEnAvanzado2(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
+                contador += faltaPorMover;
+                turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
+            }
+        }
+    }
+
     /*Método que realiza las acciones asociadas al comando 'describir jugador'.
     * Parámetro: comando introducido
      */
@@ -373,9 +537,9 @@ public class Juego {
                 resultadoDados = solicitarTiradaDados(); // Pide que introduzcasd la tirada
             } else {
                 resultadoDados = new int[2];
+                resultadoDados[0] = dado1.hacerTirada();
+                resultadoDados[1] = dado2.hacerTirada();
             }
-            resultadoDados[0] = dado1.hacerTirada();
-            resultadoDados[1] = dado2.hacerTirada();
 
             int resultadoTotal = resultadoDados[0] + resultadoDados[1];
             this.ultimatirada = resultadoTotal;
@@ -434,7 +598,7 @@ public class Juego {
             tirado = false;
     
             if (this.lanzamientos < 3) {
-                manejarMovimientoAvatarPorTipo(avatarActual, resultadoTotal, casillas);
+                manejarMovimientoAvatarPorTipo(avatarActual, resultadoTotal, resultadoDados, casillas);
                 System.out.println("Vuelve a tirar");
             } else {
                 System.out.println("VAS A LA CARCEL");
@@ -442,19 +606,20 @@ public class Juego {
                 tirado = true;
             }
         } else {
-            manejarMovimientoAvatarPorTipo(avatarActual, resultadoTotal, casillas);
+            manejarMovimientoAvatarPorTipo(avatarActual, resultadoTotal, resultadoDados, casillas);
         }
     }
     
     // Método para manejar el movimiento del avatar según su tipo
-    private void manejarMovimientoAvatarPorTipo(Avatar avatarActual, int resultadoTotal, ArrayList<ArrayList<Casilla>> casillas) {
+    private void manejarMovimientoAvatarPorTipo(Avatar avatarActual, int resultadoTotal, int[] resultadoDados, ArrayList<ArrayList<Casilla>> casillas) {
         if (avatarActual.getModo()) { // Si está en modo especial cambia el movimiento
             // Llama al método moverEnAvanzado, definido por cada subclase
-            avatarActual.moverEnAvanzado(casillas, resultadoTotal, banca, tablero, jugadores);
+            // Llamar a mover avanzado desde turno intermedio?
+            gestionMovimientoAvanzado(avatarActual, resultadoTotal, resultadoDados, casillas);
         }
         else {
             // Llama al método moverEnBasico, implementado en la clase base
-            partida = avatarActual.moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);   
+            avatarActual.moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);   
         }
     }
     

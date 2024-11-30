@@ -12,11 +12,11 @@ public class Pelota extends Avatar {
         super("pelota", jugador, lugar, avCreados);
     }
 
-    @Override
+    /*@Override
     public boolean moverEnAvanzado(ArrayList<ArrayList<Casilla>> casillas, int resultadoTotal, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores) {
         // Lógica específica del movimiento avanzado para "Pelota"
         if (resultadoTotal > 4){ // El avatar avanza hasta resultadoTotal parando en las casillas intermedias
-            if(!moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores)){ // Primero avanza 5 casillas (primer impar mayor que 4, parará siempre ahí)
+            if(!moverEnBasico(casillas, 5, banca, tablero, jugadores)){ // Primero avanza 5 casillas (primer impar mayor que 4, parará siempre ahí)
                 return false;
             }    
             //System.out.println(tablero);
@@ -62,5 +62,43 @@ public class Pelota extends Avatar {
                 //System.out.println(tablero);
             }
         }
+    }*/
+
+    @Override
+    public int moverEnAvanzado2(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores){
+        if(resultadoTotal > 4){
+            if(resultadoTotal == faltaPorMover){
+                moverEnBasico(casillas, 5, banca, tablero, jugadores);
+                faltaPorMover -= 5;
+                return faltaPorMover;
+            }
+            else if(faltaPorMover > 1){
+                moverEnBasico(casillas, 2, banca, tablero, jugadores);
+                faltaPorMover -= 2;
+                return faltaPorMover;
+            }
+            else if(faltaPorMover == 1){
+                moverEnBasico(casillas, 1, banca, tablero, jugadores);
+                faltaPorMover -= 1;
+                return faltaPorMover;
+            }
+        } else {
+            if(resultadoTotal == faltaPorMover){
+                moverEnBasico(casillas, -1, banca, tablero, jugadores);
+                faltaPorMover -= 1;
+                return faltaPorMover;
+            }
+            else if(faltaPorMover > 1){
+                moverEnBasico(casillas, -2, banca, tablero, jugadores);
+                faltaPorMover -= 2;
+                return faltaPorMover;
+            }
+            else if(faltaPorMover == 1){
+                moverEnBasico(casillas, -1, banca, tablero, jugadores);
+                faltaPorMover -= 1;
+                return faltaPorMover;
+            }
+        }
+        return faltaPorMover;
     }
 }

@@ -144,15 +144,17 @@ public abstract class Avatar {
     }
 
     // Métodos para movimiento
-    public boolean moverEnBasico(ArrayList<ArrayList<Casilla>> casillas, int valorTirada, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores){
+    public void moverEnBasico(ArrayList<ArrayList<Casilla>> casillas, int valorTirada, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores){
         moverAvatar(casillas, valorTirada); // Comportamiento estándar
         boolean partida;
-        if (!this.getLugar().evaluarCasilla(this.getJugador(), banca, valorTirada, tablero, jugadores)){
+        /*if (!this.getLugar().evaluarCasilla(this.getJugador(), banca, valorTirada, tablero, jugadores)){
             partida = declararBancarrota(this.getLugar().getDuenho(), this.getJugador());
         }  
-        return partida;
+        return partida;*/
     }
 
     // Método abstracto, obliga a las subclases a implementarlo
-    public abstract boolean moverEnAvanzado(ArrayList<ArrayList<Casilla>> casillas, int valorTirada, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores);
+    //public abstract boolean moverEnAvanzado(ArrayList<ArrayList<Casilla>> casillas, int valorTirada, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores);
+
+    public abstract int moverEnAvanzado2(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores);
 }

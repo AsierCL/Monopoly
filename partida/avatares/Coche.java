@@ -13,7 +13,7 @@ public class Coche extends Avatar {
         super("coche", jugador, lugar, avCreados);
     }
 
-    @Override
+    /*@Override
     public boolean moverEnAvanzado(ArrayList<ArrayList<Casilla>> casillas, int resultadoTotal, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores) {
         // Lógica específica del movimiento avanzado para "Coche"
         Scanner scanDado = new Scanner(System.in);
@@ -80,6 +80,22 @@ public class Coche extends Avatar {
                     }
                 }
             }
+        }
+    }*/
+
+    @Override
+    public int moverEnAvanzado2(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores){
+        Jugador jugador = this.getJugador();
+        if(resultadoTotal <= 4){
+            System.out.println("Has sacado menos de 4, no podrás tirar en los próximos dos turnos");
+            jugador.setTurnosBloqueado(2); // Bloqueamos los próximos dos turnos
+            moverEnBasico(casillas, -resultadoTotal, banca, tablero, jugadores);
+            faltaPorMover = 0; //Al sacar menos de 4 no se vuelve a tirar
+            return faltaPorMover;
+        } else {
+            moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);
+            faltaPorMover = 1; //Mientras saque más de cuatro queda una tirada
+            return faltaPorMover;
         }
     }
 }
