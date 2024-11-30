@@ -291,6 +291,11 @@ public class Juego {
     * Parámetro: comando introducido
      */
     private void descJugador(String[] partes) {
+        // Verificar si el array partes es nulo o tiene menos elementos de los necesarios
+        if (partes == null || partes.length <= 2) {
+            System.out.println("Error: Parámetros insuficientes o nulos.");
+            return;
+        }
         
         // Supoñendo que o nombre do jugador está en partes[1].
         String nombreJugador = partes[2]; 
