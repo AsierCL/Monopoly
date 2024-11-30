@@ -89,6 +89,7 @@ public class Juego {
         this.jugadores = new ArrayList<>();
         banca = new Jugador();
         tablero = new Tablero(banca);
+        banca.InicializarBanca(tablero);
         this.tratos = new Tratos();
         
         clearScreen();

@@ -8,10 +8,6 @@ import monopoly.casillas.Propiedades.Solar;
 import monopoly.casillas.Propiedades.*;
 import partida.avatares.*;
 import partida.avatares.Coche;
-import partida.avatares.Coche;
-import partida.avatares.Esfinge;
-import partida.avatares.Pelota;
-import partida.avatares.Sombrero;
 
 
 public class Jugador {
@@ -338,6 +334,12 @@ public class Jugador {
             System.out.println("Avatar: " + avatar.getId());
         } else {
             System.out.println("El jugador no tiene un avatar asignado.");
+        }
+    }
+
+    public void InicializarBanca(Tablero tablero){
+        for (int index = 0; index < 40; index++) {
+            this.anhadirPropiedad(tablero.obtenerCasilla(index));
         }
     }
 
