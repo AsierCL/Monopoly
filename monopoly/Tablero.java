@@ -51,8 +51,8 @@ public class Tablero {
         ArrayList<Casilla> ladoEste = insertarLadoEste(); // Retorna el lado este
         posiciones.add(ladoEste);
 
-        Grupo Servicios = new Grupo((Propiedad)obtenerCasilla(12),(Propiedad)obtenerCasilla(28), "Servicios");
-        Grupo Estaciones = new Grupo((Propiedad)obtenerCasilla(5),(Propiedad)obtenerCasilla(15),(Propiedad)obtenerCasilla(25), (Propiedad)obtenerCasilla(35), "Servicios");
+        Grupo Servicios = new Grupo((Propiedad)obtenerCasilla(12),(Propiedad)obtenerCasilla(28), Valor.RESET);
+        Grupo Estaciones = new Grupo((Propiedad)obtenerCasilla(5),(Propiedad)obtenerCasilla(15),(Propiedad)obtenerCasilla(25), (Propiedad)obtenerCasilla(35), Valor.BLACK);
         this.grupos.put(Valor.RESET, Servicios);
         this.grupos.put(Valor.BLACK, Estaciones);
     }
