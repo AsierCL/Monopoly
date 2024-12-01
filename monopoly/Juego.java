@@ -391,8 +391,11 @@ public class Juego {
         if(avatarActual.getTipo() == "pelota"){
             while(faltaPorMover != 0){
                 faltaPorMover = avatarActual.moverEnAvanzado2(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
+                if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
+                    partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
+                } 
                 System.out.println(tablero);
-                turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
+                turnoIntermedio(avatarActual, avatarActual.getLugar(), false);
             }
         }
         else if(avatarActual.getTipo() == "coche"){
@@ -407,8 +410,11 @@ public class Juego {
                             resultadoTotal = resultadoDados[0] + resultadoDados[1];
                             System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
                             avatarActual.moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);
+                            if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
+                                partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
+                            }
                             System.out.println(tablero);
-                            turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
+                            haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
                         }else{
                             System.out.println("VAS A LA CARCEL");
                             avatarActual.getJugador().encarcelar(casillas);
@@ -421,9 +427,12 @@ public class Juego {
                 }
                 if (contador < 3){
                     faltaPorMover = avatarActual.moverEnAvanzado2(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
+                    if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
+                        partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
+                    }
                     contador += faltaPorMover;
                     System.out.println(tablero);
-                    turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
+                    haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
                     resultadoDados = vuelveATirar(resultadoDados);
                     resultadoTotal = resultadoDados[0] + resultadoDados[1];
                     System.out.println("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
@@ -635,7 +644,10 @@ public class Juego {
         }
         else {
             // Llama al método moverEnBasico, implementado en la clase base
-            avatarActual.moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);   
+            avatarActual.moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores); 
+            if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
+                partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
+            }  
         }
     }
     
