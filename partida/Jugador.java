@@ -74,7 +74,7 @@ public class Jugador {
                     this.avatar = new Esfinge(this, inicio, avCreados);
                     break;
                 case "pelota":
-                    this.avatar = new Esfinge(this, inicio, avCreados);
+                    this.avatar = new Pelota(this, inicio, avCreados);
                     break;
                 case "sombrero":
                     this.avatar = new Sombrero(this, inicio, avCreados);
