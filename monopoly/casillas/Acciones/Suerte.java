@@ -22,7 +22,7 @@ public class Suerte extends Acciones {
         StringBuilder info = new StringBuilder();
         info.append("Nombre: ").append(this.getNombre()).append("\n");
         info.append("Posici\u00f3n: ").append(this.getPosicion()).append("\n");
-        info.append("Tipo: ").append(this.getClass()).append("\n");
+        info.append("Tipo: ").append(this.getClass().getName()).append("\n");
 
         return info.toString();
     }

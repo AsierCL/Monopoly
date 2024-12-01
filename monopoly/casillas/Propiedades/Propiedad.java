@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import monopoly.Grupo;
 import monopoly.Tablero;
+import monopoly.exceptions.DuenhoCasilla;
 import partida.Jugador;
 
 public abstract class Propiedad extends monopoly.casillas.Casilla {
@@ -46,7 +47,6 @@ public abstract class Propiedad extends monopoly.casillas.Casilla {
     public void hipotecarCasilla(Jugador solicitante) { //SOBREESCRIBIR EN SOLAR PARA CHECKEAR SI ESTÁ CONSTRUIDA
         if (this.getDuenho().equals(solicitante)) {
             if (this.hipotecada == true) {
-                System.out.println("La casilla ya está hipotecada");
             } else {
                 solicitante.setFortuna(solicitante.getFortuna() + this.getValor());
                 this.hipotecada = true;
