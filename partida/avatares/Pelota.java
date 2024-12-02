@@ -65,7 +65,7 @@ public class Pelota extends Avatar {
     }*/
 
     @Override
-    public int moverEnAvanzado2(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores){
+    public int moverEnAvanzado(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores){
         if(resultadoTotal > 4){
             if(resultadoTotal == faltaPorMover){
                 moverEnBasico(casillas, 5, banca, tablero, jugadores);

@@ -9,8 +9,9 @@ import monopoly.casillas.Propiedades.*;
 import partida.*;
 import partida.Tratos.Tratos;
 import partida.avatares.Avatar;
+import monopoly.interfaces.Comando;
 
-public class Juego {
+public class Juego implements Comando {
 
     //Atributos
     private ArrayList<Jugador> jugadores; //Jugadores de la partida.
@@ -413,7 +414,7 @@ public class Juego {
         int faltaPorMover = resultadoTotal;
         if(avatarActual.getTipo() == "pelota"){
             while(faltaPorMover != 0){
-                faltaPorMover = avatarActual.moverEnAvanzado2(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
+                faltaPorMover = avatarActual.moverEnAvanzado(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
                 if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
                     partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
                 } 
@@ -449,7 +450,7 @@ public class Juego {
                     }
                 }
                 if (contador < 3){
-                    faltaPorMover = avatarActual.moverEnAvanzado2(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
+                    faltaPorMover = avatarActual.moverEnAvanzado(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
                     if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
                         partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
                     }
@@ -479,7 +480,7 @@ public class Juego {
     /*Método que realiza las acciones asociadas al comando 'describir jugador'.
     * Parámetro: comando introducido
      */
-    private void descJugador(String[] partes) {
+    public void descJugador(String[] partes) {
         // Verificar si el array partes es nulo o tiene menos elementos de los necesarios
         if (partes == null || partes.length <= 2) {
             System.out.println("Error: Parámetros insuficientes o nulos.");
@@ -546,7 +547,7 @@ public class Juego {
     /*Método que realiza las acciones asociadas al comando 'describir avatar'.
     * Parámetro: id del avatar a describir.
     */
-    private void descAvatar(String ID) {
+    public void descAvatar(String ID) {
         Avatar avatarBuscado = null;
         // Iterar sobre os avatares para encontrar o que coincide co ID.
         for (Avatar avatar : avatares) {
@@ -571,7 +572,7 @@ public class Juego {
     /* Método que realiza las acciones asociadas al comando 'describir nombre_casilla'.
     * Parámetros: nombre de la casilla a describir.
     */
-    private void descCasilla(String nombre) {
+    public void descCasilla(String nombre) {
         Casilla casilla = tablero.obtenerCasilla(nombre);
         if (casilla != null) {
             System.out.println(casilla.infoCasilla());
@@ -698,7 +699,7 @@ public class Juego {
     /*Método que ejecuta todas las acciones realizadas con el comando 'comprar nombre_casilla'.
     * Parámetro: cadena de caracteres con el nombre de la casilla.
      */
-    private void comprar(String nombre) {
+    public void comprar(String nombre) {
         Jugador jugador_actual = jugadores.get(turno);
         Casilla casilla_compra = tablero.obtenerCasilla(nombre);
         
@@ -707,7 +708,7 @@ public class Juego {
         }
     }
 
-    private void hipotecar(String nombre) {
+    public void hipotecar(String nombre) {
         Casilla casilla_hipotecada = tablero.obtenerCasilla(nombre);
         Jugador jugador_actual = jugadores.get(turno);
         
@@ -716,7 +717,7 @@ public class Juego {
         }
     }
 
-    private void deshipotecar(String nombre) {
+    public void deshipotecar(String nombre) {
         Casilla casilla_deshipotecada = tablero.obtenerCasilla(nombre);
         Jugador jugador_actual = jugadores.get(turno);
         
@@ -729,7 +730,7 @@ public class Juego {
         return this.ultimatirada;
     }
 
-    private void bancarrota(String nombre) {
+    public void bancarrota(String nombre) {
         if (!jugadores.contains(buscarJugadorPorNombre(nombre))) {
             System.out.println("No existe un jugador con ese nombre.");
             return;
@@ -748,7 +749,7 @@ public class Juego {
     
     
     //Método que ejecuta todas las acciones relacionadas con el comando 'salir carcel'. 
-    private void salirCarcel() {
+    public void salirCarcel() {
         Jugador jugador = jugadores.get(turno);
         if(jugador.getEnCarcel()){
             jugador.setEnCarcel(false);
@@ -759,7 +760,7 @@ public class Juego {
         }
     }
 
-    private void vender(String[] partes){
+    public void vender(String[] partes){
         if (partes.length < 4){
             System.out.println("No has pasado todos los parámetros");
             return;
@@ -812,7 +813,7 @@ public class Juego {
 
 
     // Método que realiza las acciones asociadas al comando 'listar enventa'.
-    private void listarVenta() {
+    public void listarVenta() {
         for(int i = 0; i<40; i++){
             Casilla casilla = this.tablero.obtenerCasilla(i);
             if((casilla instanceof Propiedad) && (casilla.getDuenho().equals(banca))){
@@ -821,7 +822,7 @@ public class Juego {
         }
     }
 
-    private void listarEdificios() {
+    public void listarEdificios() {
         boolean ningunEdificio = true;
         for(int i = 0; i<40; i++){
             Casilla casilla = this.tablero.obtenerCasilla(i);
@@ -837,7 +838,7 @@ public class Juego {
         }
     }
     
-    private void listarEdificiosPorColor(String color) {
+    public void listarEdificiosPorColor(String color) {
         Grupo grupo = tablero.getGrupos().get(color); //For Loop para facelo case insensitive
         if(grupo==null){
             System.out.println("Grupo de color inválido");
@@ -847,21 +848,23 @@ public class Juego {
     }
 
     // Método que realiza las acciones asociadas al comando 'listar jugadores'.
-    private void listarJugadores() {
+    @Override
+    public void listarJugadores() {
         for(int i = 0; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
             System.out.println(jugadores.get(i).getNombre());
         }
     }
 
     // Método que realiza las acciones asociadas al comando 'listar avatares'.
-    private void listarAvatares() {
+    public void listarAvatares() {
         for(int i = 0; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
             System.out.println(jugadores.get(i).getAvatar().getId());
         }
     }
 
     // Método que muestra el nombre y el avatar del jugador que tiene el turno
-    private void verTurno() {
+    @Override
+    public void verTurno() {
         if(!jugadores.isEmpty()){
             System.out.println("El turno es de:");
             System.out.println("\n{");
@@ -872,7 +875,7 @@ public class Juego {
     }
 
     // Método que realiza las acciones asociadas al comando 'acabar turno'.
-    private void acabarTurno() {
+    public void acabarTurno() {
         if(tirado){
             this.turno = (this.turno+1)%(jugadores.size());
             this.tirado = false;
@@ -882,7 +885,7 @@ public class Juego {
         }
     }
 
-    private void cambiarModo(Avatar avatar){
+    public void cambiarModo(Avatar avatar){
         if (avatar != null) {
             avatar.setModo(!avatar.getModo());
             System.out.println("Modo cambiado. El avatar ahora está en modo " + (avatar.getModo() ? "avanzado" : "normal") + ".");
@@ -892,7 +895,7 @@ public class Juego {
     }
 
    // Nuevo método para buscar un jugador por nombre y mostrar sus estadísticas
-    private void mostrarEstadisticasJugadorPorNombre(String nombreJugador) {
+   public void mostrarEstadisticasJugadorPorNombre(String nombreJugador) {
         for (Jugador jugador : jugadores) {
             if (jugador.getNombre().equalsIgnoreCase(nombreJugador)) {
                 jugador.mostrarEstadisticasJugador(jugador);
