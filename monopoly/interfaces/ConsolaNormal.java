@@ -13,6 +13,7 @@ public class ConsolaNormal implements Consola {
 
     @Override
     public void print(String mensaje) {
+        if(mensaje!=null)
         System.out.println(mensaje);
     }
 
@@ -23,7 +24,12 @@ public class ConsolaNormal implements Consola {
 
     @Override
     public String read(String descripcion) {
-        print(descripcion); // Muestra el mensaje antes de leer
+        System.out.print(descripcion); // Muestra el mensaje antes de leer
+        return scanner.nextLine(); // Lee el input del usuario
+    }
+
+    @Override
+    public String read() {
         return scanner.nextLine(); // Lee el input del usuario
     }
 }
