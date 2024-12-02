@@ -156,5 +156,5 @@ public abstract class Avatar {
     // Método abstracto, obliga a las subclases a implementarlo
     //public abstract boolean moverEnAvanzado(ArrayList<ArrayList<Casilla>> casillas, int valorTirada, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores);
 
-    public abstract int moverEnAvanzado2(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores);
+    public abstract int moverEnAvanzado(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores);
 }

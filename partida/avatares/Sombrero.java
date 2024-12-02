@@ -1,5 +1,6 @@
 package partida.avatares;
 
+import monopoly.Tablero;
 import monopoly.casillas.Casilla;
 import partida.Jugador;
 
@@ -12,7 +13,9 @@ public class Sombrero extends Avatar {
     }
 
     @Override
-    public void moverEnAvanzado(ArrayList<ArrayList<Casilla>> casillas, int valorTirada) {
+    public int moverEnAvanzado(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores) {
         // Lógica específica para Sombrero
+        System.out.println("El movimiento avanzado del sombrero no ha sido implementado");
+        return 0;
     }
 }

@@ -84,7 +84,7 @@ public class Coche extends Avatar {
     }*/
 
     @Override
-    public int moverEnAvanzado2(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores){
+    public int moverEnAvanzado(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores){
         Jugador jugador = this.getJugador();
         if(resultadoTotal <= 4){
             if(faltaPorMover == resultadoTotal){

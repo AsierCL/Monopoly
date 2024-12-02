@@ -5,44 +5,45 @@ import partida.avatares.Avatar;
 public interface Comando {
 
     // Métodos abstractos de comandos
-    void verTurno();
+    public void verTurno();
 
-    void listarJugadores();
+    public void listarJugadores();
 
-    void listarAvatares();
+    public void listarAvatares();
 
-    void listarVenta();
+    public void listarVenta();
 
-    void listarEdificios();
+    public void listarEdificios();
 
-    void listarEdificiosPorColor(String color);
+    public void listarEdificiosPorColor(String color);
 
-    void realizarLanzamiento();
+    public void lanzarDados(boolean trucados);
 
-    void realizarLanzamientoTrucado();
+    public void acabarTurno();
 
-    void acabarTurno();
+    public void salirCarcel();
 
-    void salirCarcel();
+    public void descJugador(String[] partes);
 
-    void descJugador(String[] partes);
+    public void descAvatar(String ID);
 
-    void descAvatar(String ID);
+    public void descCasilla(String nombre);
 
-    void descCasilla(String nombre);
+    public void hipotecar(String nombre);
 
-    void hipotecar(String nombre);
+    public void deshipotecar(String nombre);
 
-    void deshipotecar(String nombre);
+    public void bancarrota(String nombre);
 
-    void bancarrota(String nombre);
+    public void comprar(String nombre);
 
-    void comprar(String nombre);
+    public void vender(String[] partes);
 
-    void vender(String[] partes);
+    public void mostrarEstadisticasJuego();
 
-    void cambiarModo(Avatar avatar);
+    public void mostrarEstadisticasJugadorPorNombre(String nombreJugador);
 
-    void printAyuda();
+    public void cambiarModo(Avatar avatar);
+
+    public void printAyuda();
 }
-
