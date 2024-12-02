@@ -20,8 +20,8 @@ public class Juego implements Comando {
     private int turno = 0; //Índice correspondiente a la posición en el arrayList del jugador (y el avatar) que tienen el turno
     private int lanzamientos; //Variable para contar el número de lanzamientos de un jugador en un turno.
     private Tablero tablero; //Tablero en el que se juega.
-    //private Dado dado1; //Dos dados para lanzar y avanzar casillas.
-    //private Dado dado2;
+    private Dado dado1; //Dos dados para lanzar y avanzar casillas.
+    private Dado dado2;
     private Jugador banca; //El jugador banca.
     private boolean tirado; //Booleano para comprobar si el jugador que tiene el turno ha tirado o no.
     private boolean solvente; //Booleano para comprobar si el jugador que tiene el turno es solvente, es decir, si ha pagado sus deudas.
@@ -95,6 +95,8 @@ public class Juego implements Comando {
         tablero = new Tablero(banca);
         banca.InicializarBanca(tablero);
         this.tratos = new Tratos();
+        dado1 = new Dado();
+        dado2 = new Dado();
 
         clearScreen();
         printBanner();
@@ -384,6 +386,11 @@ public class Juego implements Comando {
                 case("cambiar"):
                     cambiarModo(jugadores.get(turno).getAvatar());
                     break;
+                case("crear"):
+                    if(!subAccion.equals("trato"))
+                        break;
+                    tratos.proponerTrato(jugador, jugadores, tablero);
+                    break;
                 case("?"):
                     printAyuda();
                     break;
@@ -402,7 +409,7 @@ public class Juego implements Comando {
         boolean haComprado = false;
         int contador = 0;
         int faltaPorMover = resultadoTotal;
-        if(avatarActual.getTipo() == "pelota"){
+        if(avatarActual.getTipo().equalsIgnoreCase("pelota")){
             while(faltaPorMover != 0){
                 faltaPorMover = avatarActual.moverEnAvanzado(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
                 if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
@@ -412,7 +419,7 @@ public class Juego implements Comando {
                 turnoIntermedio(avatarActual, avatarActual.getLugar(), false);
             }
         }
-        else if(avatarActual.getTipo() == "coche"){
+        else if(avatarActual.getTipo().equalsIgnoreCase("coche")){
             while(faltaPorMover != 0 && contador < 4){
                 // gestionar dobles cuando contador es igual a 3 (solución no optima?)
                 if(contador == 3 && resultadoDados[0]== resultadoDados[1]){ // En la última tirada adicional se gestionan los dados dobles
@@ -582,11 +589,6 @@ public class Juego implements Comando {
                 tirado = true;
                 return; // No se permite tirar los dados
             }
-
-            ////////////REVISAR////////////
-            Dado dado1 = new Dado();
-            Dado dado2 = new Dado();
-            ////////////REVISAR////////////
 
             int[] resultadoDados;
             if(trucados){
@@ -834,14 +836,14 @@ public class Juego implements Comando {
     // Método que realiza las acciones asociadas al comando 'listar jugadores'.
     @Override
     public void listarJugadores() {
-        for(int i = 0; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
+        for(int i = 0; i<jugadores.size();i++){
             consola.print(jugadores.get(i).getNombre());
         }
     }
 
     // Método que realiza las acciones asociadas al comando 'listar avatares'.
     public void listarAvatares() {
-        for(int i = 0; i<jugadores.size();i++){ //Empeza array en 1 para evitar listar banca
+        for(int i = 0; i<jugadores.size();i++){
             consola.print(jugadores.get(i).getAvatar().getId());
         }
     }
