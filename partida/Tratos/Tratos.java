@@ -1,7 +1,6 @@
 package partida.Tratos;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import monopoly.casillas.Casilla;
 import monopoly.casillas.Propiedades.Propiedad;
@@ -19,7 +18,6 @@ public class Tratos {
     }
 
     public void proponerTrato(Jugador jugadorOferta, ArrayList<Jugador> jugadores, Tablero tablero) {
-        Scanner scanner = new Scanner(System.in);
         Jugador jugadorAcepta;
         float cantidadOferta;
         float cantidadAcepta;
@@ -29,8 +27,7 @@ public class Tratos {
         Juego.consola.print("Proponiendo un nuevo trato...");
 
         // Solicitar el jugador que recibe la oferta
-        System.out.print("Ingrese el nombre del jugador que recibe la oferta: ");
-        String nombreJugadorAcepta = scanner.nextLine();
+        String nombreJugadorAcepta = Juego.consola.read("Ingrese el nombre del jugador que recibe la oferta: ");
         jugadorAcepta = Juego.buscarJugadorPorNombre(nombreJugadorAcepta, jugadores);
 
         if (jugadorAcepta == null) {
@@ -43,19 +40,15 @@ public class Tratos {
         }
 
         // Solicitar la cantidad de dinero que ofrece el jugador de oferta
-        System.out.print("Ingrese la cantidad que ofreces: ");
-        cantidadOferta = scanner.nextFloat();
-        scanner.nextLine(); // Limpiar buffer
+        cantidadOferta = Float.parseFloat(Juego.consola.read("Ingrese la cantidad que ofreces: "));
 
         // Solicitar la cantidad de dinero que espera recibir el jugador de oferta
-        System.out.print("Ingrese la cantidad que esperas recibir: ");
-        cantidadAcepta = scanner.nextFloat();
-        scanner.nextLine(); // Limpiar buffer
+        cantidadAcepta = Float.parseFloat(Juego.consola.read("Ingrese la cantidad que esperas recibir: "));
 
         // Solicitar las propiedades ofrecidas por el jugador de oferta
         Juego.consola.print("Ingrese los nombres de las propiedades que ofreces, para terminar escribe \"fin\": ");
         while(true) {
-            String propiedadesOfertaInput = scanner.nextLine();
+            String propiedadesOfertaInput = Juego.consola.read();
             if(propiedadesOfertaInput.equals("fin"))
                 break;
             
@@ -79,7 +72,7 @@ public class Tratos {
         // Solicitar las propiedades esperadas del jugador que acepta
         Juego.consola.print("Ingrese los nombres de las propiedades que el jugador espera recibir (separadas por comas): ");
         while(true) {
-            String propiedadesAceptaInput = scanner.nextLine();
+            String propiedadesAceptaInput = Juego.consola.read();
             if(propiedadesAceptaInput.equals("fin"))
                 break;
             
@@ -112,7 +105,6 @@ public class Tratos {
     }
     
     public void aceptarTrato(Jugador jugador){
-        Scanner scanner = new Scanner(System.in);
         String input;
         boolean aceptado = false;
     
@@ -123,8 +115,7 @@ public class Tratos {
         }
     
         do {
-            System.out.print("Introduce el número del trato que quieres aceptar (? para listarlos / x para salir): ");
-            input = scanner.nextLine().trim(); // Leer la entrada como String
+            input = Juego.consola.read("Introduce el número del trato que quieres aceptar (? para listarlos / x para salir): "); // Leer la entrada como String
     
             if (input.equals("?")) {
                 listarTratos(); // Listar los tratos disponibles
@@ -156,7 +147,6 @@ public class Tratos {
     }
 
     public void rechazarTrato(Jugador jugador) {
-        Scanner scanner = new Scanner(System.in);
         String input;
         boolean rechazado = false;
     
@@ -167,8 +157,7 @@ public class Tratos {
         }
     
         do {
-            System.out.print("Introduce el número del trato que quieres rechazar (? para listarlos / x para salir): ");
-            input = scanner.nextLine().trim(); // Leer la entrada como String
+            input = Juego.consola.read("Introduce el número del trato que quieres rechazar (? para listarlos / x para salir): "); // Leer la entrada como String
     
             if (input.equals("?")) {
                 listarTratos(); // Listar los tratos disponibles
