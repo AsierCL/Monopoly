@@ -730,17 +730,10 @@ public class Juego implements Comando {
         tirado = true;
         lanzamientos = 0;
     }
-<<<<<<< HEAD
-
-
-    //Método que ejecuta todas las acciones relacionadas con el comando 'salir carcel'.
-    private void salirCarcel() {
-=======
     
     
     //Método que ejecuta todas las acciones relacionadas con el comando 'salir carcel'. 
     public void salirCarcel() {
->>>>>>> f9aaae9869df1098bb85e611275845dec2a72f3c
         Jugador jugador = jugadores.get(turno);
         if(jugador.getEnCarcel()){
             jugador.setEnCarcel(false);
@@ -828,13 +821,8 @@ public class Juego implements Comando {
             consola.print("No hai ningun edificio construido");
         }
     }
-<<<<<<< HEAD
-
-    private void listarEdificiosPorColor(String color) {
-=======
     
     public void listarEdificiosPorColor(String color) {
->>>>>>> f9aaae9869df1098bb85e611275845dec2a72f3c
         Grupo grupo = tablero.getGrupos().get(color); //For Loop para facelo case insensitive
         if(grupo==null){
             consola.print("Grupo de color inválido");
