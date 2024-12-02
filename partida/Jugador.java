@@ -80,11 +80,11 @@ public class Jugador {
                     this.avatar = new Sombrero(this, inicio, avCreados);
                     break;
                 default:
-                    System.out.println("DEBUGGGG, error creando avatar");
+                    Juego.consola.print("DEBUGGGG, error creando avatar");
                     break;
             }
         }else{
-            System.out.println("\nTipo de avatar incorrecto\n");
+            Juego.consola.print("\nTipo de avatar incorrecto\n");
         }
         this.fortuna = Valor.FORTUNA_INICIAL;
 
@@ -237,16 +237,16 @@ public class Jugador {
 
     // Método para mostrar estadísticas
     public void mostrarEstadisticasJugador(Jugador jugador) {
-        System.out.println("Estadísticas de " + jugador.nombre + ":");
-        System.out.println("{");
-        System.out.println("  dineroInvertido: " + jugador.dineroInvertido + ",");
-        System.out.println("  pagoTasasEImpuestos: " + jugador.pagoTasasEImpuestos + ",");
-        System.out.println("  pagoDeAlquileres: " + jugador.pagoDeAlquileres + ",");
-        System.out.println("  cobroDeAlquileres: " + jugador.cobroDeAlquileres + ",");
-        System.out.println("  pasarPorCasillaDeSalida: " + jugador.pasarPorCasillaDeSalida + ",");
-        System.out.println("  premiosInversionesOBote: " + jugador.premiosInversionesOBote + ",");
-        System.out.println("  vecesEnLaCarcel: " + jugador.vecesEnLaCarcel);
-        System.out.println("}");
+        Juego.consola.print("Estadísticas de " + jugador.nombre + ":");
+        Juego.consola.print("{");
+        Juego.consola.print("  dineroInvertido: " + jugador.dineroInvertido + ",");
+        Juego.consola.print("  pagoTasasEImpuestos: " + jugador.pagoTasasEImpuestos + ",");
+        Juego.consola.print("  pagoDeAlquileres: " + jugador.pagoDeAlquileres + ",");
+        Juego.consola.print("  cobroDeAlquileres: " + jugador.cobroDeAlquileres + ",");
+        Juego.consola.print("  pasarPorCasillaDeSalida: " + jugador.pasarPorCasillaDeSalida + ",");
+        Juego.consola.print("  premiosInversionesOBote: " + jugador.premiosInversionesOBote + ",");
+        Juego.consola.print("  vecesEnLaCarcel: " + jugador.vecesEnLaCarcel);
+        Juego.consola.print("}");
     }
 
     public void incrementarVueltas(){
@@ -295,7 +295,7 @@ public class Jugador {
             this.incrementarVueltas();
             this.incrementarPasarPorCasillaDeSalida(vuelta);
 
-            System.out.println(this.getNombre() + " ha pasado por la casilla de Salida y cobra " + vuelta + "€.");
+            Juego.consola.print(this.getNombre() + " ha pasado por la casilla de Salida y cobra " + vuelta + "€.");
         }
 
     }
@@ -309,31 +309,31 @@ public class Jugador {
             this.decrementarVueltas();
             this.incrementarPasarPorCasillaDeSalida(-vuelta);
 
-            System.out.println(this.getNombre() + " ha retrocedido por la casilla de Salida y paga " + vuelta + "€.");
+            Juego.consola.print(this.getNombre() + " ha retrocedido por la casilla de Salida y paga " + vuelta + "€.");
         }
 
     }
 
     public void DescribirJugador() {
-        System.out.println("Nombre del Jugador: " + nombre);
-        System.out.println("Fortuna: " + fortuna + "€" );
+        Juego.consola.print("Nombre del Jugador: " + nombre);
+        Juego.consola.print("Fortuna: " + fortuna + "€" );
         
         if (!propiedades.isEmpty()) {
-            System.out.println("Propiedades: ");
+            Juego.consola.print("Propiedades: ");
             for (Casilla propiedad : propiedades) {
-                System.out.println(" - " + propiedad.getNombre());
+                Juego.consola.print(" - " + propiedad.getNombre());
                 if(propiedad instanceof Solar){
-                    System.out.println("\t" + ((Solar)propiedad).listarEdificios());
+                    Juego.consola.print("\t" + ((Solar)propiedad).listarEdificios());
                 }
             }
         } else {
-            System.out.println("El jugador no tiene propiedades.");
+            Juego.consola.print("El jugador no tiene propiedades.");
         }
 
         if (avatar != null) {
-            System.out.println("Avatar: " + avatar.getId());
+            Juego.consola.print("Avatar: " + avatar.getId());
         } else {
-            System.out.println("El jugador no tiene un avatar asignado.");
+            Juego.consola.print("El jugador no tiene un avatar asignado.");
         }
     }
 

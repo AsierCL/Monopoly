@@ -19,7 +19,7 @@ public class Pelota extends Avatar {
             if(!moverEnBasico(casillas, 5, banca, tablero, jugadores)){ // Primero avanza 5 casillas (primer impar mayor que 4, parará siempre ahí)
                 return false;
             }    
-            //System.out.println(tablero);
+            //Juego.consola.print(tablero);
             turnoIntermedio(this, this.getLugar(), false); //turno intermedio en la misma tirada para dar la opción de comprar
             if (this.getJugador().getEnCarcel()) return true;
     
@@ -28,7 +28,7 @@ public class Pelota extends Avatar {
                     return false;
                 }
                 if (i!= resultadoTotal) {
-                    //System.out.println(tablero); 
+                    //Juego.consola.print(tablero); 
                     turnoIntermedio(this, this.getLugar(), false); // Turno intermedio para poder comprar en cada una de las tiradas
                     if (this.getJugador().getEnCarcel()) return true;
                 }
@@ -37,20 +37,20 @@ public class Pelota extends Avatar {
                 if(!moverEnBasico(casillas, 1, banca, tablero, jugadores)){
                     return false;
                 }
-                //System.out.println(tablero);
+                //Juego.consola.print(tablero);
             }
         } else { // Si el resultadoTotal es menor que 4
             if(!moverEnBasico(casillas, -1, banca, tablero, jugadores)){ // retroceder una casilla para empezar en 3
                 return false;
             }
-            //System.out.println(tablero);
+            //Juego.consola.print(tablero);
             turnoIntermedio(this, this.getLugar(), false); // Turno intermedio para poder comprar entre tiradas
             if (this.getJugador().getEnCarcel()) return true;
             
             for (int i=3; i <= resultadoTotal; i+=2){ // Ir retrocediendo de dos en dos a partir de ahí
                 moverEnBasico(casillas, -2, banca, tablero, jugadores);
                 if (i!= resultadoTotal) {
-                    //System.out.println(tablero); 
+                    //Juego.consola.print(tablero); 
                     turnoIntermedio(this, this.getLugar(), false); // Turno intermedio para poder comprar entre tiradas
                     if (this.getJugador().getEnCarcel()) return true;
                 }
@@ -59,7 +59,7 @@ public class Pelota extends Avatar {
                 if(!moverEnBasico(casillas, -1, banca, tablero, jugadores)){
                     return false;
                 }
-                //System.out.println(tablero);
+                //Juego.consola.print(tablero);
             }
         }
     }*/

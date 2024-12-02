@@ -23,13 +23,13 @@ public class CartaCajaComunidad extends Carta {
         switch (accion) {
             case 1:
                 jugador.incrementarPagoTasasEImpuestos(500000);
-                System.out.println("\nPagas 500000€ por un fin de semana en un balneario.");
+                Juego.consola.print("\nPagas 500000€ por un fin de semana en un balneario.");
                 break;
 
             case 2:
                 jugador.encarcelar(tablero.getPosiciones());
-                System.out.println("\nTe investigan por fraude de identidad. Vas a la Cárcel.");
-                System.out.println("Ve directamente sin pasar por la casilla de Salida y sin cobrar la cantidad habitual.");
+                Juego.consola.print("\nTe investigan por fraude de identidad. Vas a la Cárcel.");
+                Juego.consola.print("Ve directamente sin pasar por la casilla de Salida y sin cobrar la cantidad habitual.");
                 break;
 
             case 3:
@@ -41,28 +41,28 @@ public class CartaCajaComunidad extends Carta {
                 casillaSalida.anhadirAvatar(jugador.getAvatar());
                 casillaSalida.evaluarCasilla(jugador, banca, tirada, tablero, jugadores);
 
-                System.out.println("\nTe colocas en la casilla de Salida y cobras la cantidad habitual.");
+                Juego.consola.print("\nTe colocas en la casilla de Salida y cobras la cantidad habitual.");
                 jugador.cobrarPasoPorSalida(casillaOrigen, casillaSalida);
                 break;
             
             case 4:
                 jugador.incrementarPremiosInversionesOBote(2000000);
-                System.out.println("\nTu compañía de Internet obtiene beneficios. Recibes 2000000€.");
+                Juego.consola.print("\nTu compañía de Internet obtiene beneficios. Recibes 2000000€.");
                 break;
 
             case 5:
                 jugador.incrementarPagoTasasEImpuestos(1000000);
-                System.out.println("\nInvitas a tus amigos a un viaje a Solar14. Pagas 1000000€.");
+                Juego.consola.print("\nInvitas a tus amigos a un viaje a Solar14. Pagas 1000000€.");
                 break;
 
             case 6:
-                System.out.println("\nAlquilas a tus compañeros una villa en Solar7 durante una semana. Paga 200000€ a cada jugador\n");
+                Juego.consola.print("\nAlquilas a tus compañeros una villa en Solar7 durante una semana. Paga 200000€ a cada jugador\n");
                 pagarATodosLosJugadores(jugador, jugadores, 200000);
                 break;
 
 
             default:
-                System.out.println("Acción de carta Comunidad no reconocida.");
+                Juego.consola.print("Acción de carta Comunidad no reconocida.");
                 break;
         }
     }
@@ -78,7 +78,7 @@ public class CartaCajaComunidad extends Carta {
             if (!jugador.equals(jugadorPagador)) {
                 jugadorPagador.incrementarPagoTasasEImpuestos(cantidad); 
                 jugador.incrementarPremiosInversionesOBote(cantidad); 
-                System.out.println(jugadorPagador.getNombre() + " ha pagado " + cantidad + "€ a " + jugador.getNombre());
+                Juego.consola.print(jugadorPagador.getNombre() + " ha pagado " + cantidad + "€ a " + jugador.getNombre());
             }
         }
     }

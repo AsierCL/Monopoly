@@ -2,6 +2,7 @@ package monopoly.casillas.Propiedades;
 
 import java.util.ArrayList;
 
+import monopoly.Juego;
 import monopoly.Grupo;
 import monopoly.Tablero;
 import monopoly.exceptions.DuenhoCasilla;
@@ -50,10 +51,10 @@ public abstract class Propiedad extends monopoly.casillas.Casilla {
             } else {
                 solicitante.setFortuna(solicitante.getFortuna() + this.getValor());
                 this.hipotecada = true;
-                System.out.println(solicitante.getNombre() + " ha hipotecado la casilla " + this.getNombre() + " y recibe " + this.getValor() + ".");
+                Juego.consola.print(solicitante.getNombre() + " ha hipotecado la casilla " + this.getNombre() + " y recibe " + this.getValor() + ".");
             }
         } else {
-            System.out.println("No eres propietario de esta casilla.");
+            Juego.consola.print("No eres propietario de esta casilla.");
         }
        
     }
@@ -61,14 +62,14 @@ public abstract class Propiedad extends monopoly.casillas.Casilla {
     public void deshipotecarCasilla(Jugador solicitante){
         if(this.hipotecada == true) {
             if (this.getDuenho() != solicitante) {
-                System.out.println("No puedes deshipotecar la casilla si no eres su dueño.");    
+                Juego.consola.print("No puedes deshipotecar la casilla si no eres su dueño.");    
             } else if (this.getDuenho() == solicitante) {
             solicitante.setFortuna(solicitante.getFortuna() - (this.getValor() + (10*this.getValor()/100)));
-            System.out.println(solicitante.getNombre() + " ha deshipotecado la casilla " + this.getNombre() + " y paga " + (this.getValor() + (10*this.getValor()/100)));
+            Juego.consola.print(solicitante.getNombre() + " ha deshipotecado la casilla " + this.getNombre() + " y paga " + (this.getValor() + (10*this.getValor()/100)));
             this.hipotecada = false;
             }
         } else {
-            System.out.println("La casilla no está hipotecada.");
+            Juego.consola.print("La casilla no está hipotecada.");
         } 
     }
 
@@ -80,15 +81,15 @@ public abstract class Propiedad extends monopoly.casillas.Casilla {
 
     public boolean comprarPropiedad(Jugador jugador, Jugador banca){
         if(!jugador.getAvatar().getLugar().equals(this)){
-            System.out.println("Debes de estar en la casilla para comprarla");
+            Juego.consola.print("Debes de estar en la casilla para comprarla");
             return false;
         }
         if(!this.getDuenho().equals(banca)){
-            System.out.println("La casilla no está en venta");
+            Juego.consola.print("La casilla no está en venta");
             return false;
         }
         if(jugador.getFortuna() < valor){
-            System.out.println("No tienes dinero suficiente");
+            Juego.consola.print("No tienes dinero suficiente");
             return false;
         }
         banca.eliminarPropiedad(this);
@@ -96,7 +97,7 @@ public abstract class Propiedad extends monopoly.casillas.Casilla {
         jugador.anhadirPropiedad(this);
         jugador.incrementarDineroInvertido(this.valor);
         setDuenho(jugador);
-        System.out.println("Has comprado la casilla " + this.getNombre() + " por " + this.valor);
+        Juego.consola.print("Has comprado la casilla " + this.getNombre() + " por " + this.valor);
         return true;
     }
 }

@@ -3,6 +3,7 @@ package monopoly.casillas;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import monopoly.Juego;
 import partida.Jugador;
 import monopoly.Tablero;
 
@@ -31,10 +32,10 @@ public class Impuesto extends Casilla {
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores) {//Solucion prvisional
         haEstado(actual, jugadores);
         if((actual.getFortuna()-this.impuesto)<0){
-            System.out.println("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
+            Juego.consola.print("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
             return false;
         }else{
-            System.out.println("Pagas impuesto de casilla: -" + this.impuesto + "€");
+            Juego.consola.print("Pagas impuesto de casilla: -" + this.impuesto + "€");
             actual.incrementarPagoTasasEImpuestos(this.impuesto);
             ////////////////////////////////  REVISAR ESTO  ////////////////////////////////
             //////////tablero.obtenerCasilla("Parking").sumarValor(this.impuesto);//////////

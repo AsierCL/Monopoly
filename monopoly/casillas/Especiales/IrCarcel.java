@@ -2,6 +2,7 @@ package monopoly.casillas.Especiales;
 
 import java.util.ArrayList;
 
+import monopoly.Juego;
 import monopoly.Tablero;
 import partida.Jugador;
 
@@ -14,7 +15,7 @@ public class IrCarcel extends Especial {
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores){
         haEstado(actual, jugadores);
 
-        System.out.println("VAS A LA CARCEL");
+        Juego.consola.print("VAS A LA CARCEL");
         actual.encarcelar(tablero.getPosiciones());
         
         return true;

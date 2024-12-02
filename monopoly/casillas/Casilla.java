@@ -3,11 +3,8 @@ package monopoly.casillas;
 import partida.Jugador;
 import partida.avatares.Avatar;
 
+import monopoly.Juego;
 import monopoly.casillas.Propiedades.*;
-import partida.cartas.CartaCajaComunidad;
-import partida.cartas.CartaSuerte;
-import monopoly.Grupo;
-import monopoly.Tablero;
 import monopoly.Tablero;
 
 import java.util.ArrayList;
@@ -106,7 +103,7 @@ public abstract class Casilla {
         if (this.avatares.contains(av)){
             this.avatares.remove(av);
         }else{
-            System.out.println("El avatar " + av.getId() + " no está en " + this.nombre);
+            Juego.consola.print("El avatar " + av.getId() + " no está en " + this.nombre);
         }
     }
 

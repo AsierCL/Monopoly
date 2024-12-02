@@ -3,6 +3,7 @@ package monopoly.casillas.Acciones;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import monopoly.Juego;
 import monopoly.Tablero;
 import partida.Jugador;
 import partida.cartas.Carta;
@@ -29,13 +30,13 @@ public class Suerte extends Acciones {
 
     @Override
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero,ArrayList<Jugador> jugadores) {
-        System.out.println("TARJETA DE SUERTE\n");
+        Juego.consola.print("TARJETA DE SUERTE\n");
         Scanner var9 = new Scanner(System.in);
 
         int var10;
         do {
            do {
-              System.out.print("Introduce un n\u00famero del 1 al 6 para seleccionar una carta de Suerte: ");
+            Juego.consola.print("Introduce un n\u00famero del 1 al 6 para seleccionar una carta de Suerte: ");
               var10 = var9.nextInt();
            } while(var10 < 1);
         } while(var10 > 6);

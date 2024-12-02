@@ -26,7 +26,7 @@ public class Tratos {
         ArrayList<Propiedad> propiedadesOferta = new ArrayList<>();
         ArrayList<Propiedad> propiedadesAcepta = new ArrayList<>();
 
-        System.out.println("Proponiendo un nuevo trato...");
+        Juego.consola.print("Proponiendo un nuevo trato...");
 
         // Solicitar el jugador que recibe la oferta
         System.out.print("Ingrese el nombre del jugador que recibe la oferta: ");
@@ -34,11 +34,11 @@ public class Tratos {
         jugadorAcepta = Juego.buscarJugadorPorNombre(nombreJugadorAcepta, jugadores);
 
         if (jugadorAcepta == null) {
-            System.out.println("El jugador que recibe la oferta no existe.");
+            Juego.consola.print("El jugador que recibe la oferta no existe.");
             return;
         }
         if(jugadorAcepta.equals(jugadorOferta)){
-            System.out.println("No puedes proponerte un trato a ti mismo");
+            Juego.consola.print("No puedes proponerte un trato a ti mismo");
             return;
         }
 
@@ -53,7 +53,7 @@ public class Tratos {
         scanner.nextLine(); // Limpiar buffer
 
         // Solicitar las propiedades ofrecidas por el jugador de oferta
-        System.out.println("Ingrese los nombres de las propiedades que ofreces, para terminar escribe \"fin\": ");
+        Juego.consola.print("Ingrese los nombres de las propiedades que ofreces, para terminar escribe \"fin\": ");
         while(true) {
             String propiedadesOfertaInput = scanner.nextLine();
             if(propiedadesOfertaInput.equals("fin"))
@@ -62,13 +62,13 @@ public class Tratos {
             Casilla propiedad = tablero.obtenerCasilla(propiedadesOfertaInput);
             
             if(propiedad==null){
-                System.out.println("Propiedad no encontrada");
+                Juego.consola.print("Propiedad no encontrada");
                 break;
             }if(!(propiedad instanceof Propiedad)){
-                System.out.println("La casilla " + propiedad.getNombre() + "no se puede transferir");
+                Juego.consola.print("La casilla " + propiedad.getNombre() + "no se puede transferir");
                 break;
             }if(!jugadorOferta.getPropiedades().contains(propiedad)){
-                System.out.println("No posees esa propiedad aún");
+                Juego.consola.print("No posees esa propiedad aún");
                 break;
             }else{
                 /// QUIZAS HABIA QUE DESTRUIR TODOS OS EDIFICIOS ANTES ///
@@ -77,7 +77,7 @@ public class Tratos {
         }
 
         // Solicitar las propiedades esperadas del jugador que acepta
-        System.out.println("Ingrese los nombres de las propiedades que el jugador espera recibir (separadas por comas): ");
+        Juego.consola.print("Ingrese los nombres de las propiedades que el jugador espera recibir (separadas por comas): ");
         while(true) {
             String propiedadesAceptaInput = scanner.nextLine();
             if(propiedadesAceptaInput.equals("fin"))
@@ -85,15 +85,15 @@ public class Tratos {
             
             Casilla propiedad = tablero.obtenerCasilla(propiedadesAceptaInput);
             if(propiedad==null){
-                System.out.println("Propiedad no encontrada");
+                Juego.consola.print("Propiedad no encontrada");
                 break;
             }
             if(!(propiedad instanceof Propiedad)){
-                System.out.println("La casilla " + propiedad.getNombre() + "no se puede transferir");
+                Juego.consola.print("La casilla " + propiedad.getNombre() + "no se puede transferir");
                 break;
             }
             if(!jugadorAcepta.getPropiedades().contains(propiedad)){
-                System.out.println(jugadorAcepta.getNombre() + " no posee esa propiedad aún");
+                Juego.consola.print(jugadorAcepta.getNombre() + " no posee esa propiedad aún");
                 break;
             }else{
                 /// QUIZAS HABIA QUE DESTRUIR TODOS OS EDIFICIOS ANTES ///
@@ -107,7 +107,7 @@ public class Tratos {
         // Agregarlo a la lista de tratos
         tratos.add(nuevoTrato);
 
-        System.out.println("Trato propuesto con éxito. ID del trato: " + id);
+        Juego.consola.print("Trato propuesto con éxito. ID del trato: " + id);
         id++;
     }
     
@@ -118,7 +118,7 @@ public class Tratos {
     
         // Validar si hay tratos disponibles
         if (tratos.isEmpty()) {
-            System.out.println("No hay tratos disponibles para rechazar.");
+            Juego.consola.print("No hay tratos disponibles para rechazar.");
             return;
         }
     
@@ -129,7 +129,7 @@ public class Tratos {
             if (input.equals("?")) {
                 listarTratos(); // Listar los tratos disponibles
             } else if (input.equalsIgnoreCase("x")) {
-                System.out.println("Saliendo de tratos...");
+                Juego.consola.print("Saliendo de tratos...");
                 break;
             } else {
                 int idAcepta = Integer.parseInt(input); // Convertir la entrada a un número
@@ -137,19 +137,19 @@ public class Tratos {
                 for (Trato trato : tratos) {
                     if(trato.getId()==idAcepta){
                         if(!trato.getJugador_acepta().equals(jugador)){
-                            System.out.println("El jugador " + jugador.getNombre() + " no forma parte del trato " + trato.getId());
+                            Juego.consola.print("El jugador " + jugador.getNombre() + " no forma parte del trato " + trato.getId());
                             break;
                         }
                         ejecucionTrato(trato);
                         aceptado = true;
-                        System.out.println("El trato con ID " + idAcepta + " ha sido aceptado.");
+                        Juego.consola.print("El trato con ID " + idAcepta + " ha sido aceptado.");
                         return;
                     }
                 }
                 
                 // Validar si el idRechazo es válido
                 if (!aceptado) {
-                    System.out.println("El número del trato no es válido. Inténtalo de nuevo.");
+                    Juego.consola.print("El número del trato no es válido. Inténtalo de nuevo.");
                 }
             }
         } while (!aceptado);
@@ -162,7 +162,7 @@ public class Tratos {
     
         // Validar si hay tratos disponibles
         if (tratos.isEmpty()) {
-            System.out.println("No hay tratos disponibles para rechazar.");
+            Juego.consola.print("No hay tratos disponibles para rechazar.");
             return;
         }
     
@@ -173,7 +173,7 @@ public class Tratos {
             if (input.equals("?")) {
                 listarTratos(); // Listar los tratos disponibles
             } else if (input.equalsIgnoreCase("x")) {
-                System.out.println("Saliendo del rechazo de tratos...");
+                Juego.consola.print("Saliendo del rechazo de tratos...");
                 break;
             } else {
                 int idRechazo = Integer.parseInt(input); // Convertir la entrada a un número
@@ -181,17 +181,17 @@ public class Tratos {
                 for (Trato trato : tratos) {
                     if(trato.getId()==idRechazo){
                         if(!(trato.getJugador_oferta().equals(jugador)||trato.getJugador_acepta().equals(jugador))){
-                            System.out.println("El jugador " + jugador.getNombre() + " no forma parte del trato " + trato.getId());
+                            Juego.consola.print("El jugador " + jugador.getNombre() + " no forma parte del trato " + trato.getId());
                         }
                         rechazado = true;
                         tratos.remove(trato);
-                        System.out.println("El trato con ID " + idRechazo + " ha sido rechazado.");
+                        Juego.consola.print("El trato con ID " + idRechazo + " ha sido rechazado.");
                     }
                 }
                 
                 // Validar si el idRechazo es válido
                 if (!rechazado) {
-                    System.out.println("El número del trato no es válido. Inténtalo de nuevo.");
+                    Juego.consola.print("El número del trato no es válido. Inténtalo de nuevo.");
                 }
             }
         } while (!rechazado);
@@ -200,11 +200,11 @@ public class Tratos {
     public void listarTratos(){
         boolean hayTratos = false;
         for (Trato trato : tratos) {
-            System.out.println(trato.toString() + "\n");
+            Juego.consola.print(trato.toString() + "\n");
             hayTratos = true;
         }
         if(!hayTratos)
-            System.out.println("No hay tratos propuestos");
+            Juego.consola.print("No hay tratos propuestos");
     }
 
     //Aux
@@ -214,25 +214,25 @@ public class Tratos {
     private boolean ejecucionTrato(Trato trato){
         for (Propiedad propiedad : trato.getPropiedades_oferta()) {
             if(!trato.getJugador_oferta().getPropiedades().contains(propiedad)){
-                System.out.println("El jugador " + trato.getJugador_oferta().getNombre() + " no posee la propiedad " + propiedad.getNombre());
+                Juego.consola.print("El jugador " + trato.getJugador_oferta().getNombre() + " no posee la propiedad " + propiedad.getNombre());
                 return false;
             }
         }
 
         for (Propiedad propiedad : trato.getPropiedades_acepta()) {
             if(!trato.getJugador_acepta().getPropiedades().contains(propiedad)){
-                System.out.println("El jugador " + trato.getJugador_acepta().getNombre() + " no posee la propiedad " + propiedad.getNombre());
+                Juego.consola.print("El jugador " + trato.getJugador_acepta().getNombre() + " no posee la propiedad " + propiedad.getNombre());
                 return false;
             }
         }
 
         if(trato.getJugador_oferta().getFortuna()<trato.getCantidad_oferta()){
-            System.out.println("El jugador " + trato.getJugador_oferta() + " no tiene el dinero suficiente para el trato (" + trato.getCantidad_oferta() +")");
+            Juego.consola.print("El jugador " + trato.getJugador_oferta() + " no tiene el dinero suficiente para el trato (" + trato.getCantidad_oferta() +")");
             return false;
         }
 
         if(trato.getJugador_acepta().getFortuna()<trato.getCantidad_acepta()){
-            System.out.println("El jugador " + trato.getJugador_acepta() + " no tiene el dinero suficiente para el trato (" + trato.getCantidad_acepta() +")");
+            Juego.consola.print("El jugador " + trato.getJugador_acepta() + " no tiene el dinero suficiente para el trato (" + trato.getCantidad_acepta() +")");
             return false;
         }
 

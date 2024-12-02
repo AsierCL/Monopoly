@@ -1,5 +1,6 @@
 package partida.avatares;
 
+import monopoly.Juego;
 import monopoly.Tablero;
 import monopoly.casillas.Casilla;
 import partida.Jugador;
@@ -27,14 +28,14 @@ public class Coche extends Avatar {
             if(!moverEnBasico(casillas, -resultadoTotal, banca, tablero, jugadores)){
                 return false;
             }
-            System.out.println("Has sacado menos de 4, no podrás tirar en los próximos dos turnos");
+            Juego.consola.print("Has sacado menos de 4, no podrás tirar en los próximos dos turnos");
             jugador.setTurnosBloqueado(2); // Bloqueamos los próximos dos turnos
         } else {
             while (resultadoTotal > 4 && contador < 4){ // Mientras se siga sacando más de 4 y no suceda más de 3 veces
                 if(!moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores)){
                     return false;
                 }
-                //System.out.println(tablero);
+                //Juego.consola.print(tablero);
                 
                 haComprado = turnoIntermedio(this, this.getLugar(), haComprado);
 
@@ -45,7 +46,7 @@ public class Coche extends Avatar {
                     System.out.print("Introduzca el valor de la tirada del dado 2: ");
                     resultadoDado2 = scanDado.nextInt();
                     resultadoTotal = resultadoDado1 + resultadoDado2;
-                    System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
+                    Juego.consola.print("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
                 }
                 contador++;
     
@@ -54,23 +55,23 @@ public class Coche extends Avatar {
                         return false;
                     }
                     while(resultadoDado1 == resultadoDado2){
-                        System.out.println("LLevas " + this.lanzamientos + " dobles");
+                        Juego.consola.print("LLevas " + this.lanzamientos + " dobles");
                         tirado = false;
                         if(this.lanzamientos<3){
-                            System.out.println("Vuelve a tirar");
+                            Juego.consola.print("Vuelve a tirar");
     
                             System.out.print("Introduzca el valor de la tirada del dado 1: ");
                             resultadoDado1 = scanDado.nextInt();
                             System.out.print("Introduzca el valor de la tirada del dado 2: ");
                             resultadoDado2 = scanDado.nextInt();
                             resultadoTotal = resultadoDado1 + resultadoDado2;
-                            System.out.println("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
+                            Juego.consola.print("\nDADOS: [" + resultadoDado1 + "] " + " [" + resultadoDado2 + "]\n");
                             
                             if(!moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores)){
                                 return false;
                             }
                         }else{
-                            System.out.println("VAS A LA CARCEL");
+                            Juego.consola.print("VAS A LA CARCEL");
                             this.getJugador().encarcelar(casillas);
                             tirado = true;
                             contador++;
@@ -88,7 +89,7 @@ public class Coche extends Avatar {
         Jugador jugador = this.getJugador();
         if(resultadoTotal <= 4){
             if(faltaPorMover == resultadoTotal){
-                System.out.println("Has sacado menos de 4, no podrás tirar en los próximos dos turnos");
+                Juego.consola.print("Has sacado menos de 4, no podrás tirar en los próximos dos turnos");
                 jugador.setTurnosBloqueado(2); // Bloqueamos los próximos dos turnos
                 moverEnBasico(casillas, -resultadoTotal, banca, tablero, jugadores);
                 return 0;  //Al sacar menos de 4 no se vuelve a tirar

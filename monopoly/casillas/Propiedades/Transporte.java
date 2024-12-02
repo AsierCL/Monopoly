@@ -2,6 +2,7 @@ package monopoly.casillas.Propiedades;
 
 import java.util.ArrayList;
 
+import monopoly.Juego;
 import monopoly.Tablero;
 import partida.Jugador;
 
@@ -22,10 +23,10 @@ public class Transporte extends Propiedad{
         if(!this.getDuenho().equals(actual) && !this.getDuenho().equals(banca)){// Casilla de otro
             pago = this.getValor() * 0.1f * this.numTransporte();
             if((actual.getFortuna()-pago)<0){
-                System.out.println("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
+                Juego.consola.print("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
                 return false;
             }else{
-                System.out.println("Pagas impuesto de casilla: -" + pago + "€");
+                Juego.consola.print("Pagas impuesto de casilla: -" + pago + "€");
                 actual.incrementarPagoTasasEImpuestos(pago);
                 this.getDuenho().incrementarCobroDeAlquileres(pago);
                 registrarIngreso(pago);

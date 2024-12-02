@@ -196,22 +196,22 @@ public class Grupo {
         for (Casilla casilla : getMiembros()) {
             ((Solar)casilla).listarEdificios();
             if(casilla.getDuenho().equals(banca)){
-                System.out.println("Casilla en venta");
+                Juego.consola.print("Casilla en venta");
             }else{
-                System.out.println("El pago es de: " + ((Solar)casilla).calcularPagoSolar(casilla.getDuenho()));
+                Juego.consola.print("El pago es de: " + ((Solar)casilla).calcularPagoSolar(casilla.getDuenho()));
             }
         }
 
         if(getHotelesGrupo()==getNumCasillas()){
-            System.out.println("Puedes construir " + (getNumCasillas()-getCasasGrupo()) + " casas.");
-            System.out.println("Puedes construir " + (getNumCasillas()-getHotelesGrupo()) + " hoteles.");
-            System.out.println("Puedes construir " + (getNumCasillas()-getPiscinasGrupo()) + " piscinas.");
-            System.out.println("Puedes construir " + (getNumCasillas()-getPistasGrupo()) + " pistas.");
+            Juego.consola.print("Puedes construir " + (getNumCasillas()-getCasasGrupo()) + " casas.");
+            Juego.consola.print("Puedes construir " + (getNumCasillas()-getHotelesGrupo()) + " hoteles.");
+            Juego.consola.print("Puedes construir " + (getNumCasillas()-getPiscinasGrupo()) + " piscinas.");
+            Juego.consola.print("Puedes construir " + (getNumCasillas()-getPistasGrupo()) + " pistas.");
         }else{
-            System.out.println("Puedes construir " + (4*getNumCasillas()+getNumCasillas()-(getCasasGrupo()+4*getHotelesGrupo())) + " casas.");
-            System.out.println("Puedes construir " + (getNumCasillas()-getHotelesGrupo()) + " hoteles.");
-            System.out.println("Puedes construir " + (getNumCasillas()-getPiscinasGrupo()) + " piscinas.");
-            System.out.println("Puedes construir " + (getNumCasillas()-getPistasGrupo()) + " pistas.");
+            Juego.consola.print("Puedes construir " + (4*getNumCasillas()+getNumCasillas()-(getCasasGrupo()+4*getHotelesGrupo())) + " casas.");
+            Juego.consola.print("Puedes construir " + (getNumCasillas()-getHotelesGrupo()) + " hoteles.");
+            Juego.consola.print("Puedes construir " + (getNumCasillas()-getPiscinasGrupo()) + " piscinas.");
+            Juego.consola.print("Puedes construir " + (getNumCasillas()-getPistasGrupo()) + " pistas.");
         }
     }
 

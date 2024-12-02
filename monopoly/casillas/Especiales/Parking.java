@@ -2,6 +2,7 @@ package monopoly.casillas.Especiales;
 
 import java.util.ArrayList;
 
+import monopoly.Juego;
 import monopoly.Tablero;
 import partida.Jugador;
 
@@ -17,7 +18,7 @@ public class Parking extends Especial {
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores){
         haEstado(actual, jugadores);
         
-        System.out.println("Recibes el bote del parking: +" + this.bote + "€");
+        Juego.consola.print("Recibes el bote del parking: +" + this.bote + "€");
         actual.incrementarPremiosInversionesOBote(this.bote);
         this.bote = 0;
         

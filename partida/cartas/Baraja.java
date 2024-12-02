@@ -3,6 +3,7 @@ package partida.cartas;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import monopoly.Juego;
 import monopoly.Tablero;
 import partida.Jugador;
 
@@ -38,25 +39,25 @@ public class Baraja {
         } else if (tipoCarta.equalsIgnoreCase("comunidad")) {
             cartas = cartasComunidad;
         } else {
-            System.out.println("Tipo de carta no reconocido.");
+            Juego.consola.print("Tipo de carta no reconocido.");
             return;
         }
 
         // Verificar si el índice es válido
         if (indice < 1 || indice > cartas.size()) {
-            System.out.println("Debes introducir un número del 1 al 6.");
+            Juego.consola.print("Debes introducir un número del 1 al 6.");
             return;
         }
 
         // Barajar el array si se especifica
         if (barajar) {
             Collections.shuffle(cartas);
-            System.out.println("Se han barajado las cartas.");
+            Juego.consola.print("Se han barajado las cartas.");
         }
 
         // Ejecutar la acción de la carta seleccionada
         Carta cartaSeleccionada = cartas.get(indice - 1); // Convertir índice a base 0
-        System.out.println("Has seleccionado la carta de " + cartaSeleccionada.getTipo() + ".");
+        Juego.consola.print("Has seleccionado la carta de " + cartaSeleccionada.getTipo() + ".");
         cartaSeleccionada.accion(jugador, banca, tablero, jugadores, tirada);
     }
 }

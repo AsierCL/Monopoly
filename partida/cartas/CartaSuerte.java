@@ -32,7 +32,7 @@ public class CartaSuerte extends Carta {
                 casillaTransporte.anhadirAvatar(jugador.getAvatar());
                 casillaTransporte.evaluarCasilla(jugador, banca, tirada, tablero, jugadores);
 
-                System.out.println("\nVe al Transportes1 y coge un avión. Si pasas por la casilla de Salida, cobra la cantidad habitual.");
+                Juego.consola.print("\nVe al Transportes1 y coge un avión. Si pasas por la casilla de Salida, cobra la cantidad habitual.");
                 jugador.cobrarPasoPorSalida(casillaOrigen, casillaTransporte);
                 break;
 
@@ -43,12 +43,12 @@ public class CartaSuerte extends Carta {
                 casillaSolar.anhadirAvatar(jugador.getAvatar());
                 casillaSolar.evaluarCasilla(jugador, banca, tirada, tablero, jugadores);
 
-                System.out.println("\nDecides hacer un viaje de placer. Avanza hasta Solar15 directamente, sin pasar por la casilla de Salida y sin cobrar la cantidad habitual.");
+                Juego.consola.print("\nDecides hacer un viaje de placer. Avanza hasta Solar15 directamente, sin pasar por la casilla de Salida y sin cobrar la cantidad habitual.");
                 break;
 
             case 3:
                 jugador.incrementarPagoTasasEImpuestos(500000);
-                System.out.println("\nVendes tu billete de avión para Solar17 en una subasta por Internet. Cobra 500000€");
+                Juego.consola.print("\nVendes tu billete de avión para Solar17 en una subasta por Internet. Cobra 500000€");
                 break;
             
             case 4:
@@ -61,23 +61,23 @@ public class CartaSuerte extends Carta {
 
                 casillaSolar.evaluarCasilla(jugador, banca, tirada, tablero, jugadores);
 
-                System.out.println("\nVe a Solar3. Si pasas por la casilla de Salida, cobra la cantidad habitual.");
+                Juego.consola.print("\nVe a Solar3. Si pasas por la casilla de Salida, cobra la cantidad habitual.");
                 // Verificar paso por la casilla de salida
                 jugador.cobrarPasoPorSalida(casillaOrigen, casillaSolar);
                 break;
 
             case 5:
                 jugador.encarcelar(tablero.getPosiciones());
-                System.out.println("\nLos acreedores te persiguen. Vas a la Cárcel.");
+                Juego.consola.print("\nLos acreedores te persiguen. Vas a la Cárcel.");
                 break;
             
             case 6:
                 jugador.incrementarPremiosInversionesOBote(1000000);
-                System.out.println("\n¡Has ganado el bote de la lotería! Recibes 1000000€!");
+                Juego.consola.print("\n¡Has ganado el bote de la lotería! Recibes 1000000€!");
                 break;
     
             default:
-                System.out.println("Acción de carta Suerte no reconocida.");
+                Juego.consola.print("Acción de carta Suerte no reconocida.");
                 break;
         }
     }
