@@ -2,12 +2,10 @@ package partida.avatares;
 
 import monopoly.*;
 import monopoly.casillas.Casilla;
-import partida.Dado;
 import partida.Jugador;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.Set;
 
 public abstract class Avatar {
@@ -146,11 +144,6 @@ public abstract class Avatar {
     // Métodos para movimiento
     public void moverEnBasico(ArrayList<ArrayList<Casilla>> casillas, int valorTirada, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores){
         moverAvatar(casillas, valorTirada); // Comportamiento estándar
-        boolean partida;
-        /*if (!this.getLugar().evaluarCasilla(this.getJugador(), banca, valorTirada, tablero, jugadores)){
-            partida = declararBancarrota(this.getLugar().getDuenho(), this.getJugador());
-        }  
-        return partida;*/
     }
 
     // Método abstracto, obliga a las subclases a implementarlo

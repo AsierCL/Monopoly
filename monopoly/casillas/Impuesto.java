@@ -1,7 +1,6 @@
 package monopoly.casillas;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import monopoly.Juego;
 import partida.Jugador;

@@ -2,7 +2,6 @@ package monopoly;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import monopoly.casillas.Casilla;
 import monopoly.casillas.Propiedades.*;
@@ -20,8 +19,8 @@ public class Juego {
     private int turno = 0; //Índice correspondiente a la posición en el arrayList del jugador (y el avatar) que tienen el turno
     private int lanzamientos; //Variable para contar el número de lanzamientos de un jugador en un turno.
     private Tablero tablero; //Tablero en el que se juega.
-    private Dado dado1; //Dos dados para lanzar y avanzar casillas.
-    private Dado dado2;
+    //private Dado dado1; //Dos dados para lanzar y avanzar casillas.
+    //private Dado dado2;
     private Jugador banca; //El jugador banca.
     private boolean tirado; //Booleano para comprobar si el jugador que tiene el turno ha tirado o no.
     private boolean solvente; //Booleano para comprobar si el jugador que tiene el turno es solvente, es decir, si ha pagado sus deudas.
@@ -105,20 +104,16 @@ public class Juego {
 
     // Método para inciar una partida: crea los jugadores y avatares.
     public void iniciarPartida(Tablero tablero) {
-        // Crear un único Scanner
-        Scanner input = new Scanner(System.in);
         this.partida = true;
 
         consola.print("Introduzca al menos dos jugadores para comenzar\n.");
         consola.print("Cuando termines introduce \"fin\"");
 
         while (jugadores.size() < 7) {
-            System.out.print("Introduzca el nombre del jugador: ");
-            String jugador = input.nextLine();  // Usar el mismo Scanner
+            String jugador = Juego.consola.read("Introduzca el nombre del jugador: ");
 
             if (!jugador.equals("fin")) {
-                System.out.print("Introduzca la ficha: ");
-                String tipoAvatar = input.nextLine();  // Usar el mismo Scanner
+                String tipoAvatar = Juego.consola.read("Introduzca la ficha: ");
 
                 Jugador player = new Jugador(jugador, tipoAvatar, tablero.obtenerCasilla(0), avatares);
                 if(player.getAvatar()!=null){
@@ -134,13 +129,9 @@ public class Juego {
         printAyuda();
 
         while (partida) {
-            System.out.print("Introduzca comando: ");
-            String comando = input.nextLine();  // Usar el mismo Scanner
+            String comando = Juego.consola.read("Introduzca comando: ");
             analizarComando(comando);
         }
-
-        // Cerrar el Scanner solo al final
-        input.close();
     }
 
     /*Método que interpreta el comando introducido y toma la accion correspondiente.
@@ -293,15 +284,13 @@ public class Juego {
 
     public boolean turnoIntermedio(Avatar avatarActual, Casilla casillaActual, boolean haComprado) {
         Jugador jugador = avatarActual.getJugador();
-        Scanner scanner = new Scanner(System.in);
         boolean turnoActivo = true;
 
         while (turnoActivo) {
             // Mostrar el menú de opciones disponibles
             consola.print("TURNO INTERMEDIO");
             consola.print("Para salir \"continuar\".");
-            System.out.print("Seleccione una opción: ");
-            String opcion = scanner.nextLine();
+            String opcion = Juego.consola.read("Seleccione una opción: ");
 
             String[] palabras = opcion.split(" ");
 
@@ -409,7 +398,6 @@ public class Juego {
     }
 
     public void gestionMovimientoAvanzado(Avatar avatarActual, int resultadoTotal, int[] resultadoDados, ArrayList<ArrayList<Casilla>> casillas) {
-        Scanner scanDado = new Scanner(System.in);
         boolean haComprado = false;
         int contador = 0;
         int faltaPorMover = resultadoTotal;
@@ -467,12 +455,9 @@ public class Juego {
     }
 
     private int[] vuelveATirar(int[] resultadoDados){
-        Scanner scanDado = new Scanner(System.in);
         consola.print("Vuelve a tirar");
-        System.out.print("Introduzca el valor de la tirada del dado 1: ");
-        resultadoDados[0] = scanDado.nextInt();
-        System.out.print("Introduzca el valor de la tirada del dado 2: ");
-        resultadoDados[1] = scanDado.nextInt();
+        resultadoDados[0] = Integer.parseInt(Juego.consola.read("Introduzca el valor de la tirada del dado 1: "));
+        resultadoDados[1] = Integer.parseInt(Juego.consola.read("Introduzca el valor de la tirada del dado 2: "));
         consola.print("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
 
         return resultadoDados;
@@ -632,11 +617,8 @@ public class Juego {
 
     // Método para solicitar las tiradas de los dados
     private int[] solicitarTiradaDados() {
-        Scanner scanDado = new Scanner(System.in);
-        System.out.print("Introduzca el valor de la tirada del dado 1: ");
-        int resultadoDado1 = scanDado.nextInt();
-        System.out.print("Introduzca el valor de la tirada del dado 2: ");
-        int resultadoDado2 = scanDado.nextInt();
+        int resultadoDado1 = Integer.parseInt(Juego.consola.read("Introduzca el valor de la tirada del dado 1: "));
+        int resultadoDado2 = Integer.parseInt(Juego.consola.read("Introduzca el valor de la tirada del dado 2: "));
         return new int[]{resultadoDado1, resultadoDado2};
     }
 

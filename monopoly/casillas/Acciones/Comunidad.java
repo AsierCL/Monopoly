@@ -1,14 +1,12 @@
 package monopoly.casillas.Acciones;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import monopoly.Juego;
 import monopoly.Tablero;
 import partida.Jugador;
 import partida.cartas.Carta;
 import partida.cartas.CartaCajaComunidad;
-import partida.cartas.CartaSuerte;
 
 
 
@@ -32,13 +30,10 @@ public class Comunidad extends Acciones {
     @Override
     public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores) {
         Juego.consola.print("TARJETA DE COMUNIDAD\n");
-        Scanner var12 = new Scanner(System.in);
-
         int var13;
         do {
             do {
-                Juego.consola.print("Introduce un n\u00famero del 1 al 6 para seleccionar una carta de Suerte: ");
-                var13 = var12.nextInt();
+                var13 = Integer.parseInt(Juego.consola.read("Introduce un n\u00famero del 1 al 6 para seleccionar una carta de Comunidad: "));
                 } while(var13 < 1);
             } while(var13 > 6);
 
