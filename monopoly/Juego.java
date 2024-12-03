@@ -454,7 +454,7 @@ public class Juego implements Comando {
         int contador = 0;
         int faltaPorMover = resultadoTotal;
         if(avatarActual.getTipo().equalsIgnoreCase("pelota")){
-            while(faltaPorMover != 0){
+            while(faltaPorMover != 0 && !avatarActual.getJugador().getEnCarcel()){
                 faltaPorMover = avatarActual.moverEnAvanzado(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
                 consola.print(tablero.toString());
                 if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
@@ -468,7 +468,7 @@ public class Juego implements Comando {
             }
         }
         else if(avatarActual.getTipo().equalsIgnoreCase("coche")){
-            while(faltaPorMover != 0 && contador < 4){
+            while(faltaPorMover != 0 && contador < 4 && !avatarActual.getJugador().getEnCarcel()){
                 // gestionar dobles cuando contador es igual a 3 (solución no optima?)
                 if(contador == 3 && resultadoDados[0]== resultadoDados[1]){ // En la última tirada adicional se gestionan los dados dobles
                     while(resultadoDados[0]== resultadoDados[1]){
@@ -479,7 +479,7 @@ public class Juego implements Comando {
                             if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
                                 partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
                             }
-                            consola.print(tablero.toString());;
+                            consola.print(tablero.toString());
                             try {
                             haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
                             } catch (ComandoInvalido e){
@@ -487,7 +487,6 @@ public class Juego implements Comando {
                             }
                             resultadoDados = vuelveATirar(resultadoDados);
                             resultadoTotal = resultadoDados[0] + resultadoDados[1];
-                            consola.print("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
                         }else{
                             consola.print("VAS A LA CARCEL");
                             avatarActual.getJugador().encarcelar(casillas);
@@ -504,15 +503,16 @@ public class Juego implements Comando {
                         partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
                     }
                     contador += faltaPorMover;
-                    consola.print(tablero.toString());;
+                    consola.print(tablero.toString());
                     try {
-                    haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
+                        haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
                     } catch (ComandoInvalido e){
                         System.err.println(e.getMessage());
                     }
-                    resultadoDados = vuelveATirar(resultadoDados);
-                    resultadoTotal = resultadoDados[0] + resultadoDados[1];
-                    consola.print("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
+                    if(faltaPorMover != 0 && !avatarActual.getJugador().getEnCarcel()){
+                        resultadoDados = vuelveATirar(resultadoDados);
+                        resultadoTotal = resultadoDados[0] + resultadoDados[1];
+                    }
                 }
             }
         }

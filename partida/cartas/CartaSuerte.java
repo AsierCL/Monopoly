@@ -44,10 +44,11 @@ public class CartaSuerte extends Carta {
                 casillaSolar.evaluarCasilla(jugador, banca, tirada, tablero, jugadores);
 
                 Juego.consola.print("\nDecides hacer un viaje de placer. Avanza hasta Solar15 directamente, sin pasar por la casilla de Salida y sin cobrar la cantidad habitual.");
+                Juego.consola.print(tablero.toString());
                 break;
 
             case 3:
-                jugador.incrementarPagoTasasEImpuestos(500000);
+                jugador.incrementarPremiosInversionesOBote(500000);
                 Juego.consola.print("\nVendes tu billete de avión para Solar17 en una subasta por Internet. Cobra 500000€");
                 break;
             

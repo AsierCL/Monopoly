@@ -24,6 +24,7 @@ public class Coche extends Avatar {
                 return 0;  //Al sacar menos de 4 no se vuelve a tirar
             } else {
                 moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);
+                Juego.consola.print("Has sacado menos de 4, no sigues tirando");
                 return 0;  //Al sacar menos de 4 no se vuelve a tirar
             }
         } else {

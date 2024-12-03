@@ -112,22 +112,27 @@ public abstract class Avatar {
     * EN ESTA VERSIÓN SUPONEMOS QUE valorTirada siempre es positivo.
      */
     public void moverAvatar(ArrayList<ArrayList<Casilla>> casillas, int valorTirada) {
-        int posicionActual = lugar.getPosicion();
-        Casilla casillaActual = obtenerCasilla(posicionActual, casillas);
-        int posicionNueva = (posicionActual + valorTirada)%40;
+        if(!this.getJugador().getEnCarcel()){
+            int posicionActual = lugar.getPosicion();
+            Casilla casillaActual = obtenerCasilla(posicionActual, casillas);
+            int posicionNueva = (posicionActual + valorTirada)%40;
 
-        if (posicionNueva < 0) { 
-            posicionNueva += 40; // Si el resultado es negativo, lo ajustamos sumando 40
+            if (posicionNueva < 0) { 
+                posicionNueva += 40; // Si el resultado es negativo, lo ajustamos sumando 40
+            }
+
+            Casilla nuevaCasilla = obtenerCasilla(posicionNueva, casillas);
+            if(valorTirada >= 0) this.getJugador().cobrarPasoPorSalida(casillaActual, nuevaCasilla);
+            else this.getJugador().PasoPorSalidaInverso(casillaActual, nuevaCasilla);
+
+            lugar.eliminarAvatar(this);
+            this.lugar = nuevaCasilla;
+            nuevaCasilla.anhadirAvatar(this);
+            Juego.consola.print("El jugador " + this.jugador.getNombre() + " se mueve " + valorTirada + " casillas,\nde " + casillaActual.getNombre() + " a " + nuevaCasilla.getNombre());
+        } else {
+            Juego.consola.print("El jugador no avanza porque está en la cárcel");
         }
-
-        Casilla nuevaCasilla = obtenerCasilla(posicionNueva, casillas);
-        if(valorTirada >= 0) this.getJugador().cobrarPasoPorSalida(casillaActual, nuevaCasilla);
-        else this.getJugador().PasoPorSalidaInverso(casillaActual, nuevaCasilla);
-
-        lugar.eliminarAvatar(this);
-        this.lugar = nuevaCasilla;
-        nuevaCasilla.anhadirAvatar(this);
-        System.out.println("El jugador " + this.jugador.getNombre() + " se mueve " + valorTirada + " casillas,\nde " + casillaActual.getNombre() + " a " + nuevaCasilla.getNombre());
+        
     }
 
     public Casilla obtenerCasilla(int posicionNueva, ArrayList<ArrayList<Casilla>> casillas) {
