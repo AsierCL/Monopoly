@@ -12,6 +12,12 @@ import monopoly.edificios.Edificio;
 import monopoly.edificios.Hotel;
 import monopoly.edificios.Piscina;
 import monopoly.edificios.Pista;
+import monopoly.exceptions.DuenhoCasilla;
+import monopoly.exceptions.DuenhoSolar;
+import monopoly.exceptions.EdificioCantidad;
+import monopoly.exceptions.EdificioIncorrecto;
+import monopoly.exceptions.EstarCasilla;
+import monopoly.exceptions.Parametros;
 import partida.Jugador;
 
 public class Solar extends Propiedad {
@@ -110,26 +116,19 @@ public class Solar extends Propiedad {
     }
 
     
-    public void Construir(Jugador jugador, String construccion, ArrayList<Jugador> jugadores) {
+    public void Construir(Jugador jugador, String construccion, ArrayList<Jugador> jugadores) throws DuenhoCasilla, EdificioIncorrecto, EstarCasilla, DuenhoSolar {
         if(!getDuenho().equals(jugador)){
-            Juego.consola.print("No eres el propietario de esta casilla");
-            return;
+            throw new DuenhoCasilla();
         }
-        
         if(!Edificio.edificiosValidos.contains(construccion)){
-            Juego.consola.print("Tipo de edificio incorrecto");
-            Juego.consola.print("Tipos permitidos: | casa | hotel | piscina | pista |");
-            return;
+            throw new EdificioIncorrecto();
         }
         
         if (!jugador.getAvatar().getLugar().equals(this)) {
-            Juego.consola.print("Debes estar en la casilla para edificar");
-            return;
+            throw new EstarCasilla();
         }
-
         if (!this.getGrupo().esDuenhoGrupo(jugador) && !(this.getHanEstado().get(jugadores.indexOf(jugador))>1)) {
-            Juego.consola.print("Debes ser dueño de todo el solar para edificar o haber caido 2 veces");
-            return;
+            throw new DuenhoSolar();
         }
 
         Map<String, Float> multiplicadores = new HashMap<>();
@@ -166,20 +165,15 @@ public class Solar extends Propiedad {
         }
     }
     
-    public void VenderEdificios(Jugador jugador, String construccion, int cantidad) {
+    public void VenderEdificios(Jugador jugador, String construccion, int cantidad) throws EdificioIncorrecto, DuenhoCasilla, Parametros {
         if (!Edificio.edificiosValidos.contains(construccion)) {
-            Juego.consola.print("Tipo de edificio incorrecto");
-            Juego.consola.print("Tipos permitidos: | casa | hotel | piscina | pista |");
-            return;
+            throw new EdificioIncorrecto();
         }
         if (!this.getDuenho().equals(jugador)) {
-            Juego.consola.print("No eres el dueño de esta casilla");
-            return;
+            throw new DuenhoCasilla();
         }
-    
         if (cantidad <= 0) {
-            Juego.consola.print("La cantidad debe ser mayor que cero");
-            return;
+            throw new Parametros();
         }
     
         Map<String, Float> multiplicadores = new HashMap<>();
@@ -247,7 +241,7 @@ public class Solar extends Propiedad {
      * CONSTRUIR, DESTRUIR,
      * EdificiosGrupo, getEdificios
      */
-    private boolean ConstruirCasa(){
+    private boolean ConstruirCasa() {
         if(this.getCasasGrupo() >= numMax+4 && this.getHotelesGrupo() == numMax){
             Juego.consola.print("No puedes construir más casas en este solar");
             return false;

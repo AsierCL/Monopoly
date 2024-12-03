@@ -40,7 +40,6 @@ public class Comunidad extends Acciones {
             Carta var14 = new CartaCajaComunidad(var13);
             var14.accion(actual, banca, tablero, jugadores, tirada);
             return true;
-        
     }
     
 

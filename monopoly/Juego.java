@@ -5,6 +5,18 @@ import java.util.List;
 
 import monopoly.casillas.Casilla;
 import monopoly.casillas.Propiedades.*;
+import monopoly.exceptions.CasillaDeshipotecada;
+import monopoly.exceptions.CasillaHipotecada;
+import monopoly.exceptions.ColorInvalido;
+import monopoly.exceptions.ComandoInvalido;
+import monopoly.exceptions.DineroInsuficiente;
+import monopoly.exceptions.DuenhoCasilla;
+import monopoly.exceptions.DuenhoSolar;
+import monopoly.exceptions.EdificioIncorrecto;
+import monopoly.exceptions.EnVenta;
+import monopoly.exceptions.EstarCasilla;
+import monopoly.exceptions.MinimoJugadores;
+import monopoly.exceptions.Parametros;
 import monopoly.interfaces.ConsolaNormal;
 import monopoly.interfaces.Consola;
 import partida.*;
@@ -107,6 +119,7 @@ public class Juego implements Comando {
 
     // Método para inciar una partida: crea los jugadores y avatares.
     public void iniciarPartida(Tablero tablero) {
+    try {
         this.partida = true;
 
         consola.print("Introduzca al menos dos jugadores para comenzar\n.");
@@ -123,7 +136,7 @@ public class Juego implements Comando {
                     jugadores.add(player);
                 }
             } else if (jugadores.size() < 2) {
-                consola.print("Debes introducir al menos dos jugadores.");
+                throw new MinimoJugadores();
             } else {
                 break;
             }
@@ -133,14 +146,23 @@ public class Juego implements Comando {
 
         while (partida) {
             String comando = Juego.consola.read("Introduzca comando: ");
+            try {
             analizarComando(comando);
+            } catch (ColorInvalido e){
+                System.err.println(e.getMessage());
+            } catch (ComandoInvalido e){
+                System.err.println(e.getMessage());
+            }
         }
+    } catch (MinimoJugadores e) {
+        System.err.println(e.getMessage());
     }
+}
 
     /*Método que interpreta el comando introducido y toma la accion correspondiente.
     * Parámetro: cadena de caracteres (el comando).
     */
-    private void analizarComando(String comando) {
+    private void analizarComando(String comando) throws ColorInvalido, ComandoInvalido {
         Jugador jugadorActual = jugadores.get(turno);
         Casilla casillaActual = jugadorActual.getAvatar().getLugar();
         // Dividimos el comando en palabras usando el espacio como separador
@@ -173,15 +195,14 @@ public class Juego implements Comando {
                         }else if(Grupo.coloresValidos.contains(parametro1)){
                             listarEdificiosPorColor(parametro1);
                         }else{
-                            consola.print("Error, color invalido");
+                            throw new ColorInvalido();
                         }
                         break;
                     case("tratos"):
                         tratos.listarTratos();
                         break;
                     default:
-                        consola.print("Error, introduzca un comando valido");
-                        break;
+                        throw new ComandoInvalido();
                 }
                 break;
             case("crear"):
@@ -234,7 +255,7 @@ public class Juego implements Comando {
                     descCasilla(subAccion);  // Interpretamos subAccion como nombre de la casilla
                 } else {
                     // Si no se recibe una subacción válida
-                    consola.print("Error, introduzca un comando válido");
+                    throw new ComandoInvalido();
                 }
                 break;
             // hipotecar + Casilla
@@ -258,7 +279,17 @@ public class Juego implements Comando {
             //ver tablero
             case("construir"):
                 if(casillaActual instanceof Solar){
+                    try {
                     ((Solar)casillaActual).Construir(jugadorActual, subAccion, jugadores);
+                    } catch (DuenhoCasilla e) {
+                        System.err.println(e.getMessage());
+                    } catch (EdificioIncorrecto e) {
+                        System.err.println(e.getMessage());
+                    } catch (EstarCasilla e) {
+                        System.err.println(e.getMessage());
+                    } catch (DuenhoSolar e) {
+                        System.err.println(e.getMessage());
+                    }
                 }else{
                     consola.print("No puedes construir aqui");
                 }
@@ -280,12 +311,11 @@ public class Juego implements Comando {
                 printAyuda();
                 break;
             default:
-                consola.print("Error, introduzca un comando valido\n");
-                break;
+                throw new ComandoInvalido();
         }
     }
 
-    public boolean turnoIntermedio(Avatar avatarActual, Casilla casillaActual, boolean haComprado) {
+    public boolean turnoIntermedio(Avatar avatarActual, Casilla casillaActual, boolean haComprado) throws ComandoInvalido {
         Jugador jugador = avatarActual.getJugador();
         boolean turnoActivo = true;
 
@@ -324,8 +354,7 @@ public class Juego implements Comando {
                             else; consola.print("Error, color invalido");
                             break;
                         default:
-                            consola.print("Error, introduzca un comando valido");
-                            break;
+                            throw new ComandoInvalido();
                         }
                         break;
                 //salir carcel
@@ -344,7 +373,7 @@ public class Juego implements Comando {
                         descCasilla(subAccion);  // Interpretamos subAccion como nombre de la casilla
                     } else {
                         // Si no se recibe una subacción válida
-                        consola.print("Error, introduzca un comando válido");
+                        throw new ComandoInvalido();
                     }
                     break;
                 // hipotecar + Casilla
@@ -368,7 +397,18 @@ public class Juego implements Comando {
                 //ver tablero
                 case("construir"):
                     if(casillaActual instanceof Solar){
+                        try{
                         ((Solar)casillaActual).Construir(jugador, subAccion, jugadores);
+                        } catch (DuenhoCasilla e) {
+                            System.err.println(e.getMessage());
+                        } catch (EdificioIncorrecto e) {
+                            System.err.println(e.getMessage());
+                        } catch (EstarCasilla e) {
+                            System.err.println(e.getMessage());
+                        } catch (DuenhoSolar e) {
+                            System.err.println(e.getMessage());
+                        }
+                        
                     }else{
                         consola.print("No puedes construir aqui");
                     }
@@ -398,8 +438,7 @@ public class Juego implements Comando {
                 turnoActivo = false;
                     break;
                 default:
-                    consola.print("Error, introduzca un comando valido\n");
-                    break;
+                    throw new ComandoInvalido();
             }
         }
         return haComprado; // Retorna el estado actualizado de haComprado
@@ -416,7 +455,11 @@ public class Juego implements Comando {
                     partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
                 }
                 consola.print(tablero.toString());
-                turnoIntermedio(avatarActual, avatarActual.getLugar(), false);
+                try {
+                    turnoIntermedio(avatarActual, avatarActual.getLugar(), false);
+                } catch (ComandoInvalido e){
+                    System.err.println(e.getMessage());
+                }
             }
         }
         else if(avatarActual.getTipo().equalsIgnoreCase("coche")){
@@ -435,7 +478,11 @@ public class Juego implements Comando {
                                 partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
                             }
                             consola.print(tablero.toString());;
+                            try {
                             haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
+                            } catch (ComandoInvalido e){
+                                System.err.println(e.getMessage());
+                            }
                         }else{
                             consola.print("VAS A LA CARCEL");
                             avatarActual.getJugador().encarcelar(casillas);
@@ -453,7 +500,11 @@ public class Juego implements Comando {
                     }
                     contador += faltaPorMover;
                     consola.print(tablero.toString());;
+                    try {
                     haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
+                    } catch (ComandoInvalido e){
+                        System.err.println(e.getMessage());
+                    }
                     resultadoDados = vuelveATirar(resultadoDados);
                     resultadoTotal = resultadoDados[0] + resultadoDados[1];
                     consola.print("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
@@ -576,7 +627,7 @@ public class Juego implements Comando {
     }
 
     //Método que ejecuta todas las acciones relacionadas con el comando 'lanzar dados'.
-    public void lanzarDados(boolean trucados) {
+    public void lanzarDados (boolean trucados) {
         if(!tirado){
 
             Avatar avatarActual = avatares.get(turno);
@@ -690,7 +741,15 @@ public class Juego implements Comando {
         Casilla casilla_compra = tablero.obtenerCasilla(nombre);
 
         if(casilla_compra instanceof Propiedad){
+        try {
             if(((Propiedad)casilla_compra).comprarPropiedad(jugador_actual, banca));
+        } catch (EstarCasilla e) {
+        System.err.println("Error: " + e.getMessage());
+        } catch (EnVenta e) {
+        System.err.println("Error: " + e.getMessage());
+        } catch (DineroInsuficiente e) {
+        System.err.println("Error: " + e.getMessage());
+        }
         }
     }
 
@@ -699,7 +758,13 @@ public class Juego implements Comando {
         Jugador jugador_actual = jugadores.get(turno);
 
         if(casilla_hipotecada instanceof Propiedad){
+        try {
             ((Propiedad)casilla_hipotecada).hipotecarCasilla(jugador_actual);
+        } catch (DuenhoCasilla e) {
+            System.err.println(e.getMessage()); 
+        } catch (CasillaHipotecada e) {
+            System.err.println(e.getMessage());
+        }
         }
     }
 
@@ -708,7 +773,13 @@ public class Juego implements Comando {
         Jugador jugador_actual = jugadores.get(turno);
 
         if(casilla_deshipotecada instanceof Propiedad){
+        try {
             ((Propiedad)casilla_deshipotecada).deshipotecarCasilla(jugador_actual);
+        } catch (DuenhoCasilla e) {
+            System.err.println(e.getMessage()); 
+        } catch (CasillaDeshipotecada e) {
+            System.err.println(e.getMessage());
+        }
         }
     }
 
@@ -747,17 +818,25 @@ public class Juego implements Comando {
     }
 
     public void vender(String[] partes){
-        if (partes.length < 4){
-            consola.print("No has pasado todos los parámetros");
-            return;
-        }
+        try {
+            if (partes.length != 4){
+                throw new Parametros();
+            }
 
         String construccion = partes[1];
         Jugador jugador = jugadores.get(turno);
         Casilla casilla = tablero.obtenerCasilla(partes[2]);
         int cantidad = Integer.valueOf(partes[3]);
-
+        
         ((Solar)casilla).VenderEdificios(jugador, construccion, cantidad);
+
+        } catch (Parametros e) {
+        System.err.println(e.getMessage());
+        } catch (DuenhoCasilla e) {
+            System.err.println(e.getMessage());
+        } catch (EdificioIncorrecto e) {
+        System.err.println(e.getMessage());
+        }
     }
 
     public boolean declararBancarrota(Jugador jugador_acreedor, Jugador jugadorActual){
