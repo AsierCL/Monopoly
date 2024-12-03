@@ -159,7 +159,7 @@ public class Solar extends Propiedad {
 
         if (construccionExitosa) {
             Juego.consola.print("Pagas la construcción: -" + costo + "€");
-            jugador.sumarGastos(costo);
+            jugador.incrementarDineroInvertido(costo);
         } else {
             Juego.consola.print("Construcción cancelada");
         }
