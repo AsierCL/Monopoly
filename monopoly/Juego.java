@@ -69,33 +69,37 @@ public class Juego implements Comando {
         consola.print(banner);
     }
 
-    public void printAyuda(){
+    public void printAyuda(boolean intermedio){
         consola.print("\nEstos son los posibles comandos: \n");
-        consola.print("crear jugador \"nombre\" \"ficha\"\t-> crea un nuevo jugador");
-        consola.print("jugador \t\t\t-> indica que jugador tiene el turno");
-        consola.print("listar jugadores \t\t-> lista los jugadores creados");
-        consola.print("listar avatares \t\t-> lista los avatares de los jugadores creados");
-        consola.print("listar enventa \t\t\t-> lista las propiedades a la venta");
-        consola.print("listar edificios \t\t-> lista los edificios construidos");
-        consola.print("lanzar dados \t\t\t-> lanza los dados");
-        consola.print("dados trucados \t\t\t-> permite asignar un valor a cada dado");
-        consola.print("acabar turno \t\t\t-> termina el turno del jugador que esté jugando");
-        consola.print("salir cárcel \t\t\t-> permite pagar y salir de la cárcel");
-        consola.print("describir \"nombre casilla\" \t-> describe la casilla introducida");
-        consola.print("describir jugador \"nombre\" \t-> describe el jugador introducido");
-        consola.print("describir avatar \"nombre\" \t-> describe el avatar introducido");
-        consola.print("comprar \"nombre propiedad\" \t-> permite comprar una propiedad");
-        consola.print("hipotecar \"nombre casilla\" \t-> permite hipotecar una propiedad");
-        consola.print("deshipotecar \"nombre casilla\" \t-> permite deshipotecar una propiedad");
-        consola.print("bancarrota \"nombre jugador\" \t-> declararse en bancarrota");
-        consola.print("construir \"edificio\" \t\t-> construye un edificio");
-        consola.print("vender \"edificio , solar, cantidad\" \t-> permite vender edificios");
-        consola.print("ver tablero \t\t\t-> muestra el tablero");
-        consola.print("estadisticas \t\t\t-> muestra estadisticas partida");
-        consola.print("estadisticas \"nombre jugador\" \t-> muestra estadisticas partida");
-        consola.print("crear trato  \t\t\t\t-> crea un nuevo trato");
+        consola.print("jugador \t\t\t\t-> indica que jugador tiene el turno");
+        consola.print("listar jugadores \t\t\t-> lista los jugadores creados");
+        consola.print("listar avatares \t\t\t-> lista los avatares de los jugadores creados");
+        consola.print("listar enventa \t\t\t\t-> lista las propiedades a la venta");
+        consola.print("listar edificios \t\t\t-> lista los edificios construidos");
         consola.print("listar tratos  \t\t\t\t-> lista los tratos actuales");
-        consola.print("? \t\t\t\t-> muestra este menú de ayuda");
+        consola.print("crear trato  \t\t\t\t-> crea un nuevo trato");
+        consola.print("aceptar trato \t\t\t\t-> permite aceptar un trato");
+        consola.print("rechazar trato \t\t\t\t-> permite rechazar un trato");
+        if(!intermedio){
+            consola.print("lanzar dados \t\t\t\t-> lanza los dados");
+            consola.print("dados trucados \t\t\t\t-> permite asignar un valor a cada dado");
+            consola.print("cambiar modo \t\t\t\t-> muestra estadisticas partida");
+            consola.print("acabar turno \t\t\t\t-> termina el turno del jugador que esté jugando");
+        }
+        consola.print("salir cárcel \t\t\t\t-> permite pagar y salir de la cárcel");
+        consola.print("describir \"nombre casilla\" \t\t-> describe la casilla introducida");
+        consola.print("describir jugador \"nombre\" \t\t-> describe el jugador introducido");
+        consola.print("describir avatar \"nombre\" \t\t-> describe el avatar introducido");
+        consola.print("hipotecar \"nombre casilla\" \t\t-> permite hipotecar una propiedad");
+        consola.print("deshipotecar \"nombre casilla\" \t\t-> permite deshipotecar una propiedad");
+        consola.print("bancarrota \"nombre jugador\" \t\t-> declararse en bancarrota");
+        consola.print("comprar \"nombre propiedad\" \t\t-> permite comprar una propiedad");
+        consola.print("construir \"edificio\" \t\t\t-> construye un edificio");
+        consola.print("vender \"edificio , solar, cantidad\" \t-> permite vender edificios");
+        consola.print("ver tablero \t\t\t\t-> muestra el tablero");
+        consola.print("estadisticas \t\t\t\t-> muestra estadisticas partida");
+        consola.print("estadisticas \"nombre jugador\" \t\t-> muestra estadisticas partida");
+        consola.print("? \t\t\t\t\t-> muestra este menú de ayuda");
 
         consola.print("\n");
     }
@@ -142,7 +146,7 @@ public class Juego implements Comando {
             }
         }
 
-        printAyuda();
+        printAyuda(false);
 
         while (partida) {
             String comando = Juego.consola.read("Introduzca comando: ");
@@ -276,7 +280,6 @@ public class Juego implements Comando {
             case("vender"):
                 vender(palabras);
                 break;
-            //ver tablero
             case("construir"):
                 if(casillaActual instanceof Solar){
                     try {
@@ -308,7 +311,7 @@ public class Juego implements Comando {
                 cambiarModo(jugadores.get(turno).getAvatar());
                 break;
             case("?"):
-                printAyuda();
+                printAyuda(false);
                 break;
             default:
                 throw new ComandoInvalido();
@@ -349,14 +352,32 @@ public class Juego implements Comando {
                             listarVenta();
                             break;
                         case("edificios"):
-                            if(parametro1.equals("")); //listarEdificios();
-                            else if(Grupo.coloresValidos.contains(parametro1)); //listarEdificiosPorColor(parametro1);
-                            else; consola.print("Error, color invalido");
+                            if(parametro1.equals("")) listarEdificios();
+                            else if(Grupo.coloresValidos.contains(parametro1)) listarEdificiosPorColor(parametro1);
+                            else consola.print("Error, color invalido");
+                            break;
+                        case("tratos"):
+                            tratos.listarTratos();
                             break;
                         default:
                             throw new ComandoInvalido();
                         }
                         break;
+                case("crear"):
+                    if(!subAccion.equals("trato"))
+                        break;
+                    tratos.proponerTrato(jugador, jugadores, tablero);
+                    break;
+                case("aceptar"):
+                    if(!subAccion.equals("trato"))
+                        break;
+                    tratos.aceptarTrato(jugador);
+                    break;
+                case("rechazar"):
+                    if(!subAccion.equals("trato"))
+                        break;
+                    tratos.rechazarTrato(jugador);
+                    break;
                 //salir carcel
                 case("salir"): //Pagar y salir de la carcel
                     salirCarcel();
@@ -399,7 +420,6 @@ public class Juego implements Comando {
                 case("vender"):
                     vender(palabras);
                     break;
-                //ver tablero
                 case("construir"):
                     if(casillaActual instanceof Solar){
                         try{
@@ -431,13 +451,8 @@ public class Juego implements Comando {
                 case("cambiar"):
                     cambiarModo(jugadores.get(turno).getAvatar());
                     break;
-                case("crear"):
-                    if(!subAccion.equals("trato"))
-                        break;
-                    tratos.proponerTrato(jugador, jugadores, tablero);
-                    break;
                 case("?"):
-                    printAyuda();
+                    printAyuda(true);
                     break;
                 case("continuar"):
                 turnoActivo = false;

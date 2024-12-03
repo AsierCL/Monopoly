@@ -45,5 +45,5 @@ public interface Comando {
 
     public void cambiarModo(Avatar avatar);
 
-    public void printAyuda();
+    public void printAyuda(boolean intermedio);
 }
