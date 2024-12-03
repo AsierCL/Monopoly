@@ -389,7 +389,12 @@ public class Juego implements Comando {
                     break;
                 //comprar + Mostoles
                 case("comprar"):
-                    comprar(subAccion);
+                    if(!haComprado){
+                        comprar(subAccion);
+                        haComprado = true;
+                    } else {
+                        consola.print("Solo puedes comprar en un turno intermedio");
+                    }
                     break;
                 case("vender"):
                     vender(palabras);
@@ -451,10 +456,10 @@ public class Juego implements Comando {
         if(avatarActual.getTipo().equalsIgnoreCase("pelota")){
             while(faltaPorMover != 0){
                 faltaPorMover = avatarActual.moverEnAvanzado(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
+                consola.print(tablero.toString());
                 if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
                     partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
                 }
-                consola.print(tablero.toString());
                 try {
                     turnoIntermedio(avatarActual, avatarActual.getLugar(), false);
                 } catch (ComandoInvalido e){
@@ -470,9 +475,6 @@ public class Juego implements Comando {
                         consola.print("LLevas " + this.lanzamientos + " dobles");
                         tirado = false;
                         if(this.lanzamientos<3){
-                            resultadoDados = vuelveATirar(resultadoDados);
-                            resultadoTotal = resultadoDados[0] + resultadoDados[1];
-                            consola.print("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
                             avatarActual.moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);
                             if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
                                 partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
@@ -483,6 +485,9 @@ public class Juego implements Comando {
                             } catch (ComandoInvalido e){
                                 System.err.println(e.getMessage());
                             }
+                            resultadoDados = vuelveATirar(resultadoDados);
+                            resultadoTotal = resultadoDados[0] + resultadoDados[1];
+                            consola.print("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
                         }else{
                             consola.print("VAS A LA CARCEL");
                             avatarActual.getJugador().encarcelar(casillas);
