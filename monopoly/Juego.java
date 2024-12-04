@@ -5,24 +5,11 @@ import java.util.List;
 
 import monopoly.casillas.Casilla;
 import monopoly.casillas.Propiedades.*;
-import monopoly.exceptions.CasillaDeshipotecada;
-import monopoly.exceptions.CasillaHipotecada;
-import monopoly.exceptions.ColorInvalido;
-import monopoly.exceptions.ComandoInvalido;
-import monopoly.exceptions.DineroInsuficiente;
-import monopoly.exceptions.DuenhoCasilla;
-import monopoly.exceptions.DuenhoSolar;
-import monopoly.exceptions.EdificioIncorrecto;
-import monopoly.exceptions.EnVenta;
-import monopoly.exceptions.EstarCasilla;
-import monopoly.exceptions.MinimoJugadores;
-import monopoly.exceptions.Parametros;
-import monopoly.interfaces.ConsolaNormal;
-import monopoly.interfaces.Consola;
+import monopoly.exceptions.*;
+import monopoly.interfaces.*;
 import partida.*;
 import partida.Tratos.Tratos;
 import partida.avatares.Avatar;
-import monopoly.interfaces.Comando;
 
 public class Juego implements Comando {
 

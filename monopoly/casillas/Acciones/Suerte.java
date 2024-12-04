@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import monopoly.Juego;
 import monopoly.Tablero;
 import partida.Jugador;
-import partida.cartas.Carta;
-import partida.cartas.CartaSuerte;
+import partida.cartas.*;
 
 public class Suerte extends Acciones {
 

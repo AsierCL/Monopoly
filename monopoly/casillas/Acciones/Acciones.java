@@ -1,4 +1,5 @@
 package monopoly.casillas.Acciones;
+
 import monopoly.casillas.Casilla;
 import partida.Jugador;
 import monopoly.Tablero;

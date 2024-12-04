@@ -7,17 +7,8 @@ import java.util.Map;
 import monopoly.Juego;
 import monopoly.Tablero;
 import monopoly.Valor;
-import monopoly.edificios.Casa;
-import monopoly.edificios.Edificio;
-import monopoly.edificios.Hotel;
-import monopoly.edificios.Piscina;
-import monopoly.edificios.Pista;
-import monopoly.exceptions.DuenhoCasilla;
-import monopoly.exceptions.DuenhoSolar;
-import monopoly.exceptions.EdificioCantidad;
-import monopoly.exceptions.EdificioIncorrecto;
-import monopoly.exceptions.EstarCasilla;
-import monopoly.exceptions.Parametros;
+import monopoly.edificios.*;
+import monopoly.exceptions.*;
 import partida.Jugador;
 
 public class Solar extends Propiedad {

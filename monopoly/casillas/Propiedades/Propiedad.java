@@ -5,12 +5,7 @@ import java.util.ArrayList;
 import monopoly.Juego;
 import monopoly.Grupo;
 import monopoly.Tablero;
-import monopoly.exceptions.CasillaDeshipotecada;
-import monopoly.exceptions.CasillaHipotecada;
-import monopoly.exceptions.DineroInsuficiente;
-import monopoly.exceptions.DuenhoCasilla;
-import monopoly.exceptions.EnVenta;
-import monopoly.exceptions.EstarCasilla;
+import monopoly.exceptions.*;
 import partida.Jugador;
 
 public abstract class Propiedad extends monopoly.casillas.Casilla {
