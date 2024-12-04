@@ -305,7 +305,7 @@ public class Juego implements Comando {
         }
     }
 
-    public boolean turnoIntermedio(Avatar avatarActual, Casilla casillaActual, boolean haComprado) throws ComandoInvalido {
+    public boolean turnoIntermedio(Avatar avatarActual, Casilla casillaActual, boolean haComprado) throws ComandoInvalido, ColorInvalido {
         Jugador jugador = avatarActual.getJugador();
         boolean turnoActivo = true;
 
@@ -341,7 +341,7 @@ public class Juego implements Comando {
                         case("edificios"):
                             if(parametro1.equals("")) listarEdificios();
                             else if(Grupo.coloresValidos.contains(parametro1)) listarEdificiosPorColor(parametro1);
-                            else consola.print("Error, color invalido");
+                            else throw new ColorInvalido();
                             break;
                         case("tratos"):
                             tratos.listarTratos();
@@ -466,6 +466,8 @@ public class Juego implements Comando {
                     turnoIntermedio(avatarActual, avatarActual.getLugar(), false);
                 } catch (ComandoInvalido e){
                     Juego.consola.error(e.getMessage());
+                } catch (ColorInvalido e){
+                    Juego.consola.error(e.getMessage());
                 }
             }
         }
@@ -485,6 +487,8 @@ public class Juego implements Comando {
                             try {
                             haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
                             } catch (ComandoInvalido e){
+                                Juego.consola.error(e.getMessage());
+                            } catch (ColorInvalido e){
                                 Juego.consola.error(e.getMessage());
                             }
                             resultadoDados = vuelveATirar(resultadoDados);
@@ -510,6 +514,8 @@ public class Juego implements Comando {
                         haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
                     } catch (ComandoInvalido e){
                         Juego.consola.error(e.getMessage());
+                    } catch (ColorInvalido e){
+                        Juego.consola.error(e.getMessage());
                     }
                     if(faltaPorMover != 0 && !avatarActual.getJugador().getEnCarcel()){
                         resultadoDados = vuelveATirar(resultadoDados);
@@ -532,12 +538,12 @@ public class Juego implements Comando {
     /*Método que realiza las acciones asociadas al comando 'describir jugador'.
     * Parámetro: comando introducido
      */
-    public void descJugador(String[] partes) {
+    public void descJugador(String[] partes)  {
+        try {
         // Verificar si el array partes es nulo o tiene menos elementos de los necesarios
         if (partes == null || partes.length <= 2) {
-            consola.print("Error: Parámetros insuficientes o nulos.");
-            return;
-        }
+            throw new Parametros();
+        } 
 
         // Supoñendo que o nombre do jugador está en partes[1].
         String nombreJugador = partes[2];
@@ -568,7 +574,13 @@ public class Juego implements Comando {
 
         // Hipotecas.
         } else {
-            consola.print("No existe un jugador con este nombre.");
+            throw new NombreJugador();
+        }
+
+        } catch (Parametros e){
+            Juego.consola.error(e.getMessage());
+        } catch (NombreJugador e) {
+            Juego.consola.error(e.getMessage());
         }
     }
 
@@ -625,16 +637,21 @@ public class Juego implements Comando {
     * Parámetros: nombre de la casilla a describir.
     */
     public void descCasilla(String nombre) {
+        try {
         Casilla casilla = tablero.obtenerCasilla(nombre);
         if (casilla != null) {
             consola.print(casilla.infoCasilla());
         } else {
-            consola.print("No se encontró una casilla con ese nombre.");
+            throw new CasillaNombre();
+        }
+        } catch (CasillaNombre e){
+            Juego.consola.error(e.getMessage());
         }
     }
 
     //Método que ejecuta todas las acciones relacionadas con el comando 'lanzar dados'.
     public void lanzarDados (boolean trucados) {
+        try {
         if(!tirado){
 
             Avatar avatarActual = avatares.get(turno);
@@ -672,7 +689,10 @@ public class Juego implements Comando {
             }
 
         } else {
-            consola.print("Ya no puedes tirar más");
+            throw new Tirada();
+        }
+        } catch (Tirada e){
+            Juego.consola.error(e.getMessage());
         }
     }
 
@@ -796,7 +816,6 @@ public class Juego implements Comando {
 
     public void bancarrota(String nombre) {
         if (!jugadores.contains(buscarJugadorPorNombre(nombre))) {
-            consola.print("No existe un jugador con ese nombre.");
             return;
         }
 
