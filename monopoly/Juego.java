@@ -920,7 +920,7 @@ public class Juego implements Comando {
             if(casilla instanceof Solar){
                 if(((Solar)casilla).EsSolarEdificado()){
                     ningunEdificio = false;
-                    ((Solar)casilla).listarEdificios();
+                    Juego.consola.print(((Solar)casilla).listarEdificios());
                 }
             }
         }
