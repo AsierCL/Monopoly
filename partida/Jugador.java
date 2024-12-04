@@ -113,6 +113,10 @@ public class Jugador {
         return this.nombre;
     }
 
+    public float getGastos() {
+        return gastos;
+    }
+
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
