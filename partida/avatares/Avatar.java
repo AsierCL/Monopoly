@@ -3,6 +3,7 @@ package partida.avatares;
 import monopoly.*;
 import monopoly.casillas.Casilla;
 import partida.Jugador;
+import monopoly.Tablero;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -111,17 +112,17 @@ public abstract class Avatar {
     * - Un entero que indica el numero de casillas a moverse (será el valor sacado en la tirada de los dados).
     * EN ESTA VERSIÓN SUPONEMOS QUE valorTirada siempre es positivo.
      */
-    public void moverAvatar(ArrayList<ArrayList<Casilla>> casillas, int valorTirada) {
+    private void moverAvatar(ArrayList<ArrayList<Casilla>> casillas, int valorTirada, Tablero tablero) {
         if(!this.getJugador().getEnCarcel()){
             int posicionActual = lugar.getPosicion();
-            Casilla casillaActual = obtenerCasilla(posicionActual, casillas);
+            Casilla casillaActual = tablero.obtenerCasilla(posicionActual);
             int posicionNueva = (posicionActual + valorTirada)%40;
 
             if (posicionNueva < 0) { 
                 posicionNueva += 40; // Si el resultado es negativo, lo ajustamos sumando 40
             }
 
-            Casilla nuevaCasilla = obtenerCasilla(posicionNueva, casillas);
+            Casilla nuevaCasilla = tablero.obtenerCasilla(posicionNueva);
             if(valorTirada >= 0) this.getJugador().cobrarPasoPorSalida(casillaActual, nuevaCasilla);
             else this.getJugador().PasoPorSalidaInverso(casillaActual, nuevaCasilla);
 
@@ -135,20 +136,9 @@ public abstract class Avatar {
         
     }
 
-    public Casilla obtenerCasilla(int posicionNueva, ArrayList<ArrayList<Casilla>> casillas) {
-        for (ArrayList<Casilla> lado : casillas) {
-            for (Casilla casilla : lado) {
-                if (casilla.getPosicion()==posicionNueva) {
-                    return casilla;  
-                }
-            }
-        }
-        return null;
-    }
-
     // Métodos para movimiento
     public void moverEnBasico(ArrayList<ArrayList<Casilla>> casillas, int valorTirada, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores){
-        moverAvatar(casillas, valorTirada); // Comportamiento estándar
+        moverAvatar(casillas, valorTirada, tablero); // Comportamiento estándar
     }
 
     // Método abstracto, obliga a las subclases a implementarlo
