@@ -131,6 +131,9 @@ public class Tratos {
                             Juego.consola.print("El jugador " + jugador.getNombre() + " no forma parte del trato " + trato.getId());
                             break;
                         }
+                        if(!propiedadesHipotecadas(trato)){
+                            return;
+                        }
                         ejecucionTrato(trato);
                         aceptado = true;
                         Juego.consola.print("El trato con ID " + idAcepta + " ha sido aceptado.");
@@ -241,5 +244,39 @@ public class Tratos {
 
         tratos.remove(trato);
         return true;
+    }
+
+    private boolean propiedadesHipotecadas(Trato trato){
+        boolean hayPropHipot = false;
+        String continuar;
+        for (Propiedad propiedad : trato.getPropiedades_acepta()) {
+            if(propiedad.getHipotecada()){
+                hayPropHipot = true;
+                Juego.consola.print("La propiedad " + propiedad.getNombre() + " está hipotecada");
+            }
+        }
+        
+        for (Propiedad propiedad : trato.getPropiedades_oferta()) {
+            if(propiedad.getHipotecada()){
+                hayPropHipot = true;
+                Juego.consola.print("La propiedad " + propiedad.getNombre() + " está hipotecada");
+            }
+        }
+
+        if(hayPropHipot){
+            while(true){
+                Juego.consola.print("Quieres continuar el trato con estas hipotecas?");
+                continuar = Juego.consola.read("[si/no]:");
+                if(continuar.equals("si"))
+                    return true;
+                else if(continuar.equals("no"))
+                    return false;
+                else{
+                    Juego.consola.error("Opción incorrecta");
+                }
+            }
+        }else{
+            return true;
+        }
     }
 }
