@@ -57,10 +57,10 @@ public class Tratos {
             
             if(propiedad==null){
                 Juego.consola.error("Propiedad no encontrada");
-                return;
-            }if(!(propiedad instanceof Propiedad)){
+                continue;
+            }else if(!(propiedad instanceof Propiedad)){
                 Juego.consola.error("La casilla " + propiedad.getNombre() + " no se puede transferir");
-                return;
+                continue;
             }else{
                 propiedadesOferta.add((Propiedad)propiedad);
             }
@@ -74,13 +74,13 @@ public class Tratos {
                 break;
             
             Casilla propiedad = tablero.obtenerCasilla(propiedadesAceptaInput);
+            
             if(propiedad==null){
                 Juego.consola.error("Propiedad no encontrada");
-                return;
-            }
-            if(!(propiedad instanceof Propiedad)){
-                Juego.consola.error("La casilla " + propiedad.getNombre() + "no se puede transferir");
-                return;
+                continue;
+            }else if(!(propiedad instanceof Propiedad)){
+                Juego.consola.error("La casilla " + propiedad.getNombre() + " no se puede transferir");
+                continue;
             }else{
                 propiedadesAcepta.add((Propiedad)propiedad);
             }
