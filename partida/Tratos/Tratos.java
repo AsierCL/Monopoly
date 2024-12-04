@@ -7,6 +7,7 @@ import monopoly.casillas.Propiedades.Propiedad;
 import monopoly.Juego;
 import monopoly.Tablero;
 import partida.Jugador;
+import monopoly.exceptions.*;
 
 public class Tratos {
     private ArrayList<Trato> tratos;
@@ -30,12 +31,12 @@ public class Tratos {
         String nombreJugadorAcepta = Juego.consola.read("Ingrese el nombre del jugador que recibe la oferta: ");
         jugadorAcepta = Juego.buscarJugadorPorNombre(nombreJugadorAcepta, jugadores);
 
-        if (jugadorAcepta == null) {
+        if(jugadorAcepta == null) {
             Juego.consola.print("El jugador que recibe la oferta no existe.");
             return;
         }
         if(jugadorAcepta.equals(jugadorOferta)){
-            Juego.consola.print("No puedes proponerte un trato a ti mismo");
+            Juego.consola.error("No puedes proponerte un trato a ti mismo");
             return;
         }
 
@@ -55,16 +56,12 @@ public class Tratos {
             Casilla propiedad = tablero.obtenerCasilla(propiedadesOfertaInput);
             
             if(propiedad==null){
-                Juego.consola.print("Propiedad no encontrada");
-                break;
+                Juego.consola.error("Propiedad no encontrada");
+                return;
             }if(!(propiedad instanceof Propiedad)){
-                Juego.consola.print("La casilla " + propiedad.getNombre() + "no se puede transferir");
-                break;
-            }if(!jugadorOferta.getPropiedades().contains(propiedad)){
-                Juego.consola.print("No posees esa propiedad aún");
-                break;
+                Juego.consola.error("La casilla " + propiedad.getNombre() + " no se puede transferir");
+                return;
             }else{
-                /// QUIZAS HABIA QUE DESTRUIR TODOS OS EDIFICIOS ANTES ///
                 propiedadesOferta.add((Propiedad)propiedad);
             }
         }
@@ -78,18 +75,13 @@ public class Tratos {
             
             Casilla propiedad = tablero.obtenerCasilla(propiedadesAceptaInput);
             if(propiedad==null){
-                Juego.consola.print("Propiedad no encontrada");
-                break;
+                Juego.consola.error("Propiedad no encontrada");
+                return;
             }
             if(!(propiedad instanceof Propiedad)){
-                Juego.consola.print("La casilla " + propiedad.getNombre() + "no se puede transferir");
-                break;
-            }
-            if(!jugadorAcepta.getPropiedades().contains(propiedad)){
-                Juego.consola.print(jugadorAcepta.getNombre() + " no posee esa propiedad aún");
-                break;
+                Juego.consola.error("La casilla " + propiedad.getNombre() + "no se puede transferir");
+                return;
             }else{
-                /// QUIZAS HABIA QUE DESTRUIR TODOS OS EDIFICIOS ANTES ///
                 propiedadesAcepta.add((Propiedad)propiedad);
             }
         }
@@ -106,7 +98,7 @@ public class Tratos {
     
     public void aceptarTrato(Jugador jugador){
         String input;
-        boolean aceptado = false;
+        boolean valido = false;
     
         // Validar si hay tratos disponibles
         if (tratos.isEmpty()) {
@@ -128,25 +120,30 @@ public class Tratos {
                 for (Trato trato : tratos) {
                     if(trato.getId()==idAcepta){
                         if(!trato.getJugador_acepta().equals(jugador)){
-                            Juego.consola.print("El jugador " + jugador.getNombre() + " no forma parte del trato " + trato.getId());
+                            Juego.consola.error("El trato " + trato.getId() + " es para el jugador " + trato.getJugador_acepta().getNombre());
                             break;
                         }
                         if(!propiedadesHipotecadas(trato)){
                             return;
                         }
-                        ejecucionTrato(trato);
-                        aceptado = true;
-                        Juego.consola.print("El trato con ID " + idAcepta + " ha sido aceptado.");
-                        return;
+
+                        try {
+                            ejecucionTrato(trato);
+                            valido = true;
+                            Juego.consola.print("El trato con ID " + idAcepta + " ha sido aceptado.");
+                            return;
+                        } catch (TratosException e) {
+                            Juego.consola.error(e.getMessage());
+                        }
                     }
                 }
                 
                 // Validar si el idRechazo es válido
-                if (!aceptado) {
-                    Juego.consola.print("El número del trato no es válido. Inténtalo de nuevo.");
+                if (!valido) {
+                    Juego.consola.error("El número del trato no es válido. Inténtalo de nuevo.");
                 }
             }
-        } while (!aceptado);
+        } while (true);
     }
 
     public void rechazarTrato(Jugador jugador) {
@@ -201,32 +198,27 @@ public class Tratos {
     }
 
     //Aux
-    private boolean ejecucionTrato(Trato trato){
+    private void ejecucionTrato(Trato trato) throws TratosException{
         for (Propiedad propiedad : trato.getPropiedades_oferta()) {
             if(!trato.getJugador_oferta().getPropiedades().contains(propiedad)){
-                Juego.consola.print("El jugador " + trato.getJugador_oferta().getNombre() + " no posee la propiedad " + propiedad.getNombre());
-                return false;
+                throw new TratosException("El jugador " + trato.getJugador_oferta().getNombre() + " no posee la propiedad " + propiedad.getNombre());
             }
         }
 
         for (Propiedad propiedad : trato.getPropiedades_acepta()) {
             if(!trato.getJugador_acepta().getPropiedades().contains(propiedad)){
-                Juego.consola.print("El jugador " + trato.getJugador_acepta().getNombre() + " no posee la propiedad " + propiedad.getNombre());
-                return false;
+                throw new TratosException("El jugador " + trato.getJugador_acepta().getNombre() + " no posee la propiedad " + propiedad.getNombre());
             }
         }
 
         if(trato.getJugador_oferta().getFortuna()<trato.getCantidad_oferta()){
-            Juego.consola.print("El jugador " + trato.getJugador_oferta() + " no tiene el dinero suficiente para el trato (" + trato.getCantidad_oferta() +")");
-            return false;
+            throw new TratosException("El jugador " + trato.getJugador_oferta().getNombre() + " no tiene el dinero suficiente para el trato (" + trato.getCantidad_oferta() +")");
         }
 
         if(trato.getJugador_acepta().getFortuna()<trato.getCantidad_acepta()){
-            Juego.consola.print("El jugador " + trato.getJugador_acepta() + " no tiene el dinero suficiente para el trato (" + trato.getCantidad_acepta() +")");
-            return false;
+            throw new TratosException(("El jugador " + trato.getJugador_acepta().getNombre() + " no tiene el dinero suficiente para el trato (" + trato.getCantidad_acepta() +")"));
         }
 
-        // REVISAR SI SE USAN BEN AS ESTADISTICAS //
         trato.getJugador_acepta().incrementarDineroInvertido(trato.getCantidad_acepta());
         trato.getJugador_oferta().sumarFortuna(trato.getCantidad_acepta());
 
@@ -241,7 +233,6 @@ public class Tratos {
         }
 
         tratos.remove(trato);
-        return true;
     }
 
     private boolean propiedadesHipotecadas(Trato trato){

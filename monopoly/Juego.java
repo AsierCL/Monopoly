@@ -140,13 +140,13 @@ public class Juego implements Comando {
             try {
             analizarComando(comando);
             } catch (ColorInvalido e){
-                System.err.println(e.getMessage());
+                Juego.consola.error(e.getMessage());
             } catch (ComandoInvalido e){
-                System.err.println(e.getMessage());
+                Juego.consola.error(e.getMessage());
             }
         }
     } catch (MinimoJugadores e) {
-        System.err.println(e.getMessage());
+        Juego.consola.error(e.getMessage());
     }
 }
 
@@ -272,13 +272,13 @@ public class Juego implements Comando {
                     try {
                     ((Solar)casillaActual).Construir(jugadorActual, subAccion, jugadores);
                     } catch (DuenhoCasilla e) {
-                        System.err.println(e.getMessage());
+                        Juego.consola.error(e.getMessage());
                     } catch (EdificioIncorrecto e) {
-                        System.err.println(e.getMessage());
+                        Juego.consola.error(e.getMessage());
                     } catch (EstarCasilla e) {
-                        System.err.println(e.getMessage());
+                        Juego.consola.error(e.getMessage());
                     } catch (DuenhoSolar e) {
-                        System.err.println(e.getMessage());
+                        Juego.consola.error(e.getMessage());
                     }
                 }else{
                     consola.print("No puedes construir aqui");
@@ -412,13 +412,13 @@ public class Juego implements Comando {
                         try{
                         ((Solar)casillaActual).Construir(jugador, subAccion, jugadores);
                         } catch (DuenhoCasilla e) {
-                            System.err.println(e.getMessage());
+                            Juego.consola.error(e.getMessage());
                         } catch (EdificioIncorrecto e) {
-                            System.err.println(e.getMessage());
+                            Juego.consola.error(e.getMessage());
                         } catch (EstarCasilla e) {
-                            System.err.println(e.getMessage());
+                            Juego.consola.error(e.getMessage());
                         } catch (DuenhoSolar e) {
-                            System.err.println(e.getMessage());
+                            Juego.consola.error(e.getMessage());
                         }
                         
                     }else{
@@ -465,7 +465,7 @@ public class Juego implements Comando {
                 try {
                     turnoIntermedio(avatarActual, avatarActual.getLugar(), false);
                 } catch (ComandoInvalido e){
-                    System.err.println(e.getMessage());
+                    Juego.consola.error(e.getMessage());
                 }
             }
         }
@@ -485,7 +485,7 @@ public class Juego implements Comando {
                             try {
                             haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
                             } catch (ComandoInvalido e){
-                                System.err.println(e.getMessage());
+                                Juego.consola.error(e.getMessage());
                             }
                             resultadoDados = vuelveATirar(resultadoDados);
                             resultadoTotal = resultadoDados[0] + resultadoDados[1];
@@ -509,7 +509,7 @@ public class Juego implements Comando {
                     try {
                         haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
                     } catch (ComandoInvalido e){
-                        System.err.println(e.getMessage());
+                        Juego.consola.error(e.getMessage());
                     }
                     if(faltaPorMover != 0 && !avatarActual.getJugador().getEnCarcel()){
                         resultadoDados = vuelveATirar(resultadoDados);
@@ -751,11 +751,11 @@ public class Juego implements Comando {
         try {
             if(((Propiedad)casilla_compra).comprarPropiedad(jugador_actual, banca));
         } catch (EstarCasilla e) {
-        System.err.println("Error: " + e.getMessage());
+        Juego.consola.error("Error: " + e.getMessage());
         } catch (EnVenta e) {
-        System.err.println("Error: " + e.getMessage());
+        Juego.consola.error("Error: " + e.getMessage());
         } catch (DineroInsuficiente e) {
-        System.err.println("Error: " + e.getMessage());
+        Juego.consola.error("Error: " + e.getMessage());
         }
         }
     }
@@ -768,9 +768,9 @@ public class Juego implements Comando {
         try {
             ((Propiedad)casilla_hipotecada).hipotecarCasilla(jugador_actual);
         } catch (DuenhoCasilla e) {
-            System.err.println(e.getMessage()); 
+            Juego.consola.error(e.getMessage()); 
         } catch (CasillaHipotecada e) {
-            System.err.println(e.getMessage());
+            Juego.consola.error(e.getMessage());
         }
         }
     }
@@ -783,9 +783,9 @@ public class Juego implements Comando {
         try {
             ((Propiedad)casilla_deshipotecada).deshipotecarCasilla(jugador_actual);
         } catch (DuenhoCasilla e) {
-            System.err.println(e.getMessage()); 
+            Juego.consola.error(e.getMessage()); 
         } catch (CasillaDeshipotecada e) {
-            System.err.println(e.getMessage());
+            Juego.consola.error(e.getMessage());
         }
         }
     }
@@ -838,11 +838,11 @@ public class Juego implements Comando {
         ((Solar)casilla).VenderEdificios(jugador, construccion, cantidad);
 
         } catch (Parametros e) {
-        System.err.println(e.getMessage());
+        Juego.consola.error(e.getMessage());
         } catch (DuenhoCasilla e) {
-            System.err.println(e.getMessage());
+            Juego.consola.error(e.getMessage());
         } catch (EdificioIncorrecto e) {
-        System.err.println(e.getMessage());
+        Juego.consola.error(e.getMessage());
         }
     }
 
@@ -940,8 +940,8 @@ public class Juego implements Comando {
         if(!jugadores.isEmpty()){
             consola.print("El turno es de:");
             consola.print("\n{");
-            System.out.print("Nombre: "); consola.print(jugadores.get(turno).getNombre());
-            System.out.print("Avatar: "); consola.print(jugadores.get(turno).getAvatar().getId());
+            consola.print("Nombre: " + jugadores.get(turno).getNombre());
+            consola.print("Avatar: " + jugadores.get(turno).getAvatar().getId());
             consola.print("}\n");
         }
     }

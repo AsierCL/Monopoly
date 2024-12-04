@@ -172,7 +172,7 @@ public class Jugador {
         if (this.propiedades.contains(casilla)) {
             this.propiedades.remove(casilla);
         }else{
-            System.err.println("La casilla no pertenece al jugador\n");
+            Juego.consola.error("La casilla no pertenece al jugador\n");
         }
     }
 
