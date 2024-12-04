@@ -6,26 +6,28 @@ import monopoly.Juego;
 import monopoly.Tablero;
 import partida.Jugador;
 
-public class Transporte extends Propiedad{
+public class Transporte extends Propiedad {
 
-    public Transporte(String nombre, int posicion, Jugador duenho, float valor){
+    public Transporte(String nombre, int posicion, Jugador duenho, float valor) {
         super(nombre, posicion, duenho, valor);
     }
 
     @Override
-    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores) {
+    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero,
+            ArrayList<Jugador> jugadores) {
         haEstado(actual, jugadores);
-        
-        if (this.getHipotecada()){
+
+        if (this.getHipotecada()) {
             return true;
         }
         float pago = 0;
-        if(!this.getDuenho().equals(actual) && !this.getDuenho().equals(banca)){// Casilla de otro
+        if (!this.getDuenho().equals(actual) && !this.getDuenho().equals(banca)) {// Casilla de otro
             pago = this.getValor() * 0.1f * this.numTransporte();
-            if((actual.getFortuna()-pago)<0){
-                Juego.consola.print("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
+            if ((actual.getFortuna() - pago) < 0) {
+                Juego.consola
+                        .print("Dinero insuficiente para pagar, debes vender propiedades o declararte en bancarrota.");
                 return false;
-            }else{
+            } else {
                 Juego.consola.print("Pagas impuesto de casilla: -" + pago + "€");
                 actual.incrementarPagoTasasEImpuestos(pago);
                 this.getDuenho().incrementarCobroDeAlquileres(pago);
@@ -39,7 +41,7 @@ public class Transporte extends Propiedad{
     @Override
     public String infoCasilla() {
         StringBuilder info = new StringBuilder();
-        
+
         info.append("Nombre: ").append(this.getNombre()).append("\n");
         info.append("Posición: ").append(this.getPosicion()).append("\n");
         info.append("Tipo: Transporte").append("\n");
@@ -54,8 +56,8 @@ public class Transporte extends Propiedad{
 
         return info.toString();
     }
-    
-    private int numTransporte(){
+
+    private int numTransporte() {
         return this.getGrupo().numEnPropiedadGrupo(this.getDuenho());
     }
 

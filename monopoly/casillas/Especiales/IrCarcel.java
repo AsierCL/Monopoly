@@ -7,23 +7,24 @@ import monopoly.Tablero;
 import partida.Jugador;
 
 public class IrCarcel extends Especial {
-    public IrCarcel(String nombre, int posicion, Jugador duenho){
+    public IrCarcel(String nombre, int posicion, Jugador duenho) {
         super(nombre, posicion, duenho);
     }
 
     @Override
-    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores){
+    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero,
+            ArrayList<Jugador> jugadores) {
         haEstado(actual, jugadores);
 
         Juego.consola.print("VAS A LA CARCEL");
         actual.encarcelar(tablero.getPosiciones());
-        
+
         return true;
     }
 
     @Override
-    public String infoCasilla(){
-        //Creamos a cadena a devolver
+    public String infoCasilla() {
+        // Creamos a cadena a devolver
         StringBuilder info = new StringBuilder();
 
         info.append("Nombre: ").append(this.getNombre()).append("\n");

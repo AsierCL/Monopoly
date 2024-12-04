@@ -7,11 +7,9 @@ import monopoly.Tablero;
 import partida.Jugador;
 import partida.cartas.*;
 
-
-
 public class Comunidad extends Acciones {
 
-    public Comunidad(String nombre, int posicion,  Jugador duenho){
+    public Comunidad(String nombre, int posicion, Jugador duenho) {
         super(nombre, posicion, duenho);
     }
 
@@ -27,20 +25,20 @@ public class Comunidad extends Acciones {
     }
 
     @Override
-    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores) {
+    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero,
+            ArrayList<Jugador> jugadores) {
         Juego.consola.print("TARJETA DE COMUNIDAD\n");
         int var13;
         do {
             do {
-                var13 = Integer.parseInt(Juego.consola.read("Introduce un n\u00famero del 1 al 6 para seleccionar una carta de Comunidad: "));
-                } while(var13 < 1);
-            } while(var13 > 6);
+                var13 = Integer.parseInt(Juego.consola
+                        .read("Introduce un n\u00famero del 1 al 6 para seleccionar una carta de Comunidad: "));
+            } while (var13 < 1);
+        } while (var13 > 6);
 
-            Carta var14 = new CartaCajaComunidad(var13);
-            var14.accion(actual, banca, tablero, jugadores, tirada);
-            return true;
+        Carta var14 = new CartaCajaComunidad(var13);
+        var14.accion(actual, banca, tablero, jugadores, tirada);
+        return true;
     }
-    
-
 
 }

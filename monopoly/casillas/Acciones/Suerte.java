@@ -24,13 +24,15 @@ public class Suerte extends Acciones {
     }
 
     @Override
-    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores) {
+    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero,
+            ArrayList<Jugador> jugadores) {
         Juego.consola.print("TARJETA DE SUERTE\n");
 
         int var10;
         do {
             do {
-                var10 = Integer.parseInt(Juego.consola.read("Introduce un n\u00famero del 1 al 6 para seleccionar una carta de Suerte: "));
+                var10 = Integer.parseInt(Juego.consola
+                        .read("Introduce un n\u00famero del 1 al 6 para seleccionar una carta de Suerte: "));
             } while (var10 < 1);
         } while (var10 > 6);
 

@@ -13,35 +13,32 @@ public class Pelota extends Avatar {
     }
 
     @Override
-    public int moverEnAvanzado(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores){
-        if(resultadoTotal > 4){
-            if(resultadoTotal == faltaPorMover){
+    public int moverEnAvanzado(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas,
+            Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores) {
+        if (resultadoTotal > 4) {
+            if (resultadoTotal == faltaPorMover) {
                 moverEnBasico(casillas, 5, banca, tablero, jugadores);
                 faltaPorMover -= 5;
                 return faltaPorMover;
-            }
-            else if(faltaPorMover > 1){
+            } else if (faltaPorMover > 1) {
                 moverEnBasico(casillas, 2, banca, tablero, jugadores);
                 faltaPorMover -= 2;
                 return faltaPorMover;
-            }
-            else if(faltaPorMover == 1){
+            } else if (faltaPorMover == 1) {
                 moverEnBasico(casillas, 1, banca, tablero, jugadores);
                 faltaPorMover -= 1;
                 return faltaPorMover;
             }
         } else {
-            if(resultadoTotal == faltaPorMover){
+            if (resultadoTotal == faltaPorMover) {
                 moverEnBasico(casillas, -1, banca, tablero, jugadores);
                 faltaPorMover -= 1;
                 return faltaPorMover;
-            }
-            else if(faltaPorMover > 1){
+            } else if (faltaPorMover > 1) {
                 moverEnBasico(casillas, -2, banca, tablero, jugadores);
                 faltaPorMover -= 2;
                 return faltaPorMover;
-            }
-            else if(faltaPorMover == 1){
+            } else if (faltaPorMover == 1) {
                 moverEnBasico(casillas, -1, banca, tablero, jugadores);
                 faltaPorMover -= 1;
                 return faltaPorMover;

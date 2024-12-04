@@ -9,18 +9,18 @@ import monopoly.casillas.Propiedades.*;
 import partida.avatares.*;
 import partida.avatares.Coche;
 
-
 public class Jugador {
 
-    //Atributos:
-    private String nombre; //Nombre del jugador
-    private Avatar avatar; //Avatar que tiene en la partida.
-    private float fortuna; //Dinero que posee.
-    private float gastos; //Gastos realizados a lo largo del juego.
-    private boolean enCarcel; //Será true si el jugador está en la carcel
-    private int tiradasCarcel; //Cuando está en la carcel, contará las tiradas sin éxito que ha hecho allí para intentar salir (se usa para limitar el numero de intentos).
-    private int vueltas; //Cuenta las vueltas dadas al tablero.
-    private ArrayList<Casilla> propiedades; //Propiedades que posee el jugador.
+    // Atributos:
+    private String nombre; // Nombre del jugador
+    private Avatar avatar; // Avatar que tiene en la partida.
+    private float fortuna; // Dinero que posee.
+    private float gastos; // Gastos realizados a lo largo del juego.
+    private boolean enCarcel; // Será true si el jugador está en la carcel
+    private int tiradasCarcel; // Cuando está en la carcel, contará las tiradas sin éxito que ha hecho allí
+                               // para intentar salir (se usa para limitar el numero de intentos).
+    private int vueltas; // Cuenta las vueltas dadas al tablero.
+    private ArrayList<Casilla> propiedades; // Propiedades que posee el jugador.
     private int turnosBloqueado;
 
     // Atributos para estadísticas
@@ -33,12 +33,12 @@ public class Jugador {
     private int vecesEnLaCarcel;
     private int lanzamientos;
 
-    //Constructor vacío. Se usará para crear la banca.
+    // Constructor vacío. Se usará para crear la banca.
     public Jugador() {
         this.nombre = "banca";
         this.avatar = null;
-        //Realmente pode non ser necesario asignar fortuna
-        this.fortuna = 999999999; //Usar variabe global FORTUNA_BANCA¿?
+        // Realmente pode non ser necesario asignar fortuna
+        this.fortuna = 999999999; // Usar variabe global FORTUNA_BANCA¿?
         this.gastos = 0;
         this.enCarcel = false;
         this.tiradasCarcel = 0;
@@ -57,15 +57,19 @@ public class Jugador {
         this.lanzamientos = 0;
     }
 
-    /*Constructor principal. Requiere parámetros:
-    * Nombre del jugador, tipo del avatar que tendrá, casilla en la que empezará y ArrayList de
-    * avatares creados (usado para dos propósitos: evitar que dos jugadores tengan el mismo nombre y
-    * que dos avatares tengan mismo ID). Desde este constructor también se crea el avatar.
+    /*
+     * Constructor principal. Requiere parámetros:
+     * Nombre del jugador, tipo del avatar que tendrá, casilla en la que empezará y
+     * ArrayList de
+     * avatares creados (usado para dos propósitos: evitar que dos jugadores tengan
+     * el mismo nombre y
+     * que dos avatares tengan mismo ID). Desde este constructor también se crea el
+     * avatar.
      */
     public Jugador(String nombre, String tipoAvatar, Casilla inicio, ArrayList<Avatar> avCreados) {
         this.nombre = nombre;
 
-        if(Avatar.avataresValidos.contains(tipoAvatar)){
+        if (Avatar.avataresValidos.contains(tipoAvatar)) {
             switch (tipoAvatar) {
                 case "coche":
                     this.avatar = new Coche(this, inicio, avCreados);
@@ -83,12 +87,12 @@ public class Jugador {
                     Juego.consola.print("DEBUGGGG, error creando avatar");
                     break;
             }
-        }else{
+        } else {
             Juego.consola.print("\nTipo de avatar incorrecto\n");
         }
         this.fortuna = Valor.FORTUNA_INICIAL;
 
-        //Aquí alomejor se puede sustituir todo esto por this();
+        // Aquí alomejor se puede sustituir todo esto por this();
         this.gastos = 0;
         this.enCarcel = false;
         this.tiradasCarcel = 0;
@@ -103,13 +107,15 @@ public class Jugador {
         this.lanzamientos = 0;
         this.turnosBloqueado = 0;
 
-        /*Non é necesario especificar <Casilla>,
-        *por "diamond operator", e inferencia de tipos */
+        /*
+         * Non é necesario especificar <Casilla>,
+         * por "diamond operator", e inferencia de tipos
+         */
         this.propiedades = new ArrayList<Casilla>();
     }
 
-    //Getters y setters
-    public String getNombre(){
+    // Getters y setters
+    public String getNombre() {
         return this.nombre;
     }
 
@@ -117,31 +123,31 @@ public class Jugador {
         return gastos;
     }
 
-    public void setNombre(String nombre){
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public float getFortuna(){
+    public float getFortuna() {
         return this.fortuna;
     }
 
-    public void setFortuna(float fortuna){
+    public void setFortuna(float fortuna) {
         this.fortuna = fortuna;
     }
 
-    public boolean getEnCarcel(){
+    public boolean getEnCarcel() {
         return this.enCarcel;
     }
 
-    public void setEnCarcel(boolean enCarcel){
+    public void setEnCarcel(boolean enCarcel) {
         this.enCarcel = enCarcel;
     }
 
-    public int getTiradasCarcel(){
+    public int getTiradasCarcel() {
         return this.tiradasCarcel;
     }
 
-    public void setTiradasCarcel(int tiradasCarcel){
+    public void setTiradasCarcel(int tiradasCarcel) {
         this.tiradasCarcel = tiradasCarcel;
     }
 
@@ -149,11 +155,11 @@ public class Jugador {
         return avatar;
     }
 
-    public int getVueltas(){
+    public int getVueltas() {
         return this.vueltas;
     }
 
-    public int getLanzamientos(){
+    public int getLanzamientos() {
         return this.lanzamientos;
     }
 
@@ -165,17 +171,18 @@ public class Jugador {
         this.turnosBloqueado = turnosBloqueado;
     }
 
-    //Otros métodos:
-    //Método para añadir una propiedad al jugador. Como parámetro, la casilla a añadir.
+    // Otros métodos:
+    // Método para añadir una propiedad al jugador. Como parámetro, la casilla a
+    // añadir.
     public void anhadirPropiedad(Casilla casilla) {
         this.propiedades.add(casilla);
     }
 
-    //Método para eliminar una propiedad del arraylist de propiedades de jugador.
+    // Método para eliminar una propiedad del arraylist de propiedades de jugador.
     public void eliminarPropiedad(Casilla casilla) {
         if (this.propiedades.contains(casilla)) {
             this.propiedades.remove(casilla);
-        }else{
+        } else {
             Juego.consola.error("La casilla no pertenece al jugador\n");
         }
     }
@@ -183,23 +190,27 @@ public class Jugador {
     public ArrayList<Casilla> getPropiedades() {
         return propiedades;
     }
-    
 
-    //Método para añadir fortuna a un jugador
-    //Como parámetro se pide el valor a añadir. Si hay que restar fortuna, se pasaría un valor negativo.
+    // Método para añadir fortuna a un jugador
+    // Como parámetro se pide el valor a añadir. Si hay que restar fortuna, se
+    // pasaría un valor negativo.
     public void sumarFortuna(float valor) {
         this.fortuna += valor;
     }
 
-    //Método para sumar gastos a un jugador.
-    //Parámetro: valor a añadir a los gastos del jugador (será el precio de un solar, impuestos pagados...).
+    // Método para sumar gastos a un jugador.
+    // Parámetro: valor a añadir a los gastos del jugador (será el precio de un
+    // solar, impuestos pagados...).
     private void sumarGastos(float valor) {
         this.gastos += valor;
         this.fortuna -= valor;
     }
 
-    /*Método para establecer al jugador en la cárcel. 
-    * Se requiere disponer de las casillas del tablero para ello (por eso se pasan como parámetro).*/
+    /*
+     * Método para establecer al jugador en la cárcel.
+     * Se requiere disponer de las casillas del tablero para ello (por eso se pasan
+     * como parámetro).
+     */
     public void encarcelar(ArrayList<ArrayList<Casilla>> pos) {
         this.enCarcel = true;
         this.avatar.getLugar().eliminarAvatar(this.avatar);
@@ -211,7 +222,7 @@ public class Jugador {
     // Métodos para actualizar estadísticas
     public void incrementarDineroInvertido(float cantidad) {
         this.dineroInvertido += cantidad;
-        this.sumarGastos(cantidad);  // Añadido también a los gastos
+        this.sumarGastos(cantidad); // Añadido también a los gastos
     }
 
     public void incrementarPagoTasasEImpuestos(float cantidad) {
@@ -253,11 +264,11 @@ public class Jugador {
         Juego.consola.print("}");
     }
 
-    public void incrementarVueltas(){
+    public void incrementarVueltas() {
         this.vueltas++;
     }
 
-    public void decrementarVueltas(){
+    public void decrementarVueltas() {
         this.vueltas--;
     }
 
@@ -267,20 +278,24 @@ public class Jugador {
     }
 
     /**
-     * Calcula la fortuna total del jugador, incluyendo su efectivo y el valor de sus propiedades y edificios.
+     * Calcula la fortuna total del jugador, incluyendo su efectivo y el valor de
+     * sus propiedades y edificios.
+     * 
      * @return la fortuna total del jugador.
      */
     public float calcularFortunaTotal() {
-        float fortunaTotal = this.fortuna;  // Comienza con el efectivo del jugador
+        float fortunaTotal = this.fortuna; // Comienza con el efectivo del jugador
 
         // Sumar el valor de todas las propiedades y edificios que posee el jugador
         for (Casilla propiedad : this.propiedades) {
-            fortunaTotal += ((Propiedad)propiedad).getValor();           // Valor de la propiedad
-            //fortunaTotal += propiedad.getValorEdificios();  // Valor de los edificios en la propiedad
+            fortunaTotal += ((Propiedad) propiedad).getValor(); // Valor de la propiedad
+            // fortunaTotal += propiedad.getValorEdificios(); // Valor de los edificios en
+            // la propiedad
         }
 
         return fortunaTotal;
     }
+
     public void decrementarTurnosBloqueados() {
         if (turnosBloqueado > 0) {
             turnosBloqueado--;
@@ -291,9 +306,9 @@ public class Jugador {
         return turnosBloqueado > 0;
     }
 
-    public void cobrarPasoPorSalida(Casilla origen, Casilla destino){
+    public void cobrarPasoPorSalida(Casilla origen, Casilla destino) {
 
-        if(origen.getPosicion() > destino.getPosicion()){
+        if (origen.getPosicion() > destino.getPosicion()) {
 
             float vuelta = Valor.SUMA_VUELTA;
             this.incrementarVueltas();
@@ -305,9 +320,9 @@ public class Jugador {
     }
 
     // En principio solo debe usarse en movimientos hacia atrás
-    public void PasoPorSalidaInverso(Casilla origen, Casilla destino){ 
+    public void PasoPorSalidaInverso(Casilla origen, Casilla destino) {
 
-        if(origen.getPosicion() < destino.getPosicion()){
+        if (origen.getPosicion() < destino.getPosicion()) {
 
             float vuelta = Valor.SUMA_VUELTA;
             this.decrementarVueltas();
@@ -320,14 +335,14 @@ public class Jugador {
 
     public void DescribirJugador() {
         Juego.consola.print("Nombre del Jugador: " + nombre);
-        Juego.consola.print("Fortuna: " + fortuna + "€" );
-        
+        Juego.consola.print("Fortuna: " + fortuna + "€");
+
         if (!propiedades.isEmpty()) {
             Juego.consola.print("Propiedades: ");
             for (Casilla propiedad : propiedades) {
                 Juego.consola.print(" - " + propiedad.getNombre());
-                if(propiedad instanceof Solar){
-                    Juego.consola.print("\t" + ((Solar)propiedad).listarEdificios());
+                if (propiedad instanceof Solar) {
+                    Juego.consola.print("\t" + ((Solar) propiedad).listarEdificios());
                 }
             }
         } else {
@@ -341,58 +356,10 @@ public class Jugador {
         }
     }
 
-    public void InicializarBanca(Tablero tablero){
+    public void InicializarBanca(Tablero tablero) {
         for (int index = 0; index < 40; index++) {
             this.anhadirPropiedad(tablero.obtenerCasilla(index));
         }
     }
 
 }
-
-/* 
-
-1
-coche
-2
-coche
-3
-coche
-fin
-dados
-0
-1
-comprar Solar1
-acabar 
-dados 
-6
-0
-comprar Solar3
-acabar
-dados 
-5
-0
-comprar Estacion1
-acabar
-dados
-0
-2
-comprar Solar2
-construir casa
-construir casa
-construir casa
-construir casa
-construir hotel
-construir casa
-construir casa
-construir casa
-construir casa
-construir hotel
-construir piscina 
-construir piscina
-construir pista
-construir pista
-acabar
-dados 
--3
-0
- */

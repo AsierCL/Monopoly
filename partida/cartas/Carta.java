@@ -17,5 +17,6 @@ public abstract class Carta {
     }
 
     // Método abstracto que debe ser implementado por las subclases
-    public abstract void accion(Jugador jugador, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores, int tirada);
+    public abstract void accion(Jugador jugador, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores,
+            int tirada);
 }

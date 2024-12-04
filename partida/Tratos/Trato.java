@@ -14,9 +14,9 @@ public class Trato {
     private ArrayList<Propiedad> propiedades_oferta;
     private ArrayList<Propiedad> propiedades_acepta;
 
-    public Trato(int id, Jugador jugador_oferta, Jugador jugador_acepta, 
-    float cantidad_oferta, float cantidad_acepta,
-    ArrayList<Propiedad> propiedades_oferta, ArrayList<Propiedad> propiedades_acepta){
+    public Trato(int id, Jugador jugador_oferta, Jugador jugador_acepta,
+            float cantidad_oferta, float cantidad_acepta,
+            ArrayList<Propiedad> propiedades_oferta, ArrayList<Propiedad> propiedades_acepta) {
         this.id = id;
         this.jugador_oferta = jugador_oferta;
         this.jugador_acepta = jugador_acepta;
@@ -45,11 +45,11 @@ public class Trato {
     public float getCantidad_acepta() {
         return cantidad_acepta;
     }
-    
+
     public ArrayList<Propiedad> getPropiedades_oferta() {
         return propiedades_oferta;
     }
-    
+
     public ArrayList<Propiedad> getPropiedades_acepta() {
         return propiedades_acepta;
     }
@@ -62,9 +62,9 @@ public class Trato {
         sb.append("\t\t");
         sb.append(cantidad_oferta + "€");
         sb.append("\t\t");
-        if(propiedades_oferta!=null){
-        for (Propiedad propiedad : propiedades_oferta)
-            sb.append("|" + propiedad.getNombre());
+        if (propiedades_oferta != null) {
+            for (Propiedad propiedad : propiedades_oferta)
+                sb.append("|" + propiedad.getNombre());
         }
         sb.append("|\n");
 
@@ -72,9 +72,9 @@ public class Trato {
         sb.append("\t\t");
         sb.append(cantidad_acepta + "€");
         sb.append("\t\t");
-        if(propiedades_oferta!=null){
-        for (Propiedad propiedad : propiedades_acepta)
-            sb.append("|" + propiedad.getNombre());
+        if (propiedades_oferta != null) {
+            for (Propiedad propiedad : propiedades_acepta)
+                sb.append("|" + propiedad.getNombre());
         }
         sb.append("|\n");
         return sb.toString();

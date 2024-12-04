@@ -7,19 +7,19 @@ import java.util.Set;
 import monopoly.casillas.Casilla;
 import monopoly.casillas.Propiedades.*;
 
-
 public class Grupo {
 
-    //Atributos
-    private ArrayList<Propiedad> miembros; //Casillas miembros del grupo.
-    private String colorGrupo; //Color del grupo
-    private int numCasillas; //Número de casillas del grupo.
-    public static final Set<String> coloresValidos = Set.of("Marron","Cian","Morado","Gris","Rojo","Amarillo","Verde","Azul");
+    // Atributos
+    private ArrayList<Propiedad> miembros; // Casillas miembros del grupo.
+    private String colorGrupo; // Color del grupo
+    private int numCasillas; // Número de casillas del grupo.
+    public static final Set<String> coloresValidos = Set.of("Marron", "Cian", "Morado", "Gris", "Rojo", "Amarillo",
+            "Verde", "Azul");
 
-    //Atributos para estadísticas
+    // Atributos para estadísticas
     private float ingresosTotales;
 
-    //Constructor vacío.
+    // Constructor vacío.
     public Grupo() {
         this.miembros = new ArrayList<>();
         this.colorGrupo = "";
@@ -28,28 +28,26 @@ public class Grupo {
         this.ingresosTotales = 0;
     }
 
-    
     // IDEA GPT
-    /* 
-    public Grupo(ArrayList<Propiedad> casillas, String colorGrupo) {
-        this.miembros = casillas;
-        this.colorGrupo = colorGrupo;
-        this.numCasillas = casillas.size();
-        for (Propiedad casilla : casillas) {
-            casilla.setGrupo(this);
-            // Si es una casilla Solar, inicializa edificios
-            if (casilla instanceof Solar) {
-                ((Solar) casilla).getEdificios().setNum_max(numCasillas);
-            }
-        }
-        this.ingresosTotales = 0;
-    }
+    /*
+     * public Grupo(ArrayList<Propiedad> casillas, String colorGrupo) {
+     * this.miembros = casillas;
+     * this.colorGrupo = colorGrupo;
+     * this.numCasillas = casillas.size();
+     * for (Propiedad casilla : casillas) {
+     * casilla.setGrupo(this);
+     * // Si es una casilla Solar, inicializa edificios
+     * if (casilla instanceof Solar) {
+     * ((Solar) casilla).getEdificios().setNum_max(numCasillas);
+     * }
+     * }
+     * this.ingresosTotales = 0;
+     * }
      */
-    
-    
-    
-    /*Constructor para cuando el grupo está formado por DOS CASILLAS:
-    * Requiere como parámetros las dos casillas miembro y el color del grupo.
+
+    /*
+     * Constructor para cuando el grupo está formado por DOS CASILLAS:
+     * Requiere como parámetros las dos casillas miembro y el color del grupo.
      */
     public Grupo(Propiedad cas1, Propiedad cas2, String colorGrupo) {
         this.miembros = new ArrayList<>();
@@ -68,8 +66,9 @@ public class Grupo {
         this.ingresosTotales = 0;
     }
 
-    /*Constructor para cuando el grupo está formado por TRES CASILLAS:
-    * Requiere como parámetros las tres casillas miembro y el color del grupo.
+    /*
+     * Constructor para cuando el grupo está formado por TRES CASILLAS:
+     * Requiere como parámetros las tres casillas miembro y el color del grupo.
      */
     public Grupo(Propiedad cas1, Propiedad cas2, Propiedad cas3, String colorGrupo) {
         this.miembros = new ArrayList<>();
@@ -90,7 +89,7 @@ public class Grupo {
         this.ingresosTotales = 0;
     }
 
-    /* 
+    /*
      * Constructor para grupo de estaciones
      */
     public Grupo(Propiedad cas1, Propiedad cas2, Propiedad cas3, Propiedad cas4, String colorGrupo) {
@@ -124,8 +123,9 @@ public class Grupo {
         return this.ingresosTotales; // Devuelve el total de ingresos acumulados
     }
 
-    /* Método que añade una casilla al array de casillas miembro de un grupo.
-    * Parámetro: casilla que se quiere añadir.
+    /*
+     * Método que añade una casilla al array de casillas miembro de un grupo.
+     * Parámetro: casilla que se quiere añadir.
      */
     public void anhadirCasilla(Propiedad casilla) {
         this.miembros.add(casilla);
@@ -133,11 +133,14 @@ public class Grupo {
         casilla.setGrupo(this);
     }
 
-    /*Método que comprueba si el jugador pasado tiene en su haber todas las casillas del grupo:
-    * Parámetro: jugador que se quiere evaluar.
-    * Valor devuelto: true si es dueño de todas las casillas del grupo, false en otro caso.
+    /*
+     * Método que comprueba si el jugador pasado tiene en su haber todas las
+     * casillas del grupo:
+     * Parámetro: jugador que se quiere evaluar.
+     * Valor devuelto: true si es dueño de todas las casillas del grupo, false en
+     * otro caso.
      */
-    public boolean esDuenhoGrupo(Jugador jugador) { //Posible implementacion con numEnPropiedadGrupo()//
+    public boolean esDuenhoGrupo(Jugador jugador) { // Posible implementacion con numEnPropiedadGrupo()//
         for (Propiedad casilla : miembros) {
             if (!casilla.getDuenho().equals(jugador)) {
                 return false;
@@ -146,7 +149,7 @@ public class Grupo {
         return true;
     }
 
-    public int numEnPropiedadGrupo(Jugador jugador){
+    public int numEnPropiedadGrupo(Jugador jugador) {
         int totalPropiedades = 0;
         for (Propiedad casilla : miembros) {
             if (casilla.getDuenho().equals(jugador)) {
@@ -156,31 +159,31 @@ public class Grupo {
         return totalPropiedades;
     }
 
-    public int getCasasGrupo(){
+    public int getCasasGrupo() {
         int total = 0;
         for (Propiedad casilla : getMiembros()) {
             total += ((Solar) casilla).getCasas();
         }
         return total;
     }
-    
-    public int getHotelesGrupo(){
+
+    public int getHotelesGrupo() {
         int total = 0;
         for (Propiedad casilla : getMiembros()) {
             total += ((Solar) casilla).getHoteles();
         }
         return total;
     }
-    
-    public int getPiscinasGrupo(){
+
+    public int getPiscinasGrupo() {
         int total = 0;
         for (Propiedad casilla : getMiembros()) {
             total += ((Solar) casilla).getPiscinas();
         }
         return total;
     }
-    
-    public int getPistasGrupo(){
+
+    public int getPistasGrupo() {
         int total = 0;
         for (Propiedad casilla : getMiembros()) {
             total += ((Solar) casilla).getPistas();
@@ -191,27 +194,29 @@ public class Grupo {
     public void registrarIngresosGrupo(float ingresos) {
         this.ingresosTotales += ingresos;
     }
-    
+
     public void listarEdificiosPorColor(Jugador banca) {
         for (Casilla casilla : getMiembros()) {
-            ((Solar)casilla).listarEdificios();
-            if(casilla.getDuenho().equals(banca)){
+            ((Solar) casilla).listarEdificios();
+            if (casilla.getDuenho().equals(banca)) {
                 Juego.consola.print("Casilla en venta");
-            }else{
-                Juego.consola.print("El pago es de: " + ((Solar)casilla).calcularPagoSolar(casilla.getDuenho()));
+            } else {
+                Juego.consola.print("El pago es de: " + ((Solar) casilla).calcularPagoSolar(casilla.getDuenho()));
             }
         }
 
-        if(getHotelesGrupo()==getNumCasillas()){
-            Juego.consola.print("Puedes construir " + (getNumCasillas()-getCasasGrupo()) + " casas.");
-            Juego.consola.print("Puedes construir " + (getNumCasillas()-getHotelesGrupo()) + " hoteles.");
-            Juego.consola.print("Puedes construir " + (getNumCasillas()-getPiscinasGrupo()) + " piscinas.");
-            Juego.consola.print("Puedes construir " + (getNumCasillas()-getPistasGrupo()) + " pistas.");
-        }else{
-            Juego.consola.print("Puedes construir " + (4*getNumCasillas()+getNumCasillas()-(getCasasGrupo()+4*getHotelesGrupo())) + " casas.");
-            Juego.consola.print("Puedes construir " + (getNumCasillas()-getHotelesGrupo()) + " hoteles.");
-            Juego.consola.print("Puedes construir " + (getNumCasillas()-getPiscinasGrupo()) + " piscinas.");
-            Juego.consola.print("Puedes construir " + (getNumCasillas()-getPistasGrupo()) + " pistas.");
+        if (getHotelesGrupo() == getNumCasillas()) {
+            Juego.consola.print("Puedes construir " + (getNumCasillas() - getCasasGrupo()) + " casas.");
+            Juego.consola.print("Puedes construir " + (getNumCasillas() - getHotelesGrupo()) + " hoteles.");
+            Juego.consola.print("Puedes construir " + (getNumCasillas() - getPiscinasGrupo()) + " piscinas.");
+            Juego.consola.print("Puedes construir " + (getNumCasillas() - getPistasGrupo()) + " pistas.");
+        } else {
+            Juego.consola.print("Puedes construir "
+                    + (4 * getNumCasillas() + getNumCasillas() - (getCasasGrupo() + 4 * getHotelesGrupo()))
+                    + " casas.");
+            Juego.consola.print("Puedes construir " + (getNumCasillas() - getHotelesGrupo()) + " hoteles.");
+            Juego.consola.print("Puedes construir " + (getNumCasillas() - getPiscinasGrupo()) + " piscinas.");
+            Juego.consola.print("Puedes construir " + (getNumCasillas() - getPistasGrupo()) + " pistas.");
         }
     }
 

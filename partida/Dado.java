@@ -1,10 +1,9 @@
 package partida;
+
 import java.util.Random;
 
-
-
 public class Dado {
-    //El dado solo tiene un atributo en nuestro caso: su valor.
+    // El dado solo tiene un atributo en nuestro caso: su valor.
     private int valor;
 
     // Instancia de Random para generar números aleatorios.

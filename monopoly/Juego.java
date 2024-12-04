@@ -13,17 +13,19 @@ import partida.avatares.Avatar;
 
 public class Juego implements Comando {
 
-    //Atributos
-    private ArrayList<Jugador> jugadores; //Jugadores de la partida.
-    private ArrayList<Avatar> avatares; //Avatares en la partida.
-    private int turno = 0; //Índice correspondiente a la posición en el arrayList del jugador (y el avatar) que tienen el turno
-    private int lanzamientos; //Variable para contar el número de lanzamientos de un jugador en un turno.
-    private Tablero tablero; //Tablero en el que se juega.
-    private Dado dado1; //Dos dados para lanzar y avanzar casillas.
+    // Atributos
+    private ArrayList<Jugador> jugadores; // Jugadores de la partida.
+    private ArrayList<Avatar> avatares; // Avatares en la partida.
+    private int turno = 0; // Índice correspondiente a la posición en el arrayList del jugador (y el
+                           // avatar) que tienen el turno
+    private int lanzamientos; // Variable para contar el número de lanzamientos de un jugador en un turno.
+    private Tablero tablero; // Tablero en el que se juega.
+    private Dado dado1; // Dos dados para lanzar y avanzar casillas.
     private Dado dado2;
-    private Jugador banca; //El jugador banca.
-    private boolean tirado; //Booleano para comprobar si el jugador que tiene el turno ha tirado o no.
-    private boolean solvente; //Booleano para comprobar si el jugador que tiene el turno es solvente, es decir, si ha pagado sus deudas.
+    private Jugador banca; // El jugador banca.
+    private boolean tirado; // Booleano para comprobar si el jugador que tiene el turno ha tirado o no.
+    private boolean solvente; // Booleano para comprobar si el jugador que tiene el turno es solvente, es
+                              // decir, si ha pagado sus deudas.
     private boolean partida;
     private int ultimatirada;
     private Tratos tratos;
@@ -40,23 +42,23 @@ public class Juego implements Comando {
         }
     }
 
-    public static void printBanner(){
+    public static void printBanner() {
         String banner = " /$$      /$$                                                   /$$                 /$$$$$$$$ /$$                       \n"
-        + "| $$$    /$$$                                                  | $$                | $$_____/| $$                       \n"
-        + "| $$$$  /$$$$  /$$$$$$  /$$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$ | $$ /$$   /$$      | $$     /$$$$$$   /$$$$$$$  /$$$$$$ \n"
-        + "| $$ $$/$$ $$ /$$__  $$| $$__  $$ /$$__  $$ /$$__  $$ /$$__  $$| $$| $$  | $$      | $$$$$ |_  $$_/  /$$_____/ /$$__  $$\n"
-        + "| $$  $$$| $$| $$  \\ $$| $$  \\ $$| $$  \\ $$| $$  \\ $$| $$  \\ $$| $$| $$  | $$      | $$__/   | $$   |  $$$$$$ | $$$$$$$$\n"
-        + "| $$\\  $ | $$| $$  | $$| $$  | $$| $$  | $$| $$  | $$| $$  | $$| $$| $$  | $$      | $$      | $$ /$$\\____  $$| $$_____/\n"
-        + "| $$ \\/  | $$|  $$$$$$/| $$  | $$|  $$$$$$/| $$$$$$$/|  $$$$$$/| $$|  $$$$$$$      | $$$$$$$$|  $$$$//$$$$$$$/|  $$$$$$$\n"
-        + "|__/     |__/ \\______/ |__/  |__/ \\______/ | $$____/  \\______/ |__/ \\____  $$      |________/ \\___/ |_______/  \\_______/\n"
-        + "                                           | $$                     /$$  | $$                                           \n"
-        + "                                           | $$                    |  $$$$$$/                                           \n"
-        + "                                           |__/                     \\______/                                            \n";
+                + "| $$$    /$$$                                                  | $$                | $$_____/| $$                       \n"
+                + "| $$$$  /$$$$  /$$$$$$  /$$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$ | $$ /$$   /$$      | $$     /$$$$$$   /$$$$$$$  /$$$$$$ \n"
+                + "| $$ $$/$$ $$ /$$__  $$| $$__  $$ /$$__  $$ /$$__  $$ /$$__  $$| $$| $$  | $$      | $$$$$ |_  $$_/  /$$_____/ /$$__  $$\n"
+                + "| $$  $$$| $$| $$  \\ $$| $$  \\ $$| $$  \\ $$| $$  \\ $$| $$  \\ $$| $$| $$  | $$      | $$__/   | $$   |  $$$$$$ | $$$$$$$$\n"
+                + "| $$\\  $ | $$| $$  | $$| $$  | $$| $$  | $$| $$  | $$| $$  | $$| $$| $$  | $$      | $$      | $$ /$$\\____  $$| $$_____/\n"
+                + "| $$ \\/  | $$|  $$$$$$/| $$  | $$|  $$$$$$/| $$$$$$$/|  $$$$$$/| $$|  $$$$$$$      | $$$$$$$$|  $$$$//$$$$$$$/|  $$$$$$$\n"
+                + "|__/     |__/ \\______/ |__/  |__/ \\______/ | $$____/  \\______/ |__/ \\____  $$      |________/ \\___/ |_______/  \\_______/\n"
+                + "                                           | $$                     /$$  | $$                                           \n"
+                + "                                           | $$                    |  $$$$$$/                                           \n"
+                + "                                           |__/                     \\______/                                            \n";
 
         consola.print(banner);
     }
 
-    public void printAyuda(boolean intermedio){
+    public void printAyuda(boolean intermedio) {
         consola.print("\nEstos son los posibles comandos: \n");
         consola.print("jugador \t\t\t\t-> indica que jugador tiene el turno");
         consola.print("listar jugadores \t\t\t-> lista los jugadores creados");
@@ -67,7 +69,7 @@ public class Juego implements Comando {
         consola.print("crear trato  \t\t\t\t-> crea un nuevo trato");
         consola.print("aceptar trato \t\t\t\t-> permite aceptar un trato");
         consola.print("rechazar trato \t\t\t\t-> permite rechazar un trato");
-        if(!intermedio){
+        if (!intermedio) {
             consola.print("lanzar dados \t\t\t\t-> lanza los dados");
             consola.print("dados trucados \t\t\t\t-> permite asignar un valor a cada dado");
             consola.print("cambiar modo \t\t\t\t-> muestra estadisticas partida");
@@ -91,7 +93,7 @@ public class Juego implements Comando {
         consola.print("\n");
     }
 
-    public Juego(){
+    public Juego() {
         this.avatares = new ArrayList<>();
         this.jugadores = new ArrayList<>();
         banca = new Jugador();
@@ -107,52 +109,53 @@ public class Juego implements Comando {
         iniciarPartida(tablero);
     }
 
-
     // Método para inciar una partida: crea los jugadores y avatares.
     public void iniciarPartida(Tablero tablero) {
-    try {
-        this.partida = true;
+        try {
+            this.partida = true;
 
-        consola.print("Introduzca al menos dos jugadores para comenzar\n.");
-        consola.print("Cuando termines introduce \"fin\"");
+            consola.print("Introduzca al menos dos jugadores para comenzar\n.");
+            consola.print("Cuando termines introduce \"fin\"");
 
-        while (jugadores.size() < 7) {
-            String jugador = Juego.consola.read("Introduzca el nombre del jugador: ");
+            while (jugadores.size() < 7) {
+                String jugador = Juego.consola.read("Introduzca el nombre del jugador: ");
 
-            if (!jugador.equals("fin")) {
-                String tipoAvatar = Juego.consola.read("Introduzca la ficha: ");
+                if (!jugador.equals("fin")) {
+                    String tipoAvatar = Juego.consola.read("Introduzca la ficha: ");
 
-                Jugador player = new Jugador(jugador, tipoAvatar, tablero.obtenerCasilla(0), avatares);
-                if(player.getAvatar()!=null){
-                    jugadores.add(player);
+                    Jugador player = new Jugador(jugador, tipoAvatar, tablero.obtenerCasilla(0), avatares);
+                    if (player.getAvatar() != null) {
+                        jugadores.add(player);
+                    }
+                } else if (jugadores.size() < 2) {
+                    throw new MinimoJugadores();
+                } else {
+                    break;
                 }
-            } else if (jugadores.size() < 2) {
-                throw new MinimoJugadores();
-            } else {
-                break;
             }
-        }
 
-        printAyuda(false);
+            printAyuda(false);
 
-        while (partida) {
-            String comando = Juego.consola.read("Introduzca comando: ");
-            try {
-            analizarComando(comando);
-            } catch (ColorInvalido e){
-                Juego.consola.error(e.getMessage());
-            } catch (ComandoInvalido e){
-                Juego.consola.error(e.getMessage());
+            while (partida) {
+                String comando = Juego.consola.read("Introduzca comando: ");
+                try {
+                    analizarComando(comando);
+                } catch (ColorInvalido e) {
+                    Juego.consola.error(e.getMessage());
+                } catch (ComandoInvalido e) {
+                    Juego.consola.error(e.getMessage());
+                }
             }
+        } catch (MinimoJugadores e) {
+            Juego.consola.error(e.getMessage());
         }
-    } catch (MinimoJugadores e) {
-        Juego.consola.error(e.getMessage());
     }
-}
 
-    /*Método que interpreta el comando introducido y toma la accion correspondiente.
-    * Parámetro: cadena de caracteres (el comando).
-    */
+    /*
+     * Método que interpreta el comando introducido y toma la accion
+     * correspondiente.
+     * Parámetro: cadena de caracteres (el comando).
+     */
     private void analizarComando(String comando) throws ColorInvalido, ComandoInvalido {
         Jugador jugadorActual = jugadores.get(turno);
         Casilla casillaActual = jugadorActual.getAvatar().getLugar();
@@ -163,78 +166,80 @@ public class Juego implements Comando {
         String subAccion = (palabras.length > 1) ? palabras[1] : "";
         String parametro1 = (palabras.length > 2) ? palabras[2] : "";
 
-        switch(accion){
-            //jugador
-            case("jugador"):  //indicar jugador que tiene el turno
+        switch (accion) {
+            // jugador
+            case ("jugador"): // indicar jugador que tiene el turno
                 verTurno();
-            break;
-            //listar jugadores / avatares / enventa
-            case("listar"):
-                switch(subAccion){
-                    case("jugadores"):
+                break;
+            // listar jugadores / avatares / enventa
+            case ("listar"):
+                switch (subAccion) {
+                    case ("jugadores"):
                         listarJugadores();
                         break;
-                    case("avatares"):
+                    case ("avatares"):
                         listarAvatares();
                         break;
-                    case("enventa"):
+                    case ("enventa"):
                         listarVenta();
                         break;
-                    case("edificios"):
-                        if(parametro1.equals("")){
+                    case ("edificios"):
+                        if (parametro1.equals("")) {
                             listarEdificios();
-                        }else if(Grupo.coloresValidos.contains(parametro1)){
+                        } else if (Grupo.coloresValidos.contains(parametro1)) {
                             listarEdificiosPorColor(parametro1);
-                        }else{
+                        } else {
                             throw new ColorInvalido();
                         }
                         break;
-                    case("tratos"):
+                    case ("tratos"):
                         tratos.listarTratos();
                         break;
                     default:
                         throw new ComandoInvalido();
                 }
                 break;
-            case("crear"):
-                if(!subAccion.equals("trato"))
+            case ("crear"):
+                if (!subAccion.equals("trato"))
                     break;
                 tratos.proponerTrato(jugadorActual, jugadores, tablero);
                 break;
-            case("aceptar"):
-                if(!subAccion.equals("trato"))
+            case ("aceptar"):
+                if (!subAccion.equals("trato"))
                     break;
                 tratos.aceptarTrato(jugadorActual);
                 break;
-            case("rechazar"):
-                if(!subAccion.equals("trato"))
+            case ("rechazar"):
+                if (!subAccion.equals("trato"))
                     break;
                 tratos.rechazarTrato(jugadorActual);
                 break;
-            //lanzar dados
-            case("lanzar"):
+            // lanzar dados
+            case ("lanzar"):
                 lanzarDados(false);
-                consola.print(tablero.toString());;
+                consola.print(tablero.toString());
+                ;
                 break;
-            case("dados"):
+            case ("dados"):
                 lanzarDados(true);
-                consola.print(tablero.toString());;
+                consola.print(tablero.toString());
+                ;
                 break;
-            //acabar turno
-            case("acabar"):
+            // acabar turno
+            case ("acabar"):
                 acabarTurno();
                 break;
-            //salir carcel
-            case("salir"): //Pagar y salir de la carcel
+            // salir carcel
+            case ("salir"): // Pagar y salir de la carcel
                 salirCarcel();
                 break;
 
             ////////////////DEBUGG/////////////////////
-            case("carcel"): //Pagar y salir de la carcel
+            case ("carcel"): // Pagar y salir de la carcel
                 jugadores.get(turno).encarcelar(tablero.getPosiciones());
                 break;
             ////////////////DEBUGG///////////////////
-            case("describir"):
+            case ("describir"):
                 if (subAccion.equals("jugador")) {
                     // Describir un jugador
                     descJugador(palabras);
@@ -243,34 +248,34 @@ public class Juego implements Comando {
                     descAvatar(parametro1);
                 } else if (!subAccion.isEmpty()) {
                     // Asumimos que subAccion es el nombre de una casilla
-                    descCasilla(subAccion);  // Interpretamos subAccion como nombre de la casilla
+                    descCasilla(subAccion); // Interpretamos subAccion como nombre de la casilla
                 } else {
                     // Si no se recibe una subacción válida
                     throw new ComandoInvalido();
                 }
                 break;
             // hipotecar + Casilla
-            case("hipotecar"):
+            case ("hipotecar"):
                 hipotecar(subAccion);
                 break;
             // deshipotecar + Casilla
-            case("deshipotecar"):
+            case ("deshipotecar"):
                 deshipotecar(subAccion);
                 break;
-            case("bancarrota"):
+            case ("bancarrota"):
                 bancarrota(subAccion);
                 break;
-            //comprar + Mostoles
-            case("comprar"):
+            // comprar + Mostoles
+            case ("comprar"):
                 comprar(subAccion);
                 break;
-            case("vender"):
+            case ("vender"):
                 vender(palabras);
                 break;
-            case("construir"):
-                if(casillaActual instanceof Solar){
+            case ("construir"):
+                if (casillaActual instanceof Solar) {
                     try {
-                    ((Solar)casillaActual).Construir(jugadorActual, subAccion, jugadores);
+                        ((Solar) casillaActual).Construir(jugadorActual, subAccion, jugadores);
                     } catch (DuenhoCasilla e) {
                         Juego.consola.error(e.getMessage());
                     } catch (EdificioIncorrecto e) {
@@ -280,24 +285,25 @@ public class Juego implements Comando {
                     } catch (DuenhoSolar e) {
                         Juego.consola.error(e.getMessage());
                     }
-                }else{
+                } else {
                     consola.print("No puedes construir aqui");
                 }
                 break;
-            case("ver"):
-                consola.print(tablero.toString());;
+            case ("ver"):
+                consola.print(tablero.toString());
+                ;
                 break;
-            case("estadisticas"):
-                if(subAccion.isEmpty()){ //Estadísticas del juego
+            case ("estadisticas"):
+                if (subAccion.isEmpty()) { // Estadísticas del juego
                     mostrarEstadisticasJuego();
-                } else { //Estadísticas del jugador
+                } else { // Estadísticas del jugador
                     mostrarEstadisticasJugadorPorNombre(subAccion);
                 }
                 break;
-            case("cambiar"):
+            case ("cambiar"):
                 cambiarModo(jugadores.get(turno).getAvatar());
                 break;
-            case("?"):
+            case ("?"):
                 printAyuda(false);
                 break;
             default:
@@ -305,7 +311,8 @@ public class Juego implements Comando {
         }
     }
 
-    public boolean turnoIntermedio(Avatar avatarActual, Casilla casillaActual, boolean haComprado) throws ComandoInvalido, ColorInvalido {
+    public boolean turnoIntermedio(Avatar avatarActual, Casilla casillaActual, boolean haComprado)
+            throws ComandoInvalido, ColorInvalido {
         Jugador jugador = avatarActual.getJugador();
         boolean turnoActivo = true;
 
@@ -322,54 +329,57 @@ public class Juego implements Comando {
             String parametro1 = (palabras.length > 2) ? palabras[2] : "";
 
             switch (accion) {
-                case("jugador"):  // Ver jugador con el turno actual
+                case ("jugador"): // Ver jugador con el turno actual
                     verTurno();
                     break;
 
-                //listar jugadores / avatares / enventa
-                case("listar"):
-                    switch(subAccion){
-                        case("jugadores"):
+                // listar jugadores / avatares / enventa
+                case ("listar"):
+                    switch (subAccion) {
+                        case ("jugadores"):
                             listarJugadores();
                             break;
-                        case("avatares"):
+                        case ("avatares"):
                             listarAvatares();
                             break;
-                        case("enventa"):
+                        case ("enventa"):
                             listarVenta();
                             break;
-                        case("edificios"):
-                            if(parametro1.equals("")) listarEdificios();
-                            else if(Grupo.coloresValidos.contains(parametro1)) listarEdificiosPorColor(parametro1);
-                            else throw new ColorInvalido();
+                        case ("edificios"):
+                            if (parametro1.equals(""))
+                                listarEdificios();
+                            else if (Grupo.coloresValidos.contains(parametro1))
+                                listarEdificiosPorColor(parametro1);
+                            else
+                                throw new ColorInvalido();
                             break;
-                        case("tratos"):
+                        case ("tratos"):
                             tratos.listarTratos();
                             break;
                         default:
                             throw new ComandoInvalido();
-                        }
-                        break;
-                case("crear"):
-                    if(!subAccion.equals("trato"))
+                    }
+                    break;
+                case ("crear"):
+                    if (!subAccion.equals("trato"))
                         break;
                     tratos.proponerTrato(jugador, jugadores, tablero);
                     break;
-                case("aceptar"):
-                    if(!subAccion.equals("trato"))
+                case ("aceptar"):
+                    if (!subAccion.equals("trato"))
                         break;
                     tratos.aceptarTrato(jugador);
                     break;
-                case("rechazar"):
-                    if(!subAccion.equals("trato"))
+                case ("rechazar"):
+                    if (!subAccion.equals("trato"))
                         break;
                     tratos.rechazarTrato(jugador);
                     break;
-                //salir carcel
-                case("salir"): //Pagar y salir de la carcel
+                // salir carcel
+                case ("salir"): // Pagar y salir de la carcel
                     salirCarcel();
                     break;
-                case("describir"):
+                case ("describir"):
                     if (subAccion.equals("jugador")) {
                         // Describir un jugador
                         descJugador(palabras);
@@ -378,39 +388,39 @@ public class Juego implements Comando {
                         descAvatar(parametro1);
                     } else if (!subAccion.isEmpty()) {
                         // Asumimos que subAccion es el nombre de una casilla
-                        descCasilla(subAccion);  // Interpretamos subAccion como nombre de la casilla
+                        descCasilla(subAccion); // Interpretamos subAccion como nombre de la casilla
                     } else {
                         // Si no se recibe una subacción válida
                         throw new ComandoInvalido();
                     }
                     break;
                 // hipotecar + Casilla
-                case("hipotecar"):
+                case ("hipotecar"):
                     hipotecar(subAccion);
                     break;
                 // deshipotecar + Casilla
-                case("deshipotecar"):
+                case ("deshipotecar"):
                     deshipotecar(subAccion);
                     break;
-                case("bancarrota"):
+                case ("bancarrota"):
                     bancarrota(subAccion);
                     break;
-                //comprar + Mostoles
-                case("comprar"):
-                    if(!haComprado){
+                // comprar + Mostoles
+                case ("comprar"):
+                    if (!haComprado) {
                         comprar(subAccion);
                         haComprado = true;
                     } else {
                         consola.print("Solo puedes comprar en un turno intermedio");
                     }
                     break;
-                case("vender"):
+                case ("vender"):
                     vender(palabras);
                     break;
-                case("construir"):
-                    if(casillaActual instanceof Solar){
-                        try{
-                        ((Solar)casillaActual).Construir(jugador, subAccion, jugadores);
+                case ("construir"):
+                    if (casillaActual instanceof Solar) {
+                        try {
+                            ((Solar) casillaActual).Construir(jugador, subAccion, jugadores);
                         } catch (DuenhoCasilla e) {
                             Juego.consola.error(e.getMessage());
                         } catch (EdificioIncorrecto e) {
@@ -420,29 +430,30 @@ public class Juego implements Comando {
                         } catch (DuenhoSolar e) {
                             Juego.consola.error(e.getMessage());
                         }
-                        
-                    }else{
+
+                    } else {
                         consola.print("No puedes construir aqui");
                     }
                     break;
-                case("ver"):
-                    consola.print(tablero.toString());;
+                case ("ver"):
+                    consola.print(tablero.toString());
+                    ;
                     break;
-                case("estadisticas"):
-                    if(subAccion.isEmpty()){ //Estadísticas del juego
+                case ("estadisticas"):
+                    if (subAccion.isEmpty()) { // Estadísticas del juego
                         mostrarEstadisticasJuego();
-                    } else { //Estadísticas del jugador
+                    } else { // Estadísticas del jugador
                         mostrarEstadisticasJugadorPorNombre(subAccion);
                     }
                     break;
-                case("cambiar"):
+                case ("cambiar"):
                     cambiarModo(jugadores.get(turno).getAvatar());
                     break;
-                case("?"):
+                case ("?"):
                     printAyuda(true);
                     break;
-                case("continuar"):
-                turnoActivo = false;
+                case ("continuar"):
+                    turnoActivo = false;
                     break;
                 default:
                     throw new ComandoInvalido();
@@ -451,49 +462,54 @@ public class Juego implements Comando {
         return haComprado; // Retorna el estado actualizado de haComprado
     }
 
-    public void gestionMovimientoAvanzado(Avatar avatarActual, int resultadoTotal, int[] resultadoDados, ArrayList<ArrayList<Casilla>> casillas) {
+    public void gestionMovimientoAvanzado(Avatar avatarActual, int resultadoTotal, int[] resultadoDados,
+            ArrayList<ArrayList<Casilla>> casillas) {
         boolean haComprado = false;
         int contador = 0;
         int faltaPorMover = resultadoTotal;
-        if(avatarActual.getTipo().equalsIgnoreCase("pelota")){
-            while(faltaPorMover != 0 && !avatarActual.getJugador().getEnCarcel()){
-                faltaPorMover = avatarActual.moverEnAvanzado(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
+        if (avatarActual.getTipo().equalsIgnoreCase("pelota")) {
+            while (faltaPorMover != 0 && !avatarActual.getJugador().getEnCarcel()) {
+                faltaPorMover = avatarActual.moverEnAvanzado(resultadoTotal, faltaPorMover, casillas, banca, tablero,
+                        jugadores);
                 consola.print(tablero.toString());
-                if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
+                if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero,
+                        jugadores)) {
                     partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
                 }
                 try {
                     turnoIntermedio(avatarActual, avatarActual.getLugar(), false);
-                } catch (ComandoInvalido e){
+                } catch (ComandoInvalido e) {
                     Juego.consola.error(e.getMessage());
-                } catch (ColorInvalido e){
+                } catch (ColorInvalido e) {
                     Juego.consola.error(e.getMessage());
                 }
             }
-        }
-        else if(avatarActual.getTipo().equalsIgnoreCase("coche")){
-            while(faltaPorMover != 0 && contador < 4 && !avatarActual.getJugador().getEnCarcel()){
+        } else if (avatarActual.getTipo().equalsIgnoreCase("coche")) {
+            while (faltaPorMover != 0 && contador < 4 && !avatarActual.getJugador().getEnCarcel()) {
                 // gestionar dobles cuando contador es igual a 3 (solución no optima?)
-                if(contador == 3 && resultadoDados[0]== resultadoDados[1]){ // En la última tirada adicional se gestionan los dados dobles
-                    while(resultadoDados[0]== resultadoDados[1]){
+                if (contador == 3 && resultadoDados[0] == resultadoDados[1]) { // En la última tirada adicional se
+                                                                               // gestionan los dados dobles
+                    while (resultadoDados[0] == resultadoDados[1]) {
                         consola.print("LLevas " + this.lanzamientos + " dobles");
                         tirado = false;
-                        if(this.lanzamientos<3){
+                        if (this.lanzamientos < 3) {
                             avatarActual.moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);
-                            if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
-                                partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
+                            if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca,
+                                    resultadoTotal, tablero, jugadores)) {
+                                partida = declararBancarrota(avatarActual.getLugar().getDuenho(),
+                                        avatarActual.getJugador());
                             }
                             consola.print(tablero.toString());
                             try {
-                            haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
-                            } catch (ComandoInvalido e){
+                                haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
+                            } catch (ComandoInvalido e) {
                                 Juego.consola.error(e.getMessage());
-                            } catch (ColorInvalido e){
+                            } catch (ColorInvalido e) {
                                 Juego.consola.error(e.getMessage());
                             }
                             resultadoDados = vuelveATirar(resultadoDados);
                             resultadoTotal = resultadoDados[0] + resultadoDados[1];
-                        }else{
+                        } else {
                             consola.print("VAS A LA CARCEL");
                             avatarActual.getJugador().encarcelar(casillas);
                             tirado = true;
@@ -503,21 +519,23 @@ public class Juego implements Comando {
                         this.lanzamientos++;
                     }
                 }
-                if (contador < 3){
-                    faltaPorMover = avatarActual.moverEnAvanzado(resultadoTotal, faltaPorMover, casillas, banca, tablero, jugadores);
-                    if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
+                if (contador < 3) {
+                    faltaPorMover = avatarActual.moverEnAvanzado(resultadoTotal, faltaPorMover, casillas, banca,
+                            tablero, jugadores);
+                    if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal,
+                            tablero, jugadores)) {
                         partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
                     }
                     contador += faltaPorMover;
                     consola.print(tablero.toString());
                     try {
                         haComprado = turnoIntermedio(avatarActual, avatarActual.getLugar(), haComprado);
-                    } catch (ComandoInvalido e){
+                    } catch (ComandoInvalido e) {
                         Juego.consola.error(e.getMessage());
-                    } catch (ColorInvalido e){
+                    } catch (ColorInvalido e) {
                         Juego.consola.error(e.getMessage());
                     }
-                    if(faltaPorMover != 0 && !avatarActual.getJugador().getEnCarcel()){
+                    if (faltaPorMover != 0 && !avatarActual.getJugador().getEnCarcel()) {
                         resultadoDados = vuelveATirar(resultadoDados);
                         resultadoTotal = resultadoDados[0] + resultadoDados[1];
                     }
@@ -526,7 +544,7 @@ public class Juego implements Comando {
         }
     }
 
-    private int[] vuelveATirar(int[] resultadoDados){
+    private int[] vuelveATirar(int[] resultadoDados) {
         consola.print("Vuelve a tirar");
         resultadoDados[0] = Integer.parseInt(Juego.consola.read("Introduzca el valor de la tirada del dado 1: "));
         resultadoDados[1] = Integer.parseInt(Juego.consola.read("Introduzca el valor de la tirada del dado 2: "));
@@ -535,49 +553,51 @@ public class Juego implements Comando {
         return resultadoDados;
     }
 
-    /*Método que realiza las acciones asociadas al comando 'describir jugador'.
-    * Parámetro: comando introducido
+    /*
+     * Método que realiza las acciones asociadas al comando 'describir jugador'.
+     * Parámetro: comando introducido
      */
-    public void descJugador(String[] partes)  {
+    public void descJugador(String[] partes) {
         try {
-        // Verificar si el array partes es nulo o tiene menos elementos de los necesarios
-        if (partes == null || partes.length <= 2) {
-            throw new Parametros();
-        } 
+            // Verificar si el array partes es nulo o tiene menos elementos de los
+            // necesarios
+            if (partes == null || partes.length <= 2) {
+                throw new Parametros();
+            }
 
-        // Supoñendo que o nombre do jugador está en partes[1].
-        String nombreJugador = partes[2];
-        Jugador jugador = buscarJugadorPorNombre(nombreJugador);
+            // Supoñendo que o nombre do jugador está en partes[1].
+            String nombreJugador = partes[2];
+            Jugador jugador = buscarJugadorPorNombre(nombreJugador);
 
-        if (jugador != null) {
-            consola.print("Nombre del Jugador: " + jugador.getNombre());
-            consola.print("Fortuna: " + jugador.getFortuna() + "€" );
+            if (jugador != null) {
+                consola.print("Nombre del Jugador: " + jugador.getNombre());
+                consola.print("Fortuna: " + jugador.getFortuna() + "€");
 
-            if (!jugador.getPropiedades().isEmpty()) {
-                consola.print("Propiedades: ");
-                for (Casilla propiedad : jugador.getPropiedades()) {
-                    consola.print(" - " + propiedad.getNombre());
-                    if(propiedad instanceof Solar){
-                        consola.print("\t" + ((Solar)propiedad).listarEdificios());
+                if (!jugador.getPropiedades().isEmpty()) {
+                    consola.print("Propiedades: ");
+                    for (Casilla propiedad : jugador.getPropiedades()) {
+                        consola.print(" - " + propiedad.getNombre());
+                        if (propiedad instanceof Solar) {
+                            consola.print("\t" + ((Solar) propiedad).listarEdificios());
+                        }
                     }
+                } else {
+                    consola.print("El jugador no tiene propiedades.");
                 }
+
+                Avatar avatar = jugador.getAvatar();
+                if (avatar != null) {
+                    consola.print("Avatar: " + avatar.getId());
+                } else {
+                    consola.print("El jugador no tiene un avatar asignado.");
+                }
+
+                // Hipotecas.
             } else {
-                consola.print("El jugador no tiene propiedades.");
+                throw new NombreJugador();
             }
 
-            Avatar avatar = jugador.getAvatar();
-            if (avatar != null) {
-                consola.print("Avatar: " + avatar.getId());
-            } else {
-                consola.print("El jugador no tiene un avatar asignado.");
-            }
-
-        // Hipotecas.
-        } else {
-            throw new NombreJugador();
-        }
-
-        } catch (Parametros e){
+        } catch (Parametros e) {
             Juego.consola.error(e.getMessage());
         } catch (NombreJugador e) {
             Juego.consola.error(e.getMessage());
@@ -608,9 +628,10 @@ public class Juego implements Comando {
         return null;
     }
 
-    /*Método que realiza las acciones asociadas al comando 'describir avatar'.
-    * Parámetro: id del avatar a describir.
-    */
+    /*
+     * Método que realiza las acciones asociadas al comando 'describir avatar'.
+     * Parámetro: id del avatar a describir.
+     */
     public void descAvatar(String ID) {
         Avatar avatarBuscado = null;
         // Iterar sobre os avatares para encontrar o que coincide co ID.
@@ -626,72 +647,74 @@ public class Juego implements Comando {
         } else {
             consola.print("ID: " + avatarBuscado.getId());
             consola.print("Jugador: " + avatarBuscado.getJugador().getNombre());
-            consola.print("Posición actual: " +  avatarBuscado.getLugar().getNombre());
+            consola.print("Posición actual: " + avatarBuscado.getLugar().getNombre());
             consola.print("Tipo: " + avatarBuscado.getTipo());
         }
     }
 
-
-
-    /* Método que realiza las acciones asociadas al comando 'describir nombre_casilla'.
-    * Parámetros: nombre de la casilla a describir.
-    */
+    /*
+     * Método que realiza las acciones asociadas al comando 'describir
+     * nombre_casilla'.
+     * Parámetros: nombre de la casilla a describir.
+     */
     public void descCasilla(String nombre) {
         try {
-        Casilla casilla = tablero.obtenerCasilla(nombre);
-        if (casilla != null) {
-            consola.print(casilla.infoCasilla());
-        } else {
-            throw new CasillaNombre();
-        }
-        } catch (CasillaNombre e){
+            Casilla casilla = tablero.obtenerCasilla(nombre);
+            if (casilla != null) {
+                consola.print(casilla.infoCasilla());
+            } else {
+                throw new CasillaNombre();
+            }
+        } catch (CasillaNombre e) {
             Juego.consola.error(e.getMessage());
         }
     }
 
-    //Método que ejecuta todas las acciones relacionadas con el comando 'lanzar dados'.
-    public void lanzarDados (boolean trucados) {
+    // Método que ejecuta todas las acciones relacionadas con el comando 'lanzar
+    // dados'.
+    public void lanzarDados(boolean trucados) {
         try {
-        if(!tirado){
+            if (!tirado) {
 
-            Avatar avatarActual = avatares.get(turno);
-            Jugador jugadorActual = avatarActual.getJugador();
-            ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
+                Avatar avatarActual = avatares.get(turno);
+                Jugador jugadorActual = avatarActual.getJugador();
+                ArrayList<ArrayList<Casilla>> casillas = tablero.getPosiciones();
 
-            if (jugadorActual.estaBloqueado()) {
-                consola.print("Estás bloqueado para tirar los dados, te quedan " + jugadorActual.getTurnosBloqueado() + " turno(s) bloqueado(s).");
-                jugadorActual.decrementarTurnosBloqueados(); // Decrementamos el número de turnos bloqueados
+                if (jugadorActual.estaBloqueado()) {
+                    consola.print("Estás bloqueado para tirar los dados, te quedan "
+                            + jugadorActual.getTurnosBloqueado() + " turno(s) bloqueado(s).");
+                    jugadorActual.decrementarTurnosBloqueados(); // Decrementamos el número de turnos bloqueados
+                    tirado = true;
+                    return; // No se permite tirar los dados
+                }
+
+                int[] resultadoDados;
+                if (trucados) {
+                    resultadoDados = solicitarTiradaDados(); // Pide que introduzcasd la tirada
+                } else {
+                    resultadoDados = new int[2];
+                    resultadoDados[0] = dado1.hacerTirada();
+                    resultadoDados[1] = dado2.hacerTirada();
+                }
+
+                int resultadoTotal = resultadoDados[0] + resultadoDados[1];
+                this.ultimatirada = resultadoTotal;
+                consola.print("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
+
+                jugadorActual.incrementarLanzamientos();
+                this.lanzamientos++;
                 tirado = true;
-                return; // No se permite tirar los dados
-            }
 
-            int[] resultadoDados;
-            if(trucados){
-                resultadoDados = solicitarTiradaDados(); // Pide que introduzcasd la tirada
+                if (jugadorActual.getEnCarcel()) {
+                    manejarJugadorEnCarcel(jugadorActual, avatarActual, resultadoTotal, resultadoDados, casillas);
+                } else {
+                    manejarJugadorFueraCarcel(avatarActual, jugadorActual, resultadoTotal, resultadoDados, casillas);
+                }
+
             } else {
-                resultadoDados = new int[2];
-                resultadoDados[0] = dado1.hacerTirada();
-                resultadoDados[1] = dado2.hacerTirada();
+                throw new Tirada();
             }
-
-            int resultadoTotal = resultadoDados[0] + resultadoDados[1];
-            this.ultimatirada = resultadoTotal;
-            consola.print("\nDADOS: [" + resultadoDados[0] + "] " + " [" + resultadoDados[1] + "]\n");
-
-            jugadorActual.incrementarLanzamientos();
-            this.lanzamientos++;
-            tirado = true;
-
-            if (jugadorActual.getEnCarcel()) {
-                manejarJugadorEnCarcel(jugadorActual, avatarActual, resultadoTotal, resultadoDados, casillas);
-            } else {
-                manejarJugadorFueraCarcel(avatarActual, jugadorActual, resultadoTotal, resultadoDados, casillas);
-            }
-
-        } else {
-            throw new Tirada();
-        }
-        } catch (Tirada e){
+        } catch (Tirada e) {
             Juego.consola.error(e.getMessage());
         }
     }
@@ -700,32 +723,38 @@ public class Juego implements Comando {
     private int[] solicitarTiradaDados() {
         int resultadoDado1 = Integer.parseInt(Juego.consola.read("Introduzca el valor de la tirada del dado 1: "));
         int resultadoDado2 = Integer.parseInt(Juego.consola.read("Introduzca el valor de la tirada del dado 2: "));
-        return new int[]{resultadoDado1, resultadoDado2};
+        return new int[] { resultadoDado1, resultadoDado2 };
     }
 
     // Método para manejar la lógica cuando el jugador está en la cárcel
-    private void manejarJugadorEnCarcel(Jugador jugadorActual, Avatar avatarActual, int resultadoTotal, int[] resultadoDados, ArrayList<ArrayList<Casilla>> casillas) {
+    private void manejarJugadorEnCarcel(Jugador jugadorActual, Avatar avatarActual, int resultadoTotal,
+            int[] resultadoDados, ArrayList<ArrayList<Casilla>> casillas) {
         if (resultadoDados[0] == resultadoDados[1]) { // Si sacas dobles sales de la carcel
             consola.print("Sales de la carcel");
             jugadorActual.setEnCarcel(false);
             tirado = false;
             avatarActual.moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);
-            if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero,jugadores)){
+            if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero,
+                    jugadores)) {
                 partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
-            } //Aquí hay que comprobar esto cada vez que se mueve el jugador para ver si hay que terminar la partida
+            } // Aquí hay que comprobar esto cada vez que se mueve el jugador para ver si hay
+              // que terminar la partida
         } else {
-            jugadorActual.setTiradasCarcel(jugadorActual.getTiradasCarcel() + 1); //Suma uno a sus turnos dentro de la carcel
+            jugadorActual.setTiradasCarcel(jugadorActual.getTiradasCarcel() + 1); // Suma uno a sus turnos dentro de la
+                                                                                  // carcel
             if (jugadorActual.getTiradasCarcel() == 3) { // Si lleva tres turnos en la carcel sale
                 salirCarcel();
                 jugadorActual.setTiradasCarcel(0);
             } else {
-                consola.print("Sigues en la carcel. Te quedan " + (3 - jugadorActual.getTiradasCarcel()) + " intentos.");
+                consola.print(
+                        "Sigues en la carcel. Te quedan " + (3 - jugadorActual.getTiradasCarcel()) + " intentos.");
             }
         }
     }
 
     // Método para manejar la lógica cuando el jugador está fuera de la cárcel
-    private void manejarJugadorFueraCarcel(Avatar avatarActual, Jugador jugadorActual, int resultadoTotal, int[] resultadoDados, ArrayList<ArrayList<Casilla>> casillas) {
+    private void manejarJugadorFueraCarcel(Avatar avatarActual, Jugador jugadorActual, int resultadoTotal,
+            int[] resultadoDados, ArrayList<ArrayList<Casilla>> casillas) {
         if (resultadoDados[0] == resultadoDados[1]) {
             consola.print("Llevas " + this.lanzamientos + " dobles");
             tirado = false;
@@ -744,39 +773,42 @@ public class Juego implements Comando {
     }
 
     // Método para manejar el movimiento del avatar según su tipo
-    private void manejarMovimientoAvatarPorTipo(Avatar avatarActual, int resultadoTotal, int[] resultadoDados, ArrayList<ArrayList<Casilla>> casillas) {
+    private void manejarMovimientoAvatarPorTipo(Avatar avatarActual, int resultadoTotal, int[] resultadoDados,
+            ArrayList<ArrayList<Casilla>> casillas) {
         if (avatarActual.getModo()) { // Si está en modo especial cambia el movimiento
             // Llama al método moverEnAvanzado, definido por cada subclase
             // Llamar a mover avanzado desde turno intermedio?
             gestionMovimientoAvanzado(avatarActual, resultadoTotal, resultadoDados, casillas);
-        }
-        else {
+        } else {
             // Llama al método moverEnBasico, implementado en la clase base
             avatarActual.moverEnBasico(casillas, resultadoTotal, banca, tablero, jugadores);
-            if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero, jugadores)){
+            if (!avatarActual.getLugar().evaluarCasilla(avatarActual.getJugador(), banca, resultadoTotal, tablero,
+                    jugadores)) {
                 partida = declararBancarrota(avatarActual.getLugar().getDuenho(), avatarActual.getJugador());
             }
         }
     }
 
-
-    /*Método que ejecuta todas las acciones realizadas con el comando 'comprar nombre_casilla'.
-    * Parámetro: cadena de caracteres con el nombre de la casilla.
+    /*
+     * Método que ejecuta todas las acciones realizadas con el comando 'comprar
+     * nombre_casilla'.
+     * Parámetro: cadena de caracteres con el nombre de la casilla.
      */
     public void comprar(String nombre) {
         Jugador jugador_actual = jugadores.get(turno);
         Casilla casilla_compra = tablero.obtenerCasilla(nombre);
 
-        if(casilla_compra instanceof Propiedad){
-        try {
-            if(((Propiedad)casilla_compra).comprarPropiedad(jugador_actual, banca));
-        } catch (EstarCasilla e) {
-        Juego.consola.error("Error: " + e.getMessage());
-        } catch (EnVenta e) {
-        Juego.consola.error("Error: " + e.getMessage());
-        } catch (DineroInsuficiente e) {
-        Juego.consola.error("Error: " + e.getMessage());
-        }
+        if (casilla_compra instanceof Propiedad) {
+            try {
+                if (((Propiedad) casilla_compra).comprarPropiedad(jugador_actual, banca))
+                    ;
+            } catch (EstarCasilla e) {
+                Juego.consola.error("Error: " + e.getMessage());
+            } catch (EnVenta e) {
+                Juego.consola.error("Error: " + e.getMessage());
+            } catch (DineroInsuficiente e) {
+                Juego.consola.error("Error: " + e.getMessage());
+            }
         }
     }
 
@@ -784,14 +816,14 @@ public class Juego implements Comando {
         Casilla casilla_hipotecada = tablero.obtenerCasilla(nombre);
         Jugador jugador_actual = jugadores.get(turno);
 
-        if(casilla_hipotecada instanceof Propiedad){
-        try {
-            ((Propiedad)casilla_hipotecada).hipotecarCasilla(jugador_actual);
-        } catch (DuenhoCasilla e) {
-            Juego.consola.error(e.getMessage()); 
-        } catch (CasillaHipotecada e) {
-            Juego.consola.error(e.getMessage());
-        }
+        if (casilla_hipotecada instanceof Propiedad) {
+            try {
+                ((Propiedad) casilla_hipotecada).hipotecarCasilla(jugador_actual);
+            } catch (DuenhoCasilla e) {
+                Juego.consola.error(e.getMessage());
+            } catch (CasillaHipotecada e) {
+                Juego.consola.error(e.getMessage());
+            }
         }
     }
 
@@ -799,14 +831,14 @@ public class Juego implements Comando {
         Casilla casilla_deshipotecada = tablero.obtenerCasilla(nombre);
         Jugador jugador_actual = jugadores.get(turno);
 
-        if(casilla_deshipotecada instanceof Propiedad){
-        try {
-            ((Propiedad)casilla_deshipotecada).deshipotecarCasilla(jugador_actual);
-        } catch (DuenhoCasilla e) {
-            Juego.consola.error(e.getMessage()); 
-        } catch (CasillaDeshipotecada e) {
-            Juego.consola.error(e.getMessage());
-        }
+        if (casilla_deshipotecada instanceof Propiedad) {
+            try {
+                ((Propiedad) casilla_deshipotecada).deshipotecarCasilla(jugador_actual);
+            } catch (DuenhoCasilla e) {
+                Juego.consola.error(e.getMessage());
+            } catch (CasillaDeshipotecada e) {
+                Juego.consola.error(e.getMessage());
+            }
         }
     }
 
@@ -823,60 +855,63 @@ public class Juego implements Comando {
         Jugador jugador_acreedor = jugadorActual.getAvatar().getLugar().getDuenho();
         int tirada = this.ultimatirada;
         Casilla casilla = jugadorActual.getAvatar().getLugar();
-        solvente = casilla.evaluarCasilla(jugadorActual, banca, tirada, tablero,jugadores);
+        solvente = casilla.evaluarCasilla(jugadorActual, banca, tirada, tablero, jugadores);
 
         declararBancarrota(jugador_acreedor, jugadorActual);
         tirado = true;
         lanzamientos = 0;
     }
-    
-    
-    //Método que ejecuta todas las acciones relacionadas con el comando 'salir carcel'. 
+
+    // Método que ejecuta todas las acciones relacionadas con el comando 'salir
+    // carcel'.
     public void salirCarcel() {
         Jugador jugador = jugadores.get(turno);
-        if(jugador.getEnCarcel()){
+        if (jugador.getEnCarcel()) {
             jugador.setEnCarcel(false);
             jugador.incrementarPagoTasasEImpuestos(Valor.SALIR_CARCEL);
-            consola.print("El jugador " + jugador.getNombre() + " sale de la carcel " + " pagando " + Valor.SALIR_CARCEL);
-        }else{
+            consola.print(
+                    "El jugador " + jugador.getNombre() + " sale de la carcel " + " pagando " + Valor.SALIR_CARCEL);
+        } else {
             consola.print("El jugador " + " no está en la carcel");
         }
     }
 
-    public void vender(String[] partes){
+    public void vender(String[] partes) {
         try {
-            if (partes.length != 4){
+            if (partes.length != 4) {
                 throw new Parametros();
             }
 
-        String construccion = partes[1];
-        Jugador jugador = jugadores.get(turno);
-        Casilla casilla = tablero.obtenerCasilla(partes[2]);
-        int cantidad = Integer.valueOf(partes[3]);
-        
-        ((Solar)casilla).VenderEdificios(jugador, construccion, cantidad);
+            String construccion = partes[1];
+            Jugador jugador = jugadores.get(turno);
+            Casilla casilla = tablero.obtenerCasilla(partes[2]);
+            int cantidad = Integer.valueOf(partes[3]);
+
+            ((Solar) casilla).VenderEdificios(jugador, construccion, cantidad);
 
         } catch (Parametros e) {
-        Juego.consola.error(e.getMessage());
+            Juego.consola.error(e.getMessage());
         } catch (DuenhoCasilla e) {
             Juego.consola.error(e.getMessage());
         } catch (EdificioIncorrecto e) {
-        Juego.consola.error(e.getMessage());
+            Juego.consola.error(e.getMessage());
         }
     }
 
-    public boolean declararBancarrota(Jugador jugador_acreedor, Jugador jugadorActual){
+    public boolean declararBancarrota(Jugador jugador_acreedor, Jugador jugadorActual) {
         if (jugador_acreedor == null) {
             consola.print("El jugador acreedor no existe.");
             return true;
         }
         if (!solvente) {
-            consola.print(jugadorActual.getNombre() + " no puede pagar su deuda y se declara en bancarrota. Sus propiedades pasan a " + jugador_acreedor.getNombre() + ".");
-                List<Casilla> propiedadesJugador = new ArrayList<>(jugadorActual.getPropiedades());
-                for (Casilla propiedad : propiedadesJugador) {
-                    ((Propiedad)propiedad).cambiarDuenho(jugador_acreedor);
+            consola.print(jugadorActual.getNombre()
+                    + " no puede pagar su deuda y se declara en bancarrota. Sus propiedades pasan a "
+                    + jugador_acreedor.getNombre() + ".");
+            List<Casilla> propiedadesJugador = new ArrayList<>(jugadorActual.getPropiedades());
+            for (Casilla propiedad : propiedadesJugador) {
+                ((Propiedad) propiedad).cambiarDuenho(jugador_acreedor);
 
-                }
+            }
             jugadorActual.getAvatar().getLugar().getAvatares().remove(jugadorActual.getAvatar());
             jugadores.remove(jugadorActual);
             avatares.remove(jugadorActual.getAvatar());
@@ -893,8 +928,9 @@ public class Juego implements Comando {
             jugadorActual.getAvatar().getLugar().getAvatares().remove(jugadorActual.getAvatar());
             jugadores.remove(jugadorActual);
             avatares.remove(jugadorActual.getAvatar());
-            consola.print(jugadorActual.getNombre() + " ha decidido declararse en bancarrota voluntariamente. Sus propiedades vuelven a la banca.");
-            if (jugadores.size() < 2){
+            consola.print(jugadorActual.getNombre()
+                    + " ha decidido declararse en bancarrota voluntariamente. Sus propiedades vuelven a la banca.");
+            if (jugadores.size() < 2) {
                 consola.print("No hay suficientes jugadores para continuar.");
             }
             return false;
@@ -902,12 +938,11 @@ public class Juego implements Comando {
         return true;
     }
 
-
     // Método que realiza las acciones asociadas al comando 'listar enventa'.
     public void listarVenta() {
-        for(int i = 0; i<40; i++){
+        for (int i = 0; i < 40; i++) {
             Casilla casilla = this.tablero.obtenerCasilla(i);
-            if((casilla instanceof Propiedad) && (casilla.getDuenho().equals(banca))){
+            if ((casilla instanceof Propiedad) && (casilla.getDuenho().equals(banca))) {
                 consola.print(this.tablero.obtenerCasilla(i).infoCasilla());
             }
         }
@@ -915,25 +950,25 @@ public class Juego implements Comando {
 
     public void listarEdificios() {
         boolean ningunEdificio = true;
-        for(int i = 0; i<40; i++){
+        for (int i = 0; i < 40; i++) {
             Casilla casilla = this.tablero.obtenerCasilla(i);
-            if(casilla instanceof Solar){
-                if(((Solar)casilla).EsSolarEdificado()){
+            if (casilla instanceof Solar) {
+                if (((Solar) casilla).EsSolarEdificado()) {
                     ningunEdificio = false;
-                    Juego.consola.print(((Solar)casilla).listarEdificios());
+                    Juego.consola.print(((Solar) casilla).listarEdificios());
                 }
             }
         }
-        if(ningunEdificio){
+        if (ningunEdificio) {
             consola.print("No hay ningun edificio construido");
         }
     }
-    
+
     public void listarEdificiosPorColor(String color) {
-        Grupo grupo = tablero.getGrupos().get(color); //For Loop para facelo case insensitive
-        if(grupo==null){
+        Grupo grupo = tablero.getGrupos().get(color); // For Loop para facelo case insensitive
+        if (grupo == null) {
             consola.print("Grupo de color inválido");
-        }else{
+        } else {
             grupo.listarEdificiosPorColor(banca);
         }
     }
@@ -941,14 +976,14 @@ public class Juego implements Comando {
     // Método que realiza las acciones asociadas al comando 'listar jugadores'.
     @Override
     public void listarJugadores() {
-        for(int i = 0; i<jugadores.size();i++){
+        for (int i = 0; i < jugadores.size(); i++) {
             consola.print(jugadores.get(i).getNombre());
         }
     }
 
     // Método que realiza las acciones asociadas al comando 'listar avatares'.
     public void listarAvatares() {
-        for(int i = 0; i<jugadores.size();i++){
+        for (int i = 0; i < jugadores.size(); i++) {
             consola.print(jugadores.get(i).getAvatar().getId());
         }
     }
@@ -956,7 +991,7 @@ public class Juego implements Comando {
     // Método que muestra el nombre y el avatar del jugador que tiene el turno
     @Override
     public void verTurno() {
-        if(!jugadores.isEmpty()){
+        if (!jugadores.isEmpty()) {
             consola.print("El turno es de:");
             consola.print("\n{");
             consola.print("Nombre: " + jugadores.get(turno).getNombre());
@@ -967,26 +1002,27 @@ public class Juego implements Comando {
 
     // Método que realiza las acciones asociadas al comando 'acabar turno'.
     public void acabarTurno() {
-        if(tirado){
-            this.turno = (this.turno+1)%(jugadores.size());
+        if (tirado) {
+            this.turno = (this.turno + 1) % (jugadores.size());
             this.tirado = false;
             this.lanzamientos = 0;
-        }else{
+        } else {
             consola.print("Debes tirar antes");
         }
     }
 
-    public void cambiarModo(Avatar avatar){
+    public void cambiarModo(Avatar avatar) {
         if (avatar != null) {
             avatar.setModo(!avatar.getModo());
-            consola.print("Modo cambiado. El avatar ahora está en modo " + (avatar.getModo() ? "avanzado" : "normal") + ".");
+            consola.print(
+                    "Modo cambiado. El avatar ahora está en modo " + (avatar.getModo() ? "avanzado" : "normal") + ".");
         } else {
             consola.print("El avatar no existe.");
         }
     }
 
-   // Nuevo método para buscar un jugador por nombre y mostrar sus estadísticas
-   public void mostrarEstadisticasJugadorPorNombre(String nombreJugador) {
+    // Nuevo método para buscar un jugador por nombre y mostrar sus estadísticas
+    public void mostrarEstadisticasJugadorPorNombre(String nombreJugador) {
         for (Jugador jugador : jugadores) {
             if (jugador.getNombre().equalsIgnoreCase(nombreJugador)) {
                 jugador.mostrarEstadisticasJugador(jugador);
@@ -1008,11 +1044,16 @@ public class Juego implements Comando {
         // Imprimir las estadísticas en el formato solicitado
         consola.print("$> estadisticas");
         consola.print("{");
-        consola.print("  casillaMasRentable: " + (casillaMasRentable != null ? casillaMasRentable.getNombre() : "N/A") + ",");
-        consola.print("  grupoMasRentable: " + (grupoMasRentable != null ? grupoMasRentable.getColorGrupo() + "  " : "N/A") + Valor.RESET + ",");
-        consola.print("  casillaMasFrecuentada: " + (casillaMasFrecuentada != null ? casillaMasFrecuentada.getNombre() : "N/A") + ",");
-        consola.print("  jugadorMasVueltas: " + (jugadorMasVueltas != null ? jugadorMasVueltas.getNombre() : "N/A") + ",");
-        consola.print("  jugadorMasVecesDados: " + (jugadorMasVecesDados != null ? jugadorMasVecesDados.getNombre() : "N/A") + ",");
+        consola.print(
+                "  casillaMasRentable: " + (casillaMasRentable != null ? casillaMasRentable.getNombre() : "N/A") + ",");
+        consola.print("  grupoMasRentable: "
+                + (grupoMasRentable != null ? grupoMasRentable.getColorGrupo() + "  " : "N/A") + Valor.RESET + ",");
+        consola.print("  casillaMasFrecuentada: "
+                + (casillaMasFrecuentada != null ? casillaMasFrecuentada.getNombre() : "N/A") + ",");
+        consola.print(
+                "  jugadorMasVueltas: " + (jugadorMasVueltas != null ? jugadorMasVueltas.getNombre() : "N/A") + ",");
+        consola.print("  jugadorMasVecesDados: "
+                + (jugadorMasVecesDados != null ? jugadorMasVecesDados.getNombre() : "N/A") + ",");
         consola.print("  jugadorEnCabeza: " + (jugadorEnCabeza != null ? jugadorEnCabeza.getNombre() : "N/A"));
         consola.print("}");
     }
@@ -1032,14 +1073,14 @@ public class Juego implements Comando {
         return masRentable;
     }
 
-    private Grupo obtenerGrupoMasRentable(){
+    private Grupo obtenerGrupoMasRentable() {
         Grupo grupoMasRentable = null;
         float maxIngresos = 0;
 
         for (int i = 0; i < 40; i++) {
             Casilla casilla = tablero.obtenerCasilla(i); // Obtener la casilla
-            if(casilla instanceof Solar){
-                Grupo grupo = ((Solar)casilla).getGrupo();
+            if (casilla instanceof Solar) {
+                Grupo grupo = ((Solar) casilla).getGrupo();
                 if (grupo.getIngresosTotales() > maxIngresos) {
                     maxIngresos = grupo.getIngresosTotales();
                     grupoMasRentable = grupo;
@@ -1075,7 +1116,7 @@ public class Juego implements Comando {
             }
         }
 
-        return jugadorMasVueltas;  // Retorna el jugador con más vueltas
+        return jugadorMasVueltas; // Retorna el jugador con más vueltas
     }
 
     private Jugador obtenerJugadorMasVecesDados() {
@@ -1089,11 +1130,12 @@ public class Juego implements Comando {
             }
         }
 
-        return jugadorMasVecesDados;  // Retorna el jugador que ha lanzado más veces
+        return jugadorMasVecesDados; // Retorna el jugador que ha lanzado más veces
     }
 
     /**
      * Obtiene el jugador con la mayor fortuna total.
+     * 
      * @return el jugador con la mayor fortuna acumulada.
      */
     private Jugador obtenerJugadorEnCabeza() {
@@ -1109,6 +1151,6 @@ public class Juego implements Comando {
             }
         }
 
-        return jugadorEnCabeza;  // Retorna el jugador con la mayor fortuna
+        return jugadorEnCabeza; // Retorna el jugador con la mayor fortuna
     }
 }

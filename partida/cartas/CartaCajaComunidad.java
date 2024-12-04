@@ -29,7 +29,8 @@ public class CartaCajaComunidad extends Carta {
             case 2:
                 jugador.encarcelar(tablero.getPosiciones());
                 Juego.consola.print("\nTe investigan por fraude de identidad. Vas a la Cárcel.");
-                Juego.consola.print("Ve directamente sin pasar por la casilla de Salida y sin cobrar la cantidad habitual.");
+                Juego.consola
+                        .print("Ve directamente sin pasar por la casilla de Salida y sin cobrar la cantidad habitual.");
                 break;
 
             case 3:
@@ -44,7 +45,7 @@ public class CartaCajaComunidad extends Carta {
                 Juego.consola.print("\nTe colocas en la casilla de Salida y cobras la cantidad habitual.");
                 jugador.cobrarPasoPorSalida(casillaOrigen, casillaSalida);
                 break;
-            
+
             case 4:
                 jugador.incrementarPremiosInversionesOBote(2000000);
                 Juego.consola.print("\nTu compañía de Internet obtiene beneficios. Recibes 2000000€.");
@@ -56,10 +57,10 @@ public class CartaCajaComunidad extends Carta {
                 break;
 
             case 6:
-                Juego.consola.print("\nAlquilas a tus compañeros una villa en Solar7 durante una semana. Paga 200000€ a cada jugador\n");
+                Juego.consola.print(
+                        "\nAlquilas a tus compañeros una villa en Solar7 durante una semana. Paga 200000€ a cada jugador\n");
                 pagarATodosLosJugadores(jugador, jugadores, 200000);
                 break;
-
 
             default:
                 Juego.consola.print("Acción de carta Comunidad no reconocida.");
@@ -68,17 +69,20 @@ public class CartaCajaComunidad extends Carta {
     }
 
     /**
-     * Paga una cantidad a todos los jugadores excepto al jugador que realiza el pago.
+     * Paga una cantidad a todos los jugadores excepto al jugador que realiza el
+     * pago.
+     * 
      * @param jugadorPagador El jugador que realiza el pago.
-     * @param jugadores La lista de jugadores en la partida.
-     * @param cantidad La cantidad a pagar a cada jugador.
+     * @param jugadores      La lista de jugadores en la partida.
+     * @param cantidad       La cantidad a pagar a cada jugador.
      */
     private void pagarATodosLosJugadores(Jugador jugadorPagador, ArrayList<Jugador> jugadores, int cantidad) {
         for (Jugador jugador : jugadores) {
             if (!jugador.equals(jugadorPagador)) {
-                jugadorPagador.incrementarPagoTasasEImpuestos(cantidad); 
-                jugador.incrementarPremiosInversionesOBote(cantidad); 
-                Juego.consola.print(jugadorPagador.getNombre() + " ha pagado " + cantidad + "€ a " + jugador.getNombre());
+                jugadorPagador.incrementarPagoTasasEImpuestos(cantidad);
+                jugador.incrementarPremiosInversionesOBote(cantidad);
+                Juego.consola
+                        .print(jugadorPagador.getNombre() + " ha pagado " + cantidad + "€ a " + jugador.getNombre());
             }
         }
     }

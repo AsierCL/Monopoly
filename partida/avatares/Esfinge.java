@@ -14,7 +14,8 @@ public class Esfinge extends Avatar {
     }
 
     @Override
-    public int moverEnAvanzado(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas, Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores) {
+    public int moverEnAvanzado(int resultadoTotal, int faltaPorMover, ArrayList<ArrayList<Casilla>> casillas,
+            Jugador banca, Tablero tablero, ArrayList<Jugador> jugadores) {
         // Lógica específica para Esfinge
         Juego.consola.error("El movimiento avanzado de la esfige no ha sido implementado");
         return 0;

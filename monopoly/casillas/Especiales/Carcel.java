@@ -7,19 +7,20 @@ import partida.Jugador;
 
 public class Carcel extends Especial {
 
-    public Carcel(String nombre, int posicion, Jugador duenho){
+    public Carcel(String nombre, int posicion, Jugador duenho) {
         super(nombre, posicion, duenho);
     }
 
     @Override
-    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero, ArrayList<Jugador> jugadores){
+    public boolean evaluarCasilla(Jugador actual, Jugador banca, int tirada, Tablero tablero,
+            ArrayList<Jugador> jugadores) {
         haEstado(actual, jugadores);
         return true;
     }
 
     @Override
     public String infoCasilla() {
-        //Creamos a cadena a devolver
+        // Creamos a cadena a devolver
         StringBuilder info = new StringBuilder();
 
         info.append("Nombre: ").append(this.getNombre()).append("\n");
