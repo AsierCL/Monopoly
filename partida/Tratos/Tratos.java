@@ -70,7 +70,7 @@ public class Tratos {
         }
 
         // Solicitar las propiedades esperadas del jugador que acepta
-        Juego.consola.print("Ingrese los nombres de las propiedades que el jugador espera recibir (separadas por comas): ");
+        Juego.consola.print("Ingrese los nombres de las propiedades que el jugador espera recibir, para terminar escribe \"fin\": ");
         while(true) {
             String propiedadesAceptaInput = Juego.consola.read();
             if(propiedadesAceptaInput.equals("fin"))
@@ -178,6 +178,7 @@ public class Tratos {
                         rechazado = true;
                         tratos.remove(trato);
                         Juego.consola.print("El trato con ID " + idRechazo + " ha sido rechazado.");
+                        break;
                     }
                 }
                 
