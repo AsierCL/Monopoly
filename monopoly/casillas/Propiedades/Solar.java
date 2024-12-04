@@ -152,7 +152,7 @@ public class Solar extends Propiedad {
             Juego.consola.print("Pagas la construcción: -" + costo + "€");
             jugador.incrementarDineroInvertido(costo);
         } else {
-            Juego.consola.print("Construcción cancelada");
+            Juego.consola.error("Construcción cancelada");
         }
     }
     
@@ -178,43 +178,32 @@ public class Solar extends Propiedad {
             Juego.consola.print("Construcción incorrecta");
             return;
         }
-        float valor_venta = this.getValor() * multiplicador;
-
 
         if (this.EsSolarEdificado()) {
             Juego.consola.print("Edificios en esta propiedad:");
             Juego.consola.print("Casas: " + casas.size() + ", Hoteles: " + hoteles.size() + ", Piscinas: " + piscinas.size() + ", Pistas: " + pistas.size());
 
-            for (int i = 0; i < cantidad; i++) {
-                switch (construccion) {
-                    case "casa":
-                        if (casas.size() >= cantidad)
-                            DestruirCasa(cantidad);
-                            jugador.sumarFortuna(valor_venta);
+            switch (construccion) {
+                case "casa":
+                        DestruirCasa(cantidad);
+                    break;
+                case "hotel":
+                        DestruirHotel(cantidad);
+                    break;
+                case "piscina":
+                        DestruirPiscina(cantidad);
                         break;
-                    case "hotel":
-                        if (hoteles.size() >= cantidad)
-                            DestruirHotel(cantidad);
-                            jugador.sumarFortuna(valor_venta);
-                        break;
-                    case "piscina":
-                        if (piscinas.size() >= cantidad) 
-                            jugador.sumarFortuna(valor_venta);
-                            DestruirPiscina(cantidad);
-                        break;
-                    case "pista":
-                        if (pistas.size() >= cantidad) 
-                            jugador.sumarFortuna(valor_venta);
-                            DestruirPista(cantidad);
-                        break;
-                    default:
-                        Juego.consola.print("Tipo de construcción no válido");
-                        break;
-                }
+                case "pista":
+                        DestruirPista(cantidad);
+                    break;
+                default:
+                    break;
             }
 
+            Juego.consola.print("Edificios tras la venta:");
+            Juego.consola.print("Casas: " + casas.size() + ", Hoteles: " + hoteles.size() + ", Piscinas: " + piscinas.size() + ", Pistas: " + pistas.size());
         } else {
-            Juego.consola.print("Este solar no tiene edificios para vender.");
+            Juego.consola.error("Este solar no está edificado.");
         }
     }
     
@@ -293,7 +282,7 @@ public class Solar extends Propiedad {
     }
 
     private boolean DestruirCasa(int cantidad){
-        if (casas.size() < cantidad) {
+        if (casas.size() > cantidad) {
             float valorVenta = this.getValor() * 0.3f * cantidad;
             for (int index = 0; index < cantidad; index++) {
                 casas.removeLast();
@@ -308,7 +297,7 @@ public class Solar extends Propiedad {
     }
     
     private boolean DestruirHotel(int cantidad){
-        if (hoteles.size() < cantidad) {
+        if (hoteles.size() > cantidad) {
             float valorVenta = this.getValor() * 0.6f * cantidad;
             for (int index = 0; index < cantidad; index++) {
                 hoteles.removeLast();
@@ -323,7 +312,7 @@ public class Solar extends Propiedad {
     }
 
     private boolean DestruirPiscina(int cantidad){
-        if (piscinas.size() < cantidad) {
+        if (piscinas.size() > cantidad) {
             float valorVenta = this.getValor() * 0.3f * cantidad;
             for (int index = 0; index < cantidad; index++) {
                 piscinas.removeLast();
@@ -338,7 +327,7 @@ public class Solar extends Propiedad {
     }
 
     private boolean DestruirPista(int cantidad){
-        if (pistas.size() < cantidad) {
+        if (pistas.size() > cantidad) {
             float valorVenta = this.getValor() * 0.3f * cantidad;
             for (int index = 0; index < cantidad; index++) {
                 pistas.removeLast();
