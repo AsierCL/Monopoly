@@ -32,7 +32,7 @@ public class CartaSuerte extends Carta {
                 casillaTransporte.anhadirAvatar(jugador.getAvatar());
                 casillaTransporte.evaluarCasilla(jugador, banca, tirada, tablero, jugadores);
 
-                Juego.consola.print("\nVe al Transportes1 y coge un avión. Si pasas por la casilla de Salida, cobra la cantidad habitual.");
+                Juego.consola.print("\nVe al Estacion1 y coge un avión. Si pasas por la casilla de Salida, cobra la cantidad habitual.");
                 jugador.cobrarPasoPorSalida(casillaOrigen, casillaTransporte);
                 break;
 

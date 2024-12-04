@@ -24,7 +24,7 @@ public class Tratos {
         ArrayList<Propiedad> propiedadesOferta = new ArrayList<>();
         ArrayList<Propiedad> propiedadesAcepta = new ArrayList<>();
 
-        Juego.consola.print("Proponiendo un nuevo trato...");
+        Juego.consola.print("Nuevo trato...");
 
         // Solicitar el jugador que recibe la oferta
         String nombreJugadorAcepta = Juego.consola.read("Ingrese el nombre del jugador que recibe la oferta: ");
@@ -201,9 +201,6 @@ public class Tratos {
     }
 
     //Aux
-    //////////////////////  IMPORTANTE   //////////////////////
-    /// Facer que te avise cando no trato hai unha hipoteca ///
-    //////////////////////  IMPORTANTE   //////////////////////
     private boolean ejecucionTrato(Trato trato){
         for (Propiedad propiedad : trato.getPropiedades_oferta()) {
             if(!trato.getJugador_oferta().getPropiedades().contains(propiedad)){

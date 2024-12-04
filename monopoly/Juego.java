@@ -906,7 +906,7 @@ public class Juego implements Comando {
             }
         }
         if(ningunEdificio){
-            consola.print("No hai ningun edificio construido");
+            consola.print("No hay ningun edificio construido");
         }
     }
     
