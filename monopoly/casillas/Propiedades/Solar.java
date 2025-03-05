@@ -295,7 +295,7 @@ public class Solar extends Propiedad {
         if (casas.size() > cantidad) {
             float valorVenta = this.getValor() * 0.3f * cantidad;
             for (int index = 0; index < cantidad; index++) {
-                casas.removeLast();
+                casas.remove(casas.size() - 1);
             }
             this.getDuenho().sumarFortuna(valorVenta);
             Juego.consola.print("El jugador " + this.getDuenho().getNombre() + " ha vendido " + cantidad
@@ -311,7 +311,7 @@ public class Solar extends Propiedad {
         if (hoteles.size() > cantidad) {
             float valorVenta = this.getValor() * 0.6f * cantidad;
             for (int index = 0; index < cantidad; index++) {
-                hoteles.removeLast();
+                hoteles.remove(hoteles.size() - 1);
             }
             this.getDuenho().sumarFortuna(valorVenta);
             Juego.consola.print("El jugador " + this.getDuenho().getNombre() + " ha vendido " + cantidad
@@ -327,7 +327,7 @@ public class Solar extends Propiedad {
         if (piscinas.size() > cantidad) {
             float valorVenta = this.getValor() * 0.3f * cantidad;
             for (int index = 0; index < cantidad; index++) {
-                piscinas.removeLast();
+                piscinas.remove(piscinas.size() - 1);
             }
             this.getDuenho().sumarFortuna(valorVenta);
             Juego.consola.print("El jugador " + this.getDuenho().getNombre() + " ha vendido " + cantidad
@@ -343,7 +343,7 @@ public class Solar extends Propiedad {
         if (pistas.size() > cantidad) {
             float valorVenta = this.getValor() * 0.3f * cantidad;
             for (int index = 0; index < cantidad; index++) {
-                pistas.removeLast();
+                pistas.remove(pistas.size() - 1);
             }
             this.getDuenho().sumarFortuna(valorVenta);
             Juego.consola.print("El jugador " + this.getDuenho().getNombre() + " ha vendido " + cantidad
