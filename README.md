@@ -14,8 +14,8 @@
 
 ### 🔹 Clonar el repositorio
 ```bash
-  git clone https://github.com/tu-usuario/monopoly-java.git
-  cd monopoly-java
+  git https://github.com/AsierCL/Monopoly
+  cd Monopoly
 ```
 
 ### 🔹 Compilación
@@ -38,9 +38,9 @@
 
 ## 👥 Autores
 Este proyecto fue desarrollado por:
-- 🧑‍💻 **@AsierCL**
-- 🧑‍💻 **@MartinCastroV**
-- 🧑‍💻 **@BraisCervino**
+- 🧑‍💻 @AsierCL
+- 🧑‍💻 @MartinCastroV
+- 🧑‍💻 @BraisCervino
 
 ## 📜 Licencia
 Este proyecto está bajo la licencia **MIT**, por lo que puedes modificarlo y distribuirlo libremente.
